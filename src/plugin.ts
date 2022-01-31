@@ -1,9 +1,10 @@
-import type { Plugin }  from "vite";
+import type { Plugin } from "vite";
 import * as docGen from "react-docgen-typescript";
 import * as ts from "typescript";
 import glob from "glob-promise";
 import * as path from "path";
 import { generateDocgenCodeBlock } from "./generateDocgenCodeBlock";
+import type { PropFilter } from "react-docgen-typescript/lib/parser";
 
 /** Get the contents of the tsconfig in the system */
 function getTSConfigFile(tsconfigPath: string): Partial<ts.ParsedCommandLine> {
@@ -38,6 +39,10 @@ function matchGlob(globs: string[] = []) {
     );
   };
 }
+
+const defaultPropFilter: PropFilter = (prop) => {
+  return !prop.parent?.fileName.includes("node_modules");
+};
 
 interface LoaderOptions {
   /**
@@ -100,6 +105,7 @@ function getOptions(options: Options) {
     docgenCollectionName = "STORYBOOK_REACT_CLASSES",
     setDisplayName = true,
     typePropName = "type",
+    propFilter = defaultPropFilter,
     ...docgenOptions
   } = options;
 
@@ -120,7 +126,10 @@ function getOptions(options: Options) {
   }
 
   return {
-    docgenOptions,
+    docgenOptions: {
+      propFilter,
+      ...docgenOptions,
+    },
     generateOptions: {
       docgenCollectionName,
       setDisplayName,
@@ -130,9 +139,7 @@ function getOptions(options: Options) {
   };
 }
 
-export default function reactDocgenTypescript(
-  config: Options = {}
-): Plugin {
+export default function reactDocgenTypescript(config: Options = {}): Plugin {
   const { docgenOptions, compilerOptions, generateOptions } =
     getOptions(config);
 

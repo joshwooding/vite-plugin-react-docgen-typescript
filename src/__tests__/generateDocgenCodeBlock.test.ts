@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from "vitest";
 import { parse, ParserOptions } from "react-docgen-typescript/lib/parser.js";
 import {
   generateDocgenCodeBlock,
