@@ -173,17 +173,16 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
         );
 
         if (!componentDocs.length) {
-          return { code: src, map: null };
+          return null;
         }
 
-        const docs = generateDocgenCodeBlock({
+        return generateDocgenCodeBlock({
           filename: id,
           source: src,
           componentDocs,
           ...generateOptions,
         });
 
-        return { code: docs, map: null };
       }
     },
   };

@@ -6,6 +6,7 @@
 import path from "path";
 import * as ts from "typescript";
 import type { ComponentDoc, PropItem } from "react-docgen-typescript";
+import MagicString, { SourceMap } from "magic-string";
 
 export interface GeneratorOptions {
   filename: string;
@@ -342,7 +343,10 @@ function setComponentDocGen(
   );
 }
 
-export function generateDocgenCodeBlock(options: GeneratorOptions): string {
+export function generateDocgenCodeBlock(options: GeneratorOptions): {
+  code: string;
+  map: SourceMap;
+} {
   const sourceFile = ts.createSourceFile(
     options.filename,
     options.source,
@@ -386,13 +390,14 @@ export function generateDocgenCodeBlock(options: GeneratorOptions): string {
   const printNode = (sourceNode: ts.Node) =>
     printer.printNode(ts.EmitHint.Unspecified, sourceNode, sourceFile);
 
-  // Concat original source code with code from generated code blocks.
-  return codeBlocks.reduce(
-    (acc, node) => `${acc}\n${printNode(node)}`,
+  const s = new MagicString(options.source);
 
-    // Use original source text rather than using printNode on the parsed form
-    // to prevent issue where literals are stripped within components.
-    // Ref: https://github.com/strothj/react-docgen-typescript-loader/issues/7
-    options.source
-  );
+  codeBlocks.forEach((node) => {
+    s.append(printNode(node));
+  });
+
+  return {
+    code: s.toString(),
+    map: s.generateMap(),
+  };
 }
