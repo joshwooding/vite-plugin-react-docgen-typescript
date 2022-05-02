@@ -10,11 +10,13 @@
   },
   "main": "dist/plugin.js",
   "files": [
-    "src",
-    "dist"
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
   ],
   "scripts": {
-    "build": "tsc -p .",
+    "build": "tsup src/plugin.ts --dts",
     "prepare": "yarn build",
     "prettier": "prettier --write . --ignore-path .gitignore",
     "test": "vitest"
@@ -33,6 +35,7 @@
     "@types/react": "^17.0.38",
     "prettier": "^2.0.5",
     "react": "^17.0.2",
+    "tsup": "^5.12.6",
     "typescript": "^4.3.0",
     "vite": "latest",
     "vitest": "^0.2.5"

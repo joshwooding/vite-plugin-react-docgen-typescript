@@ -3,7 +3,10 @@ import * as docGen from "react-docgen-typescript";
 import * as ts from "typescript";
 import glob from "glob-promise";
 import * as path from "path";
-import { generateDocgenCodeBlock } from "./generateDocgenCodeBlock";
+import {
+  generateDocgenCodeBlock,
+  GeneratorOptions,
+} from "./generateDocgenCodeBlock";
 import type { PropFilter } from "react-docgen-typescript/lib/parser";
 
 /** Get the contents of the tsconfig in the system */
@@ -89,16 +92,23 @@ interface TypescriptOptions {
   compilerOptions?: ts.CompilerOptions;
 }
 
-export type Options = docGen.ParserOptions &
-  LoaderOptions &
-  TypescriptOptions & {
-    /** Glob patterns to ignore */
-    exclude?: string[];
-    /** Glob patterns to include. defaults to ts|tsx */
-    include?: string[];
-  };
+type DocGenOptions = docGen.ParserOptions & {
+  /** Glob patterns to ignore */
+  exclude?: string[];
+  /** Glob patterns to include. defaults to ts|tsx */
+  include?: string[];
+};
 
-function getOptions(options: Options) {
+export type Options = LoaderOptions & TypescriptOptions & DocGenOptions;
+
+function getOptions(options: Options): {
+  docgenOptions: DocGenOptions;
+  generateOptions: Pick<
+    GeneratorOptions,
+    "docgenCollectionName" | "setDisplayName" | "typePropName"
+  >;
+  compilerOptions: ts.CompilerOptions;
+} {
   const {
     tsconfigPath = "./tsconfig.json",
     compilerOptions: userCompilerOptions,
@@ -182,7 +192,6 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
           componentDocs,
           ...generateOptions,
         });
-
       }
     },
   };
