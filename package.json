@@ -19,6 +19,7 @@
     "build": "tsup src/plugin.ts --dts",
     "prepare": "yarn build",
     "prettier": "prettier --write . --ignore-path .gitignore",
+    "prettier:ci": "prettier --check . --ignore-path .gitignore",
     "test": "vitest"
   },
   "peerDependencies": {
@@ -26,10 +27,10 @@
     "vite": ">2.0.0-0"
   },
   "dependencies": {
+    "@joshwooding/react-docgen-typescript": "^2.2.4",
     "glob": "^7.2.0",
     "glob-promise": "^4.2.0",
-    "magic-string": "^0.26.1",
-    "react-docgen-typescript": "^2.1.1"
+    "magic-string": "^0.26.1"
   },
   "devDependencies": {
     "@types/react": "^17.0.38",
