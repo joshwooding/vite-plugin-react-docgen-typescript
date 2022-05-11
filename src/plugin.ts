@@ -1,5 +1,5 @@
 import type { Plugin } from "vite";
-import * as docGen from "react-docgen-typescript";
+import * as docGen from "@joshwooding/react-docgen-typescript";
 import * as ts from "typescript";
 import glob from "glob-promise";
 import * as path from "path";
@@ -7,7 +7,7 @@ import {
   generateDocgenCodeBlock,
   GeneratorOptions,
 } from "./generateDocgenCodeBlock";
-import type { PropFilter } from "react-docgen-typescript/lib/parser";
+import type { PropFilter } from "@joshwooding/react-docgen-typescript/lib/parser";
 
 /** Get the contents of the tsconfig in the system */
 function getTSConfigFile(tsconfigPath: string): Partial<ts.ParsedCommandLine> {
@@ -48,15 +48,6 @@ const defaultPropFilter: PropFilter = (prop) => {
 };
 
 interface LoaderOptions {
-  /**
-   * Specify the docgen collection name to use. All docgen information will
-   * be collected into this global object. Set to null to disable.
-   *
-   * @default STORYBOOK_REACT_CLASSES
-   * @see https://github.com/gongreg/react-storybook-addon-docgen
-   **/
-  docgenCollectionName?: string | null;
-
   /**
    * Automatically set the component's display name. If you want to set display
    * names yourself or are using another plugin to do this, you should disable
@@ -103,16 +94,12 @@ export type Options = LoaderOptions & TypescriptOptions & DocGenOptions;
 
 function getOptions(options: Options): {
   docgenOptions: DocGenOptions;
-  generateOptions: Pick<
-    GeneratorOptions,
-    "docgenCollectionName" | "setDisplayName" | "typePropName"
-  >;
+  generateOptions: Pick<GeneratorOptions, "setDisplayName" | "typePropName">;
   compilerOptions: ts.CompilerOptions;
 } {
   const {
     tsconfigPath = "./tsconfig.json",
     compilerOptions: userCompilerOptions,
-    docgenCollectionName = "STORYBOOK_REACT_CLASSES",
     setDisplayName = true,
     typePropName = "type",
     propFilter = defaultPropFilter,
@@ -138,10 +125,10 @@ function getOptions(options: Options): {
   return {
     docgenOptions: {
       propFilter,
+      shouldIncludeExpression: true,
       ...docgenOptions,
     },
     generateOptions: {
-      docgenCollectionName,
       setDisplayName,
       typePropName,
     },

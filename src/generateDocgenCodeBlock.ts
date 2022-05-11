@@ -3,18 +3,25 @@
  * But refactored to remove deprecated functions.
  **/
 
-import path from "path";
 import * as ts from "typescript";
-import type { ComponentDoc, PropItem } from "react-docgen-typescript";
+import type {
+  ComponentDoc,
+  PropItem,
+} from "@joshwooding/react-docgen-typescript";
 import MagicString, { SourceMap } from "magic-string";
 
 export interface GeneratorOptions {
   filename: string;
   source: string;
   componentDocs: ComponentDoc[];
-  docgenCollectionName: string | null;
   setDisplayName: boolean;
   typePropName: string;
+}
+
+function getComponentIdentifier(d: ComponentDoc) {
+  return ts
+    .getNameOfDeclaration(d.rawExpression?.getDeclarations()?.[0])
+    ?.getText()!;
 }
 
 function createLiteral(
@@ -68,7 +75,7 @@ function setDisplayName(d: ComponentDoc): ts.Statement {
     ts.factory.createExpressionStatement(
       ts.factory.createBinaryExpression(
         ts.factory.createPropertyAccessExpression(
-          ts.factory.createIdentifier(d.displayName),
+          ts.factory.createIdentifier(getComponentIdentifier(d)),
           ts.factory.createIdentifier("displayName")
         ),
         ts.SyntaxKind.EqualsToken,
@@ -223,73 +230,6 @@ function createPropDefinition(
 }
 
 /**
- * Adds a component's docgen info to the global docgen collection.
- *
- * ```
- * if (typeof STORYBOOK_REACT_CLASSES !== "undefined") {
- *   STORYBOOK_REACT_CLASSES["src/.../SimpleComponent.tsx"] = {
- *     name: "SimpleComponent",
- *     docgenInfo: SimpleComponent.__docgenInfo,
- *     path: "src/.../SimpleComponent.tsx",
- *   };
- * }
- * ```
- *
- * @param d Component doc.
- * @param docgenCollectionName Global docgen collection variable name.
- * @param relativeFilename Relative file path of the component source file.
- */
-function insertDocgenIntoGlobalCollection(
-  d: ComponentDoc,
-  docgenCollectionName: string,
-  relativeFilename: string
-): ts.Statement {
-  return insertTsIgnoreBeforeStatement(
-    ts.factory.createIfStatement(
-      ts.factory.createBinaryExpression(
-        ts.factory.createTypeOfExpression(
-          ts.factory.createIdentifier(docgenCollectionName)
-        ),
-        ts.SyntaxKind.ExclamationEqualsEqualsToken,
-        ts.factory.createStringLiteral("undefined")
-      ),
-      insertTsIgnoreBeforeStatement(
-        ts.factory.createExpressionStatement(
-          ts.factory.createBinaryExpression(
-            ts.factory.createElementAccessExpression(
-              ts.factory.createIdentifier(docgenCollectionName),
-              ts.factory.createStringLiteral(
-                `${relativeFilename}#${d.displayName}`
-              )
-            ),
-            ts.SyntaxKind.EqualsToken,
-            ts.factory.createObjectLiteralExpression([
-              ts.factory.createPropertyAssignment(
-                ts.factory.createIdentifier("docgenInfo"),
-                ts.factory.createPropertyAccessExpression(
-                  ts.factory.createIdentifier(d.displayName),
-                  ts.factory.createIdentifier("__docgenInfo")
-                )
-              ),
-              ts.factory.createPropertyAssignment(
-                ts.factory.createIdentifier("name"),
-                ts.factory.createStringLiteral(d.displayName)
-              ),
-              ts.factory.createPropertyAssignment(
-                ts.factory.createIdentifier("path"),
-                ts.factory.createStringLiteral(
-                  `${relativeFilename}#${d.displayName}`
-                )
-              ),
-            ])
-          )
-        )
-      )
-    )
-  );
-}
-
-/**
  * Sets the field `__docgenInfo` for the component specified by the component
  * doc with the docgen information.
  *
@@ -313,7 +253,7 @@ function setComponentDocGen(
       ts.factory.createBinaryExpression(
         // SimpleComponent.__docgenInfo
         ts.factory.createPropertyAccessExpression(
-          ts.factory.createIdentifier(d.displayName),
+          ts.factory.createIdentifier(getComponentIdentifier(d)),
           ts.factory.createIdentifier("__docgenInfo")
         ),
         ts.SyntaxKind.EqualsToken,
@@ -353,10 +293,6 @@ export function generateDocgenCodeBlock(options: GeneratorOptions): {
     ts.ScriptTarget.ESNext
   );
 
-  const relativeFilename = path
-    .relative("./", path.resolve("./", options.filename))
-    .replace(/\\/g, "/");
-
   const wrapInTryStatement = (statements: ts.Statement[]): ts.TryStatement =>
     ts.factory.createTryStatement(
       ts.factory.createBlock(statements, true),
@@ -369,22 +305,14 @@ export function generateDocgenCodeBlock(options: GeneratorOptions): {
       undefined
     );
 
-  const codeBlocks = options.componentDocs.map((d) =>
-    wrapInTryStatement(
+  const codeBlocks = options.componentDocs.map((d) => {
+    return wrapInTryStatement(
       [
         options.setDisplayName ? setDisplayName(d) : null,
         setComponentDocGen(d, options),
-        options.docgenCollectionName === null ||
-        options.docgenCollectionName === undefined
-          ? null
-          : insertDocgenIntoGlobalCollection(
-              d,
-              options.docgenCollectionName,
-              relativeFilename
-            ),
       ].filter((s) => s !== null) as ts.Statement[]
-    )
-  );
+    );
+  });
 
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
   const printNode = (sourceNode: ts.Node) =>
