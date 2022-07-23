@@ -1,4 +1,5 @@
 import type { Plugin } from "vite";
+import { createFilter } from "@rollup/pluginutils";
 import * as docGen from "react-docgen-typescript";
 import * as ts from "typescript";
 import glob from "glob-promise";
@@ -25,22 +26,6 @@ function getTSConfigFile(tsconfigPath: string): Partial<ts.ParsedCommandLine> {
   } catch (error) {
     return {};
   }
-}
-
-/** Create a glob matching function. */
-function matchGlob(globs: string[] = []) {
-  const matchers = globs.map((g) => glob(g, { dot: true }));
-
-  return async (filename: string) => {
-    const matches: string[] = (await Promise.all(matchers))[0] || [];
-    return Boolean(
-      filename &&
-        matches.find(
-          (match) =>
-            path.normalize(filename) === path.join(process.cwd(), match)
-        )
-    );
-  };
 }
 
 const defaultPropFilter: PropFilter = (prop) => {
@@ -159,8 +144,7 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
   );
   const { exclude = ["**/**.stories.tsx"], include = ["**/**.tsx"] } =
     docgenOptions;
-  const isExcluded = matchGlob(exclude);
-  const isIncluded = matchGlob(include);
+  const filter = createFilter(include, exclude);
 
   const files = include
     .map((filePath) =>
@@ -176,23 +160,22 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
   return {
     name: "vite:react-docgen-typescript",
     async transform(src, id) {
-      if (!(await isExcluded(id)) && (await isIncluded(id))) {
-        const componentDocs = docGenParser.parseWithProgramProvider(
-          id,
-          () => tsProgram
-        );
+      if (!filter(id)) return;
+      const componentDocs = docGenParser.parseWithProgramProvider(
+        id,
+        () => tsProgram
+      );
 
-        if (!componentDocs.length) {
-          return null;
-        }
-
-        return generateDocgenCodeBlock({
-          filename: id,
-          source: src,
-          componentDocs,
-          ...generateOptions,
-        });
+      if (!componentDocs.length) {
+        return null;
       }
+
+      return generateDocgenCodeBlock({
+        filename: id,
+        source: src,
+        componentDocs,
+        ...generateOptions,
+      });
     },
   };
 }

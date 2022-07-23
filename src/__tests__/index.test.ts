@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { describe, it, expect } from "vitest";
-import reactDocgenTypescript from "../plugin";
+import reactDocgenTypescript from "../index";
 
 const fixturesPath = path.resolve(__dirname, "__fixtures__");
 

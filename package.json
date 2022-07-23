@@ -8,15 +8,24 @@
     "type": "git",
     "url": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript.git"
   },
-  "main": "dist/plugin.js",
   "files": [
     "dist/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
   ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
-    "build": "tsup src/plugin.ts --dts",
+    "build": "unbuild",
     "prepare": "yarn build",
     "prettier": "prettier --write . --ignore-path .gitignore",
     "test": "vitest"
@@ -26,6 +35,7 @@
     "vite": ">2.0.0-0"
   },
   "dependencies": {
+    "@rollup/pluginutils": "^4.2.1",
     "glob": "^7.2.0",
     "glob-promise": "^4.2.0",
     "magic-string": "^0.26.1",
@@ -35,8 +45,8 @@
     "@types/react": "^17.0.38",
     "prettier": "^2.0.5",
     "react": "^17.0.2",
-    "tsup": "^5.12.6",
     "typescript": "^4.3.0",
+    "unbuild": "^0.7.4",
     "vite": "latest",
     "vitest": "^0.2.5"
   },
