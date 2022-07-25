@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.0.5] - 2022-07-23
+
+### Chore
+
+- Move to unbuild
+
+### Fixed
+
+- Fix filtering for workspaces
+
 ## [0.0.4] - 2022-04-02
 
 ### Added
