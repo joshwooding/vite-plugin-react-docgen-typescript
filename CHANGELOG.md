@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.6]
+
+## Breaking Changes
+
+- Removed docgenCollectionName
+
 ## [0.0.5] - 2022-07-23
 
 ### Chore
