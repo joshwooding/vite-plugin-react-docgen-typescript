@@ -28,6 +28,7 @@
     "build": "unbuild",
     "prepare": "yarn build",
     "prettier": "prettier --write . --ignore-path .gitignore",
+    "prettier:check": "prettier --check . --ignore-path .gitignore",
     "test": "vitest"
   },
   "peerDependencies": {
