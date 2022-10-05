@@ -5,6 +5,7 @@
 ## Breaking Changes
 
 - Removed docgenCollectionName
+- Only support vite 3+
 
 ## [0.0.5] - 2022-07-23
 
