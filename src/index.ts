@@ -1,5 +1,4 @@
-import type { Plugin } from "vite";
-import { createFilter } from "@rollup/pluginutils";
+import { type Plugin, createFilter } from "vite";
 import * as docGen from "react-docgen-typescript";
 import * as ts from "typescript";
 import glob from "glob-promise";
