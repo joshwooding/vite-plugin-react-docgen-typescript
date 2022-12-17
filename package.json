@@ -26,7 +26,6 @@
   },
   "scripts": {
     "build": "unbuild",
-    "prepare": "yarn build",
     "prettier": "prettier --write . --ignore-path .gitignore",
     "prettier:check": "prettier --check . --ignore-path .gitignore",
     "test": "vitest"
@@ -42,6 +41,7 @@
     "react-docgen-typescript": "^2.1.1"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.25.2",
     "@types/react": "^17.0.38",
     "prettier": "^2.0.5",
     "react": "^17.0.2",
