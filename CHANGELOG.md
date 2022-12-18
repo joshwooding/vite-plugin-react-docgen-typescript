@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0
+
+### Minor Changes
+
+- 55d8589: Update unbuild and magic-string
+
 ## [0.0.6]
 
 ## Breaking Changes
