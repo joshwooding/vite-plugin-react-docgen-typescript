@@ -8,26 +8,26 @@ import type { ComponentDoc, PropItem } from "react-docgen-typescript";
 import MagicString, { SourceMap } from "magic-string";
 
 export interface GeneratorOptions {
-  filename: string;
-  source: string;
-  componentDocs: ComponentDoc[];
-  setDisplayName: boolean;
-  typePropName: string;
+	filename: string;
+	source: string;
+	componentDocs: ComponentDoc[];
+	setDisplayName: boolean;
+	typePropName: string;
 }
 
 function createLiteral(
-  value: string | number | boolean
+	value: string | number | boolean,
 ): ts.StringLiteral | ts.NumericLiteral | ts.BooleanLiteral {
-  switch (typeof value) {
-    case "string":
-      return ts.factory.createStringLiteral(value);
-    case "number":
-      return ts.factory.createNumericLiteral(value);
-    case "boolean":
-      return Boolean(value)
-        ? ts.factory.createTrue()
-        : ts.factory.createFalse();
-  }
+	switch (typeof value) {
+		case "string":
+			return ts.factory.createStringLiteral(value);
+		case "number":
+			return ts.factory.createNumericLiteral(value);
+		case "boolean":
+			return Boolean(value)
+				? ts.factory.createTrue()
+				: ts.factory.createFalse();
+	}
 }
 
 /**
@@ -43,15 +43,15 @@ function createLiteral(
  * @param statement
  */
 function insertTsIgnoreBeforeStatement(statement: ts.Statement): ts.Statement {
-  ts.setSyntheticLeadingComments(statement, [
-    {
-      text: " @ts-ignore", // Leading space is important here
-      kind: ts.SyntaxKind.SingleLineCommentTrivia,
-      pos: -1,
-      end: -1,
-    },
-  ]);
-  return statement;
+	ts.setSyntheticLeadingComments(statement, [
+		{
+			text: " @ts-ignore", // Leading space is important here
+			kind: ts.SyntaxKind.SingleLineCommentTrivia,
+			pos: -1,
+			end: -1,
+		},
+	]);
+	return statement;
 }
 
 /**
@@ -62,18 +62,18 @@ function insertTsIgnoreBeforeStatement(statement: ts.Statement): ts.Statement {
  * ```
  */
 function setDisplayName(d: ComponentDoc): ts.Statement {
-  return insertTsIgnoreBeforeStatement(
-    ts.factory.createExpressionStatement(
-      ts.factory.createBinaryExpression(
-        ts.factory.createPropertyAccessExpression(
-          ts.factory.createIdentifier(d.displayName),
-          ts.factory.createIdentifier("displayName")
-        ),
-        ts.SyntaxKind.EqualsToken,
-        ts.factory.createStringLiteral(d.displayName)
-      )
-    )
-  );
+	return insertTsIgnoreBeforeStatement(
+		ts.factory.createExpressionStatement(
+			ts.factory.createBinaryExpression(
+				ts.factory.createPropertyAccessExpression(
+					ts.factory.createIdentifier(d.displayName),
+					ts.factory.createIdentifier("displayName"),
+				),
+				ts.SyntaxKind.EqualsToken,
+				ts.factory.createStringLiteral(d.displayName),
+			),
+		),
+	);
 }
 
 /**
@@ -93,131 +93,131 @@ function setDisplayName(d: ComponentDoc): ts.Statement {
  * @param options Generator options.
  */
 function createPropDefinition(
-  propName: string,
-  prop: PropItem,
-  options: GeneratorOptions
+	propName: string,
+	prop: PropItem,
+	options: GeneratorOptions,
 ) {
-  /**
-   * Set default prop value.
-   *
-   * ```
-   * SimpleComponent.__docgenInfo.props.someProp.defaultValue = null;
-   * SimpleComponent.__docgenInfo.props.someProp.defaultValue = {
-   *   value: "blue",
-   * };
-   * ```
-   *
-   * @param defaultValue Default prop value or null if not set.
-   */
-  const setDefaultValue = (defaultValue: { value: unknown } | null) =>
-    ts.factory.createPropertyAssignment(
-      ts.factory.createStringLiteral("defaultValue"),
-      // Use a more extensive check on defaultValue. Sometimes the parser
-      // returns an empty object.
-      defaultValue?.value !== undefined &&
-        (typeof defaultValue.value === "string" ||
-          typeof defaultValue.value === "number" ||
-          typeof defaultValue.value === "boolean")
-        ? ts.factory.createObjectLiteralExpression([
-            ts.factory.createPropertyAssignment(
-              ts.factory.createIdentifier("value"),
-              createLiteral(defaultValue.value)
-            ),
-          ])
-        : ts.factory.createNull()
-    );
+	/**
+	 * Set default prop value.
+	 *
+	 * ```
+	 * SimpleComponent.__docgenInfo.props.someProp.defaultValue = null;
+	 * SimpleComponent.__docgenInfo.props.someProp.defaultValue = {
+	 *   value: "blue",
+	 * };
+	 * ```
+	 *
+	 * @param defaultValue Default prop value or null if not set.
+	 */
+	const setDefaultValue = (defaultValue: { value: unknown } | null) =>
+		ts.factory.createPropertyAssignment(
+			ts.factory.createStringLiteral("defaultValue"),
+			// Use a more extensive check on defaultValue. Sometimes the parser
+			// returns an empty object.
+			defaultValue?.value !== undefined &&
+			(typeof defaultValue.value === "string" ||
+				typeof defaultValue.value === "number" ||
+				typeof defaultValue.value === "boolean")
+				? ts.factory.createObjectLiteralExpression([
+						ts.factory.createPropertyAssignment(
+							ts.factory.createIdentifier("value"),
+							createLiteral(defaultValue.value),
+						),
+				  ])
+				: ts.factory.createNull(),
+		);
 
-  /** Set a property with a string value */
-  const setStringLiteralField = (fieldName: string, fieldValue: string) =>
-    ts.factory.createPropertyAssignment(
-      ts.factory.createStringLiteral(fieldName),
-      ts.factory.createStringLiteral(fieldValue)
-    );
+	/** Set a property with a string value */
+	const setStringLiteralField = (fieldName: string, fieldValue: string) =>
+		ts.factory.createPropertyAssignment(
+			ts.factory.createStringLiteral(fieldName),
+			ts.factory.createStringLiteral(fieldValue),
+		);
 
-  /**
-   * ```
-   * SimpleComponent.__docgenInfo.props.someProp.description = "Prop description.";
-   * ```
-   * @param description Prop description.
-   */
-  const setDescription = (description: string) =>
-    setStringLiteralField("description", description);
+	/**
+	 * ```
+	 * SimpleComponent.__docgenInfo.props.someProp.description = "Prop description.";
+	 * ```
+	 * @param description Prop description.
+	 */
+	const setDescription = (description: string) =>
+		setStringLiteralField("description", description);
 
-  /**
-   * ```
-   * SimpleComponent.__docgenInfo.props.someProp.name = "someProp";
-   * ```
-   * @param name Prop name.
-   */
-  const setName = (name: string) => setStringLiteralField("name", name);
+	/**
+	 * ```
+	 * SimpleComponent.__docgenInfo.props.someProp.name = "someProp";
+	 * ```
+	 * @param name Prop name.
+	 */
+	const setName = (name: string) => setStringLiteralField("name", name);
 
-  /**
-   * ```
-   * SimpleComponent.__docgenInfo.props.someProp.required = true;
-   * ```
-   * @param required Whether prop is required or not.
-   */
-  const setRequired = (required: boolean) =>
-    ts.factory.createPropertyAssignment(
-      ts.factory.createStringLiteral("required"),
-      required ? ts.factory.createTrue() : ts.factory.createFalse()
-    );
+	/**
+	 * ```
+	 * SimpleComponent.__docgenInfo.props.someProp.required = true;
+	 * ```
+	 * @param required Whether prop is required or not.
+	 */
+	const setRequired = (required: boolean) =>
+		ts.factory.createPropertyAssignment(
+			ts.factory.createStringLiteral("required"),
+			required ? ts.factory.createTrue() : ts.factory.createFalse(),
+		);
 
-  /**
-   * ```
-   * SimpleComponent.__docgenInfo.props.someProp.type = {
-   *  name: "enum",
-   *  value: [ { value: "\"blue\"" }, { value: "\"green\""} ]
-   * }
-   * ```
-   * @param [typeValue] Prop value (for enums)
-   */
-  const setValue = (typeValue?: any[]) =>
-    Array.isArray(typeValue) &&
-    typeValue.every((value) => typeof value.value === "string")
-      ? ts.factory.createPropertyAssignment(
-          ts.factory.createStringLiteral("value"),
-          ts.factory.createArrayLiteralExpression(
-            typeValue.map((value) =>
-              ts.factory.createObjectLiteralExpression([
-                setStringLiteralField("value", value.value),
-              ])
-            )
-          )
-        )
-      : undefined;
+	/**
+	 * ```
+	 * SimpleComponent.__docgenInfo.props.someProp.type = {
+	 *  name: "enum",
+	 *  value: [ { value: "\"blue\"" }, { value: "\"green\""} ]
+	 * }
+	 * ```
+	 * @param [typeValue] Prop value (for enums)
+	 */
+	const setValue = (typeValue?: any[]) =>
+		Array.isArray(typeValue) &&
+		typeValue.every((value) => typeof value.value === "string")
+			? ts.factory.createPropertyAssignment(
+					ts.factory.createStringLiteral("value"),
+					ts.factory.createArrayLiteralExpression(
+						typeValue.map((value) =>
+							ts.factory.createObjectLiteralExpression([
+								setStringLiteralField("value", value.value),
+							]),
+						),
+					),
+			  )
+			: undefined;
 
-  /**
-   * ```
-   * SimpleComponent.__docgenInfo.props.someProp.type = { name: "'blue' | 'green'"}
-   * ```
-   * @param typeName Prop type name.
-   * @param [typeValue] Prop value (for enums)
-   */
-  const setType = (typeName: string, typeValue?: any[]) => {
-    const objectFields = [setStringLiteralField("name", typeName)];
-    const valueField = setValue(typeValue);
+	/**
+	 * ```
+	 * SimpleComponent.__docgenInfo.props.someProp.type = { name: "'blue' | 'green'"}
+	 * ```
+	 * @param typeName Prop type name.
+	 * @param [typeValue] Prop value (for enums)
+	 */
+	const setType = (typeName: string, typeValue?: any[]) => {
+		const objectFields = [setStringLiteralField("name", typeName)];
+		const valueField = setValue(typeValue);
 
-    if (valueField) {
-      objectFields.push(valueField);
-    }
+		if (valueField) {
+			objectFields.push(valueField);
+		}
 
-    return ts.factory.createPropertyAssignment(
-      ts.factory.createStringLiteral(options.typePropName),
-      ts.factory.createObjectLiteralExpression(objectFields)
-    );
-  };
+		return ts.factory.createPropertyAssignment(
+			ts.factory.createStringLiteral(options.typePropName),
+			ts.factory.createObjectLiteralExpression(objectFields),
+		);
+	};
 
-  return ts.factory.createPropertyAssignment(
-    ts.factory.createStringLiteral(propName),
-    ts.factory.createObjectLiteralExpression([
-      setDefaultValue(prop.defaultValue),
-      setDescription(prop.description),
-      setName(prop.name),
-      setRequired(prop.required),
-      setType(prop.type.name, prop.type.value),
-    ])
-  );
+	return ts.factory.createPropertyAssignment(
+		ts.factory.createStringLiteral(propName),
+		ts.factory.createObjectLiteralExpression([
+			setDefaultValue(prop.defaultValue),
+			setDescription(prop.description),
+			setName(prop.name),
+			setRequired(prop.required),
+			setType(prop.type.name, prop.type.value),
+		]),
+	);
 }
 
 /**
@@ -236,87 +236,87 @@ function createPropDefinition(
  * @param options Generator options.
  */
 function setComponentDocGen(
-  d: ComponentDoc,
-  options: GeneratorOptions
+	d: ComponentDoc,
+	options: GeneratorOptions,
 ): ts.Statement {
-  return insertTsIgnoreBeforeStatement(
-    ts.factory.createExpressionStatement(
-      ts.factory.createBinaryExpression(
-        // SimpleComponent.__docgenInfo
-        ts.factory.createPropertyAccessExpression(
-          ts.factory.createIdentifier(d.displayName),
-          ts.factory.createIdentifier("__docgenInfo")
-        ),
-        ts.SyntaxKind.EqualsToken,
-        ts.factory.createObjectLiteralExpression([
-          // SimpleComponent.__docgenInfo.description
-          ts.factory.createPropertyAssignment(
-            ts.factory.createStringLiteral("description"),
-            ts.factory.createStringLiteral(d.description)
-          ),
-          // SimpleComponent.__docgenInfo.displayName
-          ts.factory.createPropertyAssignment(
-            ts.factory.createStringLiteral("displayName"),
-            ts.factory.createStringLiteral(d.displayName)
-          ),
-          // SimpleComponent.__docgenInfo.props
-          ts.factory.createPropertyAssignment(
-            ts.factory.createStringLiteral("props"),
-            ts.factory.createObjectLiteralExpression(
-              Object.entries(d.props).map(([propName, prop]) =>
-                createPropDefinition(propName, prop, options)
-              )
-            )
-          ),
-        ])
-      )
-    )
-  );
+	return insertTsIgnoreBeforeStatement(
+		ts.factory.createExpressionStatement(
+			ts.factory.createBinaryExpression(
+				// SimpleComponent.__docgenInfo
+				ts.factory.createPropertyAccessExpression(
+					ts.factory.createIdentifier(d.displayName),
+					ts.factory.createIdentifier("__docgenInfo"),
+				),
+				ts.SyntaxKind.EqualsToken,
+				ts.factory.createObjectLiteralExpression([
+					// SimpleComponent.__docgenInfo.description
+					ts.factory.createPropertyAssignment(
+						ts.factory.createStringLiteral("description"),
+						ts.factory.createStringLiteral(d.description),
+					),
+					// SimpleComponent.__docgenInfo.displayName
+					ts.factory.createPropertyAssignment(
+						ts.factory.createStringLiteral("displayName"),
+						ts.factory.createStringLiteral(d.displayName),
+					),
+					// SimpleComponent.__docgenInfo.props
+					ts.factory.createPropertyAssignment(
+						ts.factory.createStringLiteral("props"),
+						ts.factory.createObjectLiteralExpression(
+							Object.entries(d.props).map(([propName, prop]) =>
+								createPropDefinition(propName, prop, options),
+							),
+						),
+					),
+				]),
+			),
+		),
+	);
 }
 
 export function generateDocgenCodeBlock(options: GeneratorOptions): {
-  code: string;
-  map: SourceMap;
+	code: string;
+	map: SourceMap;
 } {
-  const sourceFile = ts.createSourceFile(
-    options.filename,
-    options.source,
-    ts.ScriptTarget.ESNext
-  );
+	const sourceFile = ts.createSourceFile(
+		options.filename,
+		options.source,
+		ts.ScriptTarget.ESNext,
+	);
 
-  const wrapInTryStatement = (statements: ts.Statement[]): ts.TryStatement =>
-    ts.factory.createTryStatement(
-      ts.factory.createBlock(statements, true),
-      ts.factory.createCatchClause(
-        ts.factory.createVariableDeclaration(
-          ts.factory.createIdentifier("__react_docgen_typescript_loader_error")
-        ),
-        ts.factory.createBlock([])
-      ),
-      undefined
-    );
+	const wrapInTryStatement = (statements: ts.Statement[]): ts.TryStatement =>
+		ts.factory.createTryStatement(
+			ts.factory.createBlock(statements, true),
+			ts.factory.createCatchClause(
+				ts.factory.createVariableDeclaration(
+					ts.factory.createIdentifier("__react_docgen_typescript_loader_error"),
+				),
+				ts.factory.createBlock([]),
+			),
+			undefined,
+		);
 
-  const codeBlocks = options.componentDocs.map((d) =>
-    wrapInTryStatement(
-      [
-        options.setDisplayName ? setDisplayName(d) : null,
-        setComponentDocGen(d, options),
-      ].filter((s) => s !== null) as ts.Statement[]
-    )
-  );
+	const codeBlocks = options.componentDocs.map((d) =>
+		wrapInTryStatement(
+			[
+				options.setDisplayName ? setDisplayName(d) : null,
+				setComponentDocGen(d, options),
+			].filter((s) => s !== null) as ts.Statement[],
+		),
+	);
 
-  const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
-  const printNode = (sourceNode: ts.Node) =>
-    printer.printNode(ts.EmitHint.Unspecified, sourceNode, sourceFile);
+	const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
+	const printNode = (sourceNode: ts.Node) =>
+		printer.printNode(ts.EmitHint.Unspecified, sourceNode, sourceFile);
 
-  const s = new MagicString(options.source);
+	const s = new MagicString(options.source);
 
-  codeBlocks.forEach((node) => {
-    s.append(printNode(node));
-  });
+	codeBlocks.forEach((node) => {
+		s.append(printNode(node));
+	});
 
-  return {
-    code: s.toString(),
-    map: s.generateMap(),
-  };
+	return {
+		code: s.toString(),
+		map: s.generateMap(),
+	};
 }
