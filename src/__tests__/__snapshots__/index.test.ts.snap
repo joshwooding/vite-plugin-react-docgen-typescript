@@ -5,15 +5,15 @@ exports[`component fixture > DefaultExport.tsx has code block generated 1`] = `
   "code": "import * as React from \\"react\\";
 
 interface DefaultExportComponentProps {
-  /** Button color. */
-  color: \\"blue\\" | \\"green\\";
+	/** Button color. */
+	color: \\"blue\\" | \\"green\\";
 }
 
 /**
  * A simple component.
  */
 const DefaultExportComponent: React.FC<DefaultExportComponentProps> = (
-  props
+	props,
 ) => <button style={{ backgroundColor: props.color }}>{props.children}</button>;
 
 export default DefaultExportComponent;
@@ -44,15 +44,15 @@ exports[`component fixture > DefaultExportWithDisplayName.tsx has code block gen
   "code": "import * as React from \\"react\\";
 
 interface DefaultExportComponentProps {
-  /** Button color. */
-  color: \\"blue\\" | \\"green\\";
+	/** Button color. */
+	color: \\"blue\\" | \\"green\\";
 }
 
 /**
  * A simple component.
  */
 const DefaultExportComponent: React.FC<DefaultExportComponentProps> = (
-  props
+	props,
 ) => <button style={{ backgroundColor: props.color }}>{props.children}</button>;
 
 DefaultExportComponent.displayName = \\"DefaultExportComponentWithDisplayName\\";
@@ -85,39 +85,39 @@ exports[`component fixture > DefaultPropValue.tsx has code block generated 1`] =
   "code": "import * as React from \\"react\\";
 
 interface DefaultPropValueComponentProps {
-  /**
-   * Button color.
-   *
-   * @default blue
-   **/
-  color: \\"blue\\" | \\"green\\";
+	/**
+	 * Button color.
+	 *
+	 * @default blue
+	 **/
+	color: \\"blue\\" | \\"green\\";
 
-  /**
-   * Button counter.
-   */
-  counter: number;
+	/**
+	 * Button counter.
+	 */
+	counter: number;
 
-  /**
-   * Button disabled.
-   */
-  disabled: boolean;
+	/**
+	 * Button disabled.
+	 */
+	disabled: boolean;
 }
 
 /**
  * Component with a prop with a default value.
  */
 export const DefaultPropValueComponent: React.FC<
-  DefaultPropValueComponentProps
+	DefaultPropValueComponentProps
 > = (props) => (
-  <button disabled={props.disabled} style={{ backgroundColor: props.color }}>
-    {props.counter}
-    {props.children}
-  </button>
+	<button disabled={props.disabled} style={{ backgroundColor: props.color }}>
+		{props.counter}
+		{props.children}
+	</button>
 );
 
 DefaultPropValueComponent.defaultProps = {
-  counter: 123,
-  disabled: false,
+	counter: 123,
+	disabled: false,
 };
 try {
     // @ts-ignore
@@ -146,19 +146,19 @@ exports[`component fixture > HyphenatedPropName.tsx has code block generated 1`]
   "code": "import * as React from \\"react\\";
 
 interface HyphenatedPropNameProps {
-  /** Button color. */
-  \\"button-color\\": \\"blue\\" | \\"green\\";
+	/** Button color. */
+	\\"button-color\\": \\"blue\\" | \\"green\\";
 }
 
 /**
  * A component with a hyphenated prop name.
  */
 export const HyphenatedPropNameComponent: React.FC<HyphenatedPropNameProps> = (
-  props
+	props,
 ) => (
-  <button style={{ backgroundColor: props[\\"button-color\\"] }}>
-    {props.children}
-  </button>
+	<button style={{ backgroundColor: props[\\"button-color\\"] }}>
+		{props.children}
+	</button>
 );
 try {
     // @ts-ignore
@@ -187,18 +187,18 @@ exports[`component fixture > MultiProps.tsx has code block generated 1`] = `
   "code": "import * as React from \\"react\\";
 
 interface MultiPropsComponentProps {
-  /** Button color. */
-  color: \\"blue\\" | \\"green\\";
+	/** Button color. */
+	color: \\"blue\\" | \\"green\\";
 
-  /** Button size. */
-  size: \\"small\\" | \\"large\\";
+	/** Button size. */
+	size: \\"small\\" | \\"large\\";
 }
 
 /**
  * This is a component with multiple props.
  */
 export const MultiPropsComponent: React.FC<MultiPropsComponentProps> = (
-  props
+	props,
 ) => <button style={{ backgroundColor: props.color }}>{props.children}</button>;
 try {
     // @ts-ignore
@@ -227,8 +227,8 @@ exports[`component fixture > MultilineDescription.tsx has code block generated 1
   "code": "import * as React from \\"react\\";
 
 interface MultilineDescriptionProps {
-  /** Button color. */
-  color: \\"blue\\" | \\"green\\";
+	/** Button color. */
+	color: \\"blue\\" | \\"green\\";
 }
 
 /**
@@ -237,9 +237,9 @@ interface MultilineDescriptionProps {
  * Second line.
  */
 export const MultilineDescriptionComponent: React.FC<
-  MultilineDescriptionProps
+	MultilineDescriptionProps
 > = (props) => (
-  <button style={{ backgroundColor: props.color }}>{props.children}</button>
+	<button style={{ backgroundColor: props.color }}>{props.children}</button>
 );
 try {
     // @ts-ignore
@@ -268,21 +268,21 @@ exports[`component fixture > MultilinePropDescription.tsx has code block generat
   "code": "import * as React from \\"react\\";
 
 interface MultilinePropDescriptionComponentProps {
-  /**
-   * This is a multiline prop description.
-   *
-   * Second line.
-   */
-  color: \\"blue\\" | \\"green\\";
+	/**
+	 * This is a multiline prop description.
+	 *
+	 * Second line.
+	 */
+	color: \\"blue\\" | \\"green\\";
 }
 
 /**
  * A component with multiline prop description.
  */
 export const MultilinePropDescriptionComponent: React.FC<
-  MultilinePropDescriptionComponentProps
+	MultilinePropDescriptionComponentProps
 > = (props) => (
-  <button style={{ backgroundColor: props.color }}>{props.children}</button>
+	<button style={{ backgroundColor: props.color }}>{props.children}</button>
 );
 try {
     // @ts-ignore
@@ -311,15 +311,15 @@ exports[`component fixture > Simple.tsx has code block generated 1`] = `
   "code": "import * as React from \\"react\\";
 
 interface SimpleComponentProps {
-  /** Button color. */
-  color: \\"blue\\" | \\"green\\";
+	/** Button color. */
+	color: \\"blue\\" | \\"green\\";
 }
 
 /**
  * A simple component.
  */
 export const SimpleComponent: React.FC<SimpleComponentProps> = (props) => (
-  <button style={{ backgroundColor: props.color }}>{props.children}</button>
+	<button style={{ backgroundColor: props.color }}>{props.children}</button>
 );
 try {
     // @ts-ignore
@@ -348,15 +348,15 @@ exports[`component fixture > SimpleWithDisplayName.tsx has code block generated 
   "code": "import * as React from \\"react\\";
 
 interface SimpleComponentProps {
-  /** Button color. */
-  color: \\"blue\\" | \\"green\\";
+	/** Button color. */
+	color: \\"blue\\" | \\"green\\";
 }
 
 /**
  * A simple component.
  */
 export const SimpleComponent: React.FC<SimpleComponentProps> = (props) => (
-  <button style={{ backgroundColor: props.color }}>{props.children}</button>
+	<button style={{ backgroundColor: props.color }}>{props.children}</button>
 );
 
 SimpleComponent.displayName = \\"SimpleComponentWithDisplayName\\";
@@ -392,7 +392,7 @@ exports[`component fixture > TextOnlyComponent.tsx has code block generated 1`] 
  * Ref: https://github.com/strothj/react-docgen-typescript-loader/issues/7
  */
 export const SimpleComponent: React.FC<{}> = () => (
-  <div>Test only component</div>
+	<div>Test only component</div>
 );
 try {
     // @ts-ignore
@@ -421,39 +421,39 @@ exports[`generates value info for enums 1`] = `
   "code": "import * as React from \\"react\\";
 
 interface DefaultPropValueComponentProps {
-  /**
-   * Button color.
-   *
-   * @default blue
-   **/
-  color: \\"blue\\" | \\"green\\";
+	/**
+	 * Button color.
+	 *
+	 * @default blue
+	 **/
+	color: \\"blue\\" | \\"green\\";
 
-  /**
-   * Button counter.
-   */
-  counter: number;
+	/**
+	 * Button counter.
+	 */
+	counter: number;
 
-  /**
-   * Button disabled.
-   */
-  disabled: boolean;
+	/**
+	 * Button disabled.
+	 */
+	disabled: boolean;
 }
 
 /**
  * Component with a prop with a default value.
  */
 export const DefaultPropValueComponent: React.FC<
-  DefaultPropValueComponentProps
+	DefaultPropValueComponentProps
 > = (props) => (
-  <button disabled={props.disabled} style={{ backgroundColor: props.color }}>
-    {props.counter}
-    {props.children}
-  </button>
+	<button disabled={props.disabled} style={{ backgroundColor: props.color }}>
+		{props.counter}
+		{props.children}
+	</button>
 );
 
 DefaultPropValueComponent.defaultProps = {
-  counter: 123,
-  disabled: false,
+	counter: 123,
+	disabled: false,
 };
 try {
     // @ts-ignore
