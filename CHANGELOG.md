@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0
+
+### Minor Changes
+
+- d995bc7: Make typescript an optional peer dependency
+
+### Patch Changes
+
+- 8473afb: Expand vite version range: allow v4
+
 ## 0.1.0
 
 ### Minor Changes
