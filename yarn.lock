@@ -684,7 +684,10 @@ __metadata:
     vitest: ^0.25.8
   peerDependencies:
     typescript: ">= 4.3.x"
-    vite: ^3.0.0
+    vite: ^3.0.0 || ^4.0.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
   languageName: unknown
   linkType: soft
 
