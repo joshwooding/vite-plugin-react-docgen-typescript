@@ -5,7 +5,7 @@ import type { Options } from "./utils/options";
 
 const getUtils = async (config: Options) => {
 	const docGen = await import("react-docgen-typescript");
-	const ts = await import("typescript");
+	const { default: ts } = await import("typescript");
 	const { generateDocgenCodeBlock } = await import("./utils/generate");
 	const { getOptions } = await import("./utils/options");
 
@@ -30,14 +30,14 @@ const getUtils = async (config: Options) => {
 		)
 		.reduce((carry, files) => carry.concat(files), []);
 
+	const tsProgram = ts.createProgram(files, compilerOptions);
+
 	const result = {
-		ts,
-		files,
-		compilerOptions,
 		docGenParser,
 		filter,
 		generateOptions,
 		generateDocgenCodeBlock,
+		tsProgram,
 	};
 
 	return result;
@@ -51,16 +51,12 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
 		async transform(src, id) {
 			try {
 				const {
-					ts,
 					filter,
-					files,
 					docGenParser,
-					compilerOptions,
 					generateOptions,
 					generateDocgenCodeBlock,
+					tsProgram,
 				} = await utilsPromise;
-
-				const tsProgram = ts.createProgram(files, compilerOptions);
 
 				if (!filter(id)) {
 					return;
