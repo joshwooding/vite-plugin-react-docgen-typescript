@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1
+
+### Patch Changes
+
+- 9463cc0: fix the incorrect `ts` `import()`
+  optimize performance by creating `tsProgram` just once
+
 ## 0.2.0
 
 ### Minor Changes
