@@ -36,8 +36,6 @@
     "test": "vitest"
   },
   "dependencies": {
-    "glob": "^7.2.0",
-    "glob-promise": "^4.2.0",
     "magic-string": "^0.27.0",
     "react-docgen-typescript": "^2.2.2"
   },
