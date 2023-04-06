@@ -15,7 +15,7 @@ const fixtureTests = fs
 
 const defaultPropValueFixture = fixtureTests.find(
 	(f) => path.basename(f.id) === "DefaultPropValue.tsx",
-)!;
+);
 
 describe("component fixture", () => {
 	fixtureTests.forEach((fixture) => {
@@ -40,8 +40,8 @@ it("generates value info for enums", async () => {
 			// @ts-ignore
 		}).transform?.call(
 			{},
-			defaultPropValueFixture.code,
-			defaultPropValueFixture.id,
+			defaultPropValueFixture?.code,
+			defaultPropValueFixture?.id,
 		),
 	).toMatchSnapshot();
 });

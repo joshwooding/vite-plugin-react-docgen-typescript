@@ -32,7 +32,7 @@
   "scripts": {
     "build": "unbuild",
     "rome": "rome format . --write",
-    "rome:check": "rome format .",
+    "rome:check": "rome ci .",
     "test": "vitest"
   },
   "dependencies": {
@@ -43,7 +43,7 @@
     "@changesets/cli": "^2.25.2",
     "@types/react": "^17.0.38",
     "react": "^17.0.2",
-    "rome": "^11.0.0",
+    "rome": "^12.0.0",
     "typescript": "^4.3.0",
     "unbuild": "^1.0.2",
     "vite": "^3.2.5",

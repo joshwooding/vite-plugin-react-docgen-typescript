@@ -24,9 +24,7 @@ function createLiteral(
 		case "number":
 			return ts.factory.createNumericLiteral(value);
 		case "boolean":
-			return Boolean(value)
-				? ts.factory.createTrue()
-				: ts.factory.createFalse();
+			return value ? ts.factory.createTrue() : ts.factory.createFalse();
 	}
 }
 
@@ -172,7 +170,7 @@ function createPropDefinition(
 	 * ```
 	 * @param [typeValue] Prop value (for enums)
 	 */
-	const setValue = (typeValue?: any[]) =>
+	const setValue = (typeValue?: unknown[]) =>
 		Array.isArray(typeValue) &&
 		typeValue.every((value) => typeof value.value === "string")
 			? ts.factory.createPropertyAssignment(
@@ -194,7 +192,7 @@ function createPropDefinition(
 	 * @param typeName Prop type name.
 	 * @param [typeValue] Prop value (for enums)
 	 */
-	const setType = (typeName: string, typeValue?: any[]) => {
+	const setType = (typeName: string, typeValue?: unknown[]) => {
 		const objectFields = [setStringLiteralField("name", typeName)];
 		const valueField = setValue(typeValue);
 
