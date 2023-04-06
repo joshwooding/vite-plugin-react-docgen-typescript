@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2
+
+### Patch Changes
+
+- 2edf4d0: Fix HMR support
+
 ## 0.2.1
 
 ### Patch Changes
