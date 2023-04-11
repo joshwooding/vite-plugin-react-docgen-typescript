@@ -1,18 +1,11 @@
 import { type Plugin, createFilter } from "vite";
+import * as path from "path";
+import glob from "glob-promise";
 import type { Options } from "./utils/options";
-import type { CompilerOptions } from "typescript";
-
-const getProgram = async (
-	sourcePath: string,
-	compilerOptions: CompilerOptions,
-) => {
-	const { default: ts } = await import("typescript");
-
-	return ts.createProgram([sourcePath], compilerOptions);
-};
 
 const getUtils = async (config: Options) => {
 	const docGen = await import("react-docgen-typescript");
+	const { default: ts } = await import("typescript");
 	const { generateDocgenCodeBlock } = await import("./utils/generate");
 	const { getOptions } = await import("./utils/options");
 
@@ -27,12 +20,24 @@ const getUtils = async (config: Options) => {
 		docgenOptions;
 	const filter = createFilter(include, exclude);
 
+	const files = include
+		.map((filePath) =>
+			glob.sync(
+				path.isAbsolute(filePath)
+					? filePath
+					: path.join(process.cwd(), filePath),
+			),
+		)
+		.reduce((carry, files) => carry.concat(files), []);
+
+	const tsProgram = ts.createProgram(files, compilerOptions);
+
 	const result = {
 		docGenParser,
 		filter,
 		generateOptions,
-		compilerOptions,
 		generateDocgenCodeBlock,
+		tsProgram,
 	};
 
 	return result;
@@ -49,11 +54,9 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
 					filter,
 					docGenParser,
 					generateOptions,
-					compilerOptions,
 					generateDocgenCodeBlock,
+					tsProgram,
 				} = await utilsPromise;
-
-				const tsProgram = await getProgram(id, compilerOptions);
 
 				if (!filter(id)) {
 					return;
