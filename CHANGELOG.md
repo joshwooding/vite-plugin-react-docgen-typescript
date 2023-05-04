@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.3
+
+### Patch Changes
+
+- 7c2c982: Fix performance regression
+
 ## 0.2.2
 
 ### Patch Changes
