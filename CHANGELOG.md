@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+### Minor Changes
+
+- 571603c: Add support for vite 5
+
 ## 0.2.3
 
 ### Patch Changes
