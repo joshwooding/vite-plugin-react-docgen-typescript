@@ -891,22 +891,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@joshwooding/vite-plugin-react-docgen-typescript@workspace:.":
+"@joshwooding/vite-plugin-react-docgen-typescript-monorepo@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@joshwooding/vite-plugin-react-docgen-typescript@workspace:."
+  resolution: "@joshwooding/vite-plugin-react-docgen-typescript-monorepo@workspace:."
   dependencies:
     "@biomejs/biome": 1.2.2
     "@changesets/cli": ^2.25.2
-    "@types/react": ^17.0.38
-    glob: ^7.2.0
-    glob-promise: ^4.2.0
-    magic-string: ^0.27.0
-    react: ^17.0.2
-    react-docgen-typescript: ^2.2.2
+    "@types/react": ^18.0.0
+    react: ^18.0.0
     typescript: ^4.3.0
     unbuild: ^1.0.2
     vite: ^5.0.0-beta.1
     vitest: ^0.25.8
+  languageName: unknown
+  linkType: soft
+
+"@joshwooding/vite-plugin-react-docgen-typescript@workspace:packages/vite-plugin-react-docgen-typescript":
+  version: 0.0.0-use.local
+  resolution: "@joshwooding/vite-plugin-react-docgen-typescript@workspace:packages/vite-plugin-react-docgen-typescript"
+  dependencies:
+    glob: ^7.2.0
+    glob-promise: ^4.2.0
+    magic-string: ^0.27.0
+    react-docgen-typescript: ^2.2.2
   peerDependencies:
     typescript: ">= 4.3.x"
     vite: ^3.0.0 || ^4.0.0 || ^5.0.0
@@ -1229,14 +1236,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^17.0.38":
-  version: 17.0.38
-  resolution: "@types/react@npm:17.0.38"
+"@types/react@npm:^18.0.0":
+  version: 18.2.25
+  resolution: "@types/react@npm:18.2.25"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 4079f4f959cd4a4bfaeda8b89fe8a1b1f8bdc9d87acfdc5f74a0b39cec9ec6a470724357c62778c0f063180b360c250e920c5a142f1dbcda67d9cc25a6d43a85
+  checksum: 177515cd44135d56191ec6c5c10edd490c96c175d37624d9c37bc2007c3abcf6cc2d2137d2a073d692cdc5129d5d5785bd60a6ddd315f695da5d8b989fa2afc5
   languageName: node
   linkType: hard
 
@@ -3686,13 +3693,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object-assign@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "object-assign@npm:4.1.1"
-  checksum: fcc6e4ea8c7fe48abfbb552578b1c53e0d194086e2e6bbbf59e0a536381a292f39943c6e9628af05b5528aa5e3318bb30d6b2e53cadaf5b8fe9e12c4b69af23f
-  languageName: node
-  linkType: hard
-
 "object-inspect@npm:^1.12.2, object-inspect@npm:^1.9.0":
   version: 1.12.2
   resolution: "object-inspect@npm:1.12.2"
@@ -3991,13 +3991,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^17.0.2":
-  version: 17.0.2
-  resolution: "react@npm:17.0.2"
+"react@npm:^18.0.0":
+  version: 18.2.0
+  resolution: "react@npm:18.2.0"
   dependencies:
     loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-  checksum: b254cc17ce3011788330f7bbf383ab653c6848902d7936a87b09d835d091e3f295f7e9dd1597c6daac5dc80f90e778c8230218ba8ad599f74adcc11e33b9d61b
+  checksum: 88e38092da8839b830cda6feef2e8505dec8ace60579e46aa5490fc3dc9bba0bd50336507dc166f43e3afc1c42939c09fe33b25fae889d6f402721dcd78fca1b
   languageName: node
   linkType: hard
 
