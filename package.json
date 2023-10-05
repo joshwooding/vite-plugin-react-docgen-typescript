@@ -15,7 +15,8 @@
     "biome": "biome format . --write",
     "biome:check": "biome check --apply-unsafe .",
     "biome:ci": "biome ci .",
-    "test": "vitest"
+    "test": "vitest",
+    "storybook": "yarn workspace playground storybook"
   },
   "devDependencies": {
     "@biomejs/biome": "1.2.2",
@@ -26,6 +27,9 @@
     "unbuild": "^1.0.2",
     "vite": "^5.0.0-beta.1",
     "vitest": "^0.25.8"
+  },
+  "resolutions": {
+    "@joshwooding/vite-plugin-react-docgen-typescript": "workspace:*"
   },
   "packageManager": "yarn@3.6.4"
 }
