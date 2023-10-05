@@ -19,6 +19,6 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Biome
-        run: yarn run biome:check
+        run: yarn run biome:ci
       - name: Test
         run: yarn run test

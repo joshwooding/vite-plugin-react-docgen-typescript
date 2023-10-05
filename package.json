@@ -32,7 +32,8 @@
   "scripts": {
     "build": "unbuild",
     "biome": "biome format . --write",
-    "biome:check": "biome ci .",
+    "biome:check": "biome check --apply-unsafe .",
+    "biome:ci": "biome ci .",
     "test": "vitest"
   },
   "dependencies": {
