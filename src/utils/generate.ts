@@ -3,9 +3,9 @@
  * But refactored to remove deprecated functions.
  **/
 
-import * as ts from "typescript";
-import type { ComponentDoc, PropItem } from "react-docgen-typescript";
 import MagicString, { SourceMap } from "magic-string";
+import type { ComponentDoc, PropItem } from "react-docgen-typescript";
+import * as ts from "typescript";
 
 export interface GeneratorOptions {
 	filename: string;

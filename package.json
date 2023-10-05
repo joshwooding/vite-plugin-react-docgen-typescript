@@ -31,8 +31,8 @@
   ],
   "scripts": {
     "build": "unbuild",
-    "rome": "rome format . --write",
-    "rome:check": "rome ci .",
+    "biome": "biome format . --write",
+    "biome:check": "biome ci .",
     "test": "vitest"
   },
   "dependencies": {
@@ -42,10 +42,10 @@
     "react-docgen-typescript": "^2.2.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.2.2",
     "@changesets/cli": "^2.25.2",
     "@types/react": "^17.0.38",
     "react": "^17.0.2",
-    "rome": "^12.0.0",
     "typescript": "^4.3.0",
     "unbuild": "^1.0.2",
     "vite": "^5.0.0-beta.1",

@@ -1,8 +1,8 @@
-import * as ts from "typescript";
-import { GeneratorOptions } from "./generate";
-import { defaultPropFilter } from "./filter";
-import { getTSConfigFile } from "./typescript";
 import * as docGen from "react-docgen-typescript";
+import * as ts from "typescript";
+import { defaultPropFilter } from "./filter";
+import { GeneratorOptions } from "./generate";
+import { getTSConfigFile } from "./typescript";
 
 interface LoaderOptions {
 	/**
