@@ -1,5 +1,5 @@
-import * as ts from "typescript";
 import * as path from "path";
+import * as ts from "typescript";
 
 /** Get the contents of the tsconfig in the system */
 

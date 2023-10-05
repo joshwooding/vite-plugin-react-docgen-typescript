@@ -1,6 +1,6 @@
-import { type Plugin, createFilter } from "vite";
 import * as path from "path";
 import glob from "glob-promise";
+import { type Plugin, createFilter } from "vite";
 import type { Options } from "./utils/options";
 
 const getUtils = async (config: Options) => {
