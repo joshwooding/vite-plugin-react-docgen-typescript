@@ -1,26 +1,56 @@
 import * as path from "path";
 import glob from "glob-promise";
-import { type Plugin, createFilter } from "vite";
+import { type FileParser } from "react-docgen-typescript";
+import { type Plugin } from "vite";
+import { defaultPropFilter } from "./utils/filter";
 import type { Options } from "./utils/options";
 
-const getUtils = async (config: Options) => {
+const getDocgen = async (config: Options) => {
 	const docGen = await import("react-docgen-typescript");
-	const { default: ts } = await import("typescript");
-	const { generateDocgenCodeBlock } = await import("./utils/generate");
-	const { getOptions } = await import("./utils/options");
 
-	const { docgenOptions, compilerOptions, generateOptions } =
-		getOptions(config);
-
-	const docGenParser = docGen.withCompilerOptions(
+	const {
+		tsconfigPath,
 		compilerOptions,
+		propFilter = defaultPropFilter,
+		setDisplayName,
+		typePropName,
+		...rest
+	} = config;
+
+	const docgenOptions = {
+		propFilter,
+		...rest,
+	};
+
+	return docGen.withCompilerOptions(
+		// Compiler Options are passed in to the custom program.
+		{},
 		docgenOptions,
 	);
-	const { exclude = ["**/**.stories.tsx"], include = ["**/**.tsx"] } =
-		docgenOptions;
-	const filter = createFilter(include, exclude);
+};
 
-	const files = include
+const getProgram = async (config: Options, oldProgram?: any) => {
+	const { default: ts } = await import("typescript");
+	const { getTSConfigFile } = await import("./utils/typescript");
+
+	let compilerOptions = {
+		jsx: ts.JsxEmit.React,
+		module: ts.ModuleKind.CommonJS,
+		target: ts.ScriptTarget.Latest,
+	};
+
+	if (config.compilerOptions) {
+		compilerOptions = {
+			...compilerOptions,
+			...config.compilerOptions,
+		};
+	} else {
+		const tsconfigPath = config.tsconfigPath ?? "./tsconfig.json";
+		const { options: tsOptions } = getTSConfigFile(tsconfigPath);
+		compilerOptions = { ...compilerOptions, ...tsOptions };
+	}
+
+	const files = (config.include ?? ["**/**.tsx"])
 		.map((filePath) =>
 			glob.sync(
 				path.isAbsolute(filePath)
@@ -30,38 +60,38 @@ const getUtils = async (config: Options) => {
 		)
 		.reduce((carry, files) => carry.concat(files), []);
 
-	const tsProgram = ts.createProgram(files, compilerOptions);
-
-	const result = {
-		docGenParser,
-		filter,
-		generateOptions,
-		generateDocgenCodeBlock,
-		tsProgram,
-	};
-
-	return result;
+	return ts.createProgram(files, compilerOptions, undefined, oldProgram);
 };
 
 export default function reactDocgenTypescript(config: Options = {}): Plugin {
-	const utilsPromise = getUtils(config);
+	let tsProgram: any;
+	let docGenParser: FileParser;
+	let generateDocgenCodeBlock: any;
+	let generateOptions: any;
+	let filter: any;
 
 	return {
 		name: "vite:react-docgen-typescript",
+		async configResolved() {
+			const { getGenerateOptions } = await import("./utils/options");
+			generateDocgenCodeBlock = (await import("./utils/generate"))
+				.generateDocgenCodeBlock;
+			const { createFilter } = await import("vite");
+
+			docGenParser = await getDocgen(config);
+			generateOptions = getGenerateOptions(config);
+			tsProgram = await getProgram(config);
+			filter = createFilter(
+				config.include ?? ["**/**.tsx"],
+				config.exclude ?? ["**/**.stories.tsx"],
+			);
+		},
 		async transform(src, id) {
+			if (!filter(id)) {
+				return;
+			}
+
 			try {
-				const {
-					filter,
-					docGenParser,
-					generateOptions,
-					generateDocgenCodeBlock,
-					tsProgram,
-				} = await utilsPromise;
-
-				if (!filter(id)) {
-					return;
-				}
-
 				const componentDocs = docGenParser.parseWithProgramProvider(
 					id,
 					() => tsProgram,
@@ -80,6 +110,9 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
 			} catch (e) {
 				return src;
 			}
+		},
+		async handleHotUpdate() {
+			tsProgram = await getProgram(config, tsProgram);
 		},
 	};
 }
