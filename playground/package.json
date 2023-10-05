@@ -1,0 +1,24 @@
+{
+  "name": "playground",
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript.git"
+  },
+  "dependencies": {
+    "@storybook/addon-essentials": "7.4.6",
+    "@storybook/addon-interactions": "7.4.6",
+    "@storybook/addon-links": "7.4.6",
+    "@storybook/addon-onboarding": "1.0.8",
+    "@storybook/blocks": "7.4.6",
+    "@storybook/react": "7.4.6",
+    "@storybook/react-vite": "7.4.6",
+    "@storybook/testing-library": "0.2.2",
+    "react-dom": "18.2.0",
+    "storybook": "7.4.6"
+  },
+  "private": true
+}
