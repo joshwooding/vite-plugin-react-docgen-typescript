@@ -13,6 +13,7 @@
     "sourceMap": true,
     "target": "es2018",
     "jsx": "react",
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "skipLibCheck": true
   }
 }

@@ -5,7 +5,7 @@
 
 import MagicString, { SourceMap } from "magic-string";
 import type { ComponentDoc, PropItem } from "react-docgen-typescript";
-import * as ts from "typescript";
+import ts from "typescript";
 
 export interface GeneratorOptions {
 	filename: string;
@@ -170,7 +170,7 @@ function createPropDefinition(
 	 * ```
 	 * @param [typeValue] Prop value (for enums)
 	 */
-	const setValue = (typeValue?: unknown[]) =>
+	const setValue = (typeValue?: any[]) =>
 		Array.isArray(typeValue) &&
 		typeValue.every((value) => typeof value.value === "string")
 			? ts.factory.createPropertyAssignment(

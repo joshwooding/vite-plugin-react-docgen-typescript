@@ -25,7 +25,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build": "unbuild"
+    "build": "unbuild",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "glob": "^7.2.0",

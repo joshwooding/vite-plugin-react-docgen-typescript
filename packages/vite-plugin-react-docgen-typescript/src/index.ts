@@ -1,4 +1,4 @@
-import * as path from "path";
+import { isAbsolute, join } from "node:path";
 import glob from "glob-promise";
 import { type FileParser } from "react-docgen-typescript";
 import { type Plugin } from "vite";
@@ -53,9 +53,7 @@ const getProgram = async (config: Options, oldProgram?: any) => {
 	const files = (config.include ?? ["**/**.tsx"])
 		.map((filePath) =>
 			glob.sync(
-				path.isAbsolute(filePath)
-					? filePath
-					: path.join(process.cwd(), filePath),
+				isAbsolute(filePath) ? filePath : join(process.cwd(), filePath),
 			),
 		)
 		.reduce((carry, files) => carry.concat(files), []);

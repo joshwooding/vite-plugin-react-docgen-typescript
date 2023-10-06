@@ -20,5 +20,7 @@ jobs:
         run: yarn
       - name: Biome
         run: yarn run biome:ci
+      - name: Typecheck
+        run: yarn run typecheck
       - name: Test
         run: yarn run test
