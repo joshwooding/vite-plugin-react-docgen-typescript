@@ -20,25 +20,26 @@ const defaultPropValueFixture = fixtureTests.find(
 describe("component fixture", () => {
 	fixtureTests.forEach((fixture) => {
 		it(`${path.basename(fixture.id)} has code block generated`, async () => {
+			const plugin = reactDocgenTypescript();
+			// @ts-ignore
+			await plugin.configResolved?.();
 			expect(
 				// @ts-ignore
-				await reactDocgenTypescript().transform?.call(
-					// @ts-ignore
-					{},
-					fixture.code,
-					fixture.id,
-				),
+				await plugin.transform?.call({}, fixture.code, fixture.id),
 			).toMatchSnapshot();
 		});
 	});
 });
 
 it("generates value info for enums", async () => {
+	const plugin = reactDocgenTypescript({
+		shouldExtractLiteralValuesFromEnum: true,
+	});
+	// @ts-ignore
+	await plugin.configResolved?.();
 	expect(
-		await reactDocgenTypescript({
-			shouldExtractLiteralValuesFromEnum: true,
-			// @ts-ignore
-		}).transform?.call(
+		// @ts-ignore
+		await plugin.transform?.call(
 			{},
 			defaultPropValueFixture?.code,
 			defaultPropValueFixture?.id,

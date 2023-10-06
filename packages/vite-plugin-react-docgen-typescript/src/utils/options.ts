@@ -1,8 +1,6 @@
 import * as docGen from "react-docgen-typescript";
-import * as ts from "typescript";
-import { defaultPropFilter } from "./filter";
+import type * as ts from "typescript";
 import { GeneratorOptions } from "./generate";
-import { getTSConfigFile } from "./typescript";
 
 interface LoaderOptions {
 	/**
@@ -49,45 +47,13 @@ export type DocGenOptions = docGen.ParserOptions & {
 
 export type Options = LoaderOptions & TypescriptOptions & DocGenOptions;
 
-export function getOptions(options: Options): {
-	docgenOptions: DocGenOptions;
-	generateOptions: Pick<GeneratorOptions, "setDisplayName" | "typePropName">;
-	compilerOptions: ts.CompilerOptions;
-} {
-	const {
-		tsconfigPath = "./tsconfig.json",
-		compilerOptions: userCompilerOptions,
-		setDisplayName = true,
-		typePropName = "type",
-		propFilter = defaultPropFilter,
-		...docgenOptions
-	} = options;
-
-	let compilerOptions = {
-		jsx: ts.JsxEmit.React,
-		module: ts.ModuleKind.CommonJS,
-		target: ts.ScriptTarget.Latest,
-	};
-
-	if (userCompilerOptions) {
-		compilerOptions = {
-			...compilerOptions,
-			...userCompilerOptions,
-		};
-	} else {
-		const { options: tsOptions } = getTSConfigFile(tsconfigPath);
-		compilerOptions = { ...compilerOptions, ...tsOptions };
-	}
+export function getGenerateOptions(
+	options: Options,
+): Pick<GeneratorOptions, "setDisplayName" | "typePropName"> {
+	const { setDisplayName = true, typePropName = "type" } = options;
 
 	return {
-		docgenOptions: {
-			propFilter,
-			...docgenOptions,
-		},
-		generateOptions: {
-			setDisplayName,
-			typePropName,
-		},
-		compilerOptions,
+		setDisplayName,
+		typePropName,
 	};
 }
