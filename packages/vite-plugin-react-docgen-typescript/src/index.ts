@@ -1,5 +1,5 @@
 import * as path from "path";
-import glob from "glob-promise";
+import { globSync } from "glob";
 import { type FileParser } from "react-docgen-typescript";
 import { type Plugin } from "vite";
 import { defaultPropFilter } from "./utils/filter";
@@ -52,7 +52,7 @@ const getProgram = async (config: Options, oldProgram?: any) => {
 
 	const files = (config.include ?? ["**/**.tsx"])
 		.map((filePath) =>
-			glob.sync(
+			globSync(
 				path.isAbsolute(filePath)
 					? filePath
 					: path.join(process.cwd(), filePath),
