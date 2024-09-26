@@ -1,6 +1,6 @@
 import { type FileParser } from "react-docgen-typescript";
 import type { CompilerOptions, Program } from "typescript";
-import { createFilter, type Plugin } from "vite";
+import { type Plugin } from "vite";
 import { defaultPropFilter } from "./utils/filter";
 import type { Options } from "./utils/options";
 
@@ -39,7 +39,7 @@ const startWatch = async (
 	const { default: ts } = await import("typescript");
 	const { getTSConfigFile } = await import("./utils/typescript");
 
-	let compilerOptions = {
+	let compilerOptions: CompilerOptions = {
 		jsx: ts.JsxEmit.React,
 		module: ts.ModuleKind.CommonJS,
 		target: ts.ScriptTarget.Latest,
@@ -78,11 +78,13 @@ const startWatch = async (
 };
 
 export default function reactDocgenTypescript(config: Options = {}): Plugin {
-	let tsProgram: any;
+	let tsProgram: Program;
 	let docGenParser: FileParser;
-	let generateDocgenCodeBlock: any;
-	let generateOptions: any;
-	let filter: any;
+	let generateDocgenCodeBlock: typeof import("./utils/generate")["generateDocgenCodeBlock"];
+	let generateOptions: ReturnType<
+		typeof import("./utils/options")["getGenerateOptions"]
+	>;
+	let filter: ReturnType<typeof import("vite")["createFilter"]>;
 	const moduleInvalidationQueue: Map<Filepath, InvalidateModule> = new Map();
 	let closeWatch: CloseWatch;
 
