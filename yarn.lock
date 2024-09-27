@@ -2559,7 +2559,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@joshwooding/vite-plugin-react-docgen-typescript@workspace:packages/vite-plugin-react-docgen-typescript"
   dependencies:
-    glob: ^10.0.0
     magic-string: ^0.27.0
     react-docgen-typescript: ^2.2.2
   peerDependencies:

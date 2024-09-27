@@ -1,9 +1,12 @@
-import * as path from "path";
-import { globSync } from "glob";
 import { type FileParser } from "react-docgen-typescript";
+import type { CompilerOptions, Program } from "typescript";
 import { type Plugin } from "vite";
 import { defaultPropFilter } from "./utils/filter";
 import type { Options } from "./utils/options";
+
+type Filepath = string;
+type InvalidateModule = () => void;
+type CloseWatch = () => void;
 
 const getDocgen = async (config: Options) => {
 	const docGen = await import("react-docgen-typescript");
@@ -29,15 +32,20 @@ const getDocgen = async (config: Options) => {
 	);
 };
 
-const getProgram = async (config: Options, oldProgram?: any) => {
+const startWatch = async (
+	config: Options,
+	onProgramCreatedOrUpdated: (program: Program) => void,
+) => {
 	const { default: ts } = await import("typescript");
 	const { getTSConfigFile } = await import("./utils/typescript");
 
-	let compilerOptions = {
+	let compilerOptions: CompilerOptions = {
 		jsx: ts.JsxEmit.React,
 		module: ts.ModuleKind.CommonJS,
 		target: ts.ScriptTarget.Latest,
 	};
+
+	const tsconfigPath = config.tsconfigPath ?? "./tsconfig.json";
 
 	if (config.compilerOptions) {
 		compilerOptions = {
@@ -45,30 +53,40 @@ const getProgram = async (config: Options, oldProgram?: any) => {
 			...config.compilerOptions,
 		};
 	} else {
-		const tsconfigPath = config.tsconfigPath ?? "./tsconfig.json";
 		const { options: tsOptions } = getTSConfigFile(tsconfigPath);
 		compilerOptions = { ...compilerOptions, ...tsOptions };
 	}
 
-	const files = (config.include ?? ["**/**.tsx"])
-		.map((filePath) =>
-			globSync(
-				path.isAbsolute(filePath)
-					? filePath
-					: path.join(process.cwd(), filePath),
-			),
-		)
-		.reduce((carry, files) => carry.concat(files), []);
+	const host = ts.createWatchCompilerHost(
+		tsconfigPath,
+		compilerOptions,
+		ts.sys,
+		ts.createSemanticDiagnosticsBuilderProgram,
+		undefined,
+		() => {
+			/* suppress message */
+		},
+	);
+	host.afterProgramCreate = (program) => {
+		onProgramCreatedOrUpdated(program.getProgram());
+	};
 
-	return ts.createProgram(files, compilerOptions, undefined, oldProgram);
+	return new Promise<[Program, CloseWatch]>((resolve) => {
+		const watch = ts.createWatchProgram(host);
+		resolve([watch.getProgram().getProgram(), watch.close]);
+	});
 };
 
 export default function reactDocgenTypescript(config: Options = {}): Plugin {
-	let tsProgram: any;
+	let tsProgram: Program;
 	let docGenParser: FileParser;
-	let generateDocgenCodeBlock: any;
-	let generateOptions: any;
-	let filter: any;
+	let generateDocgenCodeBlock: typeof import("./utils/generate")["generateDocgenCodeBlock"];
+	let generateOptions: ReturnType<
+		typeof import("./utils/options")["getGenerateOptions"]
+	>;
+	let filter: ReturnType<typeof import("vite")["createFilter"]>;
+	const moduleInvalidationQueue: Map<Filepath, InvalidateModule> = new Map();
+	let closeWatch: CloseWatch;
 
 	return {
 		name: "vite:react-docgen-typescript",
@@ -80,7 +98,16 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
 
 			docGenParser = await getDocgen(config);
 			generateOptions = getGenerateOptions(config);
-			tsProgram = await getProgram(config);
+			[tsProgram, closeWatch] = await startWatch(config, (program) => {
+				tsProgram = program;
+
+				Array.from(moduleInvalidationQueue.entries()).forEach(
+					([filepath, invalidateModule]) => {
+						invalidateModule();
+						moduleInvalidationQueue.delete(filepath);
+					},
+				);
+			});
 			filter = createFilter(
 				config.include ?? ["**/**.tsx"],
 				config.exclude ?? ["**/**.stories.tsx"],
@@ -111,8 +138,23 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
 				return src;
 			}
 		},
-		async handleHotUpdate() {
-			tsProgram = await getProgram(config, tsProgram);
+		async handleHotUpdate({ file, server, modules }) {
+			if (!filter(file)) return;
+
+			const module = modules.find((mod) => mod.file === file);
+			if (!module) return;
+
+			moduleInvalidationQueue.set(file, () => {
+				server.moduleGraph.invalidateModule(
+					module,
+					undefined,
+					Date.now(),
+					true,
+				);
+			});
+		},
+		closeBundle() {
+			closeWatch();
 		},
 	};
 }
