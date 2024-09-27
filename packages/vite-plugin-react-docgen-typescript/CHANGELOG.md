@@ -1,5 +1,11 @@
 # @joshwooding/vite-plugin-react-docgen-typescript
 
+## 0.4.1
+
+### Patch Changes
+
+- 12793a6: Improved performance
+
 ## 0.4.0
 
 ### Minor Changes
