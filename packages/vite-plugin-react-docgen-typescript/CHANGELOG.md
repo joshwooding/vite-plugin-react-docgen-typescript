@@ -1,5 +1,11 @@
 # @joshwooding/vite-plugin-react-docgen-typescript
 
+## 0.4.2
+
+### Patch Changes
+
+- ea58da3: Support Vite 6
+
 ## 0.4.1
 
 ### Patch Changes
