@@ -16,6 +16,7 @@
     "biome:check": "biome check --write --unsafe .",
     "biome:ci": "biome ci .",
     "test": "vitest",
+    "typecheck": "yarn workspace @joshwooding/vite-plugin-react-docgen-typescript typecheck",
     "storybook": "yarn workspace playground storybook"
   },
   "devDependencies": {
