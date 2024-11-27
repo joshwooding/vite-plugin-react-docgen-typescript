@@ -9,16 +9,16 @@
     "url": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript.git"
   },
   "dependencies": {
-    "@storybook/addon-essentials": "7.4.6",
-    "@storybook/addon-interactions": "7.4.6",
-    "@storybook/addon-links": "7.4.6",
-    "@storybook/addon-onboarding": "1.0.8",
-    "@storybook/blocks": "7.4.6",
-    "@storybook/react": "7.4.6",
-    "@storybook/react-vite": "7.4.6",
-    "@storybook/testing-library": "0.2.2",
+    "@storybook/addon-essentials": "^8.4.5",
+    "@storybook/addon-interactions": "^8.4.5",
+    "@storybook/addon-links": "^8.4.5",
+    "@storybook/addon-onboarding": "^8.4.5",
+    "@storybook/blocks": "^8.4.5",
+    "@storybook/react": "^8.4.5",
+    "@storybook/react-vite": "^8.4.5",
+    "@storybook/test": "8.4.5",
     "react-dom": "18.2.0",
-    "storybook": "7.4.6"
+    "storybook": "^8.4.5"
   },
   "private": true
 }
