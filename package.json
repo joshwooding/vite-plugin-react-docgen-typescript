@@ -13,13 +13,13 @@
   "scripts": {
     "build": "yarn workspace @joshwooding/vite-plugin-react-docgen-typescript build",
     "biome": "biome format . --write",
-    "biome:check": "biome check --apply-unsafe .",
+    "biome:check": "biome check --write --unsafe .",
     "biome:ci": "biome ci .",
     "test": "vitest",
     "storybook": "yarn workspace playground storybook"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.2.2",
+    "@biomejs/biome": "1.9.4",
     "@changesets/cli": "^2.25.2",
     "@types/react": "^18.0.0",
     "react": "^18.0.0",
