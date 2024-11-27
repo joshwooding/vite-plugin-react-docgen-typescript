@@ -2,18 +2,23 @@
   "include": ["src"],
   "exclude": ["**/__tests__"],
   "compilerOptions": {
-    "declaration": true,
+    "target": "ES2018",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
     "esModuleInterop": true,
-    "lib": ["es2018"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noUnusedLocals": true,
-    "outDir": "dist",
+
     "strict": true,
-    "sourceMap": true,
-    "target": "es2018",
-    "jsx": "react",
-    "strictNullChecks": true,
-    "skipLibCheck": true
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "strictNullChecks": true
   }
 }

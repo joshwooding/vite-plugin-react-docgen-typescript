@@ -170,7 +170,7 @@ function createPropDefinition(
    * ```
    * @param [typeValue] Prop value (for enums)
    */
-  const setValue = (typeValue?: unknown[]) =>
+  const setValue = (typeValue?: any[]) =>
     Array.isArray(typeValue) &&
     typeValue.every((value) => typeof value.value === "string")
       ? ts.factory.createPropertyAssignment(
