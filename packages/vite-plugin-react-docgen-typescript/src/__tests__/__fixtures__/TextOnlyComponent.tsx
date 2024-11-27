@@ -6,5 +6,5 @@ import * as React from "react";
  * Ref: https://github.com/strothj/react-docgen-typescript-loader/issues/7
  */
 export const SimpleComponent: React.FC<{}> = () => (
-	<div>Test only component</div>
+  <div>Test only component</div>
 );

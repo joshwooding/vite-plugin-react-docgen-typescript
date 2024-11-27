@@ -1,8 +1,8 @@
 import * as React from "react";
 
 interface MultilineDescriptionProps {
-	/** Button color. */
-	color: "blue" | "green";
+  /** Button color. */
+  color: "blue" | "green";
 }
 
 /**
@@ -11,7 +11,7 @@ interface MultilineDescriptionProps {
  * Second line.
  */
 export const MultilineDescriptionComponent: React.FC<
-	MultilineDescriptionProps
+  MultilineDescriptionProps
 > = (props) => (
-	<button style={{ backgroundColor: props.color }}>{props.children}</button>
+  <button style={{ backgroundColor: props.color }}>{props.children}</button>
 );
