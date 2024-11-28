@@ -1,5 +1,5 @@
-import type docGen from "react-docgen-typescript";
-import type ts from "typescript";
+import type { ParserOptions } from "react-docgen-typescript";
+import type { CompilerOptions } from "typescript";
 import type { GeneratorOptions } from "./generate";
 
 interface LoaderOptions {
@@ -35,10 +35,10 @@ interface TypescriptOptions {
    **/
   tsconfigPath?: string;
   /** Specify TypeScript compiler options. Can not be used with tsconfigPath. */
-  compilerOptions?: ts.CompilerOptions;
+  compilerOptions?: CompilerOptions;
 }
 
-export type DocGenOptions = docGen.ParserOptions & {
+export type DocGenOptions = ParserOptions & {
   /** Glob patterns to ignore */
   exclude?: string[];
   /** Glob patterns to include. defaults to ts|tsx */
