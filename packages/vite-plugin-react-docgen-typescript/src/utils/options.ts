@@ -43,6 +43,8 @@ export type DocGenOptions = ParserOptions & {
   exclude?: string[];
   /** Glob patterns to include. defaults to ts|tsx */
   include?: string[];
+  /** experimental watch mode */
+  EXPERIMENTAL_useWatchProgram?: boolean;
 };
 
 export type Options = LoaderOptions & TypescriptOptions & DocGenOptions;
