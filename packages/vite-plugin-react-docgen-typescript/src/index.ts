@@ -1,3 +1,4 @@
+import path from "node:path";
 import type { FileParser } from "react-docgen-typescript";
 import type { CompilerOptions, Program } from "typescript";
 import type { Plugin } from "vite";
@@ -17,6 +18,7 @@ const getDocgen = async (config: Options) => {
     propFilter = defaultPropFilter,
     setDisplayName,
     typePropName,
+    EXPERIMENTAL_useWatchProgram,
     ...rest
   } = config;
 
@@ -32,10 +34,7 @@ const getDocgen = async (config: Options) => {
   );
 };
 
-const startWatch = async (
-  config: Options,
-  onProgramCreatedOrUpdated: (program: Program) => void,
-) => {
+const getCompilerOptions = async (config: Options, tsconfigPath: string) => {
   const { default: ts } = await import("typescript");
   const { getTSConfigFile } = await import("./utils/typescript");
 
@@ -44,8 +43,6 @@ const startWatch = async (
     module: ts.ModuleKind.CommonJS,
     target: ts.ScriptTarget.Latest,
   };
-
-  const tsconfigPath = config.tsconfigPath ?? "./tsconfig.json";
 
   if (config.compilerOptions) {
     compilerOptions = {
@@ -56,6 +53,36 @@ const startWatch = async (
     const { options: tsOptions } = getTSConfigFile(tsconfigPath);
     compilerOptions = { ...compilerOptions, ...tsOptions };
   }
+
+  return compilerOptions;
+};
+
+const createProgram = async (
+  compilerOptions: CompilerOptions,
+  includeArray: string[],
+) => {
+  const { default: ts } = await import("typescript");
+  const { globSync } = await import("glob");
+
+  const files = includeArray
+    .map((filePath) =>
+      globSync(
+        path.isAbsolute(filePath)
+          ? filePath
+          : path.posix.join(process.cwd(), filePath),
+      ),
+    )
+    .reduce((carry, files) => carry.concat(files), []);
+
+  return ts.createProgram(files, compilerOptions);
+};
+
+const startWatch = async (
+  compilerOptions: CompilerOptions,
+  tsconfigPath: string,
+  onProgramCreatedOrUpdated: (program: Program) => void,
+) => {
+  const { default: ts } = await import("typescript");
 
   const host = ts.createWatchCompilerHost(
     tsconfigPath,
@@ -101,21 +128,35 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
 
       docGenParser = await getDocgen(config);
       generateOptions = getGenerateOptions(config);
-      [tsProgram, closeWatch] = await startWatch(config, (program) => {
-        tsProgram = program;
+      const tsconfigPath = config.tsconfigPath ?? "./tsconfig.json";
+      const compilerOptions = await getCompilerOptions(config, tsconfigPath);
 
-        for (const [
-          filepath,
-          invalidateModule,
-        ] of moduleInvalidationQueue.entries()) {
-          invalidateModule();
-          moduleInvalidationQueue.delete(filepath);
-        }
-      });
+      const includeArray = config.include ?? ["**/**.tsx"];
+
       filter = createFilter(
-        config.include ?? ["**/**.tsx"],
+        includeArray,
         config.exclude ?? ["**/**.stories.tsx"],
       );
+
+      if (config.EXPERIMENTAL_useWatchProgram) {
+        [tsProgram, closeWatch] = await startWatch(
+          compilerOptions,
+          tsconfigPath,
+          (program) => {
+            tsProgram = program;
+
+            for (const [
+              filepath,
+              invalidateModule,
+            ] of moduleInvalidationQueue.entries()) {
+              invalidateModule();
+              moduleInvalidationQueue.delete(filepath);
+            }
+          },
+        );
+      } else {
+        tsProgram = await createProgram(compilerOptions, includeArray);
+      }
     },
     async transform(src, id) {
       if (!filter(id)) {
@@ -143,6 +184,7 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
       }
     },
     async handleHotUpdate({ file, server, modules }) {
+      if (!config.EXPERIMENTAL_useWatchProgram) return;
       if (!filter(file)) return;
 
       const module = modules.find((mod) => mod.file === file);
@@ -158,6 +200,7 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
       });
     },
     closeBundle() {
+      if (!config.EXPERIMENTAL_useWatchProgram) return;
       closeWatch();
     },
   };

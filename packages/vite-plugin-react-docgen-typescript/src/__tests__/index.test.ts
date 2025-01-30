@@ -49,3 +49,40 @@ it("generates value info for enums", async () => {
     ),
   ).toMatchSnapshot();
 });
+
+describe("EXPERIMENTAL_useWatchProgram", () => {
+  describe("component fixture", () => {
+    fixtureTests.forEach((fixture) => {
+      it(`${basename(fixture.id)} has code block generated`, async () => {
+        const plugin = reactDocgenTypescript({
+          EXPERIMENTAL_useWatchProgram: true,
+          tsconfigPath: tsconfigPathForTest,
+        });
+        // @ts-ignore
+        await plugin.configResolved?.();
+        expect(
+          // @ts-ignore
+          await plugin.transform?.call({}, fixture.code, fixture.id),
+        ).toMatchSnapshot();
+      });
+    });
+  });
+
+  it("generates value info for enums", async () => {
+    const plugin = reactDocgenTypescript({
+      EXPERIMENTAL_useWatchProgram: true,
+      tsconfigPath: tsconfigPathForTest,
+      shouldExtractLiteralValuesFromEnum: true,
+    });
+    // @ts-ignore
+    await plugin.configResolved?.();
+    expect(
+      // @ts-ignore
+      await plugin.transform?.call(
+        {},
+        defaultPropValueFixture?.code,
+        defaultPropValueFixture?.id,
+      ),
+    ).toMatchSnapshot();
+  });
+});
