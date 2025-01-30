@@ -1,5 +1,17 @@
 # @joshwooding/vite-plugin-react-docgen-typescript
 
+## 0.5.0
+
+### Minor Changes
+
+- ec0f7c3: - Update build tooling
+  - Fix typescript and path imports
+  - Refactor loops to improve performance
+
+### Patch Changes
+
+- 463faf4: Added `EXPERIMENTAL_useWatchProgram` to enable experimental watch behaviour.
+
 ## 0.4.2
 
 ### Patch Changes
