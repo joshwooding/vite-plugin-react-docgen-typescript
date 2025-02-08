@@ -203,5 +203,9 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
       if (!config.EXPERIMENTAL_useWatchProgram) return;
       closeWatch();
     },
+    buildEnd() {
+      if (!config.EXPERIMENTAL_useWatchProgram) return;
+      closeWatch();
+    },
   };
 }
