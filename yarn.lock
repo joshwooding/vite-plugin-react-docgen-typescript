@@ -772,7 +772,7 @@ __metadata:
   resolution: "@joshwooding/vite-plugin-react-docgen-typescript@workspace:packages/vite-plugin-react-docgen-typescript"
   dependencies:
     glob: "npm:^10.0.0"
-    magic-string: "npm:^0.27.0"
+    magic-string: "npm:^0.30.0"
     react-docgen-typescript: "npm:^2.2.2"
   peerDependencies:
     typescript: ">= 4.3.x"
@@ -808,7 +808,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jridgewell/sourcemap-codec@npm:^1.4.10, @jridgewell/sourcemap-codec@npm:^1.4.13, @jridgewell/sourcemap-codec@npm:^1.4.14, @jridgewell/sourcemap-codec@npm:^1.5.0":
+"@jridgewell/sourcemap-codec@npm:^1.4.10, @jridgewell/sourcemap-codec@npm:^1.4.14, @jridgewell/sourcemap-codec@npm:^1.5.0":
   version: 1.5.0
   resolution: "@jridgewell/sourcemap-codec@npm:1.5.0"
   checksum: 10/4ed6123217569a1484419ac53f6ea0d9f3b57e5b57ab30d7c267bdb27792a27eb0e4b08e84a2680aa55cc2f2b411ffd6ec3db01c44fdc6dc43aca4b55f8374fd
@@ -4265,15 +4265,6 @@ __metadata:
   bin:
     lz-string: bin/bin.js
   checksum: 10/e86f0280e99a8d8cd4eef24d8601ddae15ce54e43ac9990dfcb79e1e081c255ad24424a30d78d2ad8e51a8ce82a66a930047fed4b4aa38c6f0b392ff9300edfc
-  languageName: node
-  linkType: hard
-
-"magic-string@npm:^0.27.0":
-  version: 0.27.0
-  resolution: "magic-string@npm:0.27.0"
-  dependencies:
-    "@jridgewell/sourcemap-codec": "npm:^1.4.13"
-  checksum: 10/10a18a48d22fb14467d6cb4204aba58d6790ae7ba023835dc7a65e310cf216f042a17fab1155ba43e47117310a9b7c3fd3bb79f40be40f5124d6b1af9e96399b
   languageName: node
   linkType: hard
 
