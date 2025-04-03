@@ -2,4 +2,4 @@
 "@joshwooding/vite-plugin-react-docgen-typescript": patch
 ---
 
-Add closeWatch call to buildEnd hook
+Fixed builds hanging if `EXPERIMENTAL_useWatchProgram` is enabled.
