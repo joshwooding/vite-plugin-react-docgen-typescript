@@ -45,6 +45,8 @@ export type DocGenOptions = ParserOptions & {
   include?: string[];
   /** experimental watch mode */
   EXPERIMENTAL_useWatchProgram?: boolean;
+  /** experimental project service */
+  EXPERIMENTAL_useProjectService?: boolean;
 };
 
 export type Options = LoaderOptions & TypescriptOptions & DocGenOptions;
