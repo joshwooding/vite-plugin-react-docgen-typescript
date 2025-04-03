@@ -1,6 +1,8 @@
+import fs from "node:fs/promises";
 import path from "node:path";
 import type { FileParser } from "react-docgen-typescript";
 import type { CompilerOptions, Program } from "typescript";
+import type * as tss from "typescript/lib/tsserverlibrary";
 import type { Plugin } from "vite";
 import { defaultPropFilter } from "./utils/filter";
 import type { Options } from "./utils/options";
@@ -77,6 +79,47 @@ const createProgram = async (
   return ts.createProgram(files, compilerOptions);
 };
 
+const doNothing = (): void => {};
+const createStubFileWatcher = (): tss.FileWatcher => ({
+  close: doNothing,
+});
+
+const createProjectService = async () => {
+  const { default: tsserver } = await import(
+    "typescript/lib/tsserverlibrary.js"
+  );
+
+  const system: tss.server.ServerHost = {
+    ...tsserver.sys,
+    clearImmediate,
+    clearTimeout,
+    setImmediate,
+    setTimeout,
+    watchDirectory: createStubFileWatcher,
+    watchFile: createStubFileWatcher,
+  };
+
+  return new tsserver.server.ProjectService({
+    cancellationToken: { isCancellationRequested: (): boolean => false },
+    host: system,
+    jsDocParsingMode: 0,
+    logger: {
+      close: doNothing,
+      endGroup: doNothing,
+      getLogFileName: () => undefined,
+      hasLevel: () => false,
+      info: doNothing,
+      loggingEnabled: () => false,
+      msg: doNothing,
+      perftrc: doNothing,
+      startGroup: doNothing,
+    },
+    session: undefined,
+    useInferredProjectPerProjectRoot: false,
+    useSingleInferredProject: false,
+  });
+};
+
 const startWatch = async (
   compilerOptions: CompilerOptions,
   tsconfigPath: string,
@@ -115,8 +158,10 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
     typeof import("./utils/options")["getGenerateOptions"]
   >;
   let filter: ReturnType<typeof import("vite")["createFilter"]>;
-  const moduleInvalidationQueue: Map<Filepath, InvalidateModule> = new Map();
+  const moduleInvalidationQueue = new Map<Filepath, InvalidateModule>();
   let closeWatch: CloseWatch;
+
+  let projectService: tss.server.ProjectService | null = null;
 
   return {
     name: "vite:react-docgen-typescript",
@@ -137,6 +182,11 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
         includeArray,
         config.exclude ?? ["**/**.stories.tsx"],
       );
+
+      if (config.EXPERIMENTAL_useProjectService) {
+        projectService = await createProjectService();
+        return;
+      }
 
       if (config.EXPERIMENTAL_useWatchProgram) {
         [tsProgram, closeWatch] = await startWatch(
@@ -162,12 +212,35 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
       if (!filter(id)) {
         return;
       }
-
+      const source = await fs.readFile(id, "utf-8");
       try {
-        const componentDocs = docGenParser.parseWithProgramProvider(
-          id,
-          () => tsProgram,
-        );
+        const componentDocs = docGenParser.parseWithProgramProvider(id, () => {
+          if (tsProgram) {
+            return tsProgram;
+          }
+
+          projectService?.openClientFile(
+            id,
+            source,
+            /* scriptKind */ undefined,
+            projectService?.currentDirectory,
+          );
+
+          const scriptInfo = projectService?.getScriptInfo(id);
+
+          if (scriptInfo?.fileName) {
+            const languageServiceProgram = projectService
+              ?.getDefaultProjectForFile(scriptInfo?.fileName, true)
+              ?.getLanguageService(true)
+              .getProgram();
+
+            if (languageServiceProgram) {
+              return languageServiceProgram;
+            }
+          }
+
+          throw new Error("Internal Error: No program available");
+        });
 
         if (!componentDocs.length) {
           return null;
