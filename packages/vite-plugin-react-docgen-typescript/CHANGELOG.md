@@ -1,5 +1,16 @@
 # @joshwooding/vite-plugin-react-docgen-typescript
 
+## 0.6.0
+
+### Minor Changes
+
+- 0a0861f: Added `EXPERIMENTAL_useProjectService`. This option enables an experimental mode that uses the TS project service to enable HMR support.
+
+### Patch Changes
+
+- f2e2a5a: Fixed builds hanging if `EXPERIMENTAL_useWatchProgram` is enabled.
+- 0c56631: Update magic-string
+
 ## 0.5.0
 
 ### Minor Changes
