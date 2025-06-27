@@ -1,5 +1,11 @@
 # @joshwooding/vite-plugin-react-docgen-typescript
 
+## 0.6.1
+
+### Patch Changes
+
+- c969a90: Expand vite peer dep range to support v7
+
 ## 0.6.0
 
 ### Minor Changes
