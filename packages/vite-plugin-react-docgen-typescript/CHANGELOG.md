@@ -1,5 +1,11 @@
 # @joshwooding/vite-plugin-react-docgen-typescript
 
+## 0.6.2
+
+### Patch Changes
+
+- ccb303e: Fixed sourcemap generation.
+
 ## 0.6.1
 
 ### Patch Changes
