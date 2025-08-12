@@ -24,16 +24,7 @@ try {
     DefaultExport.__docgenInfo = { "description": "A simple component.", "displayName": "DefaultExport", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;;AAEA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -63,16 +54,7 @@ try {
     DefaultExportComponentWithDisplayName.__docgenInfo = { "description": "A simple component.", "displayName": "DefaultExportComponentWithDisplayName", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;;AAEA;;AAEA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -122,16 +104,7 @@ try {
     DefaultPropValueComponent.__docgenInfo = { "description": "Component with a prop with a default value.", "displayName": "DefaultPropValueComponent", "props": { "color": { "defaultValue": { value: "blue" }, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } }, "counter": { "defaultValue": { value: 123 }, "description": "Button counter.", "name": "counter", "required": false, "type": { "name": "number" } }, "disabled": { "defaultValue": { value: false }, "description": "Button disabled.", "name": "disabled", "required": false, "type": { "name": "boolean" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -161,16 +134,7 @@ try {
     HyphenatedPropNameComponent.__docgenInfo = { "description": "A component with a hyphenated prop name.", "displayName": "HyphenatedPropNameComponent", "props": { "button-color": { "defaultValue": null, "description": "Button color.", "name": "button-color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -199,16 +163,7 @@ try {
     MultiPropsComponent.__docgenInfo = { "description": "This is a component with multiple props.", "displayName": "MultiPropsComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } }, "size": { "defaultValue": null, "description": "Button size.", "name": "size", "required": true, "type": { "name": "\\"small\\" | \\"large\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;;AAEA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -238,16 +193,7 @@ try {
     MultilineDescriptionComponent.__docgenInfo = { "description": "A component with a multiline description.\\n\\nSecond line.", "displayName": "MultilineDescriptionComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -279,16 +225,7 @@ try {
     MultilinePropDescriptionComponent.__docgenInfo = { "description": "A component with multiline prop description.", "displayName": "MultilinePropDescriptionComponent", "props": { "color": { "defaultValue": null, "description": "This is a multiline prop description.\\n\\nSecond line.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -314,16 +251,7 @@ try {
     SimpleComponent.__docgenInfo = { "description": "A simple component.", "displayName": "SimpleComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -351,16 +279,7 @@ try {
     SimpleComponentWithDisplayName.__docgenInfo = { "description": "A simple component.", "displayName": "SimpleComponentWithDisplayName", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;;AAEA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -383,16 +302,7 @@ try {
     SimpleComponent.__docgenInfo = { "description": "A component with only text content wrapped in a div.\\n\\nRef: https://github.com/strothj/react-docgen-typescript-loader/issues/7", "displayName": "SimpleComponent", "props": {} };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -442,16 +352,7 @@ try {
     DefaultPropValueComponent.__docgenInfo = { "description": "Component with a prop with a default value.", "displayName": "DefaultPropValueComponent", "props": { "color": { "defaultValue": { value: "blue" }, "description": "Button color.", "name": "color", "required": true, "type": { "name": "enum", "value": [{ "value": "\\"blue\\"" }, { "value": "\\"green\\"" }] } }, "counter": { "defaultValue": { value: 123 }, "description": "Button counter.", "name": "counter", "required": false, "type": { "name": "number" } }, "disabled": { "defaultValue": { value: false }, "description": "Button disabled.", "name": "disabled", "required": false, "type": { "name": "boolean" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -479,16 +380,7 @@ try {
     DefaultExport.__docgenInfo = { "description": "A simple component.", "displayName": "DefaultExport", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;;AAEA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -518,16 +410,7 @@ try {
     DefaultExportComponentWithDisplayName.__docgenInfo = { "description": "A simple component.", "displayName": "DefaultExportComponentWithDisplayName", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;;AAEA;;AAEA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -577,16 +460,7 @@ try {
     DefaultPropValueComponent.__docgenInfo = { "description": "Component with a prop with a default value.", "displayName": "DefaultPropValueComponent", "props": { "color": { "defaultValue": { value: "blue" }, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } }, "counter": { "defaultValue": { value: 123 }, "description": "Button counter.", "name": "counter", "required": false, "type": { "name": "number" } }, "disabled": { "defaultValue": { value: false }, "description": "Button disabled.", "name": "disabled", "required": false, "type": { "name": "boolean" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -616,16 +490,7 @@ try {
     HyphenatedPropNameComponent.__docgenInfo = { "description": "A component with a hyphenated prop name.", "displayName": "HyphenatedPropNameComponent", "props": { "button-color": { "defaultValue": null, "description": "Button color.", "name": "button-color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -654,16 +519,7 @@ try {
     MultiPropsComponent.__docgenInfo = { "description": "This is a component with multiple props.", "displayName": "MultiPropsComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } }, "size": { "defaultValue": null, "description": "Button size.", "name": "size", "required": true, "type": { "name": "\\"small\\" | \\"large\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;;AAEA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -693,16 +549,7 @@ try {
     MultilineDescriptionComponent.__docgenInfo = { "description": "A component with a multiline description.\\n\\nSecond line.", "displayName": "MultilineDescriptionComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -734,16 +581,7 @@ try {
     MultilinePropDescriptionComponent.__docgenInfo = { "description": "A component with multiline prop description.", "displayName": "MultilinePropDescriptionComponent", "props": { "color": { "defaultValue": null, "description": "This is a multiline prop description.\\n\\nSecond line.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -769,16 +607,7 @@ try {
     SimpleComponent.__docgenInfo = { "description": "A simple component.", "displayName": "SimpleComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -806,16 +635,7 @@ try {
     SimpleComponentWithDisplayName.__docgenInfo = { "description": "A simple component.", "displayName": "SimpleComponentWithDisplayName", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;;AAEA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -838,16 +658,7 @@ try {
     SimpleComponent.__docgenInfo = { "description": "A component with only text content wrapped in a div.\\n\\nRef: https://github.com/strothj/react-docgen-typescript-loader/issues/7", "displayName": "SimpleComponent", "props": {} };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -897,16 +708,7 @@ try {
     DefaultPropValueComponent.__docgenInfo = { "description": "Component with a prop with a default value.", "displayName": "DefaultPropValueComponent", "props": { "color": { "defaultValue": { value: "blue" }, "description": "Button color.", "name": "color", "required": true, "type": { "name": "enum", "value": [{ "value": "\\"blue\\"" }, { "value": "\\"green\\"" }] } }, "counter": { "defaultValue": { value: 123 }, "description": "Button counter.", "name": "counter", "required": false, "type": { "name": "number" } }, "disabled": { "defaultValue": { value: false }, "description": "Button disabled.", "name": "disabled", "required": false, "type": { "name": "boolean" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -934,16 +736,7 @@ try {
     DefaultExport.__docgenInfo = { "description": "A simple component.", "displayName": "DefaultExport", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;;AAEA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -973,16 +766,7 @@ try {
     DefaultExportComponentWithDisplayName.__docgenInfo = { "description": "A simple component.", "displayName": "DefaultExportComponentWithDisplayName", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;;AAEA;;AAEA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -1032,16 +816,7 @@ try {
     DefaultPropValueComponent.__docgenInfo = { "description": "Component with a prop with a default value.", "displayName": "DefaultPropValueComponent", "props": { "color": { "defaultValue": { value: "blue" }, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } }, "counter": { "defaultValue": { value: 123 }, "description": "Button counter.", "name": "counter", "required": false, "type": { "name": "number" } }, "disabled": { "defaultValue": { value: false }, "description": "Button disabled.", "name": "disabled", "required": false, "type": { "name": "boolean" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -1071,16 +846,7 @@ try {
     HyphenatedPropNameComponent.__docgenInfo = { "description": "A component with a hyphenated prop name.", "displayName": "HyphenatedPropNameComponent", "props": { "button-color": { "defaultValue": null, "description": "Button color.", "name": "button-color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -1109,16 +875,7 @@ try {
     MultiPropsComponent.__docgenInfo = { "description": "This is a component with multiple props.", "displayName": "MultiPropsComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } }, "size": { "defaultValue": null, "description": "Button size.", "name": "size", "required": true, "type": { "name": "\\"small\\" | \\"large\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;;AAEA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -1148,16 +905,7 @@ try {
     MultilineDescriptionComponent.__docgenInfo = { "description": "A component with a multiline description.\\n\\nSecond line.", "displayName": "MultilineDescriptionComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -1189,16 +937,7 @@ try {
     MultilinePropDescriptionComponent.__docgenInfo = { "description": "A component with multiline prop description.", "displayName": "MultilinePropDescriptionComponent", "props": { "color": { "defaultValue": null, "description": "This is a multiline prop description.\\n\\nSecond line.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -1224,16 +963,7 @@ try {
     SimpleComponent.__docgenInfo = { "description": "A simple component.", "displayName": "SimpleComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -1261,16 +991,7 @@ try {
     SimpleComponentWithDisplayName.__docgenInfo = { "description": "A simple component.", "displayName": "SimpleComponentWithDisplayName", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;;AAEA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -1293,16 +1014,7 @@ try {
     SimpleComponent.__docgenInfo = { "description": "A component with only text content wrapped in a div.\\n\\nRef: https://github.com/strothj/react-docgen-typescript-loader/issues/7", "displayName": "SimpleComponent", "props": {} };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
 
@@ -1352,15 +1064,6 @@ try {
     DefaultPropValueComponent.__docgenInfo = { "description": "Component with a prop with a default value.", "displayName": "DefaultPropValueComponent", "props": { "color": { "defaultValue": { value: "blue" }, "description": "Button color.", "name": "color", "required": true, "type": { "name": "enum", "value": [{ "value": "\\"blue\\"" }, { "value": "\\"green\\"" }] } }, "counter": { "defaultValue": { value: 123 }, "description": "Button counter.", "name": "counter", "required": false, "type": { "name": "number" } }, "disabled": { "defaultValue": { value: false }, "description": "Button disabled.", "name": "disabled", "required": false, "type": { "name": "boolean" } } } };
 }
 catch (__react_docgen_typescript_loader_error) { }",
-  "map": SourceMap {
-    "file": undefined,
-    "mappings": "AAAA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;",
-    "names": [],
-    "sources": [
-      "",
-    ],
-    "sourcesContent": undefined,
-    "version": 3,
-  },
+  "map": null,
 }
 `;
