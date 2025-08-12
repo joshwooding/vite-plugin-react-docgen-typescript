@@ -3,7 +3,6 @@
  * But refactored to remove deprecated functions.
  **/
 
-import MagicString, { type SourceMap } from "magic-string";
 import type { ComponentDoc, PropItem } from "react-docgen-typescript";
 import ts from "typescript";
 
@@ -274,7 +273,7 @@ function setComponentDocGen(
 
 export function generateDocgenCodeBlock(options: GeneratorOptions): {
   code: string;
-  map: SourceMap;
+  map: null;
 } {
   const sourceFile = ts.createSourceFile(
     options.filename,
@@ -307,14 +306,14 @@ export function generateDocgenCodeBlock(options: GeneratorOptions): {
   const printNode = (sourceNode: ts.Node) =>
     printer.printNode(ts.EmitHint.Unspecified, sourceNode, sourceFile);
 
-  const s = new MagicString(options.source);
+  let s = options.source;
 
   for (const node of codeBlocks) {
-    s.append(printNode(node));
+    s += printNode(node);
   }
 
   return {
-    code: s.toString(),
-    map: s.generateMap(),
+    code: s,
+    map: null,
   };
 }

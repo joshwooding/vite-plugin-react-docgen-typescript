@@ -772,7 +772,6 @@ __metadata:
   resolution: "@joshwooding/vite-plugin-react-docgen-typescript@workspace:packages/vite-plugin-react-docgen-typescript"
   dependencies:
     glob: "npm:^10.0.0"
-    magic-string: "npm:^0.30.0"
     react-docgen-typescript: "npm:^2.2.2"
   peerDependencies:
     typescript: ">= 4.3.x"
