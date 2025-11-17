@@ -29,7 +29,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "glob": "^10.0.0",
+    "glob": "^11.1.0",
     "react-docgen-typescript": "^2.2.2"
   },
   "peerDependencies": {
