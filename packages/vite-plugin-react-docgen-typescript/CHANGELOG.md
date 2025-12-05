@@ -1,5 +1,11 @@
 # @joshwooding/vite-plugin-react-docgen-typescript
 
+## 0.6.3
+
+### Patch Changes
+
+- 401ba3f: Upgraded glob to address CVE-2025-64756.
+
 ## 0.6.2
 
 ### Patch Changes
