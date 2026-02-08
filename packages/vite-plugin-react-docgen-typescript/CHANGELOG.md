@@ -1,5 +1,11 @@
 # @joshwooding/vite-plugin-react-docgen-typescript
 
+## 0.6.4
+
+### Patch Changes
+
+- d34c1ab: Upgrades glob to latest version
+
 ## 0.6.3
 
 ### Patch Changes
