@@ -11,6 +11,10 @@
   ],
   "homepage": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript",
   "scripts": {
+    "benchmark": "yarn build && node ./scripts/benchmark-playground.mjs",
+    "benchmark:ci": "yarn build && node ./scripts/benchmark-playground.mjs --scenario playground --iterations 1 && node ./scripts/benchmark-playground.mjs --scenario large-project --iterations 1",
+    "benchmark:large-project": "yarn benchmark --scenario large-project",
+    "benchmark:playground": "yarn benchmark --scenario playground",
     "build": "yarn workspace @joshwooding/vite-plugin-react-docgen-typescript build",
     "biome": "biome format . --write",
     "biome:check": "biome check --write --unsafe .",
