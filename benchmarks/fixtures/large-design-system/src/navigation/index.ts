@@ -1,4 +1,4 @@
-export { PageHeader } from "./PageHeader";
 export type { PageHeaderProps } from "./PageHeader";
-export { Tabs } from "./Tabs";
+export { PageHeader } from "./PageHeader";
 export type { TabsProps } from "./Tabs";
+export { Tabs } from "./Tabs";

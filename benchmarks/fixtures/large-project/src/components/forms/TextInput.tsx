@@ -1,6 +1,6 @@
 import type { FieldState } from "@shared/index";
-import { FieldShell } from "./FieldShell";
 import type { FieldShellProps } from "./FieldShell";
+import { FieldShell } from "./FieldShell";
 
 export interface TextInputProps
   extends Omit<FieldShellProps, "controlValue" | "validationMessage"> {
