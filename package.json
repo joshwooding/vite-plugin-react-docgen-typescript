@@ -25,7 +25,7 @@
     "storybook": "yarn workspace playground storybook"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "^2.0.0",
     "@changesets/cli": "^2.25.2",
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",
