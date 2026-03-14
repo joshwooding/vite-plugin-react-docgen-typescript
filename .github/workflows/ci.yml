@@ -24,3 +24,5 @@ jobs:
         run: yarn run typecheck
       - name: Test
         run: yarn run test
+      - name: Benchmark fixtures
+        run: yarn run benchmark:ci
