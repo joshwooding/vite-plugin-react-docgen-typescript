@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import reactDocgenTypescript from "../index";
@@ -23,10 +23,10 @@ describe("component fixture", () => {
       const plugin = reactDocgenTypescript({
         tsconfigPath: tsconfigPathForTest,
       });
-      // @ts-ignore
+      // @ts-expect-error
       await plugin.configResolved?.();
       expect(
-        // @ts-ignore
+        // @ts-expect-error
         await plugin.transform?.call({}, fixture.code, fixture.id),
       ).toMatchSnapshot();
     });
@@ -38,10 +38,10 @@ it("generates value info for enums", async () => {
     tsconfigPath: tsconfigPathForTest,
     shouldExtractLiteralValuesFromEnum: true,
   });
-  // @ts-ignore
+  // @ts-expect-error
   await plugin.configResolved?.();
   expect(
-    // @ts-ignore
+    // @ts-expect-error
     await plugin.transform?.call(
       {},
       defaultPropValueFixture?.code,
@@ -58,10 +58,10 @@ describe("EXPERIMENTAL_useWatchProgram", () => {
           EXPERIMENTAL_useWatchProgram: true,
           tsconfigPath: tsconfigPathForTest,
         });
-        // @ts-ignore
+        // @ts-expect-error
         await plugin.configResolved?.();
         expect(
-          // @ts-ignore
+          // @ts-expect-error
           await plugin.transform?.call({}, fixture.code, fixture.id),
         ).toMatchSnapshot();
       });
@@ -74,10 +74,10 @@ describe("EXPERIMENTAL_useWatchProgram", () => {
       tsconfigPath: tsconfigPathForTest,
       shouldExtractLiteralValuesFromEnum: true,
     });
-    // @ts-ignore
+    // @ts-expect-error
     await plugin.configResolved?.();
     expect(
-      // @ts-ignore
+      // @ts-expect-error
       await plugin.transform?.call(
         {},
         defaultPropValueFixture?.code,
@@ -95,10 +95,10 @@ describe("EXPERIMENTAL_useProjectService", () => {
           EXPERIMENTAL_useProjectService: true,
           tsconfigPath: tsconfigPathForTest,
         });
-        // @ts-ignore
+        // @ts-expect-error
         await plugin.configResolved?.();
         expect(
-          // @ts-ignore
+          // @ts-expect-error
           await plugin.transform?.call({}, fixture.code, fixture.id),
         ).toMatchSnapshot();
       });
@@ -111,10 +111,10 @@ describe("EXPERIMENTAL_useProjectService", () => {
       tsconfigPath: tsconfigPathForTest,
       shouldExtractLiteralValuesFromEnum: true,
     });
-    // @ts-ignore
+    // @ts-expect-error
     await plugin.configResolved?.();
     expect(
-      // @ts-ignore
+      // @ts-expect-error
       await plugin.transform?.call(
         {},
         defaultPropValueFixture?.code,

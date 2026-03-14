@@ -1,10 +1,10 @@
-export { Box } from "./Box";
 export type { BoxProps } from "./Box";
-export { Inline } from "./Inline";
+export { Box } from "./Box";
 export type { InlineProps } from "./Inline";
-export { Stack } from "./Stack";
+export { Inline } from "./Inline";
 export type { StackProps } from "./Stack";
-export { Surface } from "./Surface";
+export { Stack } from "./Stack";
 export type { SurfaceProps } from "./Surface";
-export { Text } from "./Text";
+export { Surface } from "./Surface";
 export type { TextProps } from "./Text";
+export { Text } from "./Text";

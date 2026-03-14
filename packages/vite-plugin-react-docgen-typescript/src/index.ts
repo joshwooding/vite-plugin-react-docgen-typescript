@@ -252,7 +252,7 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
           componentDocs,
           ...generateOptions,
         });
-      } catch (e) {
+      } catch (_e) {
         return src;
       }
     },

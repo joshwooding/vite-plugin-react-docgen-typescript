@@ -1,10 +1,8 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "organizeImports": {
-    "enabled": true
-  },
+  "$schema": "https://biomejs.dev/schemas/2.4.7/schema.json",
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "files": {
-    "ignore": ["package.json"]
+    "includes": ["**", "!**/package.json"]
   },
   "linter": {
     "enabled": true,
@@ -14,16 +12,16 @@
         "noExplicitAny": "off"
       }
     },
-    "ignore": ["dist", "*.tsx"]
+    "includes": ["**", "!**/dist", "!**/*.tsx"]
   },
   "formatter": {
     "enabled": true,
-    "ignore": ["dist"],
+    "includes": ["**", "!**/dist"],
     "indentStyle": "space"
   },
   "overrides": [
     {
-      "include": ["__tests__/**"],
+      "includes": ["**/__tests__/**"],
       "linter": {
         "rules": {
           "complexity": { "noForEach": "off" }
