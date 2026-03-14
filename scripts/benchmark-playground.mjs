@@ -276,6 +276,8 @@ function summarizeRuns(runs) {
       status: hmrStatus,
       totalCycleMs: median(runs.map((run) => run.componentHmr.totalCycleMs)),
     },
+    coldBatchMs: median(runs.map((run) => run.coldBatchMs)),
+    configResolvedMs: median(runs.map((run) => run.configResolvedMs)),
     fileCount: runs[0].fileCount,
     firstBatchMs: median(runs.map((run) => run.firstBatchMs)),
     warmBatchMs: median(runs.map((run) => run.warmBatchMs)),
@@ -426,9 +428,25 @@ function delay(ms) {
   });
 }
 
-async function resolveComponentHmrStatus(plugin, mode, workspace) {
+function getHmrFilesToTransform(invalidatedModules, workspace) {
+  if (invalidatedModules.size === 0) {
+    return [workspace.changedFile];
+  }
+
+  return [...invalidatedModules].sort();
+}
+
+async function resolveComponentHmrStatus(
+  plugin,
+  invalidatedModules,
+  mode,
+  workspace,
+) {
   if (mode !== "watch") {
-    const outputs = await transformFiles(plugin, [workspace.changedFile]);
+    const outputs = await transformFiles(
+      plugin,
+      getHmrFilesToTransform(invalidatedModules, workspace),
+    );
 
     return (
       extractDocgenDescription(outputs.get(workspace.changedFile)) ===
@@ -439,7 +457,10 @@ async function resolveComponentHmrStatus(plugin, mode, workspace) {
   const hmrDeadline = performance.now() + HMR_TIMEOUT_MS;
 
   while (performance.now() < hmrDeadline) {
-    const outputs = await transformFiles(plugin, [workspace.changedFile]);
+    const outputs = await transformFiles(
+      plugin,
+      getHmrFilesToTransform(invalidatedModules, workspace),
+    );
     const changedFileDescription = extractDocgenDescription(
       outputs.get(workspace.changedFile),
     );
@@ -496,7 +517,9 @@ async function measureModeIteration(reactDocgenTypescript, mode, workspace) {
 
   try {
     return await withWorkingDirectory(workspace.root, async () => {
+      const configResolvedStart = performance.now();
       await plugin.configResolved?.({ command: "serve", root: workspace.root });
+      const configResolvedMs = performance.now() - configResolvedStart;
 
       const firstBatchStart = performance.now();
       await transformFiles(plugin, workspace.files);
@@ -517,7 +540,12 @@ async function measureModeIteration(reactDocgenTypescript, mode, workspace) {
         server,
       });
 
-      const updated = await resolveComponentHmrStatus(plugin, mode, workspace);
+      const updated = await resolveComponentHmrStatus(
+        plugin,
+        invalidatedModules,
+        mode,
+        workspace,
+      );
 
       return {
         componentHmr: {
@@ -525,6 +553,8 @@ async function measureModeIteration(reactDocgenTypescript, mode, workspace) {
           status: updated ? "updated" : "stale",
           totalCycleMs: performance.now() - componentHmrStart,
         },
+        coldBatchMs: configResolvedMs + firstBatchMs,
+        configResolvedMs,
         fileCount: workspace.fileCount,
         firstBatchMs,
         warmBatchMs,
@@ -542,14 +572,20 @@ function printSummary(result, baseline) {
   );
 
   for (const modeResult of result.results) {
-    const { componentHmr, firstBatchMs, warmBatchMs } = modeResult.metrics;
+    const {
+      coldBatchMs,
+      componentHmr,
+      configResolvedMs,
+      firstBatchMs,
+      warmBatchMs,
+    } = modeResult.metrics;
     const hmrText =
       componentHmr.status === "updated"
         ? `${componentHmr.totalCycleMs.toFixed(1)}ms`
         : `${componentHmr.status} (${componentHmr.totalCycleMs.toFixed(1)}ms)`;
 
     console.log(
-      `${modeResult.mode.padEnd(14)} first ${firstBatchMs.toFixed(1)}ms  warm ${warmBatchMs.toFixed(1)}ms  hmr ${hmrText}  invalidated ${componentHmr.invalidatedModuleCount.toFixed(0)}`,
+      `${modeResult.mode.padEnd(14)} setup ${configResolvedMs.toFixed(1)}ms  first ${firstBatchMs.toFixed(1)}ms  cold ${coldBatchMs.toFixed(1)}ms  warm ${warmBatchMs.toFixed(1)}ms  hmr ${hmrText}  invalidated ${componentHmr.invalidatedModuleCount.toFixed(0)}`,
     );
 
     if (!baseline) {
@@ -565,9 +601,11 @@ function printSummary(result, baseline) {
     }
 
     const comparisons = [
+      ["setup", baselineMode.metrics.configResolvedMs, configResolvedMs],
       ["first", baselineMode.metrics.firstBatchMs, firstBatchMs],
+      ["cold", baselineMode.metrics.coldBatchMs, coldBatchMs],
       ["warm", baselineMode.metrics.warmBatchMs, warmBatchMs],
-    ];
+    ].filter((comparison) => typeof comparison[1] === "number");
 
     if (
       baselineMode.metrics.componentHmr.status === "updated" &&
