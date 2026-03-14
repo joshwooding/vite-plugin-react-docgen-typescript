@@ -109,6 +109,44 @@ const SCENARIOS = {
       "Updated action trigger used across feature entry points.",
     workspaceDirectoryName: "large-project",
   },
+  "large-design-system": {
+    changedFileRelativePath: path.join("src", "primitives", "Text.tsx"),
+    createScaleCopies(workspaceRoot, scale) {
+      const referenceRecipeRoot = path.join(
+        workspaceRoot,
+        "src",
+        "recipes",
+        "reference",
+      );
+      const generatedRecipesRoot = path.join(
+        workspaceRoot,
+        "src",
+        "recipes",
+        "generated",
+      );
+
+      mkdirSync(generatedRecipesRoot, { recursive: true });
+
+      for (let copyIndex = 1; copyIndex < scale; copyIndex += 1) {
+        cpSync(
+          referenceRecipeRoot,
+          path.join(
+            generatedRecipesRoot,
+            `kit-${String(copyIndex).padStart(2, "0")}`,
+          ),
+          { recursive: true },
+        );
+      }
+    },
+    fixtureRoot: path.join(benchmarksRoot, "large-design-system"),
+    markerText:
+      "Foundational typography primitive shared across published components.",
+    name: "large-design-system",
+    sourceRootRelativePath: "src",
+    updatedMarkerText:
+      "Updated foundational typography primitive shared across published components.",
+    workspaceDirectoryName: "large-design-system",
+  },
 };
 const HELP_TEXT = `Usage: node ./scripts/benchmark-playground.mjs [options]
 
