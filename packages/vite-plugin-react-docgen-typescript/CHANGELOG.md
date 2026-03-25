@@ -1,5 +1,13 @@
 # @joshwooding/vite-plugin-react-docgen-typescript
 
+## 0.7.0
+
+### Minor Changes
+
+- cd0fff6: - Add support for Vite 8.
+  - Refactored the internal logic to improve correctness and improve performance.
+  - Removed the CJS output to reduce the install size.
+
 ## 0.6.4
 
 ### Patch Changes
