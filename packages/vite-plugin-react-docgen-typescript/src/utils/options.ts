@@ -38,11 +38,29 @@ interface TypescriptOptions {
   compilerOptions?: CompilerOptions;
 }
 
+export interface FileSystemCacheOptions {
+  /**
+   * Enable the persistent file-system cache.
+   *
+   * @default true
+   */
+  enabled?: boolean;
+
+  /**
+   * Directory used to store persisted cache entries.
+   *
+   * @default "node_modules/.cache/vite-plugin-react-docgen-typescript"
+   */
+  directory?: string;
+}
+
 export type DocGenOptions = ParserOptions & {
   /** Glob patterns to ignore */
   exclude?: string[];
   /** Glob patterns to include. defaults to ts|tsx */
   include?: string[];
+  /** Persistent transform cache stored on disk. */
+  fileSystemCache?: boolean | FileSystemCacheOptions;
   /** experimental watch mode */
   EXPERIMENTAL_useWatchProgram?: boolean;
   /** experimental project service */

@@ -1,5 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "include": ["./**/*"],
-  "exclude": []
+  "exclude": [],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@fixtures/*": ["./__fixtures__/*"]
+    }
+  }
 }

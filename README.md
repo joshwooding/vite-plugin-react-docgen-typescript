@@ -29,5 +29,8 @@ This plugins support all parser options from [react-docgen-typescript](https://g
 | typePropName                   | string         | Specify the name of the property for docgen info prop type.                                                                                         | `type`          |
 | exclude                        | glob[]         | Glob patterns to ignore and not generate docgen information for. (Great for ignoring large icon libraries)                                          | `[]`            |
 | include                        | glob[]         | Glob patterns to generate docgen information for                                                                                                    | `['**/**.tsx']` |
+| fileSystemCache                | boolean/object | Enables a persistent file-system cache. Configure with `{ enabled?: boolean; directory?: string }`.                                                 | `false`         |
 | EXPERIMENTAL_useWatchProgram   | boolean        | Enables an experimental watch mode to enable HMR support. **warning**: This may affect performance                                                  | `false`         |
 | EXPERIMENTAL_useProjectService | boolean        | Enables an experimental mode that uses the TS project service to enable HMR support. **warning**: This may affect performance                       | `false`         |
+
+When `fileSystemCache` is enabled without a custom directory, cache entries are stored in `node_modules/.cache/vite-plugin-react-docgen-typescript`.

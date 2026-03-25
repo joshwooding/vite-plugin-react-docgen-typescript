@@ -1,5 +1,56 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`EXPERIMENTAL_useProjectService > component fixture > AliasedImport.tsx has code block generated 1`] = `
+{
+  "code": "import type { AliasedImportColor } from "@fixtures/AliasedImport.types";
+import * as React from "react";
+
+interface AliasedImportProps {
+  /** Button color. */
+  color: AliasedImportColor;
+}
+
+/**
+ * A component whose prop types are resolved through tsconfig paths.
+ */
+export const AliasedImportComponent: React.FC<AliasedImportProps> = (props) => (
+  <button style={{ backgroundColor: props.color }}>{props.children}</button>
+);
+try {
+    // @ts-ignore
+    AliasedImportComponent.displayName = "AliasedImportComponent";
+    // @ts-ignore
+    AliasedImportComponent.__docgenInfo = {"description":"A component whose prop types are resolved through tsconfig paths.","displayName":"AliasedImportComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AliasedImport.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AliasedImport.tsx","name":"AliasedImportProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AliasedImport.tsx","name":"AliasedImportProps"},"required":true,"tags":{},"type":{"name":"AliasedImportColor"}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
+  "map": null,
+}
+`;
+
+exports[`EXPERIMENTAL_useProjectService > component fixture > AmbientDeclaration.tsx has code block generated 1`] = `
+{
+  "code": "import * as React from "react";
+
+interface AmbientDeclarationProps {
+  /** Alert tone. */
+  tone: AmbientDeclarationTone;
+}
+
+/**
+ * A component that relies on an ambient declaration file.
+ */
+export const AmbientDeclarationComponent: React.FC<AmbientDeclarationProps> = (
+  props,
+) => <div data-tone={props.tone}>{props.children}</div>;
+try {
+    // @ts-ignore
+    AmbientDeclarationComponent.displayName = "AmbientDeclarationComponent";
+    // @ts-ignore
+    AmbientDeclarationComponent.__docgenInfo = {"description":"A component that relies on an ambient declaration file.","displayName":"AmbientDeclarationComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AmbientDeclaration.tsx","methods":[],"props":{"tone":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AmbientDeclaration.tsx","name":"AmbientDeclarationProps"}],"description":"Alert tone.","name":"tone","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AmbientDeclaration.tsx","name":"AmbientDeclarationProps"},"required":true,"tags":{},"type":{"name":"AmbientDeclarationTone"}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
+  "map": null,
+}
+`;
+
 exports[`EXPERIMENTAL_useProjectService > component fixture > DefaultExport.tsx has code block generated 1`] = `
 {
   "code": "import * as React from "react";
@@ -19,11 +70,10 @@ const DefaultExportComponent: React.FC<DefaultExportComponentProps> = (
 export default DefaultExportComponent;
 try {
     // @ts-ignore
-    DefaultExport.displayName = "DefaultExport";
+    DefaultExportComponent.displayName = "DefaultExport";
     // @ts-ignore
-    DefaultExport.__docgenInfo = { "description": "A simple component.", "displayName": "DefaultExport", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    DefaultExportComponent.__docgenInfo = {"description":"A simple component.","displayName":"DefaultExport","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExport.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExport.tsx","name":"DefaultExportComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExport.tsx","name":"DefaultExportComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -49,11 +99,10 @@ DefaultExportComponent.displayName = "DefaultExportComponentWithDisplayName";
 export default DefaultExportComponent;
 try {
     // @ts-ignore
-    DefaultExportComponentWithDisplayName.displayName = "DefaultExportComponentWithDisplayName";
+    DefaultExportComponent.displayName = "DefaultExportComponentWithDisplayName";
     // @ts-ignore
-    DefaultExportComponentWithDisplayName.__docgenInfo = { "description": "A simple component.", "displayName": "DefaultExportComponentWithDisplayName", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    DefaultExportComponent.__docgenInfo = {"description":"A simple component.","displayName":"DefaultExportComponentWithDisplayName","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExportWithDisplayName.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExportWithDisplayName.tsx","name":"DefaultExportComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExportWithDisplayName.tsx","name":"DefaultExportComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -101,9 +150,40 @@ try {
     // @ts-ignore
     DefaultPropValueComponent.displayName = "DefaultPropValueComponent";
     // @ts-ignore
-    DefaultPropValueComponent.__docgenInfo = { "description": "Component with a prop with a default value.", "displayName": "DefaultPropValueComponent", "props": { "color": { "defaultValue": { value: "blue" }, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } }, "counter": { "defaultValue": { value: 123 }, "description": "Button counter.", "name": "counter", "required": false, "type": { "name": "number" } }, "disabled": { "defaultValue": { value: false }, "description": "Button disabled.", "name": "disabled", "required": false, "type": { "name": "boolean" } } } };
+    DefaultPropValueComponent.__docgenInfo = {"description":"Component with a prop with a default value.","displayName":"DefaultPropValueComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","methods":[],"props":{"color":{"defaultValue":{"value":"blue"},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":true,"tags":{"default":"blue"},"type":{"name":"/"blue/" | /"green/""}},"counter":{"defaultValue":{"value":123},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button counter.","name":"counter","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":false,"tags":{},"type":{"name":"number"}},"disabled":{"defaultValue":{"value":false},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button disabled.","name":"disabled","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":false,"tags":{},"type":{"name":"boolean"}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
+  "map": null,
 }
-catch (__react_docgen_typescript_loader_error) { }",
+`;
+
+exports[`EXPERIMENTAL_useProjectService > component fixture > ForwardRefDefaultExport.tsx has code block generated 1`] = `
+{
+  "code": "import * as React from "react";
+
+interface ForwardRefDefaultExportProps {
+  /** Button color. */
+  color: "blue" | "green";
+}
+
+/**
+ * A forwardRef component exported through a differently named file.
+ */
+const Button = React.forwardRef<
+  HTMLButtonElement,
+  ForwardRefDefaultExportProps
+>((props, ref) => (
+  <button ref={ref} style={{ backgroundColor: props.color }}>
+    {props.children}
+  </button>
+));
+
+export default Button;
+try {
+    // @ts-ignore
+    Button.displayName = "ForwardRefDefaultExport";
+    // @ts-ignore
+    Button.__docgenInfo = {"description":"A forwardRef component exported through a differently named file.","displayName":"ForwardRefDefaultExport","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/ForwardRefDefaultExport.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/ForwardRefDefaultExport.tsx","name":"ForwardRefDefaultExportProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/ForwardRefDefaultExport.tsx","name":"ForwardRefDefaultExportProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -131,9 +211,8 @@ try {
     // @ts-ignore
     HyphenatedPropNameComponent.displayName = "HyphenatedPropNameComponent";
     // @ts-ignore
-    HyphenatedPropNameComponent.__docgenInfo = { "description": "A component with a hyphenated prop name.", "displayName": "HyphenatedPropNameComponent", "props": { "button-color": { "defaultValue": null, "description": "Button color.", "name": "button-color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    HyphenatedPropNameComponent.__docgenInfo = {"description":"A component with a hyphenated prop name.","displayName":"HyphenatedPropNameComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/HyphenatedPropName.tsx","methods":[],"props":{"button-color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/HyphenatedPropName.tsx","name":"HyphenatedPropNameProps"}],"description":"Button color.","name":"button-color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/HyphenatedPropName.tsx","name":"HyphenatedPropNameProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -160,9 +239,8 @@ try {
     // @ts-ignore
     MultiPropsComponent.displayName = "MultiPropsComponent";
     // @ts-ignore
-    MultiPropsComponent.__docgenInfo = { "description": "This is a component with multiple props.", "displayName": "MultiPropsComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } }, "size": { "defaultValue": null, "description": "Button size.", "name": "size", "required": true, "type": { "name": "\\"small\\" | \\"large\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    MultiPropsComponent.__docgenInfo = {"description":"This is a component with multiple props.","displayName":"MultiPropsComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","name":"MultiPropsComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","name":"MultiPropsComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}},"size":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","name":"MultiPropsComponentProps"}],"description":"Button size.","name":"size","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","name":"MultiPropsComponentProps"},"required":true,"tags":{},"type":{"name":"/"small/" | /"large/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -190,9 +268,8 @@ try {
     // @ts-ignore
     MultilineDescriptionComponent.displayName = "MultilineDescriptionComponent";
     // @ts-ignore
-    MultilineDescriptionComponent.__docgenInfo = { "description": "A component with a multiline description.\\n\\nSecond line.", "displayName": "MultilineDescriptionComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    MultilineDescriptionComponent.__docgenInfo = {"description":"A component with a multiline description./n/nSecond line.","displayName":"MultilineDescriptionComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilineDescription.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilineDescription.tsx","name":"MultilineDescriptionProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilineDescription.tsx","name":"MultilineDescriptionProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -222,9 +299,39 @@ try {
     // @ts-ignore
     MultilinePropDescriptionComponent.displayName = "MultilinePropDescriptionComponent";
     // @ts-ignore
-    MultilinePropDescriptionComponent.__docgenInfo = { "description": "A component with multiline prop description.", "displayName": "MultilinePropDescriptionComponent", "props": { "color": { "defaultValue": null, "description": "This is a multiline prop description.\\n\\nSecond line.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
+    MultilinePropDescriptionComponent.__docgenInfo = {"description":"A component with multiline prop description.","displayName":"MultilinePropDescriptionComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilinePropDescription.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilinePropDescription.tsx","name":"MultilinePropDescriptionComponentProps"}],"description":"This is a multiline prop description./n/nSecond line.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilinePropDescription.tsx","name":"MultilinePropDescriptionComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
+  "map": null,
 }
-catch (__react_docgen_typescript_loader_error) { }",
+`;
+
+exports[`EXPERIMENTAL_useProjectService > component fixture > RichMetadata.tsx has code block generated 1`] = `
+{
+  "code": "interface RichMetadataProps {
+  /**
+   * Visual variant.
+   *
+   * @default pill
+   * @remarks Used by the design system controls.
+   */
+  variant?: "pill" | "modern";
+}
+
+/**
+ * Component with richer docgen metadata.
+ *
+ * @status beta
+ * @see https://example.com/rich-metadata
+ */
+export const RichMetadataComponent = ({
+  variant = "pill",
+}: RichMetadataProps) => <button data-variant={variant}>{variant}</button>;
+try {
+    // @ts-ignore
+    RichMetadataComponent.displayName = "RichMetadataComponent";
+    // @ts-ignore
+    RichMetadataComponent.__docgenInfo = {"description":"Component with richer docgen metadata.","displayName":"RichMetadataComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/RichMetadata.tsx","methods":[],"props":{"variant":{"defaultValue":{"value":"pill"},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/RichMetadata.tsx","name":"RichMetadataProps"}],"description":"Visual variant.","name":"variant","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/RichMetadata.tsx","name":"RichMetadataProps"},"required":false,"tags":{"default":"pill","remarks":"Used by the design system controls."},"type":{"name":"/"pill/" | /"modern/""}}},"tags":{"status":"beta","see":"https://example.com/rich-metadata"}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -248,9 +355,8 @@ try {
     // @ts-ignore
     SimpleComponent.displayName = "SimpleComponent";
     // @ts-ignore
-    SimpleComponent.__docgenInfo = { "description": "A simple component.", "displayName": "SimpleComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    SimpleComponent.__docgenInfo = {"description":"A simple component.","displayName":"SimpleComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/Simple.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/Simple.tsx","name":"SimpleComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/Simple.tsx","name":"SimpleComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -274,11 +380,10 @@ export const SimpleComponent: React.FC<SimpleComponentProps> = (props) => (
 SimpleComponent.displayName = "SimpleComponentWithDisplayName";
 try {
     // @ts-ignore
-    SimpleComponentWithDisplayName.displayName = "SimpleComponentWithDisplayName";
+    SimpleComponent.displayName = "SimpleComponentWithDisplayName";
     // @ts-ignore
-    SimpleComponentWithDisplayName.__docgenInfo = { "description": "A simple component.", "displayName": "SimpleComponentWithDisplayName", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    SimpleComponent.__docgenInfo = {"description":"A simple component.","displayName":"SimpleComponentWithDisplayName","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/SimpleWithDisplayName.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/SimpleWithDisplayName.tsx","name":"SimpleComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/SimpleWithDisplayName.tsx","name":"SimpleComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -299,9 +404,8 @@ try {
     // @ts-ignore
     SimpleComponent.displayName = "SimpleComponent";
     // @ts-ignore
-    SimpleComponent.__docgenInfo = { "description": "A component with only text content wrapped in a div.\\n\\nRef: https://github.com/strothj/react-docgen-typescript-loader/issues/7", "displayName": "SimpleComponent", "props": {} };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    SimpleComponent.__docgenInfo = {"description":"A component with only text content wrapped in a div./n/nRef: https://github.com/strothj/react-docgen-typescript-loader/issues/7","displayName":"SimpleComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/TextOnlyComponent.tsx","methods":[],"props":{},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -349,9 +453,59 @@ try {
     // @ts-ignore
     DefaultPropValueComponent.displayName = "DefaultPropValueComponent";
     // @ts-ignore
-    DefaultPropValueComponent.__docgenInfo = { "description": "Component with a prop with a default value.", "displayName": "DefaultPropValueComponent", "props": { "color": { "defaultValue": { value: "blue" }, "description": "Button color.", "name": "color", "required": true, "type": { "name": "enum", "value": [{ "value": "\\"blue\\"" }, { "value": "\\"green\\"" }] } }, "counter": { "defaultValue": { value: 123 }, "description": "Button counter.", "name": "counter", "required": false, "type": { "name": "number" } }, "disabled": { "defaultValue": { value: false }, "description": "Button disabled.", "name": "disabled", "required": false, "type": { "name": "boolean" } } } };
+    DefaultPropValueComponent.__docgenInfo = {"description":"Component with a prop with a default value.","displayName":"DefaultPropValueComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","methods":[],"props":{"color":{"defaultValue":{"value":"blue"},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":true,"tags":{"default":"blue"},"type":{"name":"enum","raw":"/"blue/" | /"green/"","value":[{"value":"/"blue/""},{"value":"/"green/""}]}},"counter":{"defaultValue":{"value":123},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button counter.","name":"counter","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":false,"tags":{},"type":{"name":"number"}},"disabled":{"defaultValue":{"value":false},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button disabled.","name":"disabled","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":false,"tags":{},"type":{"name":"boolean"}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
+  "map": null,
 }
-catch (__react_docgen_typescript_loader_error) { }",
+`;
+
+exports[`EXPERIMENTAL_useWatchProgram > component fixture > AliasedImport.tsx has code block generated 1`] = `
+{
+  "code": "import type { AliasedImportColor } from "@fixtures/AliasedImport.types";
+import * as React from "react";
+
+interface AliasedImportProps {
+  /** Button color. */
+  color: AliasedImportColor;
+}
+
+/**
+ * A component whose prop types are resolved through tsconfig paths.
+ */
+export const AliasedImportComponent: React.FC<AliasedImportProps> = (props) => (
+  <button style={{ backgroundColor: props.color }}>{props.children}</button>
+);
+try {
+    // @ts-ignore
+    AliasedImportComponent.displayName = "AliasedImportComponent";
+    // @ts-ignore
+    AliasedImportComponent.__docgenInfo = {"description":"A component whose prop types are resolved through tsconfig paths.","displayName":"AliasedImportComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AliasedImport.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AliasedImport.tsx","name":"AliasedImportProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AliasedImport.tsx","name":"AliasedImportProps"},"required":true,"tags":{},"type":{"name":"AliasedImportColor"}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
+  "map": null,
+}
+`;
+
+exports[`EXPERIMENTAL_useWatchProgram > component fixture > AmbientDeclaration.tsx has code block generated 1`] = `
+{
+  "code": "import * as React from "react";
+
+interface AmbientDeclarationProps {
+  /** Alert tone. */
+  tone: AmbientDeclarationTone;
+}
+
+/**
+ * A component that relies on an ambient declaration file.
+ */
+export const AmbientDeclarationComponent: React.FC<AmbientDeclarationProps> = (
+  props,
+) => <div data-tone={props.tone}>{props.children}</div>;
+try {
+    // @ts-ignore
+    AmbientDeclarationComponent.displayName = "AmbientDeclarationComponent";
+    // @ts-ignore
+    AmbientDeclarationComponent.__docgenInfo = {"description":"A component that relies on an ambient declaration file.","displayName":"AmbientDeclarationComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AmbientDeclaration.tsx","methods":[],"props":{"tone":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AmbientDeclaration.tsx","name":"AmbientDeclarationProps"}],"description":"Alert tone.","name":"tone","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AmbientDeclaration.tsx","name":"AmbientDeclarationProps"},"required":true,"tags":{},"type":{"name":"AmbientDeclarationTone"}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -375,11 +529,10 @@ const DefaultExportComponent: React.FC<DefaultExportComponentProps> = (
 export default DefaultExportComponent;
 try {
     // @ts-ignore
-    DefaultExport.displayName = "DefaultExport";
+    DefaultExportComponent.displayName = "DefaultExport";
     // @ts-ignore
-    DefaultExport.__docgenInfo = { "description": "A simple component.", "displayName": "DefaultExport", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    DefaultExportComponent.__docgenInfo = {"description":"A simple component.","displayName":"DefaultExport","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExport.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExport.tsx","name":"DefaultExportComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExport.tsx","name":"DefaultExportComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -405,11 +558,10 @@ DefaultExportComponent.displayName = "DefaultExportComponentWithDisplayName";
 export default DefaultExportComponent;
 try {
     // @ts-ignore
-    DefaultExportComponentWithDisplayName.displayName = "DefaultExportComponentWithDisplayName";
+    DefaultExportComponent.displayName = "DefaultExportComponentWithDisplayName";
     // @ts-ignore
-    DefaultExportComponentWithDisplayName.__docgenInfo = { "description": "A simple component.", "displayName": "DefaultExportComponentWithDisplayName", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    DefaultExportComponent.__docgenInfo = {"description":"A simple component.","displayName":"DefaultExportComponentWithDisplayName","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExportWithDisplayName.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExportWithDisplayName.tsx","name":"DefaultExportComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExportWithDisplayName.tsx","name":"DefaultExportComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -457,9 +609,40 @@ try {
     // @ts-ignore
     DefaultPropValueComponent.displayName = "DefaultPropValueComponent";
     // @ts-ignore
-    DefaultPropValueComponent.__docgenInfo = { "description": "Component with a prop with a default value.", "displayName": "DefaultPropValueComponent", "props": { "color": { "defaultValue": { value: "blue" }, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } }, "counter": { "defaultValue": { value: 123 }, "description": "Button counter.", "name": "counter", "required": false, "type": { "name": "number" } }, "disabled": { "defaultValue": { value: false }, "description": "Button disabled.", "name": "disabled", "required": false, "type": { "name": "boolean" } } } };
+    DefaultPropValueComponent.__docgenInfo = {"description":"Component with a prop with a default value.","displayName":"DefaultPropValueComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","methods":[],"props":{"color":{"defaultValue":{"value":"blue"},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":true,"tags":{"default":"blue"},"type":{"name":"/"blue/" | /"green/""}},"counter":{"defaultValue":{"value":123},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button counter.","name":"counter","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":false,"tags":{},"type":{"name":"number"}},"disabled":{"defaultValue":{"value":false},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button disabled.","name":"disabled","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":false,"tags":{},"type":{"name":"boolean"}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
+  "map": null,
 }
-catch (__react_docgen_typescript_loader_error) { }",
+`;
+
+exports[`EXPERIMENTAL_useWatchProgram > component fixture > ForwardRefDefaultExport.tsx has code block generated 1`] = `
+{
+  "code": "import * as React from "react";
+
+interface ForwardRefDefaultExportProps {
+  /** Button color. */
+  color: "blue" | "green";
+}
+
+/**
+ * A forwardRef component exported through a differently named file.
+ */
+const Button = React.forwardRef<
+  HTMLButtonElement,
+  ForwardRefDefaultExportProps
+>((props, ref) => (
+  <button ref={ref} style={{ backgroundColor: props.color }}>
+    {props.children}
+  </button>
+));
+
+export default Button;
+try {
+    // @ts-ignore
+    Button.displayName = "ForwardRefDefaultExport";
+    // @ts-ignore
+    Button.__docgenInfo = {"description":"A forwardRef component exported through a differently named file.","displayName":"ForwardRefDefaultExport","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/ForwardRefDefaultExport.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/ForwardRefDefaultExport.tsx","name":"ForwardRefDefaultExportProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/ForwardRefDefaultExport.tsx","name":"ForwardRefDefaultExportProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -487,9 +670,8 @@ try {
     // @ts-ignore
     HyphenatedPropNameComponent.displayName = "HyphenatedPropNameComponent";
     // @ts-ignore
-    HyphenatedPropNameComponent.__docgenInfo = { "description": "A component with a hyphenated prop name.", "displayName": "HyphenatedPropNameComponent", "props": { "button-color": { "defaultValue": null, "description": "Button color.", "name": "button-color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    HyphenatedPropNameComponent.__docgenInfo = {"description":"A component with a hyphenated prop name.","displayName":"HyphenatedPropNameComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/HyphenatedPropName.tsx","methods":[],"props":{"button-color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/HyphenatedPropName.tsx","name":"HyphenatedPropNameProps"}],"description":"Button color.","name":"button-color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/HyphenatedPropName.tsx","name":"HyphenatedPropNameProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -516,9 +698,8 @@ try {
     // @ts-ignore
     MultiPropsComponent.displayName = "MultiPropsComponent";
     // @ts-ignore
-    MultiPropsComponent.__docgenInfo = { "description": "This is a component with multiple props.", "displayName": "MultiPropsComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } }, "size": { "defaultValue": null, "description": "Button size.", "name": "size", "required": true, "type": { "name": "\\"small\\" | \\"large\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    MultiPropsComponent.__docgenInfo = {"description":"This is a component with multiple props.","displayName":"MultiPropsComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","name":"MultiPropsComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","name":"MultiPropsComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}},"size":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","name":"MultiPropsComponentProps"}],"description":"Button size.","name":"size","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","name":"MultiPropsComponentProps"},"required":true,"tags":{},"type":{"name":"/"small/" | /"large/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -546,9 +727,8 @@ try {
     // @ts-ignore
     MultilineDescriptionComponent.displayName = "MultilineDescriptionComponent";
     // @ts-ignore
-    MultilineDescriptionComponent.__docgenInfo = { "description": "A component with a multiline description.\\n\\nSecond line.", "displayName": "MultilineDescriptionComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    MultilineDescriptionComponent.__docgenInfo = {"description":"A component with a multiline description./n/nSecond line.","displayName":"MultilineDescriptionComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilineDescription.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilineDescription.tsx","name":"MultilineDescriptionProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilineDescription.tsx","name":"MultilineDescriptionProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -578,9 +758,39 @@ try {
     // @ts-ignore
     MultilinePropDescriptionComponent.displayName = "MultilinePropDescriptionComponent";
     // @ts-ignore
-    MultilinePropDescriptionComponent.__docgenInfo = { "description": "A component with multiline prop description.", "displayName": "MultilinePropDescriptionComponent", "props": { "color": { "defaultValue": null, "description": "This is a multiline prop description.\\n\\nSecond line.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
+    MultilinePropDescriptionComponent.__docgenInfo = {"description":"A component with multiline prop description.","displayName":"MultilinePropDescriptionComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilinePropDescription.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilinePropDescription.tsx","name":"MultilinePropDescriptionComponentProps"}],"description":"This is a multiline prop description./n/nSecond line.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilinePropDescription.tsx","name":"MultilinePropDescriptionComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
+  "map": null,
 }
-catch (__react_docgen_typescript_loader_error) { }",
+`;
+
+exports[`EXPERIMENTAL_useWatchProgram > component fixture > RichMetadata.tsx has code block generated 1`] = `
+{
+  "code": "interface RichMetadataProps {
+  /**
+   * Visual variant.
+   *
+   * @default pill
+   * @remarks Used by the design system controls.
+   */
+  variant?: "pill" | "modern";
+}
+
+/**
+ * Component with richer docgen metadata.
+ *
+ * @status beta
+ * @see https://example.com/rich-metadata
+ */
+export const RichMetadataComponent = ({
+  variant = "pill",
+}: RichMetadataProps) => <button data-variant={variant}>{variant}</button>;
+try {
+    // @ts-ignore
+    RichMetadataComponent.displayName = "RichMetadataComponent";
+    // @ts-ignore
+    RichMetadataComponent.__docgenInfo = {"description":"Component with richer docgen metadata.","displayName":"RichMetadataComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/RichMetadata.tsx","methods":[],"props":{"variant":{"defaultValue":{"value":"pill"},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/RichMetadata.tsx","name":"RichMetadataProps"}],"description":"Visual variant.","name":"variant","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/RichMetadata.tsx","name":"RichMetadataProps"},"required":false,"tags":{"default":"pill","remarks":"Used by the design system controls."},"type":{"name":"/"pill/" | /"modern/" | undefined"}}},"tags":{"status":"beta","see":"https://example.com/rich-metadata"}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -604,9 +814,8 @@ try {
     // @ts-ignore
     SimpleComponent.displayName = "SimpleComponent";
     // @ts-ignore
-    SimpleComponent.__docgenInfo = { "description": "A simple component.", "displayName": "SimpleComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    SimpleComponent.__docgenInfo = {"description":"A simple component.","displayName":"SimpleComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/Simple.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/Simple.tsx","name":"SimpleComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/Simple.tsx","name":"SimpleComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -630,11 +839,10 @@ export const SimpleComponent: React.FC<SimpleComponentProps> = (props) => (
 SimpleComponent.displayName = "SimpleComponentWithDisplayName";
 try {
     // @ts-ignore
-    SimpleComponentWithDisplayName.displayName = "SimpleComponentWithDisplayName";
+    SimpleComponent.displayName = "SimpleComponentWithDisplayName";
     // @ts-ignore
-    SimpleComponentWithDisplayName.__docgenInfo = { "description": "A simple component.", "displayName": "SimpleComponentWithDisplayName", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    SimpleComponent.__docgenInfo = {"description":"A simple component.","displayName":"SimpleComponentWithDisplayName","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/SimpleWithDisplayName.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/SimpleWithDisplayName.tsx","name":"SimpleComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/SimpleWithDisplayName.tsx","name":"SimpleComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -655,9 +863,8 @@ try {
     // @ts-ignore
     SimpleComponent.displayName = "SimpleComponent";
     // @ts-ignore
-    SimpleComponent.__docgenInfo = { "description": "A component with only text content wrapped in a div.\\n\\nRef: https://github.com/strothj/react-docgen-typescript-loader/issues/7", "displayName": "SimpleComponent", "props": {} };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    SimpleComponent.__docgenInfo = {"description":"A component with only text content wrapped in a div./n/nRef: https://github.com/strothj/react-docgen-typescript-loader/issues/7","displayName":"SimpleComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/TextOnlyComponent.tsx","methods":[],"props":{},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -705,9 +912,59 @@ try {
     // @ts-ignore
     DefaultPropValueComponent.displayName = "DefaultPropValueComponent";
     // @ts-ignore
-    DefaultPropValueComponent.__docgenInfo = { "description": "Component with a prop with a default value.", "displayName": "DefaultPropValueComponent", "props": { "color": { "defaultValue": { value: "blue" }, "description": "Button color.", "name": "color", "required": true, "type": { "name": "enum", "value": [{ "value": "\\"blue\\"" }, { "value": "\\"green\\"" }] } }, "counter": { "defaultValue": { value: 123 }, "description": "Button counter.", "name": "counter", "required": false, "type": { "name": "number" } }, "disabled": { "defaultValue": { value: false }, "description": "Button disabled.", "name": "disabled", "required": false, "type": { "name": "boolean" } } } };
+    DefaultPropValueComponent.__docgenInfo = {"description":"Component with a prop with a default value.","displayName":"DefaultPropValueComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","methods":[],"props":{"color":{"defaultValue":{"value":"blue"},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":true,"tags":{"default":"blue"},"type":{"name":"enum","raw":"/"blue/" | /"green/"","value":[{"value":"/"blue/""},{"value":"/"green/""}]}},"counter":{"defaultValue":{"value":123},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button counter.","name":"counter","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":false,"tags":{},"type":{"name":"number"}},"disabled":{"defaultValue":{"value":false},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button disabled.","name":"disabled","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":false,"tags":{},"type":{"name":"boolean"}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
+  "map": null,
 }
-catch (__react_docgen_typescript_loader_error) { }",
+`;
+
+exports[`component fixture > AliasedImport.tsx has code block generated 1`] = `
+{
+  "code": "import type { AliasedImportColor } from "@fixtures/AliasedImport.types";
+import * as React from "react";
+
+interface AliasedImportProps {
+  /** Button color. */
+  color: AliasedImportColor;
+}
+
+/**
+ * A component whose prop types are resolved through tsconfig paths.
+ */
+export const AliasedImportComponent: React.FC<AliasedImportProps> = (props) => (
+  <button style={{ backgroundColor: props.color }}>{props.children}</button>
+);
+try {
+    // @ts-ignore
+    AliasedImportComponent.displayName = "AliasedImportComponent";
+    // @ts-ignore
+    AliasedImportComponent.__docgenInfo = {"description":"A component whose prop types are resolved through tsconfig paths.","displayName":"AliasedImportComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AliasedImport.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AliasedImport.tsx","name":"AliasedImportProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AliasedImport.tsx","name":"AliasedImportProps"},"required":true,"tags":{},"type":{"name":"AliasedImportColor"}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
+  "map": null,
+}
+`;
+
+exports[`component fixture > AmbientDeclaration.tsx has code block generated 1`] = `
+{
+  "code": "import * as React from "react";
+
+interface AmbientDeclarationProps {
+  /** Alert tone. */
+  tone: AmbientDeclarationTone;
+}
+
+/**
+ * A component that relies on an ambient declaration file.
+ */
+export const AmbientDeclarationComponent: React.FC<AmbientDeclarationProps> = (
+  props,
+) => <div data-tone={props.tone}>{props.children}</div>;
+try {
+    // @ts-ignore
+    AmbientDeclarationComponent.displayName = "AmbientDeclarationComponent";
+    // @ts-ignore
+    AmbientDeclarationComponent.__docgenInfo = {"description":"A component that relies on an ambient declaration file.","displayName":"AmbientDeclarationComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AmbientDeclaration.tsx","methods":[],"props":{"tone":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AmbientDeclaration.tsx","name":"AmbientDeclarationProps"}],"description":"Alert tone.","name":"tone","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/AmbientDeclaration.tsx","name":"AmbientDeclarationProps"},"required":true,"tags":{},"type":{"name":"AmbientDeclarationTone"}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -731,11 +988,10 @@ const DefaultExportComponent: React.FC<DefaultExportComponentProps> = (
 export default DefaultExportComponent;
 try {
     // @ts-ignore
-    DefaultExport.displayName = "DefaultExport";
+    DefaultExportComponent.displayName = "DefaultExport";
     // @ts-ignore
-    DefaultExport.__docgenInfo = { "description": "A simple component.", "displayName": "DefaultExport", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    DefaultExportComponent.__docgenInfo = {"description":"A simple component.","displayName":"DefaultExport","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExport.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExport.tsx","name":"DefaultExportComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExport.tsx","name":"DefaultExportComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -761,11 +1017,10 @@ DefaultExportComponent.displayName = "DefaultExportComponentWithDisplayName";
 export default DefaultExportComponent;
 try {
     // @ts-ignore
-    DefaultExportComponentWithDisplayName.displayName = "DefaultExportComponentWithDisplayName";
+    DefaultExportComponent.displayName = "DefaultExportComponentWithDisplayName";
     // @ts-ignore
-    DefaultExportComponentWithDisplayName.__docgenInfo = { "description": "A simple component.", "displayName": "DefaultExportComponentWithDisplayName", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    DefaultExportComponent.__docgenInfo = {"description":"A simple component.","displayName":"DefaultExportComponentWithDisplayName","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExportWithDisplayName.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExportWithDisplayName.tsx","name":"DefaultExportComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultExportWithDisplayName.tsx","name":"DefaultExportComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -813,9 +1068,40 @@ try {
     // @ts-ignore
     DefaultPropValueComponent.displayName = "DefaultPropValueComponent";
     // @ts-ignore
-    DefaultPropValueComponent.__docgenInfo = { "description": "Component with a prop with a default value.", "displayName": "DefaultPropValueComponent", "props": { "color": { "defaultValue": { value: "blue" }, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } }, "counter": { "defaultValue": { value: 123 }, "description": "Button counter.", "name": "counter", "required": false, "type": { "name": "number" } }, "disabled": { "defaultValue": { value: false }, "description": "Button disabled.", "name": "disabled", "required": false, "type": { "name": "boolean" } } } };
+    DefaultPropValueComponent.__docgenInfo = {"description":"Component with a prop with a default value.","displayName":"DefaultPropValueComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","methods":[],"props":{"color":{"defaultValue":{"value":"blue"},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":true,"tags":{"default":"blue"},"type":{"name":"/"blue/" | /"green/""}},"counter":{"defaultValue":{"value":123},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button counter.","name":"counter","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":false,"tags":{},"type":{"name":"number"}},"disabled":{"defaultValue":{"value":false},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button disabled.","name":"disabled","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":false,"tags":{},"type":{"name":"boolean"}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
+  "map": null,
 }
-catch (__react_docgen_typescript_loader_error) { }",
+`;
+
+exports[`component fixture > ForwardRefDefaultExport.tsx has code block generated 1`] = `
+{
+  "code": "import * as React from "react";
+
+interface ForwardRefDefaultExportProps {
+  /** Button color. */
+  color: "blue" | "green";
+}
+
+/**
+ * A forwardRef component exported through a differently named file.
+ */
+const Button = React.forwardRef<
+  HTMLButtonElement,
+  ForwardRefDefaultExportProps
+>((props, ref) => (
+  <button ref={ref} style={{ backgroundColor: props.color }}>
+    {props.children}
+  </button>
+));
+
+export default Button;
+try {
+    // @ts-ignore
+    Button.displayName = "ForwardRefDefaultExport";
+    // @ts-ignore
+    Button.__docgenInfo = {"description":"A forwardRef component exported through a differently named file.","displayName":"ForwardRefDefaultExport","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/ForwardRefDefaultExport.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/ForwardRefDefaultExport.tsx","name":"ForwardRefDefaultExportProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/ForwardRefDefaultExport.tsx","name":"ForwardRefDefaultExportProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -843,9 +1129,8 @@ try {
     // @ts-ignore
     HyphenatedPropNameComponent.displayName = "HyphenatedPropNameComponent";
     // @ts-ignore
-    HyphenatedPropNameComponent.__docgenInfo = { "description": "A component with a hyphenated prop name.", "displayName": "HyphenatedPropNameComponent", "props": { "button-color": { "defaultValue": null, "description": "Button color.", "name": "button-color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    HyphenatedPropNameComponent.__docgenInfo = {"description":"A component with a hyphenated prop name.","displayName":"HyphenatedPropNameComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/HyphenatedPropName.tsx","methods":[],"props":{"button-color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/HyphenatedPropName.tsx","name":"HyphenatedPropNameProps"}],"description":"Button color.","name":"button-color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/HyphenatedPropName.tsx","name":"HyphenatedPropNameProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -872,9 +1157,8 @@ try {
     // @ts-ignore
     MultiPropsComponent.displayName = "MultiPropsComponent";
     // @ts-ignore
-    MultiPropsComponent.__docgenInfo = { "description": "This is a component with multiple props.", "displayName": "MultiPropsComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } }, "size": { "defaultValue": null, "description": "Button size.", "name": "size", "required": true, "type": { "name": "\\"small\\" | \\"large\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    MultiPropsComponent.__docgenInfo = {"description":"This is a component with multiple props.","displayName":"MultiPropsComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","name":"MultiPropsComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","name":"MultiPropsComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}},"size":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","name":"MultiPropsComponentProps"}],"description":"Button size.","name":"size","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultiProps.tsx","name":"MultiPropsComponentProps"},"required":true,"tags":{},"type":{"name":"/"small/" | /"large/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -902,9 +1186,8 @@ try {
     // @ts-ignore
     MultilineDescriptionComponent.displayName = "MultilineDescriptionComponent";
     // @ts-ignore
-    MultilineDescriptionComponent.__docgenInfo = { "description": "A component with a multiline description.\\n\\nSecond line.", "displayName": "MultilineDescriptionComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    MultilineDescriptionComponent.__docgenInfo = {"description":"A component with a multiline description./n/nSecond line.","displayName":"MultilineDescriptionComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilineDescription.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilineDescription.tsx","name":"MultilineDescriptionProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilineDescription.tsx","name":"MultilineDescriptionProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -934,9 +1217,39 @@ try {
     // @ts-ignore
     MultilinePropDescriptionComponent.displayName = "MultilinePropDescriptionComponent";
     // @ts-ignore
-    MultilinePropDescriptionComponent.__docgenInfo = { "description": "A component with multiline prop description.", "displayName": "MultilinePropDescriptionComponent", "props": { "color": { "defaultValue": null, "description": "This is a multiline prop description.\\n\\nSecond line.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
+    MultilinePropDescriptionComponent.__docgenInfo = {"description":"A component with multiline prop description.","displayName":"MultilinePropDescriptionComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilinePropDescription.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilinePropDescription.tsx","name":"MultilinePropDescriptionComponentProps"}],"description":"This is a multiline prop description./n/nSecond line.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/MultilinePropDescription.tsx","name":"MultilinePropDescriptionComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
+  "map": null,
 }
-catch (__react_docgen_typescript_loader_error) { }",
+`;
+
+exports[`component fixture > RichMetadata.tsx has code block generated 1`] = `
+{
+  "code": "interface RichMetadataProps {
+  /**
+   * Visual variant.
+   *
+   * @default pill
+   * @remarks Used by the design system controls.
+   */
+  variant?: "pill" | "modern";
+}
+
+/**
+ * Component with richer docgen metadata.
+ *
+ * @status beta
+ * @see https://example.com/rich-metadata
+ */
+export const RichMetadataComponent = ({
+  variant = "pill",
+}: RichMetadataProps) => <button data-variant={variant}>{variant}</button>;
+try {
+    // @ts-ignore
+    RichMetadataComponent.displayName = "RichMetadataComponent";
+    // @ts-ignore
+    RichMetadataComponent.__docgenInfo = {"description":"Component with richer docgen metadata.","displayName":"RichMetadataComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/RichMetadata.tsx","methods":[],"props":{"variant":{"defaultValue":{"value":"pill"},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/RichMetadata.tsx","name":"RichMetadataProps"}],"description":"Visual variant.","name":"variant","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/RichMetadata.tsx","name":"RichMetadataProps"},"required":false,"tags":{"default":"pill","remarks":"Used by the design system controls."},"type":{"name":"/"pill/" | /"modern/" | undefined"}}},"tags":{"status":"beta","see":"https://example.com/rich-metadata"}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -960,9 +1273,8 @@ try {
     // @ts-ignore
     SimpleComponent.displayName = "SimpleComponent";
     // @ts-ignore
-    SimpleComponent.__docgenInfo = { "description": "A simple component.", "displayName": "SimpleComponent", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    SimpleComponent.__docgenInfo = {"description":"A simple component.","displayName":"SimpleComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/Simple.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/Simple.tsx","name":"SimpleComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/Simple.tsx","name":"SimpleComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -986,11 +1298,10 @@ export const SimpleComponent: React.FC<SimpleComponentProps> = (props) => (
 SimpleComponent.displayName = "SimpleComponentWithDisplayName";
 try {
     // @ts-ignore
-    SimpleComponentWithDisplayName.displayName = "SimpleComponentWithDisplayName";
+    SimpleComponent.displayName = "SimpleComponentWithDisplayName";
     // @ts-ignore
-    SimpleComponentWithDisplayName.__docgenInfo = { "description": "A simple component.", "displayName": "SimpleComponentWithDisplayName", "props": { "color": { "defaultValue": null, "description": "Button color.", "name": "color", "required": true, "type": { "name": "\\"blue\\" | \\"green\\"" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    SimpleComponent.__docgenInfo = {"description":"A simple component.","displayName":"SimpleComponentWithDisplayName","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/SimpleWithDisplayName.tsx","methods":[],"props":{"color":{"defaultValue":null,"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/SimpleWithDisplayName.tsx","name":"SimpleComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/SimpleWithDisplayName.tsx","name":"SimpleComponentProps"},"required":true,"tags":{},"type":{"name":"/"blue/" | /"green/""}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -1011,9 +1322,8 @@ try {
     // @ts-ignore
     SimpleComponent.displayName = "SimpleComponent";
     // @ts-ignore
-    SimpleComponent.__docgenInfo = { "description": "A component with only text content wrapped in a div.\\n\\nRef: https://github.com/strothj/react-docgen-typescript-loader/issues/7", "displayName": "SimpleComponent", "props": {} };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    SimpleComponent.__docgenInfo = {"description":"A component with only text content wrapped in a div./n/nRef: https://github.com/strothj/react-docgen-typescript-loader/issues/7","displayName":"SimpleComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/TextOnlyComponent.tsx","methods":[],"props":{},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;
@@ -1061,9 +1371,8 @@ try {
     // @ts-ignore
     DefaultPropValueComponent.displayName = "DefaultPropValueComponent";
     // @ts-ignore
-    DefaultPropValueComponent.__docgenInfo = { "description": "Component with a prop with a default value.", "displayName": "DefaultPropValueComponent", "props": { "color": { "defaultValue": { value: "blue" }, "description": "Button color.", "name": "color", "required": true, "type": { "name": "enum", "value": [{ "value": "\\"blue\\"" }, { "value": "\\"green\\"" }] } }, "counter": { "defaultValue": { value: 123 }, "description": "Button counter.", "name": "counter", "required": false, "type": { "name": "number" } }, "disabled": { "defaultValue": { value: false }, "description": "Button disabled.", "name": "disabled", "required": false, "type": { "name": "boolean" } } } };
-}
-catch (__react_docgen_typescript_loader_error) { }",
+    DefaultPropValueComponent.__docgenInfo = {"description":"Component with a prop with a default value.","displayName":"DefaultPropValueComponent","filePath":"<PROJECT_ROOT>/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","methods":[],"props":{"color":{"defaultValue":{"value":"blue"},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button color.","name":"color","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":true,"tags":{"default":"blue"},"type":{"name":"enum","raw":"/"blue/" | /"green/"","value":[{"value":"/"blue/""},{"value":"/"green/""}]}},"counter":{"defaultValue":{"value":123},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button counter.","name":"counter","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":false,"tags":{},"type":{"name":"number"}},"disabled":{"defaultValue":{"value":false},"declarations":[{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"}],"description":"Button disabled.","name":"disabled","parent":{"fileName":"vite-plugin-react-docgen-typescript/packages/vite-plugin-react-docgen-typescript/src/__tests__/__fixtures__/DefaultPropValue.tsx","name":"DefaultPropValueComponentProps"},"required":false,"tags":{},"type":{"name":"boolean"}}},"tags":{}};
+} catch (__react_docgen_typescript_loader_error) {}",
   "map": null,
 }
 `;

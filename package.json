@@ -15,7 +15,7 @@
     "benchmark:ci": "yarn build && node ./scripts/benchmark-playground.mjs --scenario playground --iterations 1 && node ./scripts/benchmark-playground.mjs --scenario large-project --iterations 1 && node ./scripts/benchmark-playground.mjs --scenario large-design-system --iterations 1",
     "benchmark:large-design-system": "yarn benchmark --scenario large-design-system",
     "benchmark:large-project": "yarn benchmark --scenario large-project",
-    "benchmark:playground": "yarn benchmark --scenario playground",
+    "benchmark:playground": "yarn exec unbuild packages/vite-plugin-react-docgen-typescript && node packages/vite-plugin-react-docgen-typescript/scripts/benchmark-playground.mjs",
     "build": "yarn workspace @joshwooding/vite-plugin-react-docgen-typescript build",
     "biome": "biome format . --write",
     "biome:check": "biome check --write --unsafe .",
@@ -38,7 +38,7 @@
   },
   "resolutions": {
     "@joshwooding/vite-plugin-react-docgen-typescript": "workspace:*",
-    "esbuild": "^0.24.0"
+    "esbuild": "^0.27.0"
   },
   "packageManager": "yarn@4.13.0"
 }
