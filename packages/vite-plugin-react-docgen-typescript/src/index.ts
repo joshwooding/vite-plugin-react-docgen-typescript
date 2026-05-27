@@ -107,7 +107,7 @@ const resolveRootFilesFromGlobs = async (
   includeArray: string[],
   excludeArray: string[],
 ) => {
-  const { globSync } = await import("glob");
+  const { globSync } = await import("tinyglobby");
   const files = new Set<string>();
 
   for (const filePattern of includeArray) {
@@ -115,7 +115,7 @@ const resolveRootFilesFromGlobs = async (
       absolute: true,
       cwd: rootDir,
       ignore: excludeArray,
-      nodir: true,
+      onlyFiles: true,
     })) {
       files.add(path.resolve(fileName));
     }
