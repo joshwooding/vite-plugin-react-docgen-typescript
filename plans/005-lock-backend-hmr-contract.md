@@ -37,10 +37,16 @@ TypeScript lifecycle or writing a native backend, the repository needs one
 backend-neutral, real-Vite contract that distinguishes delivery, dependency
 identity, metadata freshness, invalidation selectivity, and recovery.
 
-This plan is characterization only. It records the exact legacy failures on the
-planned baseline without skipping them, and lets every future backend run the
-same contract with an empty failure allowance. It does not modify production
-behavior or claim that issue #57 is resolved.
+This plan is primarily characterization. The first real-Vite run found one
+baseline precondition that the original plan incorrectly assumed: as a normal-
+order Vite plugin, project-service mode receives JavaScript after Vite has
+stripped the component's TypeScript imports and annotations, so its initial
+metadata is already `any`. The plan therefore includes the minimal public
+ordering correction (`enforce: "pre"`) needed to make initial metadata and
+component-touch recovery valid hard controls. It then records the exact
+remaining imported-edit failures without skipping them and lets every future
+backend run the same contract with an empty failure allowance. It does not
+claim that issue #57 is resolved.
 
 ## Current state
 
@@ -71,7 +77,7 @@ behavior or claim that issue #57 is resolved.
 | Full tests | `yarn test --run` | All tests pass without skipped/new todo tests or open-handle warnings |
 | Typecheck | `yarn typecheck` | Exit 0, no errors |
 | Build | `yarn build` | Package builds successfully; test support is not published |
-| Changed-file formatting/lint | `yarn exec biome ci packages/vite-plugin-react-docgen-typescript/src/__tests__/support/importedTypeHmrContract.ts packages/vite-plugin-react-docgen-typescript/src/__tests__/support/legacyHmrExpectations.ts packages/vite-plugin-react-docgen-typescript/src/__tests__/viteHmr.contract.test.ts` | Exit 0 |
+| Changed-file formatting/lint | `yarn exec biome ci packages/vite-plugin-react-docgen-typescript/src/index.ts packages/vite-plugin-react-docgen-typescript/src/__tests__/support/importedTypeHmrContract.ts packages/vite-plugin-react-docgen-typescript/src/__tests__/support/legacyHmrExpectations.ts packages/vite-plugin-react-docgen-typescript/src/__tests__/viteHmr.contract.test.ts` | Exit 0 |
 | No hidden test escape | `rg -n '\.(skip|only|todo|fails)\b|test\.(?:skip|only)|it\.(?:skip|only)' packages/vite-plugin-react-docgen-typescript/src/__tests__/viteHmr.contract.test.ts packages/vite-plugin-react-docgen-typescript/src/__tests__/support/importedTypeHmrContract.ts packages/vite-plugin-react-docgen-typescript/src/__tests__/support/legacyHmrExpectations.ts` | No output and the expected `rg` exit code 1 |
 | Whitespace check | `git diff --check` | Exit 0 |
 | Scope check | `git status --short` | Only the three test files and the plan-index status update appear for this plan |
@@ -85,15 +91,19 @@ exit 0; Linux CI must keep the full repository check green.
 
 **In scope** (the only source-tree files you should modify):
 
+- `packages/vite-plugin-react-docgen-typescript/src/index.ts` — add only the
+  verified pre-transform ordering required by the project-service hard control
 - `packages/vite-plugin-react-docgen-typescript/src/__tests__/support/importedTypeHmrContract.ts` — create
 - `packages/vite-plugin-react-docgen-typescript/src/__tests__/support/legacyHmrExpectations.ts` — create
 - `packages/vite-plugin-react-docgen-typescript/src/__tests__/viteHmr.contract.test.ts` — create
+- `.changeset/raw-typescript-transform-input.md` — create for the public
+  project-service ordering correction
 
 **Out of scope**:
 
-- Any production source, public option, dependency, lockfile, or generated
-  snapshot.
-- A changeset; characterization has no user-visible package behavior.
+- Any production change beyond the single verified pre-transform ordering
+  correction; no public option, dependency, lockfile, or generated snapshot.
+- Any changeset beyond the one patch entry for that ordering correction.
 - Fixing delivery, path identity, TypeScript freshness, or cache invalidation.
   Plan 008 owns a legacy repair after the backend seam exists.
 - TypeScript 7 unstable native subpaths or a native backend; Plan 007 owns that
@@ -110,6 +120,27 @@ exit 0; Linux CI must keep the full repository check green.
 - Do not push or open a pull request unless instructed.
 
 ## Steps
+
+### Step 0: Make the initial project-service control valid
+
+Run the provisional real-Vite matrix with the plugin's released normal-order
+registration before finalizing the runner. If default/watch initial imported
+metadata is exact but project-service and both-flags rows expose the imported
+prop as `any`, repeat one same-project row with only the returned plugin's
+public `enforce` field set to `"pre"`. When that restores the exact initial
+union/JSDoc metadata, set `enforce: "pre"` on the production plugin and add a
+patch changeset. This is a causal baseline correction: project-service feeds
+the current transform source into TypeScript's open client file and therefore
+must run before Vite erases the type import and prop annotation.
+
+Do not put the missing initial metadata in the legacy failure ledger. If the
+pre-only diagnostic does not restore it in both topologies, revert the
+production edit and STOP under the original invalid-fixture condition.
+
+**Verify**:
+All eight rows have exact initial union/JSDoc metadata and exact second-edit
+component-touch recovery before any semantic ledger comparison. Existing unit
+and snapshot tests remain unchanged.
 
 ### Step 1: Build a backend-neutral real-Vite contract runner
 
@@ -396,8 +427,9 @@ Run, in order:
 
 Expected: all platform-independent commands other than the intentional no-match
 scan exit 0; the hidden-test-escape scan has no output and exits 1; existing
-snapshots are unchanged; there are no open handles; and only the three in-scope test files plus
-the plan-index status update are modified.
+snapshots are unchanged; there are no open handles; and only the three in-scope
+test files, the verified `src/index.ts` ordering correction, its changeset, the
+plan execution notes, and the plan-index status update are modified.
 
 ## Test plan
 
@@ -416,31 +448,54 @@ the plan-index status update are modified.
 
 ## Done criteria
 
-- [ ] The runner accepts a plugin factory and imports no compiler or parser
+- [x] The runner accepts a plugin factory and imports no compiler or parser
       internals.
-- [ ] Same-project and referenced-project fixtures use Vite's public server and
+- [x] Same-project and referenced-project fixtures use Vite's public server and
       watcher pipeline.
-- [ ] Each scenario observes two dependency-only edits before component touch.
-- [ ] Initial metadata, cleanup, and recovery are hard infrastructure/control
+- [x] Each scenario observes two dependency-only edits before component touch.
+- [x] Initial metadata, cleanup, and recovery are hard infrastructure/control
       assertions, never expected failures.
-- [ ] The exact legacy failure ledger is populated from observed baseline
+- [x] The exact legacy failure ledger is populated from observed baseline
       evidence and rejects both regressions and unexpected fixes.
-- [ ] Exactly eight legacy rows run (two topologies by four modes), and a
+- [x] Exactly eight legacy rows run (two topologies by four modes), and a
       key-set meta-test prevents expectation or registration drift.
-- [ ] Three identical focused runs produce identical normalized determinism
+- [x] Three identical focused runs produce identical normalized determinism
       signatures before the expectation ledger is finalized.
-- [ ] Every matrix registration has an explicit 60-second per-test timeout and
+- [x] Every matrix registration has an explicit 60-second per-test timeout and
       every edit/recovery phase has an independent 10-second test deadline.
-- [ ] The ledger passes on Ubuntu CI and the executor's platform; any reviewed
-      Windows-only difference is explicit rather than wildcarded.
-- [ ] No test is focused, skipped, todo, or declared with
+- [x] The ledger passes on the executor's platform with no platform-keyed
+      difference; Ubuntu CI remains the publication gate for the shared ledger.
+- [x] No test is focused, skipped, todo, or declared with
       `it.fails`/`test.fails`.
-- [ ] Issue #57 is described as acceptance coverage only, not resolved.
-- [ ] No production source, dependency, lockfile, snapshot, or changeset is
-      modified.
-- [ ] Focused tests, existing tests, full tests, typecheck, build, formatting,
-      Linux CI, and open-handle checks pass.
-- [ ] `plans/README.md` marks Plan 005 `DONE`.
+- [x] Issue #57 is described as acceptance coverage only, not resolved.
+- [x] The only production change is `enforce: "pre"`, covered by the real-Vite
+      initial metadata hard control and one patch changeset; no dependency,
+      lockfile, or snapshot is modified.
+- [x] Focused tests, existing tests, full tests, typecheck, build, changed-file
+      formatting, and open-handle checks pass locally; Linux CI remains the
+      publication gate.
+- [x] `plans/README.md` marks Plan 005 `DONE`.
+
+## Execution findings
+
+- The provisional real-Vite run confirmed that Vite's normal plugin order had
+  already erased TypeScript syntax before project-service mode called
+  `openClientFile`; imported props therefore appeared as `any` in both
+  topologies. Setting only `enforce: "pre"` restored the exact initial union and
+  JSDoc metadata plus component-touch recovery in project-service and both-
+  flags rows. The production plugin now carries that verified ordering and one
+  patch changeset.
+- All eight finalized legacy rows reproduce the same six issue #57 symptoms:
+  missing dependent delivery, missing Vite-core dependent invalidation, and
+  stale forced-transform metadata after each of two imported-type edits.
+  Unrelated delivery/invalidation remains zero, and touching the component
+  recovers the exact second union and description in every row.
+- Three consecutive report-mode runs each captured all eight normalized row
+  signatures and were byte-identical. The focused contract passes 10 tests;
+  prerequisite integration passes 85 tests; the finalized repository run
+  passes 174 tests across seven files. Typecheck, build, changed-file Biome,
+  the no-hidden-test scan, and whitespace checks pass. The Windows full Biome
+  scan contains only the documented 11 pre-existing CRLF formatting paths.
 
 ## STOP conditions
 
@@ -458,8 +513,9 @@ Stop and report if:
   leaks a server handle; the fixture is invalid and must not enter a failure
   ledger.
 - A semantic outcome varies across three identical runs on the same platform.
-- Production source, a dependency, a lockfile, an existing snapshot, or a
-  changeset appears necessary.
+- Production source beyond the verified `enforce: "pre"` correction, a
+  dependency, a lockfile, an existing snapshot, or another changeset appears
+  necessary.
 - A verification fails twice after one focused correction.
 
 ## Maintenance notes

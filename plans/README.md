@@ -23,7 +23,7 @@ verification gate, and update only its status row here when done.
 | [002](./002-bound-typescript-compatibility.md) | Make the TypeScript 7 compatibility boundary explicit | P1 | M | — | Start now; legacy production contract | DONE |
 | [003](./003-reject-invalid-runtime-targets.md) | Prevent invalid runtime targets for barrel re-exports | P1 | S | — | Start now | DONE |
 | [004](./004-unify-project-file-selection.md) | Unify project membership and file-selection semantics | P1 | M | — | Start now; establishes shared selection input | DONE |
-| [005](./005-lock-backend-hmr-contract.md) | Lock backend-neutral imported-type HMR acceptance contracts | P1 | M | 002, 004 | Tests/observations only; freeze ledgers on the final TypeScript 6 baseline | TODO |
+| [005](./005-lock-backend-hmr-contract.md) | Lock backend-neutral imported-type HMR acceptance contracts | P1 | M | 002, 004 | Freeze ledgers on the final TypeScript 6 baseline after the verified pre-transform ordering correction | DONE |
 | [006](./006-introduce-docgen-backend-seam.md) | Introduce a docgen backend session boundary without changing legacy behavior | P1 | L | 002, 003, 004, 005 | Start only after all four boundaries are stable | TODO |
 | [007](./007-prove-native-docgen-backend.md) | Prove or reject a native TypeScript 7 docgen backend | P2 | XL | 006 | Exact stable + next, non-shipping; record a verdict only from valid evidence, otherwise BLOCKED | TODO |
 | [008](./008-repair-legacy-imported-type-hmr.md) | Repair imported-type HMR in the legacy backend | P1 | L | 004, 005, 006 | Mandatory while legacy remains default, opt-in, supported, or a rollback path | TODO |
@@ -76,10 +76,11 @@ native release cannot waive it.
 
 - After Plans 002 and 004 land, Plan 005 adds a real Vite watcher/module-graph
   contract with an exact legacy failure ledger across two topologies and four
-  legacy modes. Freezing after both prerequisites prevents a compiler or
-  selection rebase from silently changing the characterized baseline. It
-  changes no production code, adds no changeset, and does not claim issue #57
-  is fixed.
+  legacy modes. Its first real-server run also applies the narrowly proven
+  pre-transform ordering needed to keep project-service input typed; that
+  prerequisite receives a patch changeset but does not claim issue #57 is
+  fixed. Freezing after both prerequisites prevents a compiler or selection
+  rebase from silently changing the characterized baseline.
 - Known failures are recorded as named observations, not skipped tests or
   `it.fails`; unexpected failures and unexpected passes both require review.
 

@@ -1373,6 +1373,7 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
   };
 
   return {
+    enforce: "pre",
     name: "vite:react-docgen-typescript",
     async configResolved(resolvedConfig?: ResolvedConfig) {
       configRoot = resolvedConfig?.root ?? process.cwd();
