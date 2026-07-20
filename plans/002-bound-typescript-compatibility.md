@@ -121,6 +121,7 @@ CRLF/`format` class and no new path appears.
 - `packages/vite-plugin-react-docgen-typescript/src/utils/typescript.ts`
 - `packages/vite-plugin-react-docgen-typescript/src/utils/typescriptCompatibility.ts` — create
 - `packages/vite-plugin-react-docgen-typescript/src/__tests__/typescriptCompatibility.test.ts` — create
+- `packages/vite-plugin-react-docgen-typescript/src/__tests__/__snapshots__/index.test.ts.snap` — update only if TypeScript 6 changes an existing expectation and the new value matches another already-approved runtime mode
 - `.changeset/clear-typescript-boundary.md` — create
 
 **Out of scope**:
@@ -154,9 +155,17 @@ Vite range unchanged.
 
 In the root development dependencies:
 
-- Replace the normal `typescript` entry with the TypeScript 6 compatibility
-  package aliased under the name the plugin imports, using a bounded 6.0 patch
-  line such as `npm:@typescript/typescript6@6.0.X`.
+- Replace the normal `typescript` entry with the final JavaScript compiler line,
+  bounded as `6.0.X`. This is the module shape normal supported consumers expose
+  to the plugin.
+- Add `typescript6: npm:@typescript/typescript6@6.0.X` as a fixture and as the
+  source of the unambiguous `tsc6` binary. Do not alias this wrapper to the
+  dependency name `typescript` in this Yarn workspace: Yarn 4.13 identifies
+  built-in compatibility patches by the dependency alias, tries to apply its
+  legacy `typescript` patch to the wrapper's nine-file package, and aborts on
+  the missing `lib/_tsc.js`. Testing both the direct 6.0 module and the official
+  wrapper covers the intended runtime shapes without depending on that package-
+  manager bug.
 - Add `typescript43: npm:typescript@4.3.5` as a runtime compatibility fixture.
   It proves that the new loader guard itself does not raise the existing lower
   peer bound. Full plugin behavior across the entire peer matrix remains the
@@ -166,20 +175,22 @@ In the root development dependencies:
   unsupported real module shape and must never be imported by production code
   or added to the published package manifest.
 
-The compatibility package exposes a `tsc6` binary, not `tsc`. Change the plugin
+The compatibility-package fixture exposes a `tsc6` binary. Change the plugin
 workspace's existing `typecheck` script from `tsc --noEmit` to
 `tsc6 --noEmit`. Do not rely on the competing `tsc` bins contributed by the
 4.3/7 fixture aliases; those aliases are imported by tests only.
 
 Run `yarn install` once to regenerate `yarn.lock`, then run
 `yarn install --immutable` to prove the lockfile is complete. Confirm with
-`yarn why typescript`, `yarn why typescript43`, and `yarn why typescript7` that
-the normal compiler is 6.0 and the fixture aliases are exactly 4.3.5 and 7.0.2.
+`yarn why typescript`, `yarn why typescript6`, `yarn why typescript43`, and
+`yarn why typescript7` that the normal compiler is 6.0 and the fixture aliases
+are the official 6.0 wrapper, 4.3.5, and 7.0.2 respectively.
 
 **Verify**:
 
-- `yarn why typescript` → the root compiler resolves to
-  `@typescript/typescript6` 6.0.x under the `typescript` alias.
+- `yarn why typescript` → the root compiler resolves to `typescript` 6.0.x.
+- `yarn why typescript6` → the compatibility fixture resolves to
+  `@typescript/typescript6` 6.0.x.
 - `yarn why typescript43` → the lower-bound fixture resolves to TypeScript
   4.3.5.
 - `yarn why typescript7` → the test-only alias resolves to `typescript` 7.0.2.
@@ -261,8 +272,9 @@ In `src/__tests__/typescriptCompatibility.test.ts`, cover these named cases:
    every capability the guard requires, but describe this narrowly: it proves
    the new validation layer does not itself raise the existing 4.3 lower bound,
    not that every plugin runtime mode has been matrix-tested on 4.3.
-2. The installed TypeScript 6 compatibility package is accepted and exposes
-   the APIs used by default, watch, and project-service initialization.
+2. The installed TypeScript 6 compiler and the official `typescript6`
+   compatibility wrapper are both accepted and expose the APIs used by default,
+   watch, and project-service initialization.
 3. The actual `typescript7` alias is rejected. The error must contain either
    its safely exposed 7.0.2 `version` or `unknown`, plus the supported range,
    missing compiler-API explanation, and documentation pointer. Do not require
@@ -338,10 +350,18 @@ Expected: all platform-independent commands and changed-file Biome checks exit
 specified; Linux CI is green; and only the in-scope files plus the plan-index
 status update are modified.
 
+The first TypeScript 6 full-suite run changed the project-service metadata for
+the optional `RichMetadataProps.variant` property from `"pill" | "modern"` to
+`"pill" | "modern" | undefined`. The default and watch-mode snapshots already
+expect the latter value. Treat updating that single project-service snapshot as
+an intentional parity correction, not a weakened assertion; any other snapshot
+drift remains a STOP condition.
+
 ## Test plan
 
-- Use the actual aliased TypeScript 4.3.5, 6, and 7 packages for the three core
-  contract cases; use small mocks only for malformed and import-failure edges.
+- Use the actual aliased TypeScript 4.3.5, official TypeScript 6 wrapper, and
+  TypeScript 7 packages alongside the direct TypeScript 6 module; use small
+  mocks only for malformed and import-failure edges.
 - Validate the error's stable semantic fields, not an entire stack trace.
 - Existing `index.test.ts` coverage must remain green under TypeScript 6 in all
   three runtime modes.
@@ -352,9 +372,9 @@ status update are modified.
 ## Done criteria
 
 - [ ] The published peer range is exactly bounded below 7 and remains optional.
-- [ ] The repository's normal suite and build pass with the TypeScript 6
-      compatibility package exposed as `typescript` and typecheck explicitly
-      invokes `tsc6`.
+- [ ] The repository's normal suite and build pass with TypeScript 6 exposed as
+      `typescript`; the official compatibility wrapper is validated separately,
+      and typecheck explicitly invokes its `tsc6` binary.
 - [ ] The actual TypeScript 4.3.5 module passes every new loader capability
       check, proving this guard does not itself raise the retained lower peer
       bound; no broader matrix-support claim is made.

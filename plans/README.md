@@ -20,7 +20,7 @@ verification gate, and update only its status row here when done.
 | Plan | Title | Priority | Effort | Depends on | Execution condition | Status |
 |---|---|---:|---:|---|---|---|
 | [001](./001-harden-snapshot-publishing.md) | Isolate and harden collaborator-triggered snapshot publishing | P1 | L | — | Start now; security lane | DONE |
-| [002](./002-bound-typescript-compatibility.md) | Make the TypeScript 7 compatibility boundary explicit | P1 | M | — | Start now; legacy production contract | TODO |
+| [002](./002-bound-typescript-compatibility.md) | Make the TypeScript 7 compatibility boundary explicit | P1 | M | — | Start now; legacy production contract | DONE |
 | [003](./003-reject-invalid-runtime-targets.md) | Prevent invalid runtime targets for barrel re-exports | P1 | S | — | Start now | TODO |
 | [004](./004-unify-project-file-selection.md) | Unify project membership and file-selection semantics | P1 | M | — | Start now; establishes shared selection input | TODO |
 | [005](./005-lock-backend-hmr-contract.md) | Lock backend-neutral imported-type HMR acceptance contracts | P1 | M | 002, 004 | Tests/observations only; freeze ledgers on the final TypeScript 6 baseline | TODO |

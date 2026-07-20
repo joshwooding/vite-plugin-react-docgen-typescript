@@ -23,6 +23,7 @@ import {
 import { defaultPropFilter } from "./utils/filter";
 import type { Options } from "./utils/options";
 import { resolveComponentDocRuntimeTargets } from "./utils/runtimeTarget";
+import { loadTypescript } from "./utils/typescriptCompatibility";
 
 type Filepath = string;
 type InvalidateModule = () => void;
@@ -141,6 +142,7 @@ const resolveProjectConfigFiles = (
 const resolveReferencedProjectMetadata = (
   typescriptModule: typeof import("typescript"),
   getTSConfigFile: (
+    typescriptModule: typeof import("typescript"),
     tsconfigPath: string,
   ) => import("typescript").ParsedCommandLine,
   projectReferences?: readonly ProjectReference[],
@@ -166,7 +168,10 @@ const resolveReferencedProjectMetadata = (
 
     referencedConfigFiles.add(referencedConfigPath);
 
-    const parsedReferencedConfig = getTSConfigFile(referencedConfigPath);
+    const parsedReferencedConfig = getTSConfigFile(
+      typescriptModule,
+      referencedConfigPath,
+    );
 
     for (const fileName of parsedReferencedConfig.fileNames) {
       referencedProjectFiles.add(path.resolve(fileName));
@@ -215,8 +220,8 @@ const resolveDocgenRootFiles = async (
 const resolveTypescriptProject = async (
   config: Options,
   rootDir: string,
+  ts: typeof import("typescript"),
 ): Promise<TypescriptProject> => {
-  const { default: ts } = await import("typescript");
   const includeArray = config.include ?? DEFAULT_INCLUDE;
   const excludeArray = config.exclude ?? DEFAULT_EXCLUDE;
   let referencedProjectMetadata: {
@@ -240,7 +245,7 @@ const resolveTypescriptProject = async (
     if (config.tsconfigPath || ts.sys.fileExists(absoluteTsconfigPath)) {
       const { getTSConfigFile } = await import("./utils/typescript");
 
-      parsedConfig = getTSConfigFile(absoluteTsconfigPath);
+      parsedConfig = getTSConfigFile(ts, absoluteTsconfigPath);
       referencedProjectMetadata = resolveReferencedProjectMetadata(
         ts,
         getTSConfigFile,
@@ -296,9 +301,9 @@ const resolveTypescriptProject = async (
 
 const createProgram = async (
   project: TypescriptProject,
+  ts: typeof import("typescript"),
   oldProgram?: SemanticDiagnosticsBuilderProgram,
 ) => {
-  const { default: ts } = await import("typescript");
   const host = ts.createIncrementalCompilerHost(
     project.compilerOptions,
     ts.sys,
@@ -387,9 +392,9 @@ const closeProjectService = (
 
 const startWatch = async (
   project: TypescriptProject,
+  ts: typeof import("typescript"),
   onProgramCreatedOrUpdated: (program: Program) => void,
 ) => {
-  const { default: ts } = await import("typescript");
   const reportWatchStatus = () => {
     /* suppress message */
   };
@@ -1264,9 +1269,13 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
     }
 
     initializationPromise = (async () => {
-      typescriptModule ??= (await import("typescript")).default;
+      typescriptModule ??= await loadTypescript();
       if (!project || !docGenParser) {
-        project = await resolveTypescriptProject(config, configRoot);
+        project = await resolveTypescriptProject(
+          config,
+          configRoot,
+          typescriptModule,
+        );
         docGenParser = await getDocgen(config, project.compilerOptions);
         moduleResolutionCache = typescriptModule.createModuleResolutionCache(
           configRoot,
@@ -1298,6 +1307,7 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
         if (!tsProgram || !closeWatch) {
           [tsProgram, closeWatch] = await startWatch(
             activeProject,
+            typescriptModule,
             (program) => {
               clearDependencyAnalysisCache();
               reusableTsBuilderProgram = undefined;
@@ -1314,6 +1324,7 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
       } else if (!tsProgram) {
         reusableTsBuilderProgram = await createProgram(
           activeProject,
+          typescriptModule,
           reusableTsBuilderProgram,
         );
         tsProgram = reusableTsBuilderProgram.getProgram();
