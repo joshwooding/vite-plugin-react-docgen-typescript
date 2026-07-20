@@ -602,12 +602,15 @@ it("reuses the file-system cache across plugin instances", async () => {
   );
   expect(existsSync(project.cacheDirectory)).toBe(true);
 
-  rmSync(project.componentPath);
-
   const pluginWithWarmCache = createPlugin(pluginConfig);
 
   // @ts-expect-error
-  await pluginWithWarmCache.configResolved?.({ root: project.root });
+  await pluginWithWarmCache.configResolved?.({
+    command: "build",
+    root: project.root,
+  });
+
+  rmSync(project.componentPath);
 
   expect(
     // @ts-expect-error

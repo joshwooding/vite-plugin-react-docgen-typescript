@@ -22,7 +22,7 @@ verification gate, and update only its status row here when done.
 | [001](./001-harden-snapshot-publishing.md) | Isolate and harden collaborator-triggered snapshot publishing | P1 | L | — | Start now; security lane | DONE |
 | [002](./002-bound-typescript-compatibility.md) | Make the TypeScript 7 compatibility boundary explicit | P1 | M | — | Start now; legacy production contract | DONE |
 | [003](./003-reject-invalid-runtime-targets.md) | Prevent invalid runtime targets for barrel re-exports | P1 | S | — | Start now | DONE |
-| [004](./004-unify-project-file-selection.md) | Unify project membership and file-selection semantics | P1 | M | — | Start now; establishes shared selection input | TODO |
+| [004](./004-unify-project-file-selection.md) | Unify project membership and file-selection semantics | P1 | M | — | Start now; establishes shared selection input | DONE |
 | [005](./005-lock-backend-hmr-contract.md) | Lock backend-neutral imported-type HMR acceptance contracts | P1 | M | 002, 004 | Tests/observations only; freeze ledgers on the final TypeScript 6 baseline | TODO |
 | [006](./006-introduce-docgen-backend-seam.md) | Introduce a docgen backend session boundary without changing legacy behavior | P1 | L | 002, 003, 004, 005 | Start only after all four boundaries are stable | TODO |
 | [007](./007-prove-native-docgen-backend.md) | Prove or reject a native TypeScript 7 docgen backend | P2 | XL | 006 | Exact stable + next, non-shipping; record a verdict only from valid evidence, otherwise BLOCKED | TODO |

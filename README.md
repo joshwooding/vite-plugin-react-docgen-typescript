@@ -27,13 +27,30 @@ This plugins support all parser options from [react-docgen-typescript](https://g
 | compilerOptions                | object         | Specify compiler options. Cannot be used with `tsconfigPath`                                                                                        | `null`          |
 | setDisplayName                 | boolean        | Set the components' display name. If you want to set display names yourself or are using another plugin to do this, you should disable this option. | `true`          |
 | typePropName                   | string         | Specify the name of the property for docgen info prop type.                                                                                         | `type`          |
-| exclude                        | glob[]         | Glob patterns to ignore and not generate docgen information for. (Great for ignoring large icon libraries)                                          | `[]`            |
-| include                        | glob[]         | Glob patterns to generate docgen information for                                                                                                    | `['**/**.tsx']` |
+| exclude                        | string[]       | String globs to ignore and not generate docgen information for. (Great for ignoring large icon libraries)                                           | `["**/*.stories.tsx"]` |
+| include                        | string[]       | String globs that select files for docgen information.                                                                                              | `["**/*.tsx"]` |
 | fileSystemCache                | boolean/object | Enables a persistent file-system cache. Configure with `{ enabled?: boolean; directory?: string }`.                                                 | `false`         |
 | EXPERIMENTAL_useWatchProgram   | boolean        | Enables an experimental watch mode to enable HMR support. **warning**: This may affect performance                                                  | `false`         |
 | EXPERIMENTAL_useProjectService | boolean        | Enables an experimental mode that uses the TS project service to enable HMR support. **warning**: This may affect performance                       | `false`         |
 
 When `fileSystemCache` is enabled without a custom directory, cache entries are stored in `node_modules/.cache/vite-plugin-react-docgen-typescript`.
+
+### File selection
+
+`include` and `exclude` accept arrays of string globs only; runtime `RegExp`
+values and mixed arrays are rejected during configuration. Relative patterns
+resolve from Vite's configured root rather than `process.cwd()`.
+
+An explicit `include: []` disables docgen processing. An explicit `exclude: []`
+removes the default `**/*.stories.tsx` exclusion. The default `**/*.tsx`
+selection applies to TSX members of the configured root and its recursively
+referenced TypeScript projects. Parent-directory patterns such as
+`../ui/**/*.tsx` can narrow selection to a referenced package.
+
+When a tsconfig is configured, its root files and project references remain the
+membership boundary: patterns do not pull arbitrary files into the TypeScript
+project. Nonmatching TypeScript roots and declaration files remain available
+for type analysis without becoming docgen transform targets.
 
 ### TypeScript compatibility
 

@@ -113,7 +113,10 @@ CRLF/`format` class and no new path appears.
 - `packages/vite-plugin-react-docgen-typescript/src/utils/options.ts`
 - `packages/vite-plugin-react-docgen-typescript/src/utils/fileSelection.ts` — create
 - `packages/vite-plugin-react-docgen-typescript/src/__tests__/projectSelection.test.ts` — create
+- `packages/vite-plugin-react-docgen-typescript/src/__tests__/index.test.ts` — keep the
+  persistent-cache fixture inside the finalized discovery boundary
 - `.changeset/steady-project-selection.md` — create
+- `plans/004-unify-project-file-selection.md` — update only with verified execution findings
 
 **Out of scope**:
 
@@ -266,6 +269,15 @@ For a parsed tsconfig:
    narrow it. Keep `docgenFiles` as the strictly selected transform-eligibility
    subset, so analysis-only `.ts` roots are not transformed. Do not add
    transitive `program.getSourceFiles()` entries to configured membership.
+
+For the default and watch legacy implementations, construct the flattened
+docgen program from that complete `rootFiles` list without also passing the
+solution config's original `projectReferences` back to the single program.
+TypeScript otherwise treats the explicitly listed referenced sources as
+project-reference redirects and `react-docgen-typescript` returns no component
+docs for them. Project-service mode continues opening the configured project
+graph through the service. The four-mode referenced-project test is the guard
+for this distinction.
 
 For the compiler-options-only/no-tsconfig path, `rootFiles` remains the selected
 discovery result because there is no configured parsed-project root list.
@@ -429,27 +441,44 @@ the plan-index status update are modified.
 
 ## Done criteria
 
-- [ ] One validated predicate governs both transform filtering and configured-
+- [x] One validated predicate governs both transform filtering and configured-
       project docgen membership.
-- [ ] The resolved selection object imports no compiler/parser types and can be
+- [x] The resolved selection object imports no compiler/parser types and can be
       passed unchanged into Plan 006's backend factory.
-- [ ] Default TSX selection includes recursively referenced project members.
-- [ ] Relative custom patterns resolve from the Vite root consistently.
-- [ ] Explicit empty include matches nothing; explicit empty exclude removes the
+- [x] Default TSX selection includes recursively referenced project members.
+- [x] Relative custom patterns resolve from the Vite root consistently.
+- [x] Explicit empty include matches nothing; explicit empty exclude removes the
       default exclusion.
-- [ ] Runtime non-string patterns fail during configuration with a stable,
+- [x] Runtime non-string patterns fail during configuration with a stable,
       option-specific `TypeError`; `globSync` never receives them.
-- [ ] Program roots and transform-eligible files are distinct concepts;
+- [x] Program roots and transform-eligible files are distinct concepts;
       every configured parsed root remains in the TypeScript program while
       nonmatching roots and declarations remain analysis-only.
-- [ ] Program refreshes never widen docgen eligibility from parsed root names to
+- [x] Program refreshes never widen docgen eligibility from parsed root names to
       all transitive `program.getSourceFiles()` entries.
-- [ ] Empty include skips TypeScript initialization in both serve and build.
-- [ ] README and option JSDoc describe the exact implemented contract.
-- [ ] A patch changeset exists and no dependency/lockfile change occurs.
-- [ ] Focused tests, full tests, typecheck, build, benchmark, changed-file
+- [x] Empty include skips TypeScript initialization in both serve and build.
+- [x] README and option JSDoc describe the exact implemented contract.
+- [x] A patch changeset exists and no dependency/lockfile change occurs.
+- [x] Focused tests, full tests, typecheck, build, benchmark, changed-file
       Biome, and Linux CI pass.
-- [ ] `plans/README.md` marks Plan 004 `DONE`.
+- [x] `plans/README.md` marks Plan 004 `DONE`.
+
+## Execution findings
+
+- The default and watch legacy backends must build one flattened root-files
+  program without also forwarding solution `projectReferences`. Forwarding both
+  makes TypeScript redirect the explicitly listed referenced sources and leaves
+  `react-docgen-typescript` with no component docs for them. Project-service
+  mode continues to open the configured project graph directly.
+- The persistent-cache regression fixture now initializes its warm build while
+  the source is still a discovered member, then deletes the file before the
+  transform. This preserves the cache-reuse assertion without bypassing the new
+  initialization-time membership boundary.
+- Verification passed with 17 focused selection tests, 59 existing integration
+  tests, 164 repository tests, typecheck, build, and all three benchmark
+  scenarios in default, watch, and project-service modes. Changed implementation
+  files pass Biome. The repository-wide Windows scan reports only the documented
+  11 pre-existing CRLF formatting paths; no new path was introduced.
 
 ## STOP conditions
 

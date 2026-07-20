@@ -55,9 +55,21 @@ export interface FileSystemCacheOptions {
 }
 
 export type DocGenOptions = ParserOptions & {
-  /** Glob patterns to ignore */
+  /**
+   * An array of string globs to exclude from docgen. Patterns resolve from the
+   * configured Vite root. An explicit `exclude: []` disables the built-in
+   * story-file exclusion. Runtime RegExp values are rejected.
+   */
+  // Default: ["**/*.stories.tsx"]
   exclude?: string[];
-  /** Glob patterns to include. defaults to ts|tsx */
+  /**
+   * An array of string globs to include in docgen. Patterns resolve from the
+   * configured Vite root; explicit parent-directory globs can select members
+   * of referenced TypeScript projects. The configured root and project
+   * references remain the membership boundary. An explicit `include: []`
+   * disables docgen. Runtime RegExp values are rejected.
+   */
+  // Default: ["**/*.tsx"]
   include?: string[];
   /** Persistent transform cache stored on disk. */
   fileSystemCache?: boolean | FileSystemCacheOptions;

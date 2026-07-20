@@ -20,6 +20,7 @@ import {
   resolveFileSystemCacheOptions,
   writeFileSystemTransformCache,
 } from "./utils/cache";
+import type { ResolvedFileSelection } from "./utils/fileSelection";
 import { defaultPropFilter } from "./utils/filter";
 import type { Options } from "./utils/options";
 import { resolveComponentDocRuntimeTargets } from "./utils/runtimeTarget";
@@ -47,28 +48,16 @@ type TransformCacheEntry = {
 interface TypescriptProject {
   compilerOptions: CompilerOptions;
   configFiles: string[];
+  docgenFiles: string[];
   projectFiles: string[];
   projectName: string;
-  projectReferences?: readonly ProjectReference[];
   rootFiles: string[];
   tsconfigPath?: string;
   watchOptions?: WatchOptions;
 }
 
-type ConfiguredTypescriptProject = TypescriptProject & {
-  tsconfigPath: string;
-};
-
-const DEFAULT_INCLUDE = ["**/*.tsx"];
-const DEFAULT_EXCLUDE = ["**/*.stories.tsx"];
-const DECLARATION_FILE_PATTERN = /\.d\.[cm]?ts$/;
 const MAX_OPEN_PROJECT_SERVICE_FILES = 64;
 const TYPESCRIPT_FILE_PATTERN = /\.[cm]?[jt]sx?$/;
-
-const hasTsconfigPath = (
-  project: TypescriptProject,
-): project is ConfiguredTypescriptProject =>
-  typeof project.tsconfigPath === "string";
 
 const getDocgen = async (config: Options, compilerOptions: CompilerOptions) => {
   const docGen = await import("react-docgen-typescript");
@@ -103,22 +92,28 @@ const resolveTsconfigPath = (rootDir: string, tsconfigPath: string) =>
     ? tsconfigPath
     : path.resolve(rootDir, tsconfigPath);
 
-const resolveRootFilesFromGlobs = async (
+const discoverDocgenFilesFromGlobs = async (
   rootDir: string,
-  includeArray: string[],
-  excludeArray: string[],
+  fileSelection: ResolvedFileSelection,
 ) => {
+  if (!fileSelection.hasIncludes) {
+    return [];
+  }
+
   const { globSync } = await import("glob");
   const files = new Set<string>();
 
-  for (const filePattern of includeArray) {
+  for (const filePattern of fileSelection.include) {
     for (const fileName of globSync(filePattern, {
       absolute: true,
       cwd: rootDir,
-      ignore: excludeArray,
       nodir: true,
     })) {
-      files.add(path.resolve(fileName));
+      const normalizedFileName = path.resolve(fileName);
+
+      if (fileSelection.matchesDocgenFile(normalizedFileName)) {
+        files.add(normalizedFileName);
+      }
     }
   }
 
@@ -188,42 +183,12 @@ const resolveReferencedProjectMetadata = (
   };
 };
 
-const resolveDocgenRootFiles = async (
-  rootDir: string,
-  includeArray: string[],
-  excludeArray: string[],
-  projectFiles?: string[],
-) => {
-  const matchedFiles = await resolveRootFilesFromGlobs(
-    rootDir,
-    includeArray,
-    excludeArray,
-  );
-
-  if (!projectFiles) {
-    return matchedFiles;
-  }
-
-  const projectFileSet = new Set(projectFiles);
-  const declarationFiles = projectFiles.filter((fileName) =>
-    DECLARATION_FILE_PATTERN.test(fileName),
-  );
-
-  return [
-    ...new Set([
-      ...matchedFiles.filter((fileName) => projectFileSet.has(fileName)),
-      ...declarationFiles,
-    ]),
-  ].sort();
-};
-
 const resolveTypescriptProject = async (
   config: Options,
   rootDir: string,
   ts: typeof import("typescript"),
+  fileSelection: ResolvedFileSelection,
 ): Promise<TypescriptProject> => {
-  const includeArray = config.include ?? DEFAULT_INCLUDE;
-  const excludeArray = config.exclude ?? DEFAULT_EXCLUDE;
   let referencedProjectMetadata: {
     configFiles: string[];
     projectFiles: string[];
@@ -270,29 +235,27 @@ const resolveTypescriptProject = async (
           ...referencedProjectMetadata.projectFiles,
         ]),
       ].sort()
-    : await resolveRootFilesFromGlobs(rootDir, includeArray, excludeArray);
+    : await discoverDocgenFilesFromGlobs(rootDir, fileSelection);
   const configFiles = resolveProjectConfigFiles(
     tsconfigPath,
     referencedProjectMetadata.configFiles,
   );
 
-  const rootFiles = parsedConfig
-    ? await resolveDocgenRootFiles(
-        rootDir,
-        includeArray,
-        excludeArray,
-        projectFiles,
+  const docgenFiles = parsedConfig
+    ? projectFiles.filter((fileName) =>
+        fileSelection.matchesDocgenFile(fileName),
       )
     : projectFiles;
+  const rootFiles = parsedConfig ? projectFiles : docgenFiles;
 
   return {
     compilerOptions,
     configFiles,
+    docgenFiles,
     projectFiles,
     projectName:
       tsconfigPath ??
       path.join(rootDir, ".react-docgen-typescript.external-project"),
-    projectReferences: parsedConfig?.projectReferences,
     rootFiles,
     tsconfigPath,
     watchOptions: parsedConfig?.watchOptions,
@@ -315,7 +278,7 @@ const createProgram = async (
     host,
     oldProgram,
     undefined,
-    project.projectReferences,
+    undefined,
   );
 };
 
@@ -399,30 +362,6 @@ const startWatch = async (
     /* suppress message */
   };
 
-  const startConfiguredWatch = (
-    configuredProject: ConfiguredTypescriptProject,
-  ) => {
-    const host = ts.createWatchCompilerHost(
-      configuredProject.tsconfigPath,
-      configuredProject.compilerOptions,
-      ts.sys,
-      ts.createSemanticDiagnosticsBuilderProgram,
-      undefined,
-      reportWatchStatus,
-      configuredProject.watchOptions,
-    );
-
-    host.afterProgramCreate = (program) => {
-      onProgramCreatedOrUpdated(program.getProgram());
-    };
-
-    const watch = ts.createWatchProgram(host);
-    return [watch.getProgram().getProgram(), watch.close] as [
-      Program,
-      CloseWatch,
-    ];
-  };
-
   const startRootFilesWatch = () => {
     const host = ts.createWatchCompilerHost(
       project.rootFiles,
@@ -431,7 +370,7 @@ const startWatch = async (
       ts.createSemanticDiagnosticsBuilderProgram,
       undefined,
       reportWatchStatus,
-      project.projectReferences,
+      undefined,
       project.watchOptions,
     );
 
@@ -447,11 +386,7 @@ const startWatch = async (
   };
 
   return new Promise<[Program, CloseWatch]>((resolve) => {
-    resolve(
-      hasTsconfigPath(project)
-        ? startConfiguredWatch(project)
-        : startRootFilesWatch(),
-    );
+    resolve(startRootFilesWatch());
   });
 };
 
@@ -645,7 +580,7 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
   let generateOptions: ReturnType<
     typeof import("./utils/options")["getGenerateOptions"]
   >;
-  let filter: ReturnType<typeof import("vite")["createFilter"]>;
+  let fileSelection: ResolvedFileSelection | undefined;
   let fileSystemCacheDirectory: string | null = null;
   const moduleInvalidationQueue = new Map<Filepath, InvalidateModule>();
   const moduleDependencies = new Map<Filepath, Set<Filepath>>();
@@ -661,7 +596,7 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
   let dependencyClosureCacheByProgram = new WeakMap<Program, DependencyCache>();
   let directDependencyCacheByProgram = new WeakMap<Program, DependencyCache>();
   const projectConfigFiles = new Set<string>();
-  const projectRootFiles = new Set<string>();
+  const projectDocgenFiles = new Set<string>();
   const projectTrackedFiles = new Set<string>();
   let syncedProjectFilesProgram: Program | undefined;
   const transformedModuleFiles = new Set<string>();
@@ -1123,8 +1058,8 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
   const syncTrackedProjectFiles = (nextProject: TypescriptProject) => {
     syncedProjectFilesProgram = undefined;
     syncProjectFiles(projectConfigFiles, nextProject.configFiles);
-    projectRootFiles.clear();
-    syncProjectFiles(projectRootFiles, nextProject.rootFiles);
+    projectDocgenFiles.clear();
+    syncProjectFiles(projectDocgenFiles, nextProject.docgenFiles);
     syncProjectFiles(projectTrackedFiles, nextProject.projectFiles);
   };
 
@@ -1181,7 +1116,7 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
     openProjectServiceFiles.clear();
     syncedProjectFilesProgram = undefined;
     projectConfigFiles.clear();
-    projectRootFiles.clear();
+    projectDocgenFiles.clear();
     projectTrackedFiles.clear();
     reusableTsBuilderProgram = undefined;
     typeReferenceResolutionCache = undefined;
@@ -1271,10 +1206,15 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
     initializationPromise = (async () => {
       typescriptModule ??= await loadTypescript();
       if (!project || !docGenParser) {
+        if (!fileSelection) {
+          throw new Error("Internal error: file selection was not initialized");
+        }
+
         project = await resolveTypescriptProject(
           config,
           configRoot,
           typescriptModule,
+          fileSelection,
         );
         docGenParser = await getDocgen(config, project.compilerOptions);
         moduleResolutionCache = typescriptModule.createModuleResolutionCache(
@@ -1435,12 +1375,13 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
   return {
     name: "vite:react-docgen-typescript",
     async configResolved(resolvedConfig?: ResolvedConfig) {
+      configRoot = resolvedConfig?.root ?? process.cwd();
+      const { resolveFileSelection } = await import("./utils/fileSelection");
+      fileSelection = resolveFileSelection(configRoot, config);
       const { getGenerateOptions } = await import("./utils/options");
       generateDocgenCodeBlock = (await import("./utils/generate"))
         .generateDocgenCodeBlock;
-      const { createFilter } = await import("vite");
 
-      configRoot = resolvedConfig?.root ?? process.cwd();
       shouldEagerInitialize = resolvedConfig?.command === "build";
       generateOptions = getGenerateOptions(config);
       const resolvedFileSystemCache = resolveFileSystemCacheOptions(
@@ -1468,23 +1409,33 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
         }
       }
 
-      const includeArray = config.include ?? DEFAULT_INCLUDE;
-      const excludeArray = config.exclude ?? DEFAULT_EXCLUDE;
-
-      filter = createFilter(includeArray, excludeArray);
-
-      if (shouldEagerInitialize) {
+      if (shouldEagerInitialize && fileSelection.hasIncludes) {
         await ensureInitialized();
       }
     },
     async transform(src, id) {
       const fileId = cleanModuleId(id);
+      const normalizedFileId = path.resolve(fileId);
 
-      if (!filter(fileId)) {
+      if (!fileSelection?.matchesDocgenFile(normalizedFileId)) {
         return;
       }
 
-      const normalizedFileId = path.resolve(fileId);
+      await ensureInitialized();
+
+      if (!projectDocgenFiles.has(normalizedFileId)) {
+        trackModuleDependencies(normalizedFileId, undefined);
+        const configuredProject = Boolean(project?.tsconfigPath);
+        warnOnce(
+          this,
+          `${normalizedFileId}:excluded-from-typescript-project`,
+          configuredProject
+            ? `Skipping docgen for "${normalizedFileId}" because it matches the plugin patterns but is not a member of the configured TypeScript project.`
+            : `Skipping docgen for "${normalizedFileId}" because it matched the plugin patterns but was not present during initial discovery; restart the Vite server to include newly created files.`,
+        );
+        return src;
+      }
+
       await waitForPendingWatchProgramUpdate(normalizedFileId);
       const cachedTransform = transformCache.get(normalizedFileId);
       if (cachedTransform?.source === src) {
@@ -1512,18 +1463,7 @@ export default function reactDocgenTypescript(config: Options = {}): Plugin {
         return persistedCachedTransform.result;
       }
 
-      await ensureInitialized();
       const activeDocGenParser = docGenParser;
-
-      if (!projectRootFiles.has(normalizedFileId)) {
-        trackModuleDependencies(normalizedFileId, undefined);
-        warnOnce(
-          this,
-          `${normalizedFileId}:excluded-from-typescript-project`,
-          `Skipping docgen for "${normalizedFileId}" because it is not included in the active TypeScript project.`,
-        );
-        return src;
-      }
 
       let activeProgram: Program | undefined;
 
