@@ -4,7 +4,10 @@
  **/
 
 import type { ComponentDoc, PropItem } from "react-docgen-typescript";
-import type { ComponentDocWithTarget } from "./runtimeTarget";
+import {
+  type ComponentDocWithTarget,
+  isSupportedRuntimeTargetExpression,
+} from "./runtimeTarget";
 
 export interface GeneratorOptions {
   filename: string;
@@ -22,23 +25,11 @@ type SerializableDocgenValue =
   | SerializableDocgenValue[]
   | { [key: string]: SerializableDocgenValue };
 
-const IDENTIFIER_PATH_PATTERN = /^[$A-Z_a-z][$\w]*(?:\.[$A-Z_a-z][$\w]*)*$/;
-const LOOSE_EXPRESSION_PATTERN = /^[$A-Z_a-z0-9.-]+$/;
-
 function getTargetExpression(targetExpression: string | null): string | null {
-  if (!targetExpression) {
-    return null;
-  }
-
-  if (IDENTIFIER_PATH_PATTERN.test(targetExpression)) {
-    return targetExpression;
-  }
-
-  if (LOOSE_EXPRESSION_PATTERN.test(targetExpression)) {
-    return targetExpression;
-  }
-
-  return null;
+  return targetExpression &&
+    isSupportedRuntimeTargetExpression(targetExpression)
+    ? targetExpression
+    : null;
 }
 
 function sanitizeDocgenValue(

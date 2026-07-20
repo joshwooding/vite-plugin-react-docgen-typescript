@@ -3,6 +3,56 @@ import type { ComponentDoc } from "react-docgen-typescript";
 import type * as ts from "typescript";
 
 const IDENTIFIER_PATH_PATTERN = /^[$A-Z_a-z][$\w]*(?:\.[$A-Z_a-z][$\w]*)*$/;
+const RESERVED_RUNTIME_TARGET_ROOTS: ReadonlySet<string> = new Set([
+  "arguments",
+  "await",
+  "break",
+  "case",
+  "catch",
+  "class",
+  "const",
+  "continue",
+  "debugger",
+  "default",
+  "delete",
+  "do",
+  "else",
+  "enum",
+  "eval",
+  "export",
+  "extends",
+  "false",
+  "finally",
+  "for",
+  "function",
+  "if",
+  "implements",
+  "import",
+  "in",
+  "instanceof",
+  "interface",
+  "let",
+  "new",
+  "null",
+  "package",
+  "private",
+  "protected",
+  "public",
+  "return",
+  "static",
+  "super",
+  "switch",
+  "this",
+  "throw",
+  "true",
+  "try",
+  "typeof",
+  "var",
+  "void",
+  "while",
+  "with",
+  "yield",
+]);
 
 type TsModule = typeof import("typescript");
 
@@ -24,8 +74,14 @@ const hasModifier = (node: ts.Node, modifierKind: ts.SyntaxKind): boolean =>
     getNodeModifiers(node)?.some((modifier) => modifier.kind === modifierKind),
   );
 
-const isSupportedTargetExpression = (value: string): boolean =>
-  IDENTIFIER_PATH_PATTERN.test(value);
+export const isSupportedRuntimeTargetExpression = (value: string): boolean => {
+  if (!IDENTIFIER_PATH_PATTERN.test(value)) {
+    return false;
+  }
+
+  const [root] = value.split(".", 1);
+  return Boolean(root && !RESERVED_RUNTIME_TARGET_ROOTS.has(root));
+};
 
 const getExpressionTargetText = (
   expression: ts.Expression,
@@ -38,7 +94,7 @@ const getExpressionTargetText = (
 
   if (tsModule.isPropertyAccessExpression(expression)) {
     const targetExpression = expression.getText(sourceFile);
-    return isSupportedTargetExpression(targetExpression)
+    return isSupportedRuntimeTargetExpression(targetExpression)
       ? targetExpression
       : null;
   }
@@ -74,11 +130,16 @@ const getDeclarationTarget = (
     );
   }
 
-  if (
-    tsModule.isExportSpecifier(declaration) &&
-    declaration.parent.parent.getSourceFile() === sourceFile
-  ) {
-    return declaration.propertyName?.text ?? declaration.name.text;
+  if (tsModule.isExportSpecifier(declaration)) {
+    const exportDeclaration = declaration.parent.parent;
+
+    if (
+      tsModule.isExportDeclaration(exportDeclaration) &&
+      exportDeclaration.getSourceFile() === sourceFile &&
+      !exportDeclaration.moduleSpecifier
+    ) {
+      return declaration.propertyName?.text ?? declaration.name.text;
+    }
   }
 
   return null;
@@ -118,7 +179,10 @@ const getTargetFromSymbol = (
         tsModule,
       );
 
-      if (targetExpression && isSupportedTargetExpression(targetExpression)) {
+      if (
+        targetExpression &&
+        isSupportedRuntimeTargetExpression(targetExpression)
+      ) {
         return targetExpression;
       }
     }
@@ -270,7 +334,7 @@ const resolveTargetExpression = (
 
   if (
     componentDoc.displayName.includes(".") &&
-    isSupportedTargetExpression(componentDoc.displayName)
+    isSupportedRuntimeTargetExpression(componentDoc.displayName)
   ) {
     return componentDoc.displayName;
   }
