@@ -769,6 +769,7 @@ __metadata:
     unbuild: "npm:^3.0.0"
     vite: "npm:^8.0.0"
     vitest: "npm:^4.1.0"
+    yaml: "npm:^2.8.1"
   languageName: unknown
   linkType: soft
 
@@ -6951,6 +6952,15 @@ __metadata:
   version: 4.0.0
   resolution: "yallist@npm:4.0.0"
   checksum: 10/4cb02b42b8a93b5cf50caf5d8e9beb409400a8a4d85e83bb0685c1457e9ac0b7a00819e9f5991ac25ffabb56a78e2f017c1acc010b3a1babfe6de690ba531abd
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.8.1":
+  version: 2.9.0
+  resolution: "yaml@npm:2.9.0"
+  bin:
+    yaml: bin.mjs
+  checksum: 10/9a95e8e08651c3d292ab6a5befeb5f57b76801caa097c75bb45c9a70ce19c1b11f57e87a6ef84a579ea070ed2c2c8ac541c88c0ae684d544d5f42c7e77d11b7b
   languageName: node
   linkType: hard
 
