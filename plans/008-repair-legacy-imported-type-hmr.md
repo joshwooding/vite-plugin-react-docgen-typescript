@@ -23,6 +23,7 @@
 - **Risk**: HIGH
 - **Depends on**: `plans/004-unify-project-file-selection.md`, `plans/005-lock-backend-hmr-contract.md`, `plans/006-introduce-docgen-backend-seam.md`
 - **Category**: bug
+- **Status**: DONE
 - **Planned at**: commit `ffd553b`, revised 2026-07-20
 - **Execution gate**: Mandatory while the legacy backend remains the default,
   an opt-in, or a documented rollback/supported path, regardless of Plan 007's
@@ -30,6 +31,14 @@
   only by a separately approved production plan that both makes native the
   default and formally repairs or removes legacy support; the feasibility
   spike and an opt-in native release cannot waive this plan.
+
+The 2026-07-21 isolation matrix proved that dependency discovery and compiler
+freshness were already correct in all legacy modes and both project
+topologies. The causal host failure was Vite-facing module lookup/delivery on
+Windows: filesystem paths needed Vite normalization, and affected modules had
+to be returned after backend readiness so Vite core could perform the single
+client-environment invalidation. The eight-row real-Vite ledger is now empty;
+all 208 repository tests, typecheck, build, and benchmark smoke pass.
 
 ## Why this matters
 

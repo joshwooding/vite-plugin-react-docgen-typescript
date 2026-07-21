@@ -1,4 +1,10 @@
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
@@ -8,6 +14,7 @@ import {
   type DocgenBackendFactory,
   toBackendErrorRecord,
 } from "../docgen/backend";
+import { createLegacyBackendFactory } from "../docgen/legacyBackend";
 import {
   cleanBoundaryPath,
   normalizeBoundaryPath,
@@ -186,6 +193,160 @@ describe("compiler-neutral backend contract", () => {
     await backend.dispose();
     expect(disposed).toBe(true);
   });
+
+  it.each([
+    ["same-project", "default", {}],
+    ["same-project", "watch", { EXPERIMENTAL_useWatchProgram: true }],
+    [
+      "same-project",
+      "project-service",
+      { EXPERIMENTAL_useProjectService: true },
+    ],
+    ["project-reference", "default", {}],
+    ["project-reference", "watch", { EXPERIMENTAL_useWatchProgram: true }],
+    [
+      "project-reference",
+      "project-service",
+      { EXPERIMENTAL_useProjectService: true },
+    ],
+  ] as const)(
+    "keeps direct legacy dependencies and imported metadata fresh in %s/%s isolation",
+    async (topology, _mode, modeOptions) => {
+      const commonRoot = mkdtempSync(
+        path.join(tmpdir(), "vite-rdt-isolation-"),
+      );
+      const root = path.join(commonRoot, "app");
+      const sourceRoot =
+        topology === "same-project"
+          ? path.join(root, "src")
+          : path.join(commonRoot, "ui", "src");
+      const componentFile = path.join(sourceRoot, "Component.tsx");
+      const propsFile = path.join(sourceRoot, "props.ts");
+      const unrelatedFile = path.join(sourceRoot, "Unrelated.tsx");
+      mkdirSync(sourceRoot, { recursive: true });
+      mkdirSync(root, { recursive: true });
+      const componentSource = `declare namespace JSX { interface Element {} }
+import type { ImportedProps } from "./props";
+export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
+  null as unknown as JSX.Element;
+`;
+      writeFileSync(componentFile, componentSource);
+      writeFileSync(
+        propsFile,
+        `export interface ImportedProps {
+  /** Initial tone. */
+  tone: "base" | "quiet";
+}
+`,
+      );
+      writeFileSync(
+        unrelatedFile,
+        "export const Unrelated = ({ value }: { value: string }) => value;\n",
+      );
+      const compilerOptions = {
+        jsx: "preserve",
+        module: "ESNext",
+        moduleResolution: "Bundler",
+        skipLibCheck: true,
+        target: "ES2020",
+      };
+      if (topology === "same-project") {
+        writeFileSync(
+          path.join(root, "tsconfig.json"),
+          JSON.stringify({
+            compilerOptions,
+            files: ["src/Component.tsx", "src/props.ts", "src/Unrelated.tsx"],
+          }),
+        );
+      } else {
+        writeFileSync(
+          path.join(root, "tsconfig.json"),
+          JSON.stringify({ files: [], references: [{ path: "../ui" }] }),
+        );
+        writeFileSync(
+          path.join(commonRoot, "ui", "tsconfig.json"),
+          JSON.stringify({
+            compilerOptions: { ...compilerOptions, composite: true },
+            files: ["src/Component.tsx", "src/props.ts", "src/Unrelated.tsx"],
+          }),
+        );
+      }
+      const options: Options = {
+        ...modeOptions,
+        exclude: [],
+        include:
+          topology === "same-project" ? ["src/**/*.tsx"] : ["../ui/**/*.tsx"],
+        shouldExtractValuesFromUnion: true,
+        tsconfigPath: "tsconfig.json",
+      };
+      const backend = await createLegacyBackendFactory(options).create({
+        rootDir: root,
+        selection: resolveFileSelection(root, options),
+      });
+
+      const analyze = async (revision: number) => {
+        const result = await backend.analyze({
+          fileName: componentFile,
+          revision,
+          source: componentSource,
+        });
+        expect(result.status).toBe("ok");
+        if (result.status !== "ok") throw new Error(result.error.message);
+        expect(result.dependencies).toEqual(
+          [path.resolve(componentFile), path.resolve(propsFile)].sort(),
+        );
+        expect(result.dependencies).not.toContain(path.resolve(unrelatedFile));
+        return result.components[0]?.props.tone;
+      };
+
+      try {
+        await backend.initialize();
+        expect((await analyze(0))?.description).toBe("Initial tone.");
+        for (const [revision, member] of [
+          [1, "contrast"],
+          [2, "emphasis"],
+        ] as const) {
+          const source = `export interface ImportedProps {
+  /** ${member} tone. */
+  tone: "base" | "quiet" | "${member}";
+}
+`;
+          writeFileSync(propsFile, source);
+          const update = await backend.update({
+            affectedComponentFiles: [componentFile],
+            change: {
+              fileName: propsFile,
+              kind: "change",
+              revision,
+              source,
+            },
+          });
+          if (update.status === "pending") {
+            const completion = await Promise.race([
+              update.ready,
+              new Promise<never>((_, reject) =>
+                setTimeout(
+                  () => reject(new Error("direct update readiness timed out")),
+                  10_000,
+                ),
+              ),
+            ]);
+            expect(completion.status).toBe("ready");
+          } else {
+            expect(update.status).toBe("ready");
+          }
+          const prop = await analyze(revision);
+          expect(prop?.description).toBe(`${member} tone.`);
+          expect(JSON.stringify(prop?.type.value)).toContain(member);
+          expect(readFileSync(propsFile, "utf-8")).toBe(source);
+        }
+      } finally {
+        await backend.dispose();
+        rmSync(commonRoot, { force: true, recursive: true });
+      }
+    },
+    60_000,
+  );
 
   it("keeps serve lazy, build eager, and empty selection compiler-free", async () => {
     const componentFile = path.resolve("src/Component.tsx");
@@ -402,7 +563,7 @@ describe("compiler-neutral backend contract", () => {
     }
   });
 
-  it("waits for the latest watch completion before flushing invalidations", async () => {
+  it("waits for the latest pending completion before returning affected modules", async () => {
     const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-pending-"));
     const componentFile = path.join(root, "Component.tsx");
     const dependencyFile = path.join(root, "types.ts");
@@ -479,6 +640,7 @@ describe("compiler-neutral backend contract", () => {
     );
     const invalidateModule = vi.fn();
     const transformedModule = { id: componentFile, url: componentFile };
+    const originalModule = { id: dependencyFile, url: dependencyFile };
     const server = {
       moduleGraph: {
         getModulesByFile: (fileName: string) =>
@@ -496,27 +658,38 @@ describe("compiler-neutral backend contract", () => {
         componentFile,
       );
       // @ts-expect-error Focused harness supplies only the HMR fields used.
-      await plugin.handleHotUpdate?.call(
+      const firstUpdate = plugin.handleHotUpdate?.call(
         { warn: vi.fn() },
         {
           file: dependencyFile,
+          modules: [originalModule],
+          read: () => "export interface Props { value: string }",
           server,
+          timestamp: 1,
         },
       );
+      await Promise.resolve();
       writeFileSync(dependencyFile, "export interface Props { value: number }");
       // @ts-expect-error Focused harness supplies only the HMR fields used.
-      await plugin.handleHotUpdate?.call(
+      const secondUpdate = plugin.handleHotUpdate?.call(
         { warn: vi.fn() },
         {
           file: dependencyFile,
+          modules: [originalModule],
+          read: () => "export interface Props { value: number }",
           server,
+          timestamp: 2,
         },
       );
       await Promise.resolve();
       expect(invalidateModule).not.toHaveBeenCalled();
       completions[1]?.({ project: state, revision: 2, status: "ready" });
-      await Promise.resolve();
-      expect(invalidateModule).toHaveBeenCalledTimes(1);
+      await expect(firstUpdate).resolves.toBeUndefined();
+      await expect(secondUpdate).resolves.toEqual([
+        originalModule,
+        transformedModule,
+      ]);
+      expect(invalidateModule).not.toHaveBeenCalled();
     } finally {
       if (typeof plugin.closeBundle === "function") {
         await plugin.closeBundle.call({} as never);

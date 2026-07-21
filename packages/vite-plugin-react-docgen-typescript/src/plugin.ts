@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
-import type { Plugin, ResolvedConfig, ViteDevServer } from "vite";
+import type { ModuleNode, Plugin, ResolvedConfig, ViteDevServer } from "vite";
+import { normalizePath } from "vite";
 import type {
   AnalyzeResult,
   BackendDescriptor,
@@ -26,7 +27,6 @@ import { generateDocgenCodeBlock } from "./utils/generate";
 import { getGenerateOptions, type Options } from "./utils/options";
 
 type Filepath = string;
-type InvalidateModule = () => void;
 type TransformResult = { code: string; map: null } | null | string;
 type CachedTransformResult = { code: string; map: null } | null;
 type TrackedDependencies = readonly string[] | undefined;
@@ -58,7 +58,7 @@ export function createPlugin(
   let didDispose = false;
   const disposedBackends = new WeakSet<DocgenBackend>();
 
-  const moduleInvalidationQueue = new Map<Filepath, InvalidateModule>();
+  const pendingAffectedFiles = new Set<Filepath>();
   const moduleDependencies = new Map<Filepath, Set<Filepath>>();
   const moduleFilesByDependency = new Map<Filepath, Set<Filepath>>();
   const transformedModuleFiles = new Set<string>();
@@ -177,36 +177,36 @@ export function createPlugin(
   const invalidateTransformedModules = (
     server: ViteDevServer,
     affectedFiles: Iterable<Filepath>,
-    queueInvalidation = false,
   ) => {
     for (const transformedFile of affectedFiles) {
       const affectedModules =
         server.moduleGraph.getModulesByFile(transformedFile);
       if (!affectedModules) continue;
       for (const module of affectedModules) {
-        const key = module.id ?? module.url;
-        const invalidateModule = () => {
-          server.moduleGraph.invalidateModule(
-            module,
-            undefined,
-            Date.now(),
-            true,
-          );
-        };
-        if (queueInvalidation) {
-          moduleInvalidationQueue.set(key, invalidateModule);
-        } else {
-          invalidateModule();
-        }
+        server.moduleGraph.invalidateModule(
+          module,
+          undefined,
+          Date.now(),
+          true,
+        );
       }
     }
   };
 
-  const flushQueuedModuleInvalidations = () => {
-    for (const [fileName, invalidateModule] of moduleInvalidationQueue) {
-      invalidateModule();
-      moduleInvalidationQueue.delete(fileName);
+  const collectTransformedModules = (
+    server: ViteDevServer,
+    affectedFiles: Iterable<Filepath>,
+    contextModules: readonly ModuleNode[],
+  ): ModuleNode[] | undefined => {
+    const modules = new Set(contextModules);
+    for (const transformedFile of affectedFiles) {
+      const affectedModules =
+        server.moduleGraph.getModulesByFile(transformedFile) ??
+        server.moduleGraph.getModulesByFile(normalizePath(transformedFile));
+      if (!affectedModules) continue;
+      for (const module of affectedModules) modules.add(module);
     }
+    return modules.size > 0 ? [...modules] : undefined;
   };
 
   const deleteCachedTransforms = (
@@ -310,7 +310,7 @@ export function createPlugin(
     transformCache.clear();
     clearAllTrackedModuleDependencies();
     transformedModuleFiles.clear();
-    moduleInvalidationQueue.clear();
+    pendingAffectedFiles.clear();
     const activeBackend =
       backend ?? (await backendPromise?.catch(() => undefined));
     await disposeBackend(activeBackend);
@@ -450,7 +450,7 @@ export function createPlugin(
       trackModuleDependencies(normalizedFileId, analysis.dependencies);
       return result;
     },
-    async handleHotUpdate({ file, server }) {
+    async handleHotUpdate({ file, modules, server }) {
       const normalizedFile = normalizeBoundaryPath(cleanModuleId(file));
       const isConfigChange =
         projectState?.configFiles.includes(normalizedFile) ?? false;
@@ -467,6 +467,7 @@ export function createPlugin(
 
       revision += 1;
       if (isConfigChange) {
+        pendingAffectedFiles.clear();
         transformCache.clear();
         clearAllTrackedModuleDependencies();
         clearPersistentCache();
@@ -494,6 +495,7 @@ export function createPlugin(
       });
 
       if (update.status === "project-reset") {
+        pendingAffectedFiles.clear();
         projectState = undefined;
         backendInitializationPromise = undefined;
         invalidateTransformedModules(server, transformedModuleFiles);
@@ -501,16 +503,17 @@ export function createPlugin(
       }
       if (update.status === "ready") projectState = update.project;
       if (update.status === "pending") {
-        invalidateTransformedModules(server, affectedFiles, true);
-        void update.ready.then((completion) => {
-          if (completion.status === "ready") {
-            projectState = completion.project;
-            flushQueuedModuleInvalidations();
-          }
-        });
-        return;
+        for (const affectedFile of affectedFiles) {
+          pendingAffectedFiles.add(affectedFile);
+        }
+        const completion = await update.ready;
+        if (completion.status !== "ready") return;
+        projectState = completion.project;
+        const readyAffectedFiles = new Set(pendingAffectedFiles);
+        pendingAffectedFiles.clear();
+        return collectTransformedModules(server, readyAffectedFiles, modules);
       }
-      invalidateTransformedModules(server, affectedFiles);
+      return collectTransformedModules(server, affectedFiles, modules);
     },
     async closeBundle() {
       await teardown();

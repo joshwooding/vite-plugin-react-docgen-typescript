@@ -720,7 +720,7 @@ it("invalidates only transformed modules that depend on the changed TypeScript f
   );
 
   // @ts-expect-error
-  await plugin.handleHotUpdate?.({
+  const hotModules = await plugin.handleHotUpdate?.({
     file: project.typeDependencyPath,
     modules: [],
     server: {
@@ -736,13 +736,9 @@ it("invalidates only transformed modules that depend on the changed TypeScript f
     },
   });
 
-  expect(invalidateModule).toHaveBeenCalledTimes(1);
-  expect(invalidateModule).toHaveBeenCalledWith(
-    transformedDependentModule,
-    undefined,
-    expect.any(Number),
-    true,
-  );
+  expect(hotModules).toEqual([transformedDependentModule]);
+  expect(hotModules).not.toContain(transformedIndependentModule);
+  expect(invalidateModule).not.toHaveBeenCalled();
 });
 
 it("re-resolves the TypeScript project after tsconfig changes", async () => {
@@ -902,7 +898,7 @@ describe("EXPERIMENTAL_useWatchProgram", () => {
     writeFileSync(project.componentPath, updatedSource);
 
     // @ts-expect-error
-    await plugin.handleHotUpdate?.({
+    const hotModules = await plugin.handleHotUpdate?.({
       file: project.componentPath,
       modules: [],
       server: {
@@ -924,7 +920,8 @@ describe("EXPERIMENTAL_useWatchProgram", () => {
         project.componentPath,
       );
 
-    expect(invalidateModule).toHaveBeenCalledTimes(1);
+    expect(hotModules).toEqual([transformedModule]);
+    expect(invalidateModule).not.toHaveBeenCalled();
     expect(updatedResult).toEqual(
       expect.objectContaining({
         code: expect.stringContaining(
@@ -1045,7 +1042,7 @@ describe("EXPERIMENTAL_useProjectService", () => {
     );
 
     // @ts-expect-error
-    await plugin.handleHotUpdate?.({
+    const hotModules = await plugin.handleHotUpdate?.({
       file: project.componentPath,
       modules: [],
       server: {
@@ -1059,7 +1056,8 @@ describe("EXPERIMENTAL_useProjectService", () => {
       },
     });
 
-    expect(invalidateModule).toHaveBeenCalledTimes(1);
+    expect(hotModules).toEqual([transformedModule]);
+    expect(invalidateModule).not.toHaveBeenCalled();
 
     const updatedResult =
       // @ts-expect-error
@@ -1125,7 +1123,7 @@ describe("EXPERIMENTAL_useProjectService", () => {
     );
 
     // @ts-expect-error
-    await plugin.handleHotUpdate?.({
+    const hotModules = await plugin.handleHotUpdate?.({
       file: project.typeDependencyPath,
       modules: [],
       server: {
@@ -1139,7 +1137,8 @@ describe("EXPERIMENTAL_useProjectService", () => {
       },
     });
 
-    expect(invalidateModule).toHaveBeenCalledTimes(1);
+    expect(hotModules).toEqual([transformedModule]);
+    expect(invalidateModule).not.toHaveBeenCalled();
 
     const updatedResult =
       // @ts-expect-error

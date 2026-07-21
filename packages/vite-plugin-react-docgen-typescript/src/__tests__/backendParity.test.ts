@@ -232,10 +232,12 @@ describe("pre-extraction public-plugin parity corpus", () => {
     // The public plugin does not persist error results, so its reverse-index
     // response is the pre-extraction observation for the authored exact list.
     // @ts-expect-error The focused harness supplies only the used HMR fields.
-    await plugin.handleHotUpdate?.call(
+    const hotModules = await plugin.handleHotUpdate?.call(
       {},
       {
         file: path.join(fixture.root, "props.ts"),
+        modules: [],
+        read: () => recoverableErrorFixture.files["props.ts"],
         server: {
           moduleGraph: {
             getModulesByFile: (fileName: string) =>
@@ -245,9 +247,11 @@ describe("pre-extraction public-plugin parity corpus", () => {
             invalidateModule,
           },
         },
+        timestamp: 1,
       },
     );
-    expect(invalidateModule).toHaveBeenCalledTimes(1);
+    expect(hotModules).toEqual([transformedModule]);
+    expect(invalidateModule).not.toHaveBeenCalled();
     expect(
       Object.keys(recoverableErrorFixture.files)
         .map((fileName) => `<fixture>/${fileName}`)
