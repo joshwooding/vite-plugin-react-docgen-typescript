@@ -100,7 +100,16 @@ const physicalEntries = (
     const files: string[] = [];
     for (const entry of readdirSync(directoryName, { withFileTypes: true })) {
       if (entry.isDirectory()) directories.push(entry.name);
-      else if (entry.isFile() || entry.isSymbolicLink()) files.push(entry.name);
+      else if (entry.isFile()) files.push(entry.name);
+      else if (entry.isSymbolicLink()) {
+        try {
+          const target = statSync(path.join(directoryName, entry.name));
+          if (target.isDirectory()) directories.push(entry.name);
+          else files.push(entry.name);
+        } catch {
+          // Broken links are inaccessible to the native project as well.
+        }
+      }
     }
     return { directories, files };
   } catch {

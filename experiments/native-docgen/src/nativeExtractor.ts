@@ -1,3 +1,4 @@
+import { existsSync, readFileSync, realpathSync } from "node:fs";
 import path from "node:path";
 import {
   isBindingElement,
@@ -198,12 +199,22 @@ const typeForProp = async (
 ) => {
   countRequest();
   const raw = await checker.typeToString(type);
-  if (!options.shouldExtractValuesFromUnion || !type.isUnionType()) {
+  let unionType = type;
+  if (options.shouldExtractValuesFromUnion && !unionType.isUnionType()) {
+    countRequest();
+    const aliasSymbol = await unionType.getAliasSymbol();
+    if (aliasSymbol) {
+      countRequest();
+      const declaredType = await checker.getDeclaredTypeOfSymbol(aliasSymbol);
+      if (declaredType.isUnionType()) unionType = declaredType;
+    }
+  }
+  if (!options.shouldExtractValuesFromUnion || !unionType.isUnionType()) {
     return { name: raw };
   }
 
   countRequest();
-  const unionTypes = await type.getTypes();
+  const unionTypes = await unionType.getTypes();
   const value: Array<{ value: string }> = [];
   for (const unionType of unionTypes) {
     countRequest();
@@ -304,17 +315,89 @@ const resolveRelativeImport = (
     .find((candidate): candidate is string => Boolean(candidate));
 };
 
+const resolvePackageImport = (
+  containingFile: string,
+  specifier: string,
+  programFiles: ReadonlyMap<string, string>,
+): string | undefined => {
+  const segments = specifier.split("/");
+  const packageName = specifier.startsWith("@")
+    ? segments.slice(0, 2).join("/")
+    : segments[0];
+  const packageSubpath = segments.slice(packageName.startsWith("@") ? 2 : 1);
+  let directory = path.dirname(containingFile);
+
+  while (true) {
+    const packageRoot = path.join(directory, "node_modules", packageName);
+    const packageJsonPath = path.join(packageRoot, "package.json");
+    if (existsSync(packageJsonPath)) {
+      let declaredTypes: string | undefined;
+      try {
+        const manifest = JSON.parse(readFileSync(packageJsonPath, "utf-8")) as {
+          exports?: { "."?: { types?: string } | string };
+          types?: string;
+          typings?: string;
+        };
+        const rootExport = manifest.exports?.["."];
+        declaredTypes =
+          manifest.types ??
+          manifest.typings ??
+          (typeof rootExport === "object" ? rootExport.types : undefined);
+      } catch {
+        // Candidate probing below remains deterministic for malformed manifests.
+      }
+      const base =
+        packageSubpath.length > 0
+          ? path.join(packageRoot, ...packageSubpath)
+          : path.resolve(packageRoot, declaredTypes ?? "index");
+      const candidates = [
+        base,
+        `${base}.ts`,
+        `${base}.tsx`,
+        `${base}.mts`,
+        `${base}.cts`,
+        `${base}.d.ts`,
+        path.join(base, "index.ts"),
+        path.join(base, "index.tsx"),
+        path.join(base, "index.d.ts"),
+      ];
+      return candidates
+        .map((candidate) => {
+          const resolved = path.resolve(candidate);
+          const direct = programFiles.get(resolved.toLowerCase());
+          if (direct) return direct;
+          try {
+            return programFiles.get(
+              realpathSync.native(resolved).toLowerCase(),
+            );
+          } catch {
+            return undefined;
+          }
+        })
+        .find((candidate): candidate is string => Boolean(candidate));
+    }
+
+    const parent = path.dirname(directory);
+    if (parent === directory) return undefined;
+    directory = parent;
+  }
+};
+
 export const collectNativeDependencies = async (
   project: Project,
   entryFile: string,
 ): Promise<readonly string[]> => {
   const names = await project.program.getSourceFileNames();
-  const programFiles = new Map(
-    names.map((fileName) => [
-      path.resolve(fileName).toLowerCase(),
-      path.resolve(fileName),
-    ]),
-  );
+  const programFiles = new Map<string, string>();
+  for (const fileName of names) {
+    const resolved = path.resolve(fileName);
+    programFiles.set(resolved.toLowerCase(), resolved);
+    try {
+      programFiles.set(realpathSync.native(resolved).toLowerCase(), resolved);
+    } catch {
+      // Virtual overlay files have no physical identity yet.
+    }
+  }
   const visited = new Set<string>();
   const pending = [path.resolve(entryFile)];
 
@@ -347,7 +430,9 @@ export const collectNativeDependencies = async (
       if (!foundSymbolPath) {
         const match = importNode.getText(sourceFile).match(/^['"](.+)['"]$/);
         const dependency = match?.[1]
-          ? resolveRelativeImport(fileName, match[1], programFiles)
+          ? match[1].startsWith(".")
+            ? resolveRelativeImport(fileName, match[1], programFiles)
+            : resolvePackageImport(fileName, match[1], programFiles)
           : undefined;
         if (dependency) pending.push(dependency);
       }
@@ -362,7 +447,15 @@ export const collectNativeDependencies = async (
     }
   }
 
-  return normalizeBoundaryPaths(visited);
+  return normalizeBoundaryPaths(
+    [...visited].map((fileName) => {
+      try {
+        return realpathSync.native(fileName);
+      } catch {
+        return fileName;
+      }
+    }),
+  );
 };
 
 export const extractNativeComponents = async ({
