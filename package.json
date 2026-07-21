@@ -35,6 +35,7 @@
     "typescript43": "npm:typescript@4.3.5",
     "typescript6": "npm:@typescript/typescript6@6.0.X",
     "typescript7": "npm:typescript@7.0.2",
+    "typescript7next": "npm:typescript@7.1.0-dev.20260719.1",
     "unbuild": "^3.0.0",
     "vite": "^8.0.0",
     "vitest": "^4.1.0",
