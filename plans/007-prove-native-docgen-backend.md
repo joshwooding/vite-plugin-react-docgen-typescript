@@ -30,6 +30,7 @@
 - **Depends on**: `plans/006-introduce-docgen-backend-seam.md`
 - **Category**: direction
 - **Planned at**: commit `ffd553b`, revised 2026-07-20
+- **Execution status**: DONE — CONDITIONAL, 2026-07-21
 
 ## Why this matters
 
@@ -650,16 +651,16 @@ record. No changeset or public claim exists.
 
 **Required for every completed verdict**:
 
-- [ ] The decision record names the first failing/passing gate and applies one
+- [x] The decision record names the first failing/passing gate and applies one
       ordered verdict without an unsupported production claim.
-- [ ] No published manifest, build config, public entry, peer, option, export,
+- [x] No published manifest, build config, public entry, peer, option, export,
       README support claim, changeset, release state, or issue status changes.
-- [ ] Existing legacy parity/HMR/tests/typecheck/build remain green and issue
+- [x] Existing legacy parity/HMR/tests/typecheck/build remain green and issue
       #57 remains open.
-- [ ] No native object masquerades as a legacy object; low-level protocol,
+- [x] No native object masquerades as a legacy object; low-level protocol,
       internal, and generated-wire surfaces are absent.
-- [ ] Actual package archive and every dist chunk/declaration are native-free.
-- [ ] `plans/README.md` marks Plan 007 `DONE — GO`, `DONE — CONDITIONAL`, or
+- [x] Actual package archive and every dist chunk/declaration are native-free.
+- [x] `plans/README.md` marks Plan 007 `DONE — GO`, `DONE — CONDITIONAL`, or
       `DONE — NO-GO`, unless the dispatching reviewer owns the index.
 
 **Alternative pre-verdict state for `BLOCKED`**:
@@ -671,14 +672,14 @@ record. No changeset or public claim exists.
 
 **Additionally for `GO`/`CONDITIONAL`**:
 
-- [ ] Stable 7.0.2 and next 7.1.0-dev.20260719.1 remain exact root-dev aliases;
+- [x] Stable 7.0.2 and next 7.1.0-dev.20260719.1 remain exact root-dev aliases;
       no publishable dependency changes.
-- [ ] Only declared high-level unstable subpaths are used; source overlay,
+- [x] Only declared high-level unstable subpaths are used; source overlay,
       references, revision races, exact dependency paths, must-have parity,
       native empty-ledger HMR, selectivity, and clean disposal pass.
-- [ ] Wider parity/order/option gaps and independent benchmark dispersion are
+- [x] Wider parity/order/option gaps and independent benchmark dispersion are
       complete enough to apply the ordered verdict without ambiguity.
-- [ ] The TypeScript 6 control and quality ledger make extractor/session gains,
+- [x] The TypeScript 6 control and quality ledger make extractor/session gains,
       native compiler gains, intentional improvements, and regressions
       separately visible; no Storybook benchmark is used as local proof.
 
