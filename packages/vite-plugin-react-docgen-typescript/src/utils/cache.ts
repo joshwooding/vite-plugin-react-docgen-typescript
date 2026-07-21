@@ -15,7 +15,7 @@ const DEFAULT_FILE_SYSTEM_CACHE_DIRECTORY = path.join(
   ".cache",
   "vite-plugin-react-docgen-typescript",
 );
-const FILE_SYSTEM_CACHE_VERSION = 5;
+const FILE_SYSTEM_CACHE_VERSION = 6;
 const PACKAGE_NAME = "@joshwooding/vite-plugin-react-docgen-typescript";
 
 type PersistedTransformResult =
@@ -23,11 +23,25 @@ type PersistedTransformResult =
       dependencies?: string[];
       kind: "code";
       code: string;
+      proof: FileSystemCacheProof;
     }
   | {
       dependencies?: string[];
       kind: "null";
+      proof: FileSystemCacheProof;
     };
+
+export interface FileSystemCacheConfigProof {
+  contentHash: string;
+  fileName: string;
+}
+
+export interface FileSystemCacheProof {
+  backendFingerprint: string;
+  componentFile: string;
+  configFiles: FileSystemCacheConfigProof[];
+  selectionFingerprint: string;
+}
 
 export interface CacheableTransformResult {
   code: string;
@@ -36,6 +50,7 @@ export interface CacheableTransformResult {
 
 export interface FileSystemTransformCacheEntry {
   dependencies: string[] | undefined;
+  proof: FileSystemCacheProof;
   result: CacheableTransformResult | null;
 }
 
@@ -218,6 +233,25 @@ const resolvePluginPackageVersion = (): string | undefined => {
   return packageJsonPath ? readPackageVersion(packageJsonPath) : undefined;
 };
 
+export function createDependencyVersionFingerprint(input: {
+  packageNames: readonly string[];
+  rootDir: string;
+  schema: string;
+}): string {
+  const moduleDirectory = getCurrentModuleDirectory();
+  return hashValue(
+    stableStringify({
+      dependencies: Object.fromEntries(
+        input.packageNames.map((packageName) => [
+          packageName,
+          resolvePackageVersion(packageName, [input.rootDir, moduleDirectory]),
+        ]),
+      ),
+      schema: input.schema,
+    }),
+  );
+}
+
 const getPersistedTransformResultPath = (
   directory: string,
   normalizedFileId: string,
@@ -232,17 +266,20 @@ const toPersistedTransformResult = (
     ? {
         dependencies: entry.dependencies,
         kind: "null",
+        proof: entry.proof,
       }
     : {
         code: entry.result.code,
         dependencies: entry.dependencies,
         kind: "code",
+        proof: entry.proof,
       };
 
 const fromPersistedTransformResult = (
   result: PersistedTransformResult,
 ): FileSystemTransformCacheEntry => ({
   dependencies: result.dependencies,
+  proof: result.proof,
   result:
     result.kind === "null"
       ? null
@@ -279,6 +316,7 @@ export function resolveFileSystemCacheOptions(
 export function createFileSystemCacheNamespace(
   options: Options,
   rootDir: string,
+  backendFingerprint = "legacy-unfingerprinted",
 ): string {
   const { fileSystemCache, ...cacheKeyOptions } = options;
   const moduleDirectory = getCurrentModuleDirectory();
@@ -305,6 +343,7 @@ export function createFileSystemCacheNamespace(
   return hashValue(
     stableStringify({
       cacheKeyOptions,
+      backendFingerprint,
       packageVersions,
       rootDir,
       tsconfigContents,
@@ -312,6 +351,77 @@ export function createFileSystemCacheNamespace(
       version: FILE_SYSTEM_CACHE_VERSION,
     }),
   );
+}
+
+export function createFileSelectionFingerprint(selection: {
+  exclude: readonly string[];
+  include: readonly string[];
+}): string {
+  return hashValue(
+    stableStringify({
+      exclude: [...selection.exclude],
+      include: [...selection.include],
+    }),
+  );
+}
+
+export function createFileSystemCacheProof(input: {
+  backendFingerprint: string;
+  componentFile: string;
+  configFiles: readonly string[];
+  selectionFingerprint: string;
+}): FileSystemCacheProof {
+  const componentFile = path.resolve(input.componentFile);
+  const hashFiles = (fileNames: readonly string[]) =>
+    [...new Set(fileNames.map((fileName) => path.resolve(fileName)))]
+      .sort((left, right) => left.localeCompare(right))
+      .map((fileName) => ({
+        contentHash: hashValue(readFileSync(fileName, "utf-8")),
+        fileName,
+      }));
+
+  return {
+    backendFingerprint: input.backendFingerprint,
+    componentFile,
+    configFiles: hashFiles(input.configFiles),
+    selectionFingerprint: input.selectionFingerprint,
+  };
+}
+
+export function isFileSystemCacheProofValid(
+  proof: FileSystemCacheProof | undefined,
+  expected: {
+    backendFingerprint: string;
+    componentFile: string;
+    selectionFingerprint: string;
+  },
+): boolean {
+  if (
+    !proof ||
+    proof.backendFingerprint !== expected.backendFingerprint ||
+    path.resolve(proof.componentFile) !==
+      path.resolve(expected.componentFile) ||
+    proof.selectionFingerprint !== expected.selectionFingerprint ||
+    !Array.isArray(proof.configFiles)
+  ) {
+    return false;
+  }
+
+  const validateFiles = (files: FileSystemCacheConfigProof[]) => {
+    const normalizedFiles = files
+      .map(({ fileName }) => path.resolve(fileName))
+      .sort((left, right) => left.localeCompare(right));
+    if (new Set(normalizedFiles).size !== normalizedFiles.length) return false;
+    return files.every(({ contentHash, fileName }) => {
+      try {
+        return hashValue(readFileSync(fileName, "utf-8")) === contentHash;
+      } catch {
+        return false;
+      }
+    });
+  };
+
+  return validateFiles(proof.configFiles);
 }
 
 export function readFileSystemTransformCache(

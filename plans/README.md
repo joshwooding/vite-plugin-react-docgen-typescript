@@ -24,7 +24,7 @@ verification gate, and update only its status row here when done.
 | [003](./003-reject-invalid-runtime-targets.md) | Prevent invalid runtime targets for barrel re-exports | P1 | S | — | Start now | DONE |
 | [004](./004-unify-project-file-selection.md) | Unify project membership and file-selection semantics | P1 | M | — | Start now; establishes shared selection input | DONE |
 | [005](./005-lock-backend-hmr-contract.md) | Lock backend-neutral imported-type HMR acceptance contracts | P1 | M | 002, 004 | Freeze ledgers on the final TypeScript 6 baseline after the verified pre-transform ordering correction | DONE |
-| [006](./006-introduce-docgen-backend-seam.md) | Introduce a docgen backend session boundary without changing legacy behavior | P1 | L | 002, 003, 004, 005 | Start only after all four boundaries are stable | TODO |
+| [006](./006-introduce-docgen-backend-seam.md) | Introduce a docgen backend session boundary without changing legacy behavior | P1 | L | 002, 003, 004, 005 | Start only after all four boundaries are stable | DONE |
 | [007](./007-prove-native-docgen-backend.md) | Prove or reject a native TypeScript 7 docgen backend | P2 | XL | 006 | Exact stable + next, non-shipping; record a verdict only from valid evidence, otherwise BLOCKED | TODO |
 | [008](./008-repair-legacy-imported-type-hmr.md) | Repair imported-type HMR in the legacy backend | P1 | L | 004, 005, 006 | Mandatory while legacy remains default, opt-in, supported, or a rollback path | TODO |
 

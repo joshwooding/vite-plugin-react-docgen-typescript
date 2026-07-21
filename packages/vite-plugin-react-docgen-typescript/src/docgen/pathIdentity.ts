@@ -18,6 +18,4 @@ export const normalizeBoundaryPath = (value: string): string =>
   path.resolve(cleanBoundaryPath(value));
 
 export const normalizeBoundaryPaths = (values: Iterable<string>): string[] =>
-  [...new Set([...values].map(normalizeBoundaryPath))].sort((left, right) =>
-    left.localeCompare(right),
-  );
+  [...new Set([...values].map(normalizeBoundaryPath))].sort();

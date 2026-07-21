@@ -9,7 +9,9 @@ import {
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { createLegacyBackendFactory } from "../docgen/legacyBackend";
 import createPlugin from "../index";
+import { resolveFileSelection } from "../utils/fileSelection";
 import type { Options } from "../utils/options";
 import {
   backendParityCorpus,
@@ -154,6 +156,19 @@ const transformFixture = async (
   return { plugin, result, source };
 };
 
+const createDirectBackend = async (
+  fixture: ReturnType<typeof createFixture>,
+  options: Options,
+) => {
+  const resolvedOptions = { ...options, tsconfigPath: fixture.tsconfigPath };
+  const factory = createLegacyBackendFactory(resolvedOptions);
+  const backend = await factory.create({
+    rootDir: fixture.root,
+    selection: resolveFileSelection(fixture.root, resolvedOptions),
+  });
+  return backend;
+};
+
 describe("pre-extraction public-plugin parity corpus", () => {
   for (const corpus of backendParityCorpus) {
     it(corpus.name, async () => {
@@ -238,5 +253,172 @@ describe("pre-extraction public-plugin parity corpus", () => {
         .map((fileName) => `<fixture>/${fileName}`)
         .sort(),
     ).toEqual(recoverableErrorFixture.expectedDependencies);
+  });
+});
+
+describe.each([
+  ["default", {}],
+  ["watch", { EXPERIMENTAL_useWatchProgram: true }],
+  ["project service", { EXPERIMENTAL_useProjectService: true }],
+] as const)("direct legacy backend parity: %s", (_mode, runtimeOptions) => {
+  for (const corpus of backendParityCorpus) {
+    it(corpus.name, async () => {
+      const fixture = createFixture(corpus.files, corpus.transformFile);
+      const backend = await createDirectBackend(fixture, {
+        ...corpus.options,
+        ...runtimeOptions,
+      } as Options);
+      try {
+        const initialized = await backend.initialize();
+        expect(
+          normalizeFixtureValue(initialized.docgenFiles, fixture.root),
+        ).toEqual([`<fixture>/${corpus.transformFile}`]);
+        expect(
+          normalizeFixtureValue(initialized.trackedFiles, fixture.root),
+        ).toEqual(corpus.expectedProjectFiles);
+        expect(
+          normalizeFixtureValue(initialized.configFiles, fixture.root),
+        ).toEqual(["<fixture>/tsconfig.json"]);
+
+        const result = await backend.analyze({
+          fileName: fixture.componentPath,
+          revision: 1,
+          source: readFileSync(fixture.componentPath, "utf-8"),
+        });
+        expect(result.status).toBe("ok");
+        if (result.status !== "ok") return;
+        expect(normalizeFixtureValue(result.components, fixture.root)).toEqual(
+          corpus.expectedComponents,
+        );
+        expect(
+          normalizeFixtureValue(result.dependencies, fixture.root),
+        ).toEqual(corpus.expectedDependencies);
+      } finally {
+        await backend.dispose();
+      }
+    });
+  }
+
+  it("preserves dependencies for empty extraction", async () => {
+    const fixture = createFixture(
+      { [emptyExtractionFixture.fileName]: emptyExtractionFixture.source },
+      emptyExtractionFixture.fileName,
+    );
+    const backend = await createDirectBackend(fixture, runtimeOptions);
+    try {
+      const result = await backend.analyze({
+        fileName: fixture.componentPath,
+        revision: 1,
+        source: emptyExtractionFixture.source,
+      });
+      expect(result.status).toBe("ok");
+      if (result.status === "ok") expect(result.components).toEqual([]);
+      expect(normalizeFixtureValue(result.dependencies, fixture.root)).toEqual([
+        `<fixture>/${emptyExtractionFixture.fileName}`,
+      ]);
+    } finally {
+      await backend.dispose();
+    }
+  });
+
+  it("sanitizes errors without losing dependencies", async () => {
+    const fixture = createFixture(
+      recoverableErrorFixture.files,
+      recoverableErrorFixture.transformFile,
+    );
+    const backend = await createDirectBackend(fixture, {
+      ...runtimeOptions,
+      componentNameResolver: () => {
+        throw new Error("controlled parser callback failure");
+      },
+    });
+    try {
+      const result = await backend.analyze({
+        fileName: fixture.componentPath,
+        revision: 1,
+        source: readFileSync(fixture.componentPath, "utf-8"),
+      });
+      expect(result.status).toBe("error");
+      if (result.status === "error") {
+        expect(result.error).toEqual(
+          expect.objectContaining({
+            message: "controlled parser callback failure",
+            name: "Error",
+          }),
+        );
+      }
+      expect(normalizeFixtureValue(result.dependencies, fixture.root)).toEqual(
+        recoverableErrorFixture.expectedDependencies,
+      );
+    } finally {
+      await backend.dispose();
+    }
+  });
+
+  it("reports complete referenced and extended config provenance", async () => {
+    const root = createTemporaryDirectory();
+    const referencedRoot = path.join(root, "packages", "referenced");
+    mkdirSync(referencedRoot, { recursive: true });
+    const componentPath = path.join(root, "Component.tsx");
+    const referencedComponentPath = path.join(referencedRoot, "Referenced.tsx");
+    const rootConfigPath = path.join(root, "tsconfig.json");
+    const rootBasePath = path.join(root, "tsconfig.base.json");
+    const referencedConfigPath = path.join(referencedRoot, "tsconfig.json");
+    const referencedBasePath = path.join(referencedRoot, "tsconfig.base.json");
+    writeFileSync(componentPath, "export const Component = () => null;\n");
+    writeFileSync(
+      referencedComponentPath,
+      "export const Referenced = () => null;\n",
+    );
+    writeFileSync(
+      rootBasePath,
+      JSON.stringify({ compilerOptions: { jsx: "preserve" } }),
+    );
+    writeFileSync(
+      referencedBasePath,
+      JSON.stringify({ compilerOptions: { composite: true } }),
+    );
+    writeFileSync(
+      referencedConfigPath,
+      JSON.stringify({
+        extends: "./tsconfig.base.json",
+        files: ["Referenced.tsx"],
+      }),
+    );
+    writeFileSync(
+      rootConfigPath,
+      JSON.stringify({
+        extends: "./tsconfig.base.json",
+        files: ["Component.tsx"],
+        references: [{ path: "./packages/referenced" }],
+      }),
+    );
+    const options: Options = {
+      ...runtimeOptions,
+      tsconfigPath: rootConfigPath,
+    };
+    const backend = await createLegacyBackendFactory(options).create({
+      rootDir: root,
+      selection: resolveFileSelection(root, options),
+    });
+    try {
+      const state = await backend.initialize();
+      expect(state.configFiles).toEqual(
+        [
+          referencedBasePath,
+          referencedConfigPath,
+          rootBasePath,
+          rootConfigPath,
+        ].sort(),
+      );
+      expect(state.docgenFiles).toEqual(
+        [componentPath, referencedComponentPath].sort(),
+      );
+      expect(state.trackedFiles).toEqual(
+        [componentPath, referencedComponentPath].sort(),
+      );
+    } finally {
+      await backend.dispose();
+    }
   });
 });
