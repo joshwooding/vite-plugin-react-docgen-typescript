@@ -6,11 +6,16 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "noEmit": true,
+    "noImplicitThis": false,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2023",
     "types": ["node", "vitest/globals"]
   },
-  "include": ["src/**/*.ts", "test/**/*.native-spike.ts", "bench/**/*.native-bench.ts"]
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.native-spike.ts",
+    "bench/**/*.native-bench.ts"
+  ]
 }

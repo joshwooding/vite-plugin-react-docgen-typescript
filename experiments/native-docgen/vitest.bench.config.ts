@@ -4,9 +4,11 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   root: fileURLToPath(new URL(".", import.meta.url)),
   test: {
-    include: ["bench/**/*.native-bench.ts"],
+    benchmark: {
+      include: ["bench/**/*.native-bench.ts"],
+    },
+    maxWorkers: 1,
     passWithNoTests: false,
     pool: "forks",
-    maxWorkers: 1,
   },
 });

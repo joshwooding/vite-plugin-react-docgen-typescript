@@ -445,13 +445,17 @@ node experiments/native-docgen/bench/runNativeBenchmarks.mjs --run-id primary --
 ```
 
 It validates that the output directory is outside the repository, then launches
-seven fresh Vitest child processes through
+seven fresh Vitest child processes through the root's exact installed Vitest
+CLI with
 `experiments/native-docgen/vitest.bench.config.ts`, with the child working
 directory explicitly set to `experiments/native-docgen`. Each process executes
 one fresh paired sample, alternates which backend runs first by global sample
 index, receives `VPRDTS_NATIVE_BENCH_OUTPUT`, `VPRDTS_NATIVE_BENCH_SAMPLE`, and
-`VPRDTS_NATIVE_BENCH_ORDER`, and gets `--reporter=json` plus a unique
-`--outputFile <path>` and the run ID. It writes a run manifest containing the
+`VPRDTS_NATIVE_BENCH_ORDER`, and gets Vitest 4's benchmark-mode
+`--outputJson <path>` plus the run ID. The direct CLI invocation is intentional:
+this private experiment is excluded from the Yarn workspace, so a Yarn command
+from its working directory is rejected, and benchmark mode does not support the
+test-mode JSON reporter/output-file combination. It writes a run manifest containing the
 ID, start/count, exact child command/config/root, and result paths. It rejects
 an overlapping global index, missing/duplicate sample, nonzero child,
 repository-local output, or malformed result before comparison.
@@ -459,7 +463,7 @@ repository-local output, or malformed result before comparison.
 The recorded child command is exactly:
 
 ```text
-yarn vitest --config vitest.bench.config.ts bench --run --reporter=json --outputFile <unique-vitest-json>
+<node> <repository>/node_modules/vitest/vitest.mjs --config vitest.bench.config.ts bench --run --outputJson <unique-vitest-json>
 ```
 
 Define and validate a versioned `native-bench-v1` custom-result schema with:
@@ -467,8 +471,14 @@ run ID, global sample number/order; scenario/backend; exact compiler/API
 versions; Node/OS/architecture; fixture hash; repetition count; total measured
 duration and per-operation duration for every metric; freshness/selectivity/
 teardown controls; invalidation counts; and API request counts. Adaptively
-repeat each operation batch until its measured work is at least 250 ms, then
-report the per-operation value; setup outside the named metric is not included.
+repeat each operation batch except teardown until its measured work is at least
+250 ms, then report the per-operation value; setup outside the named metric is
+not included. Teardown is one measurement from one independently created and
+initialized session per paired process. Repeating a sub-millisecond dispose to
+a 250 ms floor would launch thousands of complete helpers and measure
+accumulated process retirement rather than the lifecycle operation under test;
+the comparator instead requires this diagnostic metric to be finite, positive,
+and present in every pair.
 Every cold-initialization and first-component repetition must create a fresh
 backend/session, perform only the named operation, and dispose it. Warm batches
 may reuse a session inside one repetition, but never across samples/repetitions;
@@ -496,9 +506,9 @@ the current adapter. It also reports, without folding it into that threshold,
 the current-adapter → TypeScript 6 control and TypeScript 6 control → native
 deltas for every metric so a native verdict cannot attribute LanguageService or
 extractor gains to the compiler.
-`--min-duration-ms` validates each aggregate measured batch before
-per-operation normalization, so a legitimately small per-operation teardown is
-not rejected after the 250 ms batching floor is met.
+`--min-duration-ms` validates each non-teardown aggregate measured batch before
+per-operation normalization. Teardown is excluded from that duration floor for
+the process-lifecycle reason above, but remains in the regression ledger.
 
 If any median absolute deviation exceeds 20% of its median, collect seven more
 alternating pairs in `<evidence-root>/variance` with `--run-id variance
@@ -515,8 +525,9 @@ the driver succeeds; the comparator returns only the state allowed by the
 verdict mapping (`0` for `GO`, `2` for valid non-GO threshold evidence, never
 `1`); every
 scenario has at least seven independent pairs (fourteen for a confirmation or
-high-variance run), at least 250 ms of measured work per reported operation
-batch, zero unrelated invalidations, fresh metadata, clean teardown, and
+high-variance run), at least 250 ms of measured work per non-teardown operation
+batch, one positive teardown observation per pair, zero unrelated invalidations,
+fresh metadata, clean teardown, and
 machine-readable JSON retained outside the repository.
 
 ### Step 6: Prove the experiment cannot enter the published artifact
