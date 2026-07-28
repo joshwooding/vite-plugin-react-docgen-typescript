@@ -1,0 +1,96 @@
+{
+  "include": [
+    {
+      "os": "ubuntu-latest",
+      "node": "20.19.5",
+      "typescript": "4.3.5",
+      "vite": "3.2.11",
+      "modes": [
+        "default",
+        "legacy",
+        "project-service",
+        "experimental-watch",
+        "experimental-project-service"
+      ],
+      "purpose": "declared lower bounds"
+    },
+    {
+      "os": "ubuntu-latest",
+      "node": "20.19.5",
+      "typescript": "4.9.5",
+      "vite": "4.5.14",
+      "modes": ["default", "legacy", "project-service"],
+      "purpose": "late TypeScript 4 / Vite 4"
+    },
+    {
+      "os": "ubuntu-latest",
+      "node": "20.19.5",
+      "typescript": "5.0.4",
+      "vite": "5.4.21",
+      "modes": ["default", "legacy", "project-service"],
+      "purpose": "first TypeScript 5 / late Vite 5"
+    },
+    {
+      "os": "ubuntu-latest",
+      "node": "20.19.5",
+      "typescript": "5.4.5",
+      "vite": "6.1.0",
+      "modes": ["default", "legacy", "project-service"],
+      "purpose": "mid TypeScript 5 / Vite 6"
+    },
+    {
+      "os": "ubuntu-latest",
+      "node": "20.19.5",
+      "typescript": "5.9.3",
+      "vite": "7.2.4",
+      "modes": ["default", "legacy", "project-service"],
+      "purpose": "late TypeScript 5 / Vite 7"
+    },
+    {
+      "os": "ubuntu-latest",
+      "node": "24",
+      "typescript": "6.0.3",
+      "vite": "8.1.5",
+      "modes": [
+        "default",
+        "legacy",
+        "project-service",
+        "experimental-watch",
+        "experimental-project-service"
+      ],
+      "purpose": "current upper families"
+    },
+    {
+      "os": "ubuntu-latest",
+      "node": "20.19.5",
+      "typescript": "4.3.5",
+      "vite": "8.1.5",
+      "modes": ["default", "legacy", "project-service"],
+      "purpose": "oldest compiler with newest Vite"
+    },
+    {
+      "os": "ubuntu-latest",
+      "node": "20.19.5",
+      "typescript": "6.0.3",
+      "vite": "3.2.11",
+      "modes": ["default", "legacy", "project-service"],
+      "purpose": "newest compiler with oldest Vite"
+    },
+    {
+      "os": "windows-latest",
+      "node": "20.19.5",
+      "typescript": "4.3.5",
+      "vite": "3.2.11",
+      "modes": ["default", "legacy", "project-service", "experimental-watch"],
+      "purpose": "Windows lower families and watcher teardown"
+    },
+    {
+      "os": "windows-latest",
+      "node": "24",
+      "typescript": "6.0.3",
+      "vite": "8.1.5",
+      "modes": ["default", "legacy", "project-service", "experimental-watch"],
+      "purpose": "Windows upper families and watcher teardown"
+    }
+  ]
+}
