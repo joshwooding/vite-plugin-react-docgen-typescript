@@ -12,6 +12,26 @@ legacy backend until a separate production gate is passed. Do not replace the
 whole roadmap with a flag-day rewrite, and do not publish an unstable backend
 from the feasibility spike.
 
+After the native spike recorded `CONDITIONAL`, Plan 009 adds a narrower
+TypeScript 6 decision gate. It compares the shipped ProjectService-backed
+LanguageService path with the private direct extractor before authorizing
+either promotion work or a parser rewrite.
+
+Plan 010 closes the remaining shipped-runtime gap by comparing WatchProgram
+with ProjectService under the same controlled Vite/HMR evidence. Only a
+confirmed ProjectService result proceeds to a stable opt-in, deprecation of
+the two experimental booleans, and a packed TypeScript 4.3–6 / Vite 3–8
+compatibility matrix. The default switch and WatchProgram removal remain a
+later release gate.
+
+Plans 011–015 close the release-readiness findings selected after Plan 010:
+commit-exact pinned publishing, dependency-safe cold cache reuse, an explicit
+Node/runtime dependency contract, complete packed coverage for every shipped
+runtime, and dynamic project membership without restart. Only after those
+correctness and release gates land may Plan 016 measure cached project-state
+snapshots and indexed membership. Neutral evidence does not authorize keeping
+that optimization.
+
 Each executor must read its plan fully, honor every STOP condition, run every
 verification gate, and update only its status row here when done.
 
@@ -27,11 +47,23 @@ verification gate, and update only its status row here when done.
 | [006](./006-introduce-docgen-backend-seam.md) | Introduce a docgen backend session boundary without changing legacy behavior | P1 | L | 002, 003, 004, 005 | Start only after all four boundaries are stable | DONE |
 | [007](./007-prove-native-docgen-backend.md) | Prove or reject a native TypeScript 7 docgen backend | P2 | XL | 006 | Exact stable + next, non-shipping; record a verdict only from valid evidence, otherwise BLOCKED | DONE — CONDITIONAL |
 | [008](./008-repair-legacy-imported-type-hmr.md) | Repair imported-type HMR in the legacy backend | P1 | L | 004, 005, 006 | Mandatory while legacy remains default, opt-in, supported, or a rollback path | DONE |
+| [009](./009-select-typescript6-language-service-architecture.md) | Select the production TypeScript 6 LanguageService architecture | P1 | L | 006, 007, 008 | Compare shipped ProjectService and private direct extraction before any rollout or rewrite | DONE — PROMOTE_PROJECT_SERVICE |
+| [010](./010-confirm-and-stabilize-project-service.md) | Confirm and stabilize ProjectService as the supported TypeScript runtime | P1 | XL | 005, 006, 008, 009 | First compare WatchProgram; proceed only on `PROJECT_SERVICE_CONFIRMED` | DONE — PROJECT_SERVICE_STABLE_OPT_IN |
+| [011](./011-gate-and-pin-release-publishing.md) | Gate and pin production publishing | P1 | M | 010 | Must land before the stable-opt-in production release | DONE |
+| [012](./012-fingerprint-persistent-cache-dependencies.md) | Invalidate persistent cache entries when imported dependencies change | P1 | M | 010 | Preserve backend-free valid hits while rejecting stale cold entries | DONE |
+| [013](./013-declare-node-support-and-refresh-runtime-dependencies.md) | Declare the Node runtime contract and refresh vulnerable dependencies | P1 | M | 010, 011 | Establish the runtime floor before expanding the matrix | DONE |
+| [014](./014-verify-every-shipped-runtime-combination.md) | Verify every shipped runtime across the packed compatibility matrix | P1 | L | 011, 013 | Reuse one commit-bound archive; no supported-row skips | DONE |
+| [015](./015-refresh-dynamic-project-membership.md) | Refresh dynamic TypeScript project membership without a Vite restart | P1 | L | 012, 014 | Creation recovery may be conservative; steady-state edits remain selective | DONE |
+| [016](./016-cache-project-state-and-index-membership.md) | Cache project-state snapshots and index host membership | P2 | M | 015 | INCONCLUSIVE; candidate not integrated after ten paired samples | DONE |
 
 Status values: `TODO` | `IN PROGRESS` | `DONE` | `BLOCKED` (include a
 one-line reason) | `REJECTED` (include a one-line rationale). For Plan 007, keep
 the status value valid and append its verdict in the same cell, for example
-`DONE — CONDITIONAL`.
+`DONE — CONDITIONAL`. Plan 009 similarly appends one of
+`PROMOTE_PROJECT_SERVICE`, `BUILD_DIRECT_BACKEND`, or `RETAIN_CURRENT`. Plan
+010 becomes `DONE — PROJECT_SERVICE_STABLE_OPT_IN` only after its evidence and
+compatibility gates; a WatchProgram advantage or compatibility failure is
+recorded as `BLOCKED` with the exact reason.
 
 ## Dependency graph
 
@@ -42,6 +74,17 @@ the status value valid and append its verdict in the same cell, for example
                          └──> 005 ────────┘             │
 003  runtime targets ─────────────────────┘             └──> 008 legacy HMR repair
 004  project selection ──────> 005
+
+006 + 007 + 008 ─────────────> 009 TypeScript 6 architecture decision
+                                      │
+005 + 006 + 008 ──────────────────────┴──> 010 runtime confirmation + stable opt-in
+                                                     ├──> 011 release gate
+                                                     ├──> 012 cache freshness ─────┐
+                                                     └──> 013 Node contract ─> 014 complete matrix
+                                                                                   │
+                                                     012 + 014 ─────────────────> 015 dynamic membership
+                                                                                   │
+                                                                                   └──> 016 project-state performance experiment
 ```
 
 Plan 007 never closes issue #57 or authorizes production support. A `GO`
@@ -132,6 +175,67 @@ native release cannot waive it.
   compatibility CI, packaging review, rollback evidence, and an explicit
   repair-or-removal decision for legacy.
 
+### Wave 5: select the competitive TypeScript 6 production path
+
+- Plan 009 compares four controlled arms: default legacy, shipped
+  ProjectService plus the upstream parser, and the private direct
+  LanguageService extractor with its DocumentRegistry on and off.
+- The product decision uses end-to-end Vite cache and two-edit HMR timing. The
+  earlier native benchmark's direct-backend warm calls are not substituted for
+  a real warm transform.
+- If the existing project-service path provides the material gain, promote it
+  in a separate rollout plan and avoid a parser rewrite. If direct extraction
+  provides an additional material gain, write a separate full-parity plan
+  around per-tsconfig LanguageServices and a manager-scoped registry; the
+  experiment control is not shippable verbatim. If neither wins, retain the
+  current default.
+- Plan 009 changes no public option, default, manifest, peer range, production
+  source, changeset, or package artifact.
+
+### Wave 6: confirm the shipped runtime and begin convergence
+
+- Plan 010 first adds WatchProgram to the independent paired evidence. Plan
+  009 rejected a direct parser rewrite, but it did not prove ProjectService is
+  preferable to every already-shipped runtime.
+- A material WatchProgram advantage or an ambiguous result stops the rollout.
+  Valid neutral evidence favors ProjectService only when it remains within the
+  authored cold/HMR and memory budgets, because ProjectService consumes Vite's
+  in-memory source without a second filesystem-watcher lifecycle.
+- On `PROJECT_SERVICE_CONFIRMED`, add a stable
+  `docgenMode: "legacy" | "project-service"` selector while keeping the
+  current legacy default. Both experimental booleans remain compatible for a
+  deprecation window but warn once and cannot be mixed with the stable option.
+- Validate the actual packed plugin across pinned representatives of
+  TypeScript 4.3–6 and Vite 3–8. Do not shrink the peer ranges or silently
+  fall back by compiler version to make ProjectService appear stable.
+- A later next-major plan may make ProjectService default and remove
+  WatchProgram only after at least one stable-opt-in release remains clean.
+  TypeScript 7 stays research-only until its programmatic project/checker API
+  removes the measured request amplification and reruns the same gates.
+
+### Wave 7: make the stable opt-in release-ready
+
+- Plan 011 makes production publishing depend on the same commit's full
+  verification and pins privileged workflow actions.
+- Plan 012 closes the known cold-cache freshness gap before the cache can be
+  promoted beyond an opt-in.
+- Plan 013 makes the already effective Node floor explicit and removes the
+  vulnerable direct glob/minimatch path without changing peer families.
+- Plan 014 extends the packed matrix from one runtime to the complete shipped
+  contract, adds focused Windows coverage, and reuses one commit-bound archive.
+- Plan 015 handles matching TypeScript files created, deleted, or recreated
+  after initialization without adding a second watcher lifecycle.
+
+### Wave 8: optimize only from attributed evidence
+
+- Plan 016 compared the unchanged final baseline with cached immutable
+  project-state snapshots and host-side membership indexes using ten
+  alternating independent direct-plugin timing pairs, while unchanged
+  real-Vite contracts remained the correctness gate.
+- The final variance remained inconclusive and the candidate missed the
+  cold-transform keep threshold while several timing rows regressed. The
+  optimization was not integrated; Plan 015 remains the production source.
+
 ## Native decision gate
 
 Plan 007 first records `BLOCKED` with no verdict if oracle drift, a failing
@@ -200,29 +304,15 @@ These findings remain valid but are intentionally outside the hybrid wave:
   records `GO`. It must decide packaging/optional dependency strategy, public
   opt-in API, full parser-option parity, compatibility CI, cache migration,
   docs, and legacy fallback. Do not infer this plan from a successful spike.
-- **Persistent cache dependency freshness (P1)**: a warm cache entry does not
-  prove imported type dependencies retain the same contents across process
-  restarts. Design dependency fingerprints before broader default enablement.
 - **Persistent cache lifecycle (P2)**: add atomic writes, corruption recovery,
   bounded pruning, and a truthful key/opt-out policy for callbacks whose closed-
   over state cannot be represented by `Function#toString`.
-- **Ordinary release gating and action pinning (P1)**:
-  `.github/workflows/release.yml` runs independently of CI, uses mutable action
-  tags, and installs without `--immutable`. Design a commit-exact release gate
-  and pin CI/release actions.
 - **Configuration invariants (P2)**: validate mutual exclusion of
   `tsconfigPath`/`compilerOptions` and decide the two experimental legacy flags'
   long-term API after the backend seam.
 - **Published documentation artifact (P2)**: the package manifest includes a
   package-local `README.md` that does not exist. Decide copy versus maintained
   package docs and add a pack-content test.
-- **Supported-version CI matrix (P2)**: test the declared TypeScript 4.3–6 and
-  Vite 3–8 range plus Windows paths after selection/HMR stabilizes. A future
-  native package needs its own stable/next, OS/architecture, and Vite-hook
-  matrix; Plan 007's scenarios are not a product support claim.
-- **Dynamic project membership and Vite environment hooks (P2)**: matching
-  files created/deleted after initialization need Vite 3–5 legacy hooks and
-  Vite 6–8 `hotUpdate` event coverage. Reuse Plan 005's server mechanics.
 - **Source-bound snapshot provenance (P2)**: Plan 001 attests the trusted
   workflow revision, not the authorized PR artifact. Design an attestation
   binding approved head SHA and tarball digest before restoring provenance.
