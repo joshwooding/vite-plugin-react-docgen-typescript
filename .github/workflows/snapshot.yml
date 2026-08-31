@@ -1,4 +1,3 @@
-# Based on https://github.com/Shopify/polaris/blob/e6157f13d146b3add9c7a227d2d5481278251fac/.github/workflows/snapit.yml
 name: Snapshot
 
 on:
@@ -6,140 +5,293 @@ on:
     types:
       - created
 
-permissions: write-all
+permissions: {}
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+concurrency:
+  group: snapshot-${{ github.event.issue.number }}
+  cancel-in-progress: false
 
 jobs:
-  snapshot:
-    name: Snapshot Release
+  authorize:
+    name: Authorize snapshot
     if: |
       github.event.issue.pull_request &&
       (github.event.comment.body == '/release-pr' || github.event.comment.body == '/snapshot-release')
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+      pull-requests: read
+    outputs:
+      head_sha: ${{ steps.authorize.outputs.head_sha }}
+      pr_number: ${{ steps.authorize.outputs.pr_number }}
     steps:
-      - name: Enforce write permissions
-        uses: actions/github-script@v8
+      - name: Authorize snapshot request
+        id: authorize
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         env:
           COMMENT_ID: ${{ github.event.comment.id }}
         with:
           script: |
-            const username = context.actor;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
+            const issueNumber = context.issue.number;
 
-            const response = await github.rest.repos.getCollaboratorPermissionLevel({
-              owner,
-              repo,
-              username,
-            });
-
-            const permission = response.data.permission
-
-            if (permission === "write" || permission === "admin") {
-              await github.rest.reactions.createForIssueComment({
+            const reject = async (message) => {
+              await github.rest.issues.createComment({
                 owner,
                 repo,
-                comment_id: process.env.COMMENT_ID,
-                content: "eyes",
-              })
-            } else {
-              core.setFailed(
-              `🚨 Insufficient Permissions! ${username} does not have write permissions`
-              )
-            }
-      - name: Validate pull request
-        uses: actions/github-script@v8
-        id: pr_data
-        env:
-          FORK: ${{ github.event.pull_request.head.repo.fork }}
-        with:
-          script: |
-            try {
-              // Pull request from fork
-              if (process.env.FORK) {
-                const errorMessage = 'snapshot releases not supported on pull requests from forked repositories.'
-                await github.rest.issues.createComment({
-                  issue_number: context.issue.number,
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  body: errorMessage,
-                })
-                core.setFailed(errorMessage)
-              }
-            } catch (err) {
-              core.setFailed(`Request failed with error ${err}`)
-            }
-      - name: Checkout pull request
-        uses: actions/checkout@v6
-        with:
-          ref: refs/pull/${{ github.event.issue.number }}/head
-
-      - name: Use Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: "24"
-          cache: "yarn"
-          registry-url: "https://registry.npmjs.org"
-
-      - name: Install dependencies
-        run: yarn install
-      - name: Create and publish snapshot release
-        uses: actions/github-script@v8
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COMMENT_ID: ${{ github.event.comment.id }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
-        with:
-          script: |
-
-            await exec.exec('yarn changeset version --snapshot snapshot');
-
-            await exec.exec('yarn build');
-
-            let output = ''
-
-            const options = {
-              listeners: {
-                stdout: (data) => {
-                  output += data.toString();
-                },
-              }
+                issue_number: issueNumber,
+                body: `Snapshot request rejected: ${message}`,
+              });
+              core.setFailed(message);
             };
 
-            await exec.exec('yarn changeset publish --no-git-tag --snapshot --tag snapshot', [], options);
-
-            const { COMMENT_ID } = process.env
-            const [_, packagesStdin] = output.split("success packages published successfully:\n")
-
-            const newTags = packagesStdin ? packagesStdin.split("\n").flatMap(package => Array.from(package.matchAll(/\s+(.*)/g),m => m[1])) : [];
-
-            if (newTags.length) {
-              const multiple = newTags.length > 1
-              const body = (
-                `🫰✨ **Thanks @${context.actor}! ` +
-                `Your snapshot${multiple ? 's have' : ' has'} been published to npm.**\n\n` +
-                `Test the snapshot${multiple ? 's' : ''} by updating your \`package.json\` ` +
-                `with the newly published version${multiple ? 's' : ''}:\n` +
-                newTags.map(tag => (
-                  '```sh\n' +
-                  `yarn add ${tag}\n` +
-                  '```'
-                )).join('\n')
-              )
-              await github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body,
-              })
-
-              await github.rest.reactions.createForIssueComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: COMMENT_ID,
-                content: "rocket",
-              })
+            const permissionResponse = await github.rest.repos.getCollaboratorPermissionLevel({
+              owner,
+              repo,
+              username: context.actor,
+            });
+            const permission = permissionResponse.data.permission;
+            if (permission !== "write" && permission !== "admin") {
+              await reject(`${context.actor} does not have write permission`);
+              return;
             }
+
+            const pull = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number: issueNumber,
+            });
+            const baseRepository = `${context.repo.owner}/${context.repo.repo}`;
+            if (pull.data.state !== "open") {
+              await reject("the pull request is not open");
+              return;
+            }
+            if (pull.data.head.repo?.full_name !== baseRepository) {
+              await reject("snapshot releases are limited to same-repository pull requests");
+              return;
+            }
+
+            const headSha = pull.data.head.sha;
+            if (!/^[0-9a-f]{40}$/.test(headSha)) {
+              await reject("the pull request head SHA is unavailable or invalid");
+              return;
+            }
+
+            core.setOutput("head_sha", headSha);
+            core.setOutput("pr_number", String(issueNumber));
+            await github.rest.reactions.createForIssueComment({
+              owner,
+              repo,
+              comment_id: Number(process.env.COMMENT_ID),
+              content: "eyes",
+            });
+
+  build:
+    name: Build snapshot
+    needs: authorize
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout authorized pull request
+        uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
+        with:
+          ref: ${{ needs.authorize.outputs.head_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Verify authorized commit
+        shell: bash
+        env:
+          AUTHORIZED_SHA: ${{ needs.authorize.outputs.head_sha }}
+        run: test "$(git rev-parse HEAD)" = "$AUTHORIZED_SHA"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+
+      - name: Build snapshot package
+        shell: bash
+        env:
+          AUTHORIZED_SHA: ${{ needs.authorize.outputs.head_sha }}
+        run: |
+          set -euo pipefail
+          yarn install --immutable
+          yarn biome:ci
+          yarn typecheck
+          yarn test --run
+          yarn changeset version --snapshot "snapshot-$AUTHORIZED_SHA" --snapshot-prerelease-template '{tag}-{datetime}'
+          yarn build
+
+          mkdir -p "$RUNNER_TEMP/snapshot"
+          yarn workspace @joshwooding/vite-plugin-react-docgen-typescript pack --out "$RUNNER_TEMP/snapshot/package.tgz"
+
+          TARBALL="$RUNNER_TEMP/snapshot/package.tgz"
+          METADATA_PATH="$RUNNER_TEMP/snapshot/metadata.json"
+          test "$(stat -c%s "$TARBALL")" -le 26214400
+
+          export PACKAGE_VERSION
+          export TARBALL_SHA256
+          export METADATA_PATH
+          PACKAGE_VERSION="$(node -p "require('./packages/vite-plugin-react-docgen-typescript/package.json').version")"
+          TARBALL_SHA256="$(sha256sum "$TARBALL" | cut -d ' ' -f 1)"
+          node -e '
+            const fs = require("node:fs");
+            const metadata = {
+              sha: process.env.AUTHORIZED_SHA,
+              packageName: "@joshwooding/vite-plugin-react-docgen-typescript",
+              version: process.env.PACKAGE_VERSION,
+              filename: "package.tgz",
+              sha256: process.env.TARBALL_SHA256,
+            };
+            fs.writeFileSync(process.env.METADATA_PATH, `${JSON.stringify(metadata)}\n`, "utf8");
+          '
+          test "$(stat -c%s "$METADATA_PATH")" -le 8192
+
+      - name: Upload snapshot artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: snapshot-package-${{ needs.authorize.outputs.head_sha }}
+          path: |
+            ${{ runner.temp }}/snapshot/package.tgz
+            ${{ runner.temp }}/snapshot/metadata.json
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+
+  publish:
+    name: Validate and publish snapshot
+    needs: [authorize, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: read
+    steps:
+      - name: Checkout trusted validator
+        uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: _trusted
+          sparse-checkout: .github/scripts/validate_snapshot_artifact.py
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Verify trusted validator revision
+        shell: bash
+        env:
+          WORKFLOW_SHA: ${{ github.workflow_sha }}
+        run: test "$(git -C _trusted rev-parse HEAD)" = "$WORKFLOW_SHA"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+          registry-url: https://registry.npmjs.org/
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.13"
+
+      - name: Download snapshot artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: snapshot-package-${{ needs.authorize.outputs.head_sha }}
+          path: ${{ runner.temp }}/snapshot-artifact
+
+      - name: Validate hostile snapshot artifact
+        id: validated
+        shell: bash
+        run: |
+          python _trusted/.github/scripts/validate_snapshot_artifact.py \
+            --tarball "${{ runner.temp }}/snapshot-artifact/package.tgz" \
+            --metadata "${{ runner.temp }}/snapshot-artifact/metadata.json" \
+            --authorized-sha "${{ needs.authorize.outputs.head_sha }}" \
+            --github-output "$GITHUB_OUTPUT"
+
+      - name: Check snapshot version availability
+        shell: bash
+        env:
+          NPM_CONFIG_USERCONFIG: /dev/null
+        run: |
+          set -euo pipefail
+          status="$(curl --silent --show-error --output "$RUNNER_TEMP/registry-response.json" --write-out '%{http_code}' \
+            "https://registry.npmjs.org/@joshwooding%2Fvite-plugin-react-docgen-typescript/${{ steps.validated.outputs.version }}")"
+          if [ "$status" = "404" ]; then
+            exit 0
+          fi
+          if [ "$status" = "200" ]; then
+            echo "Snapshot version already exists" >&2
+          else
+            echo "Registry lookup failed with HTTP $status" >&2
+          fi
+          exit 1
+
+      - name: Revalidate pull request
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        env:
+          AUTHORIZED_SHA: ${{ needs.authorize.outputs.head_sha }}
+          PR_NUMBER: ${{ needs.authorize.outputs.pr_number }}
+        with:
+          script: |
+            const pull = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: Number(process.env.PR_NUMBER),
+            });
+            const baseRepository = `${context.repo.owner}/${context.repo.repo}`;
+            if (
+              pull.data.state !== "open" ||
+              pull.data.head.repo?.full_name !== baseRepository ||
+              pull.data.head.sha !== process.env.AUTHORIZED_SHA
+            ) {
+              const message = "The pull request changed after authorization. Issue a new snapshot command.";
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: Number(process.env.PR_NUMBER),
+                body: message,
+              });
+              core.setFailed(message);
+            }
+
+      - name: Publish validated snapshot
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish "${{ runner.temp }}/snapshot-artifact/package.tgz" --ignore-scripts --access public --tag snapshot --registry https://registry.npmjs.org/
+
+      - name: Report published snapshot
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        env:
+          COMMENT_ID: ${{ github.event.comment.id }}
+          PR_NUMBER: ${{ needs.authorize.outputs.pr_number }}
+          PACKAGE_NAME: ${{ steps.validated.outputs.package_name }}
+          PACKAGE_VERSION: ${{ steps.validated.outputs.version }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: Number(process.env.PR_NUMBER),
+              body: [
+                `🫰✨ **Thanks @${context.actor}! Your snapshot has been published to npm.**`,
+                "",
+                "Test it with:",
+                "```sh",
+                `yarn add ${process.env.PACKAGE_NAME}@${process.env.PACKAGE_VERSION}`,
+                "```",
+              ].join("\n"),
+            });
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: Number(process.env.COMMENT_ID),
+              content: "rocket",
+            });

@@ -5,19 +5,161 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+
 jobs:
-  lint:
+  runtime-compatibility-matrix:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Read compatibility matrix
+        id: matrix
+        shell: bash
+        run: |
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const matrix = JSON.parse(readFileSync(".github/runtime-compatibility-matrix.json", "utf8"));
+            const knownModes = ["default", "legacy", "project-service", "experimental-watch", "experimental-project-service"];
+            const stableModes = knownModes.slice(0, 3);
+            const rows = matrix.include;
+            const assert = (condition, message) => { if (!condition) throw new Error(message); };
+            assert(Array.isArray(rows) && rows.length > 0, "Matrix must contain at least one row");
+            for (const [index, row] of rows.entries()) {
+              assert(["node", "typescript", "vite", "os", "modes", "purpose"].every((key) => Object.hasOwn(row, key)), `Row ${index} is missing a required field`);
+              assert(["ubuntu-latest", "windows-latest"].includes(row.os), `Row ${index} has an unsupported OS`);
+              assert(Array.isArray(row.modes) && row.modes.length > 0, `Row ${index} has no modes`);
+              assert(row.modes.every((mode) => knownModes.includes(mode)), `Row ${index} has an unknown mode`);
+              assert(new Set(row.modes).size === row.modes.length, `Row ${index} has duplicate modes`);
+              assert(stableModes.every((mode) => row.modes.includes(mode)), `Row ${index} is missing a stable mode`);
+            }
+            const lower = rows.find((row) => row.typescript === "4.3.5" && row.vite === "3.2.11" && row.os === "ubuntu-latest");
+            const upper = rows.find((row) => row.typescript === "6.0.3" && row.vite === "8.1.5" && row.os === "ubuntu-latest");
+            assert(lower && knownModes.every((mode) => lower.modes.includes(mode)), "Lower boundary must verify every mode and alias");
+            assert(upper && knownModes.every((mode) => upper.modes.includes(mode)), "Upper boundary must verify every mode and alias");
+            const windowsRows = rows.filter((row) => row.os === "windows-latest");
+            assert(windowsRows.length === 2, "Matrix must contain exactly two Windows rows");
+            assert(windowsRows.every((row) => row.modes.includes("experimental-watch")), "Windows rows must verify watcher teardown");
+          '
+          echo "matrix=$(jq -c . .github/runtime-compatibility-matrix.json)" >> "$GITHUB_OUTPUT"
+
+  runtime-compatibility-package:
+    name: Build packed runtime artifact
+    runs-on: ubuntu-latest
+    outputs:
+      archive_sha256: ${{ steps.metadata.outputs.archive_sha256 }}
+      source_sha: ${{ steps.metadata.outputs.source_sha }}
+      verifier_sha256: ${{ steps.metadata.outputs.verifier_sha256 }}
+    steps:
+      - name: Checkout tested commit
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Verify tested commit
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
       - name: Use Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           node-version: "24"
           cache: "yarn"
       - name: Install dependencies
-        run: yarn
+        run: yarn install --immutable
+      - name: Build package
+        run: yarn build
+      - name: Pack package
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/runtime-compatibility"
+          yarn workspace @joshwooding/vite-plugin-react-docgen-typescript pack --out "$RUNNER_TEMP/runtime-compatibility/vite-plugin-react-docgen-typescript.tgz"
+          cp scripts/verify-runtime-compatibility.mjs "$RUNNER_TEMP/runtime-compatibility/verify-runtime-compatibility.mjs"
+      - name: Record source and artifact digests
+        id: metadata
+        env:
+          ARTIFACT_DIRECTORY: ${{ runner.temp }}/runtime-compatibility
+          SOURCE_SHA: ${{ github.sha }}
+        run: >-
+          node -e "const { createHash } = require('node:crypto');
+          const { appendFileSync, readFileSync, writeFileSync } = require('node:fs');
+          const path = require('node:path');
+          const digest = (fileName) => createHash('sha256').update(readFileSync(fileName)).digest('hex');
+          const archiveSha256 = digest(path.join(process.env.ARTIFACT_DIRECTORY, 'vite-plugin-react-docgen-typescript.tgz'));
+          const verifierSha256 = digest(path.join(process.env.ARTIFACT_DIRECTORY, 'verify-runtime-compatibility.mjs'));
+          const metadata = { archiveSha256, sourceSha: process.env.SOURCE_SHA, verifierSha256 };
+          writeFileSync(path.join(process.env.ARTIFACT_DIRECTORY, 'metadata.json'), JSON.stringify(metadata));
+          appendFileSync(process.env.GITHUB_OUTPUT, 'archive_sha256=' + archiveSha256 + '\nsource_sha=' + process.env.SOURCE_SHA + '\nverifier_sha256=' + verifierSha256 + '\n');"
+      - name: Upload packed runtime artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: vite-rdt-runtime-${{ github.sha }}
+          path: ${{ runner.temp }}/runtime-compatibility
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+
+  runtime-compatibility:
+    needs: [runtime-compatibility-matrix, runtime-compatibility-package]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.runtime-compatibility-matrix.outputs.matrix) }}
+    name: ${{ matrix.os }} / Node ${{ matrix.node }} / TypeScript ${{ matrix.typescript }} / Vite ${{ matrix.vite }}
+    steps:
+      - name: Download packed runtime artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: vite-rdt-runtime-${{ github.sha }}
+          path: ${{ runner.temp }}/runtime-compatibility
+      - name: Use Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Verify source and artifact digests
+        shell: bash
+        env:
+          ARTIFACT_DIRECTORY: ${{ runner.temp }}/runtime-compatibility
+          EXPECTED_ARCHIVE_SHA256: ${{ needs.runtime-compatibility-package.outputs.archive_sha256 }}
+          EXPECTED_SOURCE_SHA: ${{ needs.runtime-compatibility-package.outputs.source_sha }}
+          EXPECTED_VERIFIER_SHA256: ${{ needs.runtime-compatibility-package.outputs.verifier_sha256 }}
+          WORKFLOW_SOURCE_SHA: ${{ github.sha }}
+        run: >-
+          node -e 'const { createHash } = require("node:crypto");
+          const { readFileSync } = require("node:fs");
+          const path = require("node:path");
+          const digest = (fileName) => createHash("sha256").update(readFileSync(fileName)).digest("hex");
+          const metadata = JSON.parse(readFileSync(path.join(process.env.ARTIFACT_DIRECTORY, "metadata.json"), "utf8"));
+          const actualArchiveSha256 = digest(path.join(process.env.ARTIFACT_DIRECTORY, "vite-plugin-react-docgen-typescript.tgz"));
+          const actualVerifierSha256 = digest(path.join(process.env.ARTIFACT_DIRECTORY, "verify-runtime-compatibility.mjs"));
+          if (metadata.sourceSha !== process.env.WORKFLOW_SOURCE_SHA || metadata.sourceSha !== process.env.EXPECTED_SOURCE_SHA) throw new Error("Artifact source SHA does not match the workflow SHA");
+          if (metadata.archiveSha256 !== actualArchiveSha256 || metadata.archiveSha256 !== process.env.EXPECTED_ARCHIVE_SHA256) throw new Error("Package archive digest mismatch");
+          if (metadata.verifierSha256 !== actualVerifierSha256 || metadata.verifierSha256 !== process.env.EXPECTED_VERIFIER_SHA256) throw new Error("Verifier digest mismatch");'
+      - name: Verify packed runtime compatibility
+        shell: bash
+        run: node "$RUNNER_TEMP/runtime-compatibility/verify-runtime-compatibility.mjs" --package "$RUNNER_TEMP/runtime-compatibility/vite-plugin-react-docgen-typescript.tgz" --typescript "${{ matrix.typescript }}" --vite "${{ matrix.vite }}" --modes "${{ join(matrix.modes, ',') }}"
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - name: Use Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+          cache: "yarn"
+      - name: Install dependencies
+        run: yarn install --immutable
       - name: Biome
         run: yarn run biome:ci
       - name: Typecheck
@@ -26,3 +168,44 @@ jobs:
         run: yarn run test
       - name: Benchmark fixtures
         run: yarn run benchmark:ci
+
+  release:
+    name: Release
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [lint, runtime-compatibility]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Checkout tested commit
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Verify tested commit
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+      - name: Use Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+          cache: "yarn"
+          registry-url: "https://registry.npmjs.org"
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Build
+        run: yarn build
+      - name: Create Release Pull Request or Publish packages
+        id: changesets
+        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
+        with:
+          commitMode: github-api
+          publish: yarn changeset publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true

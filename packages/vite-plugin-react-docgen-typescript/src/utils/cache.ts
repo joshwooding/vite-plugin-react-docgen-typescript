@@ -8,6 +8,10 @@ import {
 } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  normalizeBoundaryPath,
+  normalizeBoundaryPaths,
+} from "../docgen/pathIdentity";
 import type { FileSystemCacheOptions, Options } from "./options";
 
 const DEFAULT_FILE_SYSTEM_CACHE_DIRECTORY = path.join(
@@ -15,7 +19,7 @@ const DEFAULT_FILE_SYSTEM_CACHE_DIRECTORY = path.join(
   ".cache",
   "vite-plugin-react-docgen-typescript",
 );
-const FILE_SYSTEM_CACHE_VERSION = 5;
+const FILE_SYSTEM_CACHE_VERSION = 8;
 const PACKAGE_NAME = "@joshwooding/vite-plugin-react-docgen-typescript";
 
 type PersistedTransformResult =
@@ -23,11 +27,33 @@ type PersistedTransformResult =
       dependencies?: string[];
       kind: "code";
       code: string;
+      proof: FileSystemCacheProof;
+      unresolvedDependencies?: string[];
     }
   | {
       dependencies?: string[];
       kind: "null";
+      proof: FileSystemCacheProof;
+      unresolvedDependencies?: string[];
     };
+
+export interface FileSystemCacheConfigProof {
+  contentHash: string;
+  fileName: string;
+}
+
+export interface FileSystemCacheDependencyFingerprint {
+  contentHash: string;
+  fileName: string;
+}
+
+export interface FileSystemCacheProof {
+  backendFingerprint: string;
+  componentFile: string;
+  configFiles: FileSystemCacheConfigProof[];
+  dependencyFingerprints: FileSystemCacheDependencyFingerprint[];
+  selectionFingerprint: string;
+}
 
 export interface CacheableTransformResult {
   code: string;
@@ -36,7 +62,9 @@ export interface CacheableTransformResult {
 
 export interface FileSystemTransformCacheEntry {
   dependencies: string[] | undefined;
+  proof: FileSystemCacheProof;
   result: CacheableTransformResult | null;
+  unresolvedDependencies?: string[];
 }
 
 export interface ResolvedFileSystemCacheOptions {
@@ -218,6 +246,25 @@ const resolvePluginPackageVersion = (): string | undefined => {
   return packageJsonPath ? readPackageVersion(packageJsonPath) : undefined;
 };
 
+export function createDependencyVersionFingerprint(input: {
+  packageNames: readonly string[];
+  rootDir: string;
+  schema: string;
+}): string {
+  const moduleDirectory = getCurrentModuleDirectory();
+  return hashValue(
+    stableStringify({
+      dependencies: Object.fromEntries(
+        input.packageNames.map((packageName) => [
+          packageName,
+          resolvePackageVersion(packageName, [input.rootDir, moduleDirectory]),
+        ]),
+      ),
+      schema: input.schema,
+    }),
+  );
+}
+
 const getPersistedTransformResultPath = (
   directory: string,
   normalizedFileId: string,
@@ -232,17 +279,22 @@ const toPersistedTransformResult = (
     ? {
         dependencies: entry.dependencies,
         kind: "null",
+        proof: entry.proof,
+        unresolvedDependencies: entry.unresolvedDependencies,
       }
     : {
         code: entry.result.code,
         dependencies: entry.dependencies,
         kind: "code",
+        proof: entry.proof,
+        unresolvedDependencies: entry.unresolvedDependencies,
       };
 
 const fromPersistedTransformResult = (
   result: PersistedTransformResult,
 ): FileSystemTransformCacheEntry => ({
   dependencies: result.dependencies,
+  proof: result.proof,
   result:
     result.kind === "null"
       ? null
@@ -250,6 +302,7 @@ const fromPersistedTransformResult = (
           code: result.code,
           map: null,
         },
+  unresolvedDependencies: result.unresolvedDependencies,
 });
 
 export function resolveFileSystemCacheOptions(
@@ -279,6 +332,7 @@ export function resolveFileSystemCacheOptions(
 export function createFileSystemCacheNamespace(
   options: Options,
   rootDir: string,
+  backendFingerprint = "legacy-unfingerprinted",
 ): string {
   const { fileSystemCache, ...cacheKeyOptions } = options;
   const moduleDirectory = getCurrentModuleDirectory();
@@ -305,12 +359,121 @@ export function createFileSystemCacheNamespace(
   return hashValue(
     stableStringify({
       cacheKeyOptions,
+      backendFingerprint,
       packageVersions,
       rootDir,
       tsconfigContents,
       tsconfigPath,
       version: FILE_SYSTEM_CACHE_VERSION,
     }),
+  );
+}
+
+export function createFileSelectionFingerprint(selection: {
+  exclude: readonly string[];
+  include: readonly string[];
+}): string {
+  return hashValue(
+    stableStringify({
+      exclude: [...selection.exclude],
+      include: [...selection.include],
+    }),
+  );
+}
+
+export function createFileSystemCacheProof(input: {
+  backendFingerprint: string;
+  componentFile: string;
+  configFiles: readonly string[];
+  dependencies: readonly string[];
+  selectionFingerprint: string;
+}): FileSystemCacheProof {
+  const componentFile = normalizeBoundaryPath(input.componentFile);
+  const hashFiles = (fileNames: readonly string[]) =>
+    normalizeBoundaryPaths(fileNames).map((fileName) => ({
+      contentHash: hashValue(readFileSync(fileName, "utf-8")),
+      fileName,
+    }));
+
+  return {
+    backendFingerprint: input.backendFingerprint,
+    componentFile,
+    configFiles: hashFiles(input.configFiles),
+    dependencyFingerprints: hashFiles(
+      input.dependencies.filter(
+        (dependencyFile) =>
+          normalizeBoundaryPath(dependencyFile) !== componentFile,
+      ),
+    ),
+    selectionFingerprint: input.selectionFingerprint,
+  };
+}
+
+export function isFileSystemCacheProofValid(
+  proof: FileSystemCacheProof | undefined,
+  expected: {
+    backendFingerprint: string;
+    componentFile: string;
+    selectionFingerprint: string;
+  },
+): boolean {
+  if (
+    !proof ||
+    typeof proof.backendFingerprint !== "string" ||
+    typeof proof.componentFile !== "string" ||
+    typeof proof.selectionFingerprint !== "string" ||
+    proof.backendFingerprint !== expected.backendFingerprint ||
+    normalizeBoundaryPath(proof.componentFile) !==
+      normalizeBoundaryPath(expected.componentFile) ||
+    proof.selectionFingerprint !== expected.selectionFingerprint ||
+    !Array.isArray(proof.configFiles) ||
+    !Array.isArray(proof.dependencyFingerprints)
+  ) {
+    return false;
+  }
+
+  const validateFiles = (
+    files:
+      | FileSystemCacheConfigProof[]
+      | FileSystemCacheDependencyFingerprint[],
+  ) => {
+    if (
+      !files.every(
+        (file): file is FileSystemCacheConfigProof =>
+          typeof file === "object" &&
+          file !== null &&
+          typeof file.contentHash === "string" &&
+          /^[a-f0-9]{64}$/.test(file.contentHash) &&
+          typeof file.fileName === "string",
+      )
+    ) {
+      return false;
+    }
+
+    const normalizedFiles = normalizeBoundaryPaths(
+      files.map(({ fileName }) => fileName),
+    );
+    if (
+      normalizedFiles.length !== files.length ||
+      normalizedFiles.some(
+        (normalizedFile, index) => normalizedFile !== files[index]?.fileName,
+      )
+    ) {
+      return false;
+    }
+
+    return files.every(({ contentHash, fileName }) => {
+      try {
+        return hashValue(readFileSync(fileName, "utf-8")) === contentHash;
+      } catch {
+        return false;
+      }
+    });
+  };
+
+  return (
+    validateFiles(proof.configFiles) &&
+    validateFiles(proof.dependencyFingerprints)
   );
 }
 

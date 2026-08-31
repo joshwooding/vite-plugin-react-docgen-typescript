@@ -54,20 +54,75 @@ export interface FileSystemCacheOptions {
   directory?: string;
 }
 
+export type DocgenMode = "legacy" | "project-service";
+
 export type DocGenOptions = ParserOptions & {
-  /** Glob patterns to ignore */
+  /**
+   * An array of string globs to exclude from docgen. Patterns resolve from the
+   * configured Vite root. An explicit `exclude: []` disables the built-in
+   * story-file exclusion. Runtime RegExp values are rejected.
+   */
+  // Default: ["**/*.stories.tsx"]
   exclude?: string[];
-  /** Glob patterns to include. defaults to ts|tsx */
+  /**
+   * An array of string globs to include in docgen. Patterns resolve from the
+   * configured Vite root; explicit parent-directory globs can select members
+   * of referenced TypeScript projects. The configured root and project
+   * references remain the membership boundary. An explicit `include: []`
+   * disables docgen. Runtime RegExp values are rejected.
+   */
+  // Default: ["**/*.tsx"]
   include?: string[];
   /** Persistent transform cache stored on disk. */
   fileSystemCache?: boolean | FileSystemCacheOptions;
-  /** experimental watch mode */
+  /**
+   * Select the TypeScript project runtime used by docgen.
+   *
+   * @default "legacy"
+   */
+  docgenMode?: DocgenMode;
+  /**
+   * Experimental watch mode.
+   *
+   * @deprecated Use `docgenMode: "project-service"` instead.
+   */
   EXPERIMENTAL_useWatchProgram?: boolean;
-  /** experimental project service */
+  /**
+   * Experimental ProjectService mode.
+   *
+   * @deprecated Use `docgenMode: "project-service"` instead.
+   */
   EXPERIMENTAL_useProjectService?: boolean;
 };
 
 export type Options = LoaderOptions & TypescriptOptions & DocGenOptions;
+
+type RuntimeMode = "default" | "projectService" | "watch";
+
+const hasOwnOption = (options: Options, key: keyof Options): boolean =>
+  Object.hasOwn(options, key);
+
+export const resolveDocgenRuntimeMode = (options: Options): RuntimeMode => {
+  if (options.docgenMode !== undefined) {
+    const conflictingOptions = [
+      "EXPERIMENTAL_useWatchProgram",
+      "EXPERIMENTAL_useProjectService",
+    ].filter((key) => hasOwnOption(options, key as keyof Options));
+    if (conflictingOptions.length > 0) {
+      throw new Error(
+        `docgenMode cannot be combined with ${conflictingOptions.join(" or ")}`,
+      );
+    }
+    if (options.docgenMode === "legacy") return "default";
+    if (options.docgenMode === "project-service") return "projectService";
+    throw new Error(
+      `Invalid docgenMode ${JSON.stringify(options.docgenMode)}; expected "legacy" or "project-service"`,
+    );
+  }
+  if (options.EXPERIMENTAL_useProjectService) return "projectService";
+  if (options.EXPERIMENTAL_useWatchProgram) return "watch";
+  return "default";
+};
 
 export function getGenerateOptions(
   options: Options,
