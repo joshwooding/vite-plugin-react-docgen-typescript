@@ -59,7 +59,6 @@ const actionPins = new Map([
   ["actions/checkout", "9f698171ed81b15d1823a05fc7211befd50c8ae0"],
   ["actions/setup-node", "249970729cb0ef3589644e2896645e5dc5ba9c38"],
   ["actions/upload-artifact", "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"],
-  ["actions/setup-python", "a309ff8b426b58ec0e2a45f0f869d46889d02405"],
   ["actions/download-artifact", "3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c"],
 ]);
 
@@ -122,29 +121,13 @@ describe("snapshot workflow security boundary", () => {
     );
   });
 
-  it("publish job checks out only the trusted validator revision", () => {
+  it("publish job never checks out pull-request or repository code", () => {
     const checkouts = steps("publish").filter((step) =>
       step.uses?.startsWith("actions/checkout@"),
     );
-    expect(checkouts).toHaveLength(1);
-    expect(checkouts[0].name).toBe("Checkout trusted validator");
-    expect(checkouts[0].with).toMatchObject({
-      ref: "${{ github.workflow_sha }}",
-      path: "_trusted",
-      "sparse-checkout": ".github/scripts/validate_snapshot_artifact.py",
-      "sparse-checkout-cone-mode": false,
-      "fetch-depth": 1,
-      "persist-credentials": false,
-    });
-    expect(JSON.stringify(checkouts[0])).not.toContain(
-      "needs.authorize.outputs.head_sha",
-    );
-    const verify = stepNamed("publish", "Verify trusted validator revision");
-    expect(verify.env).toStrictEqual({
-      WORKFLOW_SHA: "${{ github.workflow_sha }}",
-    });
-    expect(verify.run).toContain(
-      'test "$(git -C _trusted rev-parse HEAD)" = "$WORKFLOW_SHA"',
+    expect(checkouts).toHaveLength(0);
+    expect(stringsIn(job("publish")).join("\n")).not.toContain(
+      "github.workflow_sha",
     );
   });
 
@@ -156,18 +139,17 @@ describe("snapshot workflow security boundary", () => {
     });
     expect(job("build").permissions).toStrictEqual({ contents: "read" });
     expect(job("publish").permissions).toStrictEqual({
-      contents: "read",
       issues: "write",
       "pull-requests": "read",
     });
     expect(JSON.stringify(job("publish"))).not.toContain("id-token");
   });
 
-  it("uploads and downloads exactly the fixed hostile artifact files", () => {
+  it("uploads, downloads, and inspects exactly the fixed snapshot tarball", () => {
     const upload = stepNamed("build", "Upload snapshot artifact");
     expect(upload.with).toStrictEqual({
       name: "snapshot-package-${{ needs.authorize.outputs.head_sha }}",
-      path: "${{ runner.temp }}/snapshot/package.tgz\n${{ runner.temp }}/snapshot/metadata.json\n",
+      path: "${{ runner.temp }}/snapshot/package.tgz",
       "if-no-files-found": "error",
       "retention-days": 1,
       "compression-level": 0,
@@ -177,16 +159,22 @@ describe("snapshot workflow security boundary", () => {
       name: "snapshot-package-${{ needs.authorize.outputs.head_sha }}",
       path: "${{ runner.temp }}/snapshot-artifact",
     });
-    const validate = stepNamed("publish", "Validate hostile snapshot artifact");
+    const validate = stepNamed("publish", "Validate snapshot package");
+    expect(validate.env).toStrictEqual({
+      ARTIFACT_DIRECTORY: "${{ runner.temp }}/snapshot-artifact",
+      AUTHORIZED_SHA: "${{ needs.authorize.outputs.head_sha }}",
+      EXPECTED_PACKAGE_NAME: "@joshwooding/vite-plugin-react-docgen-typescript",
+      NPM_CONFIG_USERCONFIG: "/dev/null",
+    });
     expect(validate.run).toContain(
-      "python _trusted/.github/scripts/validate_snapshot_artifact.py",
+      'npm pack "$TARBALL" --dry-run --ignore-scripts --json',
     );
+    expect(validate.run).toContain('= "package.tgz"');
     expect(validate.run).toContain(
-      '"${{ runner.temp }}/snapshot-artifact/package.tgz"',
+      "name !== process.env.EXPECTED_PACKAGE_NAME",
     );
-    expect(validate.run).toContain(
-      '"${{ runner.temp }}/snapshot-artifact/metadata.json"',
-    );
+    expect(validate.run).toContain("process.env.AUTHORIZED_SHA");
+    expect(validate.run).toContain("test ! -L");
   });
 
   it("scopes the npm credential to the single fixed publish step", () => {
@@ -263,10 +251,8 @@ describe("snapshot workflow security boundary", () => {
       "node-version": "24",
       "registry-url": "https://registry.npmjs.org/",
     });
-    expect(stepNamed("publish", "Set up Python").with).toStrictEqual({
-      "python-version": "3.13",
-    });
     expect(JSON.stringify(workflow.jobs)).not.toContain('"cache"');
+    expect(workflowSource).not.toMatch(/python/i);
   });
 
   it("runs all pull-request code before packaging on the unprivileged build runner", () => {
