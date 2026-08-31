@@ -176,19 +176,22 @@ const existsOnDisk = (fileName: string): boolean => {
 };
 
 describe("reference, revision, dependency, and dispose lifecycle", () => {
-  const createReferenceFixture = () => {
+  const createReferenceFixture = (referencedDirectoryName = "ui") => {
     const commonRoot = mkdtempSync(
       path.join(tmpdir(), "vprdts-native-reference-"),
     );
     temporaryRoots.push(commonRoot);
     const rootDir = path.join(commonRoot, "app");
-    const uiRoot = path.join(commonRoot, "ui");
+    const uiRoot = path.join(commonRoot, referencedDirectoryName);
     const sourceDir = path.join(uiRoot, "src");
     mkdirSync(rootDir, { recursive: true });
     mkdirSync(sourceDir, { recursive: true });
     writeFileSync(
       path.join(rootDir, "tsconfig.json"),
-      JSON.stringify({ files: [], references: [{ path: "../ui" }] }),
+      JSON.stringify({
+        files: [],
+        references: [{ path: `../${referencedDirectoryName}` }],
+      }),
     );
     writeFileSync(
       path.join(uiRoot, "tsconfig.json"),
@@ -227,8 +230,59 @@ export const Unrelated = ({ value }: OtherProps) => value;
 }
 `,
     );
-    return { component, other, props, rootDir };
+    return {
+      component,
+      configFile: path.join(rootDir, "tsconfig.json"),
+      other,
+      props,
+      referencedConfigFile: path.join(uiRoot, "tsconfig.json"),
+      rootDir,
+    };
   };
+
+  test("discovers a referenced project in a dotted directory", async () => {
+    const fixture = createReferenceFixture("ui.v2");
+    const backend = createBackend("typescript7", fixture.rootDir);
+    try {
+      const state = await backend.initialize();
+      expect(state.configFiles).toEqual(
+        expect.arrayContaining([
+          path.resolve(fixture.configFile),
+          path.resolve(fixture.referencedConfigFile),
+        ]),
+      );
+      expect(state.trackedFiles).toContain(path.resolve(fixture.component));
+    } finally {
+      await backend.dispose();
+    }
+  });
+
+  test("rediscovers project references after a reset", async () => {
+    const fixture = createReferenceFixture();
+    const backend = createBackend("typescript7", fixture.rootDir);
+    try {
+      expect((await backend.initialize()).configFiles).toHaveLength(2);
+      const source = JSON.stringify({ files: [] });
+      writeFileSync(fixture.configFile, source);
+      await expect(
+        backend.update({
+          affectedComponentFiles: [],
+          change: {
+            fileName: fixture.configFile,
+            kind: "change",
+            revision: 1,
+            source,
+          },
+        }),
+      ).resolves.toMatchObject({ status: "project-reset" });
+
+      const state = await backend.initialize();
+      expect(state.configFiles).toEqual([path.resolve(fixture.configFile)]);
+      expect(state.trackedFiles).not.toContain(path.resolve(fixture.component));
+    } finally {
+      await backend.dispose();
+    }
+  });
 
   test("referenced project observes two edits and exact selective dependencies", async () => {
     const fixture = createReferenceFixture();

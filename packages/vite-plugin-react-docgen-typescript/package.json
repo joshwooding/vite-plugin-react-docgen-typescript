@@ -17,8 +17,7 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "README.md",
-    "*.d.ts"
+    "README.md"
   ],
   "scripts": {
     "build": "unbuild",

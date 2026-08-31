@@ -308,8 +308,11 @@ describe.each([
 
 describe("host preflight pending overlap and disposal", () => {
   test("older work is superseded and disposal has no ready completion", async () => {
+    const commonRoot = mkdtempSync(path.join(tmpdir(), "vprdts-preflight-"));
+    const rootDir = path.join(commonRoot, "app");
+    mkdirSync(rootDir, { recursive: true });
     const backend = new FreshFakeBackend(
-      process.cwd(),
+      rootDir,
       {
         exclude: [],
         hasIncludes: true,
@@ -318,30 +321,51 @@ describe("host preflight pending overlap and disposal", () => {
       },
       "pending",
     );
-    const first = await backend.update({
-      affectedComponentFiles: ["one.tsx"],
-      change: { fileName: "props.ts", kind: "change", revision: 1, source: "" },
-    });
-    const second = await backend.update({
-      affectedComponentFiles: ["two.tsx"],
-      change: { fileName: "props.ts", kind: "change", revision: 2, source: "" },
-    });
-    if (first.status !== "pending" || second.status !== "pending") {
-      throw new Error("pending preflight expected");
+    try {
+      const first = await backend.update({
+        affectedComponentFiles: ["one.tsx"],
+        change: {
+          fileName: "props.ts",
+          kind: "change",
+          revision: 1,
+          source: "",
+        },
+      });
+      const second = await backend.update({
+        affectedComponentFiles: ["two.tsx"],
+        change: {
+          fileName: "props.ts",
+          kind: "change",
+          revision: 2,
+          source: "",
+        },
+      });
+      if (first.status !== "pending" || second.status !== "pending") {
+        throw new Error("pending preflight expected");
+      }
+      await expect(first.ready).resolves.toMatchObject({
+        status: "superseded",
+        supersededBy: 2,
+      });
+      await expect(second.ready).resolves.toMatchObject({ status: "ready" });
+      const third = await backend.update({
+        affectedComponentFiles: ["three.tsx"],
+        change: {
+          fileName: "props.ts",
+          kind: "change",
+          revision: 3,
+          source: "",
+        },
+      });
+      if (third.status !== "pending") {
+        throw new Error("pending preflight expected");
+      }
+      await backend.dispose();
+      await expect(third.ready).resolves.toMatchObject({ status: "disposed" });
+    } finally {
+      await backend.dispose();
+      rmSync(commonRoot, { force: true, recursive: true });
     }
-    await expect(first.ready).resolves.toMatchObject({
-      status: "superseded",
-      supersededBy: 2,
-    });
-    await expect(second.ready).resolves.toMatchObject({ status: "ready" });
-    const third = await backend.update({
-      affectedComponentFiles: ["three.tsx"],
-      change: { fileName: "props.ts", kind: "change", revision: 3, source: "" },
-    });
-    if (third.status !== "pending")
-      throw new Error("pending preflight expected");
-    await backend.dispose();
-    await expect(third.ready).resolves.toMatchObject({ status: "disposed" });
   });
 });
 

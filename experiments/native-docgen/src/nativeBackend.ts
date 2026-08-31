@@ -217,9 +217,19 @@ const parseConfigReferences = (configFile: string): readonly string[] => {
     return (parsed.references ?? []).flatMap((reference) => {
       if (!reference.path) return [];
       const target = path.resolve(path.dirname(configFile), reference.path);
-      return [
-        path.extname(target) ? target : path.join(target, "tsconfig.json"),
-      ];
+      try {
+        return [
+          statSync(target).isDirectory()
+            ? path.join(target, "tsconfig.json")
+            : target,
+        ];
+      } catch {
+        return [
+          path.basename(target).toLowerCase().endsWith(".json")
+            ? target
+            : path.join(target, "tsconfig.json"),
+        ];
+      }
     });
   } catch {
     return [];
@@ -250,7 +260,6 @@ export class NativeDocgenBackend implements DocgenBackend {
   };
 
   private readonly configFile: string;
-  private readonly configFiles: readonly string[];
   private readonly fileSystem: FileSystem;
   private readonly options: NativeBackendOptions;
   private readonly rootDir: string;
@@ -285,7 +294,6 @@ export class NativeDocgenBackend implements DocgenBackend {
       this.rootDir,
       options.tsconfigPath ?? "tsconfig.json",
     );
-    this.configFiles = discoverConfigFiles(this.configFile);
     this.fileSystem = createLayeredFileSystem(() => this.activeOverlay);
   }
 
@@ -335,6 +343,7 @@ export class NativeDocgenBackend implements DocgenBackend {
     }
 
     const { API: NativeAPI } = await loadNativeAsync(this.alias);
+    const configFiles = discoverConfigFiles(this.configFile);
     const api = new NativeAPI({
       collectTiming: true,
       cwd: this.rootDir,
@@ -342,10 +351,10 @@ export class NativeDocgenBackend implements DocgenBackend {
     });
     this.api = api;
     await Promise.all(
-      this.configFiles.map((configFile) => api.parseConfigFile(configFile)),
+      configFiles.map((configFile) => api.parseConfigFile(configFile)),
     );
     this.currentSnapshot = await api.updateSnapshot({
-      openProjects: [...this.configFiles],
+      openProjects: [...configFiles],
     });
     this.instrumentation.snapshotsAdded += 1;
     this.currentProjectState = await this.buildProjectState(

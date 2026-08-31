@@ -31,7 +31,9 @@ MAX_PACKAGE_JSON_BYTES = 256 * 1024
 MAX_PATH_BYTES = 512
 
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
-SNAPSHOT_VERSION_RE = re.compile(r"^0\.0\.0-snapshot-\d{14}$")
+SNAPSHOT_VERSION_RE = re.compile(
+    r"^0\.0\.0-snapshot-(?P<commit>[0-9a-f]{40})-(?P<datetime>\d{14})$"
+)
 SEMVER_RE = re.compile(
     r"^(?:0|[1-9]\d*)\."
     r"(?:0|[1-9]\d*)\."
@@ -284,11 +286,14 @@ def _validate_member_path(name: str) -> None:
         raise ValidationError(f"forbidden archive path: {name!r}")
 
 
-def _validate_version(version: object) -> str:
+def _validate_version(version: object, authorized_sha: str | None = None) -> str:
     if not isinstance(version, str) or not SEMVER_RE.fullmatch(version):
         raise ValidationError("package version is not valid SemVer 2.0")
-    if not SNAPSHOT_VERSION_RE.fullmatch(version):
+    match = SNAPSHOT_VERSION_RE.fullmatch(version)
+    if not match:
         raise ValidationError("package version is not an allowlisted snapshot version")
+    if authorized_sha is not None and match.group("commit") != authorized_sha:
+        raise ValidationError("package version does not match the authorized commit")
     return version
 
 
@@ -359,7 +364,7 @@ def validate(tarball: Path, metadata_path: Path, authorized_sha: str) -> tuple[s
     metadata = _load_metadata(metadata_path, authorized_sha)
     if _sha256(tarball) != metadata["sha256"]:
         raise ValidationError("tarball digest does not match metadata")
-    expected_version = _validate_version(metadata["version"])
+    expected_version = _validate_version(metadata["version"], authorized_sha)
     return _validate_tarball(tarball, expected_version)
 
 
