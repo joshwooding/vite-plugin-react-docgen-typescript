@@ -1,5 +1,35 @@
 # @joshwooding/vite-plugin-react-docgen-typescript
 
+## 0.8.0
+
+### Minor Changes
+
+- 10ed37c: Add the stable `docgenMode: "project-service"` opt-in while retaining the
+  existing legacy default. Deprecate the experimental WatchProgram and
+  ProjectService option names; both remain functional for this release.
+
+### Patch Changes
+
+- 10ed37c: Canonicalize physical filesystem aliases when tracking project files and HMR
+  dependencies, and exclude test-only declaration fixtures from the published
+  package.
+- 10ed37c: Bound the supported TypeScript peer range below 7, add an early compatibility
+  diagnostic for unsupported compiler modules, and document the TypeScript 6
+  compatibility-package workaround for side-by-side TypeScript 7 usage.
+- 10ed37c: Declare support for Node.js 20 and Node.js 22 or newer, and refresh the glob dependency used for file selection.
+- 10ed37c: Refresh dependent component docgen metadata when imported TypeScript props change through Vite HMR, including referenced-project and project-service setups.
+- 10ed37c: Invalidate persistent docgen cache entries when imported TypeScript dependencies change between plugin instances.
+- 10ed37c: Run docgen before Vite strips TypeScript syntax so project-service mode receives
+  the component's imports and prop annotations instead of treating them as `any`.
+- 10ed37c: Refresh TypeScript project membership when components or imported types are
+  created, deleted, or recreated during Vite development without requiring a
+  server restart.
+- 10ed37c: Prevent barrel default re-exports from generating invalid `default.*` docgen
+  assignments.
+- 10ed37c: Select recursively referenced project files with consistent Vite-root-relative
+  globs, preserve explicit empty include and exclude arrays, and reject non-string
+  patterns with clear configuration errors.
+
 ## 0.7.0
 
 ### Minor Changes
