@@ -124,7 +124,7 @@ jobs:
           yarn biome:ci
           yarn typecheck
           yarn test --run
-          yarn changeset version --snapshot snapshot
+          yarn changeset version --snapshot "snapshot-$AUTHORIZED_SHA" --snapshot-prerelease-template '{tag}-{datetime}'
           yarn build
 
           mkdir -p "$RUNNER_TEMP/snapshot"

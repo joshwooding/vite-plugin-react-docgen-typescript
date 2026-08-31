@@ -23,7 +23,7 @@ validator = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(validator)
 
 SHA = "a" * 40
-VERSION = "0.0.0-snapshot-20260720123456"
+VERSION = f"0.0.0-snapshot-{SHA}-20260720123456"
 
 
 def tar_bytes(
@@ -515,6 +515,8 @@ class SnapshotArtifactValidatorTests(unittest.TestCase):
             "0.0.0-snapshot-2026072012345x",
             "0.0.0-snapshot-20260720123456-extra",
             "0.0.0-snapshot-20260720123456+build",
+            f"0.0.0-snapshot-{'b' * 39}-20260720123456",
+            f"0.0.0-snapshot-{'b' * 41}-20260720123456",
         ]
         for version in versions:
             with self.subTest(version=version):
@@ -526,6 +528,15 @@ class SnapshotArtifactValidatorTests(unittest.TestCase):
                     self.assert_rejected(fixture)
                 finally:
                     temporary.cleanup()
+
+    def test_rejects_snapshot_version_for_another_commit(self) -> None:
+        version = f"0.0.0-snapshot-{'b' * 40}-20260720123456"
+        temporary, fixture = self.fixture(
+            raw_tar=tar_bytes(valid_members(version=version)),
+            metadata_version=version,
+        )
+        self.addCleanup(temporary.cleanup)
+        self.assert_rejected(fixture, "authorized commit")
 
     def test_does_not_emit_outputs_after_a_failed_invariant(self) -> None:
         temporary, fixture = self.fixture(metadata_overrides={"sha256": "0" * 64})

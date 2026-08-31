@@ -102,8 +102,8 @@ export const Button = ({ label }: ButtonProps): JSX.Element => <button>{label}</
 
 const createReferencedProject = () => {
   const parent = createTemporaryDirectory();
-  const root = path.join(parent, "storybook");
-  const uiRoot = path.join(parent, "ui");
+  const root = path.join(parent, "apps", "storybook");
+  const uiRoot = path.join(parent, "library");
   const uiSourceDirectory = path.join(uiRoot, "src");
   const componentPath = path.join(uiSourceDirectory, "Button.tsx");
   const storyPath = path.join(uiSourceDirectory, "Button.stories.tsx");
@@ -119,11 +119,11 @@ const createReferencedProject = () => {
     tsconfigPath,
     JSON.stringify({
       files: [],
-      references: [{ path: "../ui" }],
+      references: [{ path: "../../library/tsconfig.build.json" }],
     }),
   );
   writeFileSync(
-    path.join(uiRoot, "tsconfig.json"),
+    path.join(uiRoot, "tsconfig.build.json"),
     JSON.stringify({
       compilerOptions: {
         composite: true,
@@ -165,7 +165,7 @@ describe("file-selection contract", () => {
     expect(rootOnly.matchesDocgenFile(project.componentPath)).toBe(false);
 
     const referencedOnly = resolveFileSelection(project.root, {
-      include: ["../ui/**/*.tsx"],
+      include: ["../../library/**/*.tsx"],
     });
     expect(referencedOnly.matchesDocgenFile(project.rootSourcePath)).toBe(
       false,
@@ -173,8 +173,8 @@ describe("file-selection contract", () => {
     expect(referencedOnly.matchesDocgenFile(project.componentPath)).toBe(true);
 
     const explicitlyExcluded = resolveFileSelection(project.root, {
-      exclude: ["../ui/src/Button.tsx"],
-      include: ["../ui/**/*.tsx"],
+      exclude: ["../../library/src/Button.tsx"],
+      include: ["../../library/**/*.tsx"],
     });
     expect(explicitlyExcluded.matchesDocgenFile(project.componentPath)).toBe(
       false,
@@ -306,7 +306,7 @@ describe("file-selection contract", () => {
         module: 99,
         target: 99,
       },
-      include: ["../ui/**/*.tsx"],
+      include: ["../../library/**/*.tsx"],
     });
 
     await runConfigResolved(plugin, project.root);

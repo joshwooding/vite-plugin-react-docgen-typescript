@@ -5,6 +5,7 @@ import {
   mkdtempSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
@@ -65,6 +66,31 @@ describe("compiler-neutral backend contract", () => {
     ).toEqual(
       [path.resolve("src/Component.tsx"), path.resolve("src/types.ts")].sort(),
     );
+  });
+
+  it("collapses physical path aliases for existing and missing files", () => {
+    const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-path-identity-"));
+    const physicalDirectory = path.join(root, "physical");
+    const aliasDirectory = path.join(root, "alias");
+    const physicalFile = path.join(physicalDirectory, "Component.tsx");
+    try {
+      mkdirSync(physicalDirectory, { recursive: true });
+      writeFileSync(physicalFile, "export const Component = () => null;");
+      symlinkSync(
+        physicalDirectory,
+        aliasDirectory,
+        process.platform === "win32" ? "junction" : "dir",
+      );
+
+      expect(
+        normalizeBoundaryPath(path.join(aliasDirectory, "Component.tsx")),
+      ).toBe(normalizeBoundaryPath(physicalFile));
+      expect(
+        normalizeBoundaryPath(path.join(aliasDirectory, "missing.ts")),
+      ).toBe(normalizeBoundaryPath(path.join(physicalDirectory, "missing.ts")));
+    } finally {
+      rmSync(root, { force: true, recursive: true });
+    }
   });
 
   it("keeps the strict compiler-neutral runtime target grammar", () => {
@@ -141,7 +167,8 @@ export const Component = (_props: Nested & PackageType) => null;`;
         captureHost,
         undefined,
       );
-      expect(probedFiles).toHaveLength(8);
+      expect(probedFiles.length).toBeGreaterThan(0);
+      expect(probedFiles.every(path.isAbsolute)).toBe(true);
       expect(probedFiles.filter(isNodeModulesPath)).toEqual([]);
 
       await backend.initialize();

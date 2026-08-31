@@ -20,8 +20,7 @@
   },
   "files": [
     "dist/**/*",
-    "README.md",
-    "*.d.ts"
+    "README.md"
   ],
   "scripts": {
     "build": "unbuild",

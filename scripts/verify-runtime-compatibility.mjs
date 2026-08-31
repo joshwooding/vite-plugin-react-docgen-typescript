@@ -3,6 +3,7 @@ import {
   existsSync,
   mkdirSync,
   mkdtempSync,
+  realpathSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
@@ -228,12 +229,17 @@ if (import.meta.hot) import.meta.hot.accept();
   };
 
   const createFixture = (topology) => {
-    const commonRoot = mkdtempSync(path.join(tmpdir(), "vite-rdt-packed-"));
-    const root = path.join(commonRoot, "app");
+    const commonRoot = realpathSync.native(
+      mkdtempSync(path.join(tmpdir(), "vite-rdt-packed-")),
+    );
+    const root =
+      topology === "same-project"
+        ? path.join(commonRoot, "app")
+        : path.join(commonRoot, "apps", "storybook");
     const sourceRoot =
       topology === "same-project"
         ? path.join(root, "src")
-        : path.join(commonRoot, "ui", "src");
+        : path.join(commonRoot, "library", "src");
     const componentPath = path.join(sourceRoot, "Dependent.tsx");
     const missingComponentPath = path.join(sourceRoot, "MissingDependent.tsx");
     const missingPropsPath = path.join(sourceRoot, "missingProps.ts");
@@ -267,11 +273,11 @@ if (import.meta.hot) import.meta.hot.accept();
         JSON.stringify({
           compilerOptions,
           files: [],
-          references: [{ path: "../ui" }],
+          references: [{ path: "../../library/tsconfig.build.json" }],
         }),
       );
       writeFileSync(
-        path.join(commonRoot, "ui", "tsconfig.json"),
+        path.join(commonRoot, "library", "tsconfig.build.json"),
         JSON.stringify({
           compilerOptions: { ...compilerOptions, composite: true },
           include: ["src/**/*"],
@@ -364,6 +370,10 @@ if (import.meta.hot) import.meta.hot.accept();
   const runTopology = async (runtimeMode, topology) => {
     const testLabel = `${runtimeMode}/${topology}`;
     const fixture = createFixture(topology);
+    assert(
+      existsSync(fixture.componentPath),
+      `${testLabel} fixture component is absent: ${fixture.componentPath}`,
+    );
     let server;
     let activeCapture;
     try {
@@ -380,7 +390,7 @@ if (import.meta.hot) import.meta.hot.accept();
               include:
                 topology === "same-project"
                   ? ["src/**/*.tsx"]
-                  : ["../ui/**/*.tsx"],
+                  : ["../../library/**/*.tsx"],
               shouldExtractValuesFromUnion: true,
               tsconfigPath: "tsconfig.json",
             }),
@@ -688,8 +698,10 @@ if (import.meta.hot) import.meta.hot.accept();
 
 const childSource = `
 import {
+  existsSync,
   mkdirSync,
   mkdtempSync,
+  realpathSync,
   rmSync,
   statSync,
   utimesSync,
@@ -724,8 +736,8 @@ const main = () => {
   }
 
   const invocationRoot = path.resolve(process.cwd());
-  const consumerRoot = mkdtempSync(
-    path.join(tmpdir(), "vite-rdt-packed-consumer-"),
+  const consumerRoot = realpathSync.native(
+    mkdtempSync(path.join(tmpdir(), "vite-rdt-packed-consumer-")),
   );
   const relativeToInvocationRoot = path.relative(invocationRoot, consumerRoot);
   if (

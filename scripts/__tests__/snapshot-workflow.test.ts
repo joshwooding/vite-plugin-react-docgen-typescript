@@ -276,7 +276,7 @@ describe("snapshot workflow security boundary", () => {
       "yarn biome:ci",
       "yarn typecheck",
       "yarn test --run",
-      "yarn changeset version --snapshot snapshot",
+      "yarn changeset version --snapshot \"snapshot-$AUTHORIZED_SHA\" --snapshot-prerelease-template '{tag}-{datetime}'",
       "yarn build",
       "yarn workspace @joshwooding/vite-plugin-react-docgen-typescript pack",
     ];
@@ -317,5 +317,8 @@ describe("snapshot workflow security boundary", () => {
         | JsonObject
         | undefined;
     expect(unsafe?.useCalculatedVersionForSnapshots ?? false).toBe(false);
+    expect(stepNamed("build", "Build snapshot package").run).toContain(
+      "yarn changeset version --snapshot \"snapshot-$AUTHORIZED_SHA\" --snapshot-prerelease-template '{tag}-{datetime}'",
+    );
   });
 });
