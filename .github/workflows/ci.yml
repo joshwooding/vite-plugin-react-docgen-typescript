@@ -181,7 +181,6 @@ jobs:
       contents: read
     outputs:
       mode: ${{ steps.select-mode.outputs.mode }}
-      publish-plan-artifact-id: ${{ steps.select-mode.outputs.publish-plan-artifact-id }}
     steps:
       - name: Checkout tested commit
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
@@ -233,44 +232,10 @@ jobs:
       - name: Create release pull request
         uses: changesets/action/version@8488615a623b1b9c987934bb89eae8af6a946ac1 # v2.1.1
 
-  pack:
-    name: Pack release
-    if: needs.select-mode.outputs.mode == 'publish'
-    needs: select-mode
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    outputs:
-      pack-dir-artifact-id: ${{ steps.pack.outputs.pack-dir-artifact-id }}
-    steps:
-      - name: Checkout tested commit
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-        with:
-          ref: ${{ github.sha }}
-          fetch-depth: 1
-          persist-credentials: false
-      - name: Verify tested commit
-        shell: bash
-        env:
-          EXPECTED_SHA: ${{ github.sha }}
-        run: test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
-      - name: Use Node.js
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
-        with:
-          node-version: "24"
-      - name: Install dependencies
-        run: yarn install --immutable
-      - name: Build
-        run: yarn build
-      - name: Pack release
-        id: pack
-        uses: changesets/action/pack@8488615a623b1b9c987934bb89eae8af6a946ac1 # v2.1.1
-        with:
-          publish-plan-artifact-id: ${{ needs.select-mode.outputs.publish-plan-artifact-id }}
-
   publish:
     name: Publish release
-    needs: pack
+    if: needs.select-mode.outputs.mode == 'publish'
+    needs: select-mode
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -293,7 +258,7 @@ jobs:
           node-version: "24"
       - name: Install dependencies
         run: yarn install --immutable
+      - name: Build
+        run: yarn build
       - name: Publish release
         uses: changesets/action/publish@8488615a623b1b9c987934bb89eae8af6a946ac1 # v2.1.1
-        with:
-          pack-dir-artifact-id: ${{ needs.pack.outputs.pack-dir-artifact-id }}
