@@ -325,7 +325,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/cli@npm:3":
+"@changesets/cli@npm:^3.0.0":
   version: 3.0.1
   resolution: "@changesets/cli@npm:3.0.1"
   dependencies:
@@ -712,7 +712,7 @@ __metadata:
   resolution: "@joshwooding/vite-plugin-react-docgen-typescript-monorepo@workspace:."
   dependencies:
     "@biomejs/biome": "npm:^2.0.0"
-    "@changesets/cli": "npm:3"
+    "@changesets/cli": "npm:^3.0.0"
     "@types/node": "npm:^20.0.0"
     "@types/react": "npm:^18.0.0"
     "@vitejs/plugin-react": "npm:^6.0.1"
