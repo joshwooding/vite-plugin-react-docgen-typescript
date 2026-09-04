@@ -346,6 +346,52 @@ const getNodeName = (node: NativeNode | undefined): string | undefined => {
     : undefined;
 };
 
+const getLocalRuntimeTarget = ({
+  ast,
+  componentSymbol,
+  exportSymbol,
+  project,
+  sourceFile,
+}: {
+  ast: NativeAstModule;
+  componentSymbol: NativeSymbol;
+  exportSymbol: NativeSymbol;
+  project: NativeProject;
+  sourceFile: NativeSourceFile;
+}): string | undefined => {
+  const sourceFileName = normalizeBoundaryPath(sourceFile.fileName);
+
+  for (const declaration of [
+    ...componentSymbol.declarations,
+    ...exportSymbol.declarations,
+  ]) {
+    const node = declaration.resolve(project);
+    if (
+      !node ||
+      normalizeBoundaryPath(node.getSourceFile().fileName) !== sourceFileName
+    ) {
+      continue;
+    }
+
+    let target: string | undefined;
+    if (ast.isVariableDeclaration(node) || ast.isFunctionDeclaration(node)) {
+      target = getNodeName(node);
+    } else if (ast.isExportSpecifier(node)) {
+      const exportDeclaration = node.parent.parent;
+      if (
+        ast.isExportDeclaration(exportDeclaration) &&
+        !exportDeclaration.moduleSpecifier
+      ) {
+        target = node.propertyName?.getText() ?? node.name.getText();
+      }
+    }
+
+    if (target && isSupportedRuntimeTargetExpression(target)) return target;
+  }
+
+  return undefined;
+};
+
 const resolveDeclaration = (
   symbol: NativeSymbol,
   project: NativeProject,
@@ -768,14 +814,21 @@ const extractNativeComponents = function* ({
     );
     const declaration = resolveDeclaration(componentSymbol, project);
     if (!declaration) continue;
-    const targetExpression =
+    const exportedComponentName =
       exportSymbol.name === "default"
         ? componentSymbol.name
         : exportSymbol.name;
+    const targetExpression = getLocalRuntimeTarget({
+      ast,
+      componentSymbol,
+      exportSymbol,
+      project,
+      sourceFile,
+    });
     if (
+      !targetExpression ||
       !IDENTIFIER_PATTERN.test(targetExpression) ||
-      !isSupportedRuntimeTargetExpression(targetExpression) ||
-      !/^[A-Z]/.test(targetExpression)
+      !/^[A-Z]/.test(exportedComponentName)
     ) {
       continue;
     }

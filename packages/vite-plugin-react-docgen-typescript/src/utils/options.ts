@@ -182,6 +182,18 @@ type PublicComponentNameResolver = {
   ): false | null | string | undefined;
 }["bivarianceHack"];
 
+// TypeScript 7 no longer exposes its compiler object types from the package
+// root. Keep legacy callbacks source-compatible without leaking those removed
+// imports into the declaration consumed by native-mode users.
+type PublicLegacyCompilerObject = any;
+
+type PublicLegacyComponentNameResolver = {
+  bivarianceHack(
+    symbol: PublicLegacyCompilerObject,
+    source: PublicLegacyCompilerObject,
+  ): false | null | string | undefined;
+}["bivarianceHack"];
+
 type PublicPropFilter = {
   bivarianceHack(
     prop: PublicPropItem,
@@ -195,15 +207,13 @@ interface PublicStaticPropFilter {
 }
 
 /**
- * Public plugin options that remain type-safe when TypeScript 7 is installed.
- * TypeScript 7 no longer exports compiler API types from the package root, so
- * `compilerOptions` deliberately accepts any options object.
+ * Public plugin options consumable with both TypeScript 4-6 and TypeScript 7.
+ * Compiler-specific objects are kept behind compatibility boundaries because
+ * TypeScript 7 no longer exports compiler API types from the package root.
  */
-export interface PublicOptions extends LoaderOptions {
+interface PublicOptionsBase extends LoaderOptions {
   compilerOptions?: object;
-  componentNameResolver?: PublicComponentNameResolver;
   customComponentTypes?: string[];
-  docgenMode?: DocgenMode;
   exclude?: string[];
   EXPERIMENTAL_useProjectService?: boolean;
   EXPERIMENTAL_useWatchProgram?: boolean;
@@ -219,6 +229,18 @@ export interface PublicOptions extends LoaderOptions {
   skipChildrenPropWithoutDoc?: boolean;
   tsconfigPath?: string;
 }
+
+export interface PublicLegacyOptions extends PublicOptionsBase {
+  componentNameResolver?: PublicLegacyComponentNameResolver;
+  docgenMode?: Exclude<DocgenMode, "native">;
+}
+
+export interface PublicNativeOptions extends PublicOptionsBase {
+  componentNameResolver?: PublicComponentNameResolver;
+  docgenMode: "native";
+}
+
+export type PublicOptions = PublicLegacyOptions | PublicNativeOptions;
 
 export type RuntimeMode = "default" | "native" | "projectService" | "watch";
 

@@ -1,3 +1,7 @@
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import typescript from "typescript";
 import type { Plugin } from "vite";
 import { describe, expect, it, vi } from "vitest";
 import type { DocgenBackendFactory } from "../docgen/backend";
@@ -51,6 +55,75 @@ describe("runtime-mode resolution", () => {
     expect(() => resolveDocgenRuntimeMode(options)).toThrow(
       `docgenMode cannot be combined with ${names}`,
     );
+  });
+});
+
+describe("public option types", () => {
+  it("keeps callbacks strict and mode-specific for package consumers", () => {
+    const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-public-options-"));
+    const consumerPath = path.join(root, "consumer.ts");
+    const indexPath = path.resolve(
+      "packages/vite-plugin-react-docgen-typescript/src/index.ts",
+    );
+    const importPath = path
+      .relative(root, indexPath)
+      .replaceAll("\\", "/")
+      .replace(/\.ts$/, "");
+    writeFileSync(
+      consumerPath,
+      `import reactDocgenTypescript from ${JSON.stringify(importPath)};
+
+reactDocgenTypescript({
+  componentNameResolver(symbol, source) {
+    return symbol.flags && source.statements.length > 0
+      ? symbol.getName()
+      : undefined;
+  },
+});
+
+reactDocgenTypescript({
+  componentNameResolver(symbol, source) {
+    return symbol.flags && source.statements.length > 0
+      ? symbol.getName()
+      : undefined;
+  },
+  docgenMode: "legacy",
+});
+
+reactDocgenTypescript({
+  componentNameResolver(symbol, source) {
+    // @ts-expect-error Native mode deliberately hides compiler-specific fields.
+    symbol.flags;
+    return source.fileName + ":" + symbol.getName();
+  },
+  docgenMode: "native",
+});
+`,
+    );
+
+    try {
+      const program = typescript.createProgram([consumerPath], {
+        allowSyntheticDefaultImports: true,
+        esModuleInterop: true,
+        module: typescript.ModuleKind.ESNext,
+        moduleResolution: typescript.ModuleResolutionKind.Bundler,
+        noEmit: true,
+        skipLibCheck: true,
+        strict: true,
+        target: typescript.ScriptTarget.ES2022,
+      });
+      const consumer = program.getSourceFile(consumerPath);
+      expect(consumer).toBeDefined();
+      const diagnostics = typescript
+        .getPreEmitDiagnostics(program, consumer)
+        .map((diagnostic) =>
+          typescript.flattenDiagnosticMessageText(diagnostic.messageText, "\n"),
+        );
+
+      expect(diagnostics).toEqual([]);
+    } finally {
+      rmSync(root, { force: true, recursive: true });
+    }
   });
 });
 

@@ -300,6 +300,55 @@ export const Component = (_props: Props) => null;
     }
   });
 
+  it("targets the local runtime binding for an aliased named export", async () => {
+    const fixture = createFixture({
+      "Component.tsx": `const Local = (_props: { value: string }) => null;
+export { Local as Public };
+`,
+    });
+    const backend = await createBackend(fixture);
+    const componentPath = path.join(fixture.root, "Component.tsx");
+    try {
+      const result = await backend.analyze({
+        fileName: componentPath,
+        revision: 1,
+        source: readFileSync(componentPath, "utf-8"),
+      });
+      expect(result.status).toBe("ok");
+      if (result.status !== "ok") return;
+      expect(result.components).toHaveLength(1);
+      expect(result.components[0]?.targetExpression).toBe("Local");
+    } finally {
+      await backend.dispose();
+    }
+  });
+
+  it("skips direct cross-module re-exports without a local binding", async () => {
+    const fixture = createFixture({
+      "Component.tsx": `export default function Component(
+  _props: { value: string },
+) {
+  return null;
+}
+`,
+      "Reexport.tsx": 'export { default as Public } from "./Component";\n',
+    });
+    const backend = await createBackend(fixture);
+    const reexportPath = path.join(fixture.root, "Reexport.tsx");
+    try {
+      const result = await backend.analyze({
+        fileName: reexportPath,
+        revision: 1,
+        source: readFileSync(reexportPath, "utf-8"),
+      });
+      expect(result.status).toBe("ok");
+      if (result.status !== "ok") return;
+      expect(result.components).toEqual([]);
+    } finally {
+      await backend.dispose();
+    }
+  });
+
   it("tracks imported generic type arguments as HMR dependencies", async () => {
     const fixture = createFixture({
       "Component.tsx": `import type { Item } from "./item";
