@@ -29,8 +29,9 @@ jobs:
           node --input-type=module -e '
             import { readFileSync } from "node:fs";
             const matrix = JSON.parse(readFileSync(".github/runtime-compatibility-matrix.json", "utf8"));
-            const knownModes = ["default", "legacy", "project-service", "experimental-watch", "experimental-project-service"];
-            const stableModes = knownModes.slice(0, 3);
+            const knownModes = ["default", "legacy", "native", "project-service", "experimental-watch", "experimental-project-service"];
+            const stableModes = ["default", "legacy", "project-service"];
+            const legacyModes = knownModes.filter((mode) => mode !== "native");
             const rows = matrix.include;
             const assert = (condition, message) => { if (!condition) throw new Error(message); };
             assert(Array.isArray(rows) && rows.length > 0, "Matrix must contain at least one row");
@@ -40,12 +41,18 @@ jobs:
               assert(Array.isArray(row.modes) && row.modes.length > 0, `Row ${index} has no modes`);
               assert(row.modes.every((mode) => knownModes.includes(mode)), `Row ${index} has an unknown mode`);
               assert(new Set(row.modes).size === row.modes.length, `Row ${index} has duplicate modes`);
-              assert(stableModes.every((mode) => row.modes.includes(mode)), `Row ${index} is missing a stable mode`);
+              if (row.typescript === "next") {
+                assert(row.modes.length === 1 && row.modes[0] === "native", `TypeScript next row ${index} must verify only native mode`);
+              } else {
+                assert(stableModes.every((mode) => row.modes.includes(mode)), `Row ${index} is missing a stable mode`);
+              }
             }
             const lower = rows.find((row) => row.typescript === "4.3.5" && row.vite === "3.2.11" && row.os === "ubuntu-latest");
             const upper = rows.find((row) => row.typescript === "6.0.3" && row.vite === "8.1.5" && row.os === "ubuntu-latest");
-            assert(lower && knownModes.every((mode) => lower.modes.includes(mode)), "Lower boundary must verify every mode and alias");
-            assert(upper && knownModes.every((mode) => upper.modes.includes(mode)), "Upper boundary must verify every mode and alias");
+            assert(lower && legacyModes.every((mode) => lower.modes.includes(mode)), "Lower boundary must verify every legacy mode and alias");
+            assert(upper && legacyModes.every((mode) => upper.modes.includes(mode)), "Upper boundary must verify every legacy mode and alias");
+            const native = rows.find((row) => row.typescript === "next" && row.vite === "8.1.5" && row.os === "ubuntu-latest");
+            assert(native && native.modes.length === 1 && native.modes[0] === "native", "TypeScript next must verify native mode");
             const windowsRows = rows.filter((row) => row.os === "windows-latest");
             assert(windowsRows.length === 2, "Matrix must contain exactly two Windows rows");
             assert(windowsRows.every((row) => row.modes.includes("experimental-watch")), "Windows rows must verify watcher teardown");
@@ -172,7 +179,7 @@ jobs:
         run: yarn run benchmark:ci
 
   performance:
-    name: Backend benchmark (${{ matrix.os }})
+    name: Native benchmark (${{ matrix.os }})
     strategy:
       fail-fast: false
       matrix:
@@ -188,14 +195,18 @@ jobs:
           cache: "yarn"
       - name: Install dependencies
         run: yarn install --immutable
-      - name: Benchmark legacy and ProjectService backends
+      - name: Benchmark TS7 native against ProjectService
+        run: yarn run benchmark:native:ci
+      - name: Benchmark ProjectService and TS7 native backends
         run: yarn run benchmark:backends:ci
       - name: Upload raw benchmark samples
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: backend-benchmark-${{ runner.os }}-${{ github.sha }}
-          path: .yarn/benchmark-backends.json
+          name: native-benchmark-${{ runner.os }}-${{ github.sha }}
+          path: |
+            .yarn/benchmark-native.json
+            .yarn/benchmark-backends.json
 
   select-mode:
     name: Select release mode

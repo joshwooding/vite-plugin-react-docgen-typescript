@@ -9,6 +9,7 @@ describe("runtime-mode resolution", () => {
   it.each([
     [{}, "default"],
     [{ docgenMode: "legacy" }, "default"],
+    [{ docgenMode: "native" }, "native"],
     [{ docgenMode: "project-service" }, "projectService"],
     [{ EXPERIMENTAL_useWatchProgram: true }, "watch"],
     [{ EXPERIMENTAL_useProjectService: true }, "projectService"],
@@ -106,6 +107,7 @@ describe("runtime-mode deprecation warnings", () => {
       ],
     ],
     [{ docgenMode: "project-service" }, []],
+    [{ docgenMode: "native" }, []],
     [{ docgenMode: "legacy" }, []],
   ] as const)("warns once per present deprecated field for %j", async (options, expected) => {
     const warn = vi.fn();
@@ -119,6 +121,7 @@ describe("runtime-mode deprecation warnings", () => {
 describe("parser option isolation", () => {
   it("does not forward docgenMode to react-docgen-typescript", () => {
     const parserOptions = getReactDocgenParserOptions({
+      __benchmark: { bypassMemoryCache: true },
       docgenMode: "legacy",
       EXPERIMENTAL_useProjectService: false,
       EXPERIMENTAL_useWatchProgram: false,
@@ -126,6 +129,7 @@ describe("parser option isolation", () => {
     });
 
     expect(parserOptions).not.toHaveProperty("docgenMode");
+    expect(parserOptions).not.toHaveProperty("__benchmark");
     expect(parserOptions).not.toHaveProperty("EXPERIMENTAL_useWatchProgram");
     expect(parserOptions).not.toHaveProperty("EXPERIMENTAL_useProjectService");
     expect(parserOptions).toMatchObject({

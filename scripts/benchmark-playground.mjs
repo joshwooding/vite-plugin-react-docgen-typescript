@@ -26,6 +26,7 @@ const distEntry = path.join(packageRoot, "dist", "index.mjs");
 
 const DEFAULT_ITERATIONS = 5;
 const DEFAULT_MODES = ["default", "watch", "projectService"];
+const SUPPORTED_MODES = [...DEFAULT_MODES, "native"];
 const DEFAULT_SCENARIO = "playground";
 const HMR_POLL_INTERVAL_MS = 25;
 const HMR_TIMEOUT_MS = 10_000;
@@ -153,8 +154,9 @@ const HELP_TEXT = `Usage: node ./scripts/benchmark-playground.mjs [options]
 Options:
   --scenario <name>       Benchmark fixture to run. Default: ${DEFAULT_SCENARIO}
   --iterations <number>   Number of measured runs per mode. Default: ${DEFAULT_ITERATIONS}
-  --modes <list>          Comma-separated modes: default,watch,projectService
+  --modes <list>          Comma-separated modes: default,watch,projectService,native
   --scale <number>        Number of scenario expansions to benchmark. Default: 1
+  --native-timing         Collect TS7 server, transport, and materialization timing
   --output <file>         Write JSON results to a file
   --baseline <file>       Compare results against a previous JSON output
   --keep-temp             Keep the temporary benchmark workspace
@@ -170,6 +172,7 @@ function parseArgs(argv) {
     iterations: DEFAULT_ITERATIONS,
     keepTemp: false,
     modes: [...DEFAULT_MODES],
+    nativeTiming: false,
     output: null,
     scenario: DEFAULT_SCENARIO,
     scale: 1,
@@ -206,6 +209,9 @@ function parseArgs(argv) {
       case "--scale":
         options.scale = Number(argv[++index]);
         break;
+      case "--native-timing":
+        options.nativeTiming = true;
+        break;
       case "--output":
         options.output = argv[++index];
         break;
@@ -239,12 +245,12 @@ function parseArgs(argv) {
   }
 
   const invalidModes = options.modes.filter(
-    (mode) => !DEFAULT_MODES.includes(mode),
+    (mode) => !SUPPORTED_MODES.includes(mode),
   );
 
   if (invalidModes.length > 0) {
     throw new Error(
-      `Unsupported mode(s): ${invalidModes.join(", ")}. Expected: ${DEFAULT_MODES.join(", ")}`,
+      `Unsupported mode(s): ${invalidModes.join(", ")}. Expected: ${SUPPORTED_MODES.join(", ")}`,
     );
   }
 
@@ -260,6 +266,49 @@ function median(values) {
     : sorted[middle];
 }
 
+const NATIVE_TIMING_PHASES = [
+  "firstBatch",
+  "memoryCacheBatch",
+  "reanalysisBatch",
+  "componentHmr",
+];
+
+function readNativeTiming(controls) {
+  const timing = controls.getNativeTimingInfo?.();
+  if (!timing?.enabled) return null;
+  const { totals } = timing;
+  return {
+    bytesReceived: totals.bytesReceived,
+    bytesSent: totals.bytesSent,
+    nodesFetched: totals.nodesFetched,
+    nodesMaterialized: totals.nodesMaterialized,
+    requestCount: totals.requestCount,
+    roundTripMs: totals.roundTripMs,
+    serverTimeMs: totals.serverTimeMs,
+    sourceFilesFetched: totals.sourceFilesFetched,
+    transportOverheadMs: totals.transportOverheadMs,
+  };
+}
+
+function summarizeNativeTiming(runs) {
+  const summary = {};
+
+  for (const phase of NATIVE_TIMING_PHASES) {
+    const samples = runs
+      .map((run) => run.nativeTiming?.[phase])
+      .filter(Boolean);
+    if (samples.length === 0) continue;
+    summary[phase] = Object.fromEntries(
+      Object.keys(samples[0]).map((key) => [
+        key,
+        median(samples.map((sample) => sample[key])),
+      ]),
+    );
+  }
+
+  return Object.keys(summary).length > 0 ? summary : undefined;
+}
+
 function summarizeRuns(runs) {
   const statuses = runs.map((run) => run.componentHmr.status);
   const hmrStatus = statuses.every((status) => status === "updated")
@@ -268,6 +317,7 @@ function summarizeRuns(runs) {
       ? "stale"
       : "unsupported";
 
+  const nativeTiming = summarizeNativeTiming(runs);
   return {
     componentHmr: {
       invalidatedModuleCount: median(
@@ -280,7 +330,10 @@ function summarizeRuns(runs) {
     configResolvedMs: median(runs.map((run) => run.configResolvedMs)),
     fileCount: runs[0].fileCount,
     firstBatchMs: median(runs.map((run) => run.firstBatchMs)),
+    memoryCacheBatchMs: median(runs.map((run) => run.memoryCacheBatchMs)),
+    reanalysisBatchMs: median(runs.map((run) => run.reanalysisBatchMs)),
     warmBatchMs: median(runs.map((run) => run.warmBatchMs)),
+    ...(nativeTiming ? { nativeTiming } : {}),
   };
 }
 
@@ -380,9 +433,11 @@ function createServer() {
   };
 }
 
-function createModeConfig(mode, workspace) {
+function createModeConfig(mode, workspace, benchmarkControls) {
   return {
+    ...(benchmarkControls ? { __benchmark: benchmarkControls } : {}),
     tsconfigPath: workspace.tsconfigPath,
+    ...(mode === "native" ? { docgenMode: "native" } : {}),
     ...(mode === "watch" ? { EXPERIMENTAL_useWatchProgram: true } : {}),
     ...(mode === "projectService"
       ? { EXPERIMENTAL_useProjectService: true }
@@ -478,10 +533,17 @@ async function resolveComponentHmrStatus(
 async function transformFiles(plugin, files) {
   const pluginContext = createPluginContext();
   const outputs = new Map();
+  const transform =
+    typeof plugin.transform === "function"
+      ? plugin.transform
+      : plugin.transform?.handler;
+  if (typeof transform !== "function") {
+    throw new Error("Expected plugin hook transform");
+  }
 
   for (const file of files) {
     const source = readFileSync(file, "utf-8");
-    const result = await plugin.transform.call(pluginContext, source, file);
+    const result = await transform.call(pluginContext, source, file);
     outputs.set(file, result);
   }
 
@@ -497,12 +559,23 @@ async function warmMode(reactDocgenTypescript, mode, workspace) {
       await transformFiles(plugin, workspace.files);
     });
   } finally {
-    plugin.closeBundle?.();
+    await plugin.closeBundle?.();
   }
 }
 
-async function measureModeIteration(reactDocgenTypescript, mode, workspace) {
-  const plugin = reactDocgenTypescript(createModeConfig(mode, workspace));
+async function measureModeIteration(
+  reactDocgenTypescript,
+  mode,
+  workspace,
+  collectNativeTiming,
+) {
+  const benchmarkControls = {
+    bypassMemoryCache: false,
+    collectNativeTiming: collectNativeTiming && mode === "native",
+  };
+  const plugin = reactDocgenTypescript(
+    createModeConfig(mode, workspace, benchmarkControls),
+  );
   const originalChangedFile = readFileSync(workspace.changedFile, "utf-8");
   const updatedChangedFile = originalChangedFile.replace(
     workspace.markerText,
@@ -517,6 +590,12 @@ async function measureModeIteration(reactDocgenTypescript, mode, workspace) {
 
   try {
     return await withWorkingDirectory(workspace.root, async () => {
+      const nativeTiming = {};
+      const captureNativeTiming = (phase) => {
+        const timing = readNativeTiming(benchmarkControls);
+        if (timing) nativeTiming[phase] = timing;
+        benchmarkControls.resetNativeTimingInfo?.();
+      };
       const configResolvedStart = performance.now();
       await plugin.configResolved?.({ command: "serve", root: workspace.root });
       const configResolvedMs = performance.now() - configResolvedStart;
@@ -524,10 +603,22 @@ async function measureModeIteration(reactDocgenTypescript, mode, workspace) {
       const firstBatchStart = performance.now();
       await transformFiles(plugin, workspace.files);
       const firstBatchMs = performance.now() - firstBatchStart;
+      captureNativeTiming("firstBatch");
 
-      const warmBatchStart = performance.now();
+      const memoryCacheBatchStart = performance.now();
       await transformFiles(plugin, workspace.files);
-      const warmBatchMs = performance.now() - warmBatchStart;
+      const memoryCacheBatchMs = performance.now() - memoryCacheBatchStart;
+      captureNativeTiming("memoryCacheBatch");
+
+      benchmarkControls.bypassMemoryCache = true;
+      const reanalysisBatchStart = performance.now();
+      try {
+        await transformFiles(plugin, workspace.files);
+      } finally {
+        benchmarkControls.bypassMemoryCache = false;
+      }
+      const reanalysisBatchMs = performance.now() - reanalysisBatchStart;
+      captureNativeTiming("reanalysisBatch");
 
       writeFileSync(workspace.changedFile, updatedChangedFile);
 
@@ -546,23 +637,29 @@ async function measureModeIteration(reactDocgenTypescript, mode, workspace) {
         mode,
         workspace,
       );
+      const componentHmrMs = performance.now() - componentHmrStart;
+      captureNativeTiming("componentHmr");
 
       return {
         componentHmr: {
           invalidatedModuleCount: invalidatedModules.size,
           status: updated ? "updated" : "stale",
-          totalCycleMs: performance.now() - componentHmrStart,
+          totalCycleMs: componentHmrMs,
         },
         coldBatchMs: configResolvedMs + firstBatchMs,
         configResolvedMs,
         fileCount: workspace.fileCount,
         firstBatchMs,
-        warmBatchMs,
+        memoryCacheBatchMs,
+        ...(Object.keys(nativeTiming).length > 0 ? { nativeTiming } : {}),
+        reanalysisBatchMs,
+        // Preserve the previous field for consumers of existing benchmark JSON.
+        warmBatchMs: memoryCacheBatchMs,
       };
     });
   } finally {
     writeFileSync(workspace.changedFile, originalChangedFile);
-    plugin.closeBundle?.();
+    await plugin.closeBundle?.();
   }
 }
 
@@ -577,7 +674,9 @@ function printSummary(result, baseline) {
       componentHmr,
       configResolvedMs,
       firstBatchMs,
-      warmBatchMs,
+      memoryCacheBatchMs,
+      nativeTiming,
+      reanalysisBatchMs,
     } = modeResult.metrics;
     const hmrText =
       componentHmr.status === "updated"
@@ -585,8 +684,18 @@ function printSummary(result, baseline) {
         : `${componentHmr.status} (${componentHmr.totalCycleMs.toFixed(1)}ms)`;
 
     console.log(
-      `${modeResult.mode.padEnd(14)} setup ${configResolvedMs.toFixed(1)}ms  first ${firstBatchMs.toFixed(1)}ms  cold ${coldBatchMs.toFixed(1)}ms  warm ${warmBatchMs.toFixed(1)}ms  hmr ${hmrText}  invalidated ${componentHmr.invalidatedModuleCount.toFixed(0)}`,
+      `${modeResult.mode.padEnd(14)} setup ${configResolvedMs.toFixed(1)}ms  first ${firstBatchMs.toFixed(1)}ms  cold ${coldBatchMs.toFixed(1)}ms  cache ${memoryCacheBatchMs.toFixed(1)}ms  reanalyze ${reanalysisBatchMs.toFixed(1)}ms  hmr ${hmrText}  invalidated ${componentHmr.invalidatedModuleCount.toFixed(0)}`,
     );
+
+    if (nativeTiming) {
+      for (const phase of NATIVE_TIMING_PHASES) {
+        const timing = nativeTiming[phase];
+        if (!timing) continue;
+        console.log(
+          `  ${phase.padEnd(16)} ${timing.requestCount.toFixed(0)} requests  server ${timing.serverTimeMs.toFixed(1)}ms  transport ${timing.transportOverheadMs.toFixed(1)}ms  round-trip ${timing.roundTripMs.toFixed(1)}ms`,
+        );
+      }
+    }
 
     if (!baseline) {
       continue;
@@ -604,8 +713,17 @@ function printSummary(result, baseline) {
       ["setup", baselineMode.metrics.configResolvedMs, configResolvedMs],
       ["first", baselineMode.metrics.firstBatchMs, firstBatchMs],
       ["cold", baselineMode.metrics.coldBatchMs, coldBatchMs],
-      ["warm", baselineMode.metrics.warmBatchMs, warmBatchMs],
-    ].filter((comparison) => typeof comparison[1] === "number");
+      [
+        "cache",
+        baselineMode.metrics.memoryCacheBatchMs ??
+          baselineMode.metrics.warmBatchMs,
+        memoryCacheBatchMs,
+      ],
+      ["reanalyze", baselineMode.metrics.reanalysisBatchMs, reanalysisBatchMs],
+    ].filter(
+      (comparison) =>
+        typeof comparison[1] === "number" && typeof comparison[2] === "number",
+    );
 
     if (
       baselineMode.metrics.componentHmr.status === "updated" &&
@@ -643,6 +761,13 @@ function printSummary(result, baseline) {
 async function main() {
   const options = parseArgs(process.argv.slice(2));
 
+  if (
+    options.modes.includes("native") &&
+    !process.env.VITE_RDT_NATIVE_TYPESCRIPT_PACKAGE
+  ) {
+    process.env.VITE_RDT_NATIVE_TYPESCRIPT_PACKAGE = "typescript7next";
+  }
+
   if (!existsSync(distEntry)) {
     throw new Error(
       `Missing build output at ${distEntry}. Run "yarn exec unbuild packages/vite-plugin-react-docgen-typescript" first.`,
@@ -658,29 +783,47 @@ async function main() {
     : null;
 
   try {
-    const results = [];
+    const runsByMode = new Map(options.modes.map((mode) => [mode, []]));
+    const executionOrder = [];
 
     for (const mode of options.modes) {
       await warmMode(reactDocgenTypescript, mode, workspace);
-
-      const runs = [];
-
-      for (let iteration = 0; iteration < options.iterations; iteration += 1) {
-        runs.push(
-          await measureModeIteration(reactDocgenTypescript, mode, workspace),
-        );
-      }
-
-      results.push({
-        metrics: summarizeRuns(runs),
-        mode,
-      });
     }
 
+    for (let iteration = 0; iteration < options.iterations; iteration += 1) {
+      const offset = iteration % options.modes.length;
+      const iterationModes = [
+        ...options.modes.slice(offset),
+        ...options.modes.slice(0, offset),
+      ];
+      executionOrder.push(iterationModes);
+      for (const [order, mode] of iterationModes.entries()) {
+        const run = await measureModeIteration(
+          reactDocgenTypescript,
+          mode,
+          workspace,
+          options.nativeTiming,
+        );
+        runsByMode.get(mode).push({ ...run, iteration, order });
+      }
+    }
+
+    const results = options.modes.map((mode) => {
+      const runs = runsByMode.get(mode);
+      return {
+        metrics: summarizeRuns(runs),
+        mode,
+        runs,
+      };
+    });
+
     const result = {
+      counterbalanced: true,
       createdAt: new Date().toISOString(),
+      executionOrder,
       iterations: options.iterations,
       modes: options.modes,
+      nativeTiming: options.nativeTiming,
       nodeVersion: process.version,
       platform: process.platform,
       scenario: {

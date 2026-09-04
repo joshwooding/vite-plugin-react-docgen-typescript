@@ -15,6 +15,7 @@ const INSTALL_DEADLINE_MS = 180_000;
 const RUNTIME_MODES = Object.freeze([
   "default",
   "legacy",
+  "native",
   "project-service",
   "experimental-watch",
   "experimental-project-service",
@@ -113,6 +114,7 @@ const packedConsumerMain = async (runtimeModes) => {
   const MODE_OPTIONS = {
     default: {},
     legacy: { docgenMode: "legacy" },
+    native: { docgenMode: "native" },
     "project-service": { docgenMode: "project-service" },
     "experimental-watch": { EXPERIMENTAL_useWatchProgram: true },
     "experimental-project-service": {

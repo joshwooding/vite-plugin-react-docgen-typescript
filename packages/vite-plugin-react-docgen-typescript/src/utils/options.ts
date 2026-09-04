@@ -1,5 +1,6 @@
 import type { ParserOptions } from "react-docgen-typescript";
 import type { CompilerOptions } from "typescript";
+import type { AnalyzeResult } from "../docgen/backend";
 import type { GeneratorOptions } from "./generate";
 
 interface LoaderOptions {
@@ -54,7 +55,7 @@ export interface FileSystemCacheOptions {
   directory?: string;
 }
 
-export type DocgenMode = "legacy" | "project-service";
+export type DocgenMode = "legacy" | "native" | "project-service";
 
 export type DocGenOptions = ParserOptions & {
   /**
@@ -95,9 +96,131 @@ export type DocGenOptions = ParserOptions & {
   EXPERIMENTAL_useProjectService?: boolean;
 };
 
-export type Options = LoaderOptions & TypescriptOptions & DocGenOptions;
+/** @internal Controls used only by the repository benchmark harness. */
+export type InternalBenchmarkPhase =
+  | "backend-analyze"
+  | "backend-initialize"
+  | "backend-update"
+  | "code-generation"
+  | "dependency-discovery"
+  | "native-project-sync"
+  | "transform-commit";
 
-type RuntimeMode = "default" | "projectService" | "watch";
+/** @internal Serializable timing emitted only to the repository benchmark. */
+export interface InternalBenchmarkPhaseEvent {
+  readonly durationMs: number;
+  readonly fileCount: number;
+  readonly fileName?: string;
+  readonly phase: InternalBenchmarkPhase;
+  readonly revision: number;
+  readonly status: "completed" | "failed";
+}
+
+/** @internal Serializable analysis emitted only to the repository benchmark. */
+export interface InternalBenchmarkAnalysisEvent {
+  readonly durationMs: number;
+  readonly fileName: string;
+  readonly result: AnalyzeResult;
+  readonly revision: number;
+}
+
+/** @internal Controls used only by the repository benchmark harness. */
+export interface InternalBenchmarkControls {
+  bypassMemoryCache?: boolean;
+  collectNativeRequestProfile?: boolean;
+  collectNativeTiming?: boolean;
+  getNativeRequestProfile?: () => unknown;
+  getNativeTimingInfo?: () => unknown;
+  onAnalysis?: (event: InternalBenchmarkAnalysisEvent) => void;
+  onPhase?: (event: InternalBenchmarkPhaseEvent) => void;
+  resetNativeRequestProfile?: () => void;
+  resetNativeTimingInfo?: () => void;
+}
+
+export type Options = LoaderOptions &
+  TypescriptOptions &
+  DocGenOptions & {
+    /** @internal */
+    __benchmark?: InternalBenchmarkControls;
+  };
+
+interface PublicComponentNameSymbol {
+  readonly name: string;
+  getEscapedName(): string | number;
+  getName(): string;
+}
+
+interface PublicSourceFile {
+  readonly fileName: string;
+  readonly text: string;
+}
+
+interface PublicPropItem {
+  readonly declarations?: readonly PublicPropParent[];
+  readonly defaultValue: unknown;
+  readonly description: string;
+  readonly name: string;
+  readonly parent?: PublicPropParent;
+  readonly required: boolean;
+  readonly tags?: Readonly<Record<string, unknown>>;
+  readonly type: {
+    readonly name: string;
+    readonly raw?: string;
+    readonly value?: unknown;
+  };
+}
+
+interface PublicPropParent {
+  readonly fileName: string;
+  readonly name: string;
+}
+
+type PublicComponentNameResolver = {
+  bivarianceHack(
+    symbol: PublicComponentNameSymbol,
+    source: PublicSourceFile,
+  ): false | null | string | undefined;
+}["bivarianceHack"];
+
+type PublicPropFilter = {
+  bivarianceHack(
+    prop: PublicPropItem,
+    component: { readonly name: string },
+  ): boolean;
+}["bivarianceHack"];
+
+interface PublicStaticPropFilter {
+  skipPropsWithName?: string | string[];
+  skipPropsWithoutDoc?: boolean;
+}
+
+/**
+ * Public plugin options that remain type-safe when TypeScript 7 is installed.
+ * TypeScript 7 no longer exports compiler API types from the package root, so
+ * `compilerOptions` deliberately accepts any options object.
+ */
+export interface PublicOptions extends LoaderOptions {
+  compilerOptions?: object;
+  componentNameResolver?: PublicComponentNameResolver;
+  customComponentTypes?: string[];
+  docgenMode?: DocgenMode;
+  exclude?: string[];
+  EXPERIMENTAL_useProjectService?: boolean;
+  EXPERIMENTAL_useWatchProgram?: boolean;
+  fileSystemCache?: boolean | FileSystemCacheOptions;
+  include?: string[];
+  propFilter?: PublicPropFilter | PublicStaticPropFilter;
+  savePropValueAsString?: boolean;
+  shouldExtractLiteralValuesFromEnum?: boolean;
+  shouldExtractValuesFromUnion?: boolean;
+  shouldIncludeExpression?: boolean;
+  shouldIncludePropTagMap?: boolean;
+  shouldRemoveUndefinedFromOptional?: boolean;
+  skipChildrenPropWithoutDoc?: boolean;
+  tsconfigPath?: string;
+}
+
+export type RuntimeMode = "default" | "native" | "projectService" | "watch";
 
 const hasOwnOption = (options: Options, key: keyof Options): boolean =>
   Object.hasOwn(options, key);
@@ -114,9 +237,10 @@ export const resolveDocgenRuntimeMode = (options: Options): RuntimeMode => {
       );
     }
     if (options.docgenMode === "legacy") return "default";
+    if (options.docgenMode === "native") return "native";
     if (options.docgenMode === "project-service") return "projectService";
     throw new Error(
-      `Invalid docgenMode ${JSON.stringify(options.docgenMode)}; expected "legacy" or "project-service"`,
+      `Invalid docgenMode ${JSON.stringify(options.docgenMode)}; expected "legacy", "native", or "project-service"`,
     );
   }
   if (options.EXPERIMENTAL_useProjectService) return "projectService";

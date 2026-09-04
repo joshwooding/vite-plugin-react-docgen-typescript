@@ -18,6 +18,7 @@ import {
   emptyExtractionFixture,
   recoverableErrorFixture,
 } from "./support/backendParityCorpus";
+import { runTransformHook } from "./support/pluginHooks";
 
 const temporaryDirectories: string[] = [];
 const plugins: ReturnType<typeof createPlugin>[] = [];
@@ -148,7 +149,8 @@ const transformFixture = async (
   await plugin.configResolved?.({ root: fixture.root });
   const source = readFileSync(fixture.componentPath, "utf-8");
   // @ts-expect-error The focused parity harness needs only the warning API.
-  const result = await plugin.transform?.call(
+  const result = await runTransformHook(
+    plugin,
     { warn: vi.fn() },
     source,
     fixture.componentPath,
