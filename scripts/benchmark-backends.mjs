@@ -28,6 +28,11 @@ const DIST_ENTRY = path.join(
   "dist",
   "index.mjs",
 );
+const BENCHMARK_WORKSPACE_PARENT = path.join(
+  REPOSITORY_ROOT,
+  ".yarn",
+  "benchmark-workspaces",
+);
 const DEFAULT_COMPONENT_COUNT = 188;
 const DEFAULT_PROJECT_COUNT = 7;
 const DEFAULT_EDIT_COUNT = 10;
@@ -226,7 +231,13 @@ function writeSharedRevision(fileName, revision) {
 }
 
 function createBenchmarkWorkspace(componentCount, projectCount) {
-  const temporaryRoot = mkdtempSync(path.join(tmpdir(), "vite-rdt-backends-"));
+  // Keep generated sources on the checkout volume. Older plugin revisions use
+  // path.relative during filtering, which cannot represent a Windows path on a
+  // different drive (for example, a D: Actions checkout and C: runner temp).
+  mkdirSync(BENCHMARK_WORKSPACE_PARENT, { recursive: true });
+  const temporaryRoot = mkdtempSync(
+    path.join(BENCHMARK_WORKSPACE_PARENT, "vite-rdt-backends-"),
+  );
   const workspaceRoot = path.join(temporaryRoot, "workspace");
   const sharedDirectory = path.join(workspaceRoot, "shared");
   const sharedFile = path.join(sharedDirectory, "shared-types.ts");
