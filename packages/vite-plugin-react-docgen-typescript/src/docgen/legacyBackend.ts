@@ -1036,11 +1036,12 @@ const createLegacyBackend = async (
       target.add(fileName);
   };
 
+  // syncFiles maintains canonical ordering; callers receive independent copies.
   const getProjectState = (): BackendProjectState => ({
-    configFiles: normalizeBoundaryPaths(projectConfigFiles),
-    docgenFiles: normalizeBoundaryPaths(projectDocgenFiles),
+    configFiles: [...projectConfigFiles],
+    docgenFiles: [...projectDocgenFiles],
     generation: projectGeneration,
-    trackedFiles: normalizeBoundaryPaths(projectTrackedFiles),
+    trackedFiles: [...projectTrackedFiles],
   });
 
   const collectProjectConfigFilesFromProgram = (
