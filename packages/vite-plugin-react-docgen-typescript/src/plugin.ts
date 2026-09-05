@@ -26,7 +26,6 @@ import {
   createFileSystemCacheNamespace,
   createFileSystemCacheProof,
   deleteFileSystemTransformCache,
-  type FileSystemCacheProof,
   isFileSystemCacheProofValid,
   readFileSystemTransformCache,
   resolveFileSystemCacheOptions,
@@ -89,9 +88,7 @@ const collectUnresolvedRelativeDependencies = (
   source: string,
   resolvedDependencies: readonly string[],
 ) => {
-  const resolved = new Set(
-    resolvedDependencies.map((dependency) => normalizeBoundaryPath(dependency)),
-  );
+  const resolved = new Set(resolvedDependencies);
   const unresolved = new Set<string>();
 
   for (const match of source.matchAll(IMPORT_SPECIFIER_PATTERN)) {
@@ -199,14 +196,13 @@ export function createPlugin(
     ) {
       return;
     }
-    const normalizedDependencies = new Set(
-      [...(dependencies ?? []), ...unresolvedDependencies].map(
-        (dependencyFile) => normalizeBoundaryPath(dependencyFile),
-      ),
-    );
-    normalizedDependencies.add(moduleFile);
-    moduleDependencies.set(moduleFile, normalizedDependencies);
-    for (const dependencyFile of normalizedDependencies) {
+    const trackedDependencies = new Set([
+      ...(dependencies ?? []),
+      ...unresolvedDependencies,
+    ]);
+    trackedDependencies.add(moduleFile);
+    moduleDependencies.set(moduleFile, trackedDependencies);
+    for (const dependencyFile of trackedDependencies) {
       const dependentFiles =
         moduleFilesByDependency.get(dependencyFile) ?? new Set<string>();
       dependentFiles.add(moduleFile);
@@ -218,7 +214,7 @@ export function createPlugin(
     context: { addWatchFile?: (fileName: string) => void },
     files: readonly string[],
   ) => {
-    for (const fileName of normalizeBoundaryPaths(files)) {
+    for (const fileName of [...new Set(files)].sort()) {
       if (!existsSync(fileName)) continue;
       const viteFileName = normalizePath(fileName);
       // Serve watches use the existing reverse index for HMR, without creating import edges.
@@ -335,7 +331,7 @@ export function createPlugin(
   ): Promise<
     | {
         dependencies: TrackedDependencies;
-        proof: FileSystemCacheProof;
+        configFiles: readonly string[];
         result: CachedTransformResult;
         unresolvedDependencies?: readonly string[];
       }
@@ -394,8 +390,13 @@ export function createPlugin(
         return;
       }
       return {
-        ...cached,
-        dependencies: normalizeBoundaryPaths(validation.dependencies),
+        configFiles: [...validation.project.configFiles],
+        dependencies: [...validation.dependencies],
+        result: cached.result,
+        // Serialized candidates cross a disk boundary even when the proof is valid.
+        unresolvedDependencies: normalizeBoundaryPaths(
+          unresolvedDependencies ?? [],
+        ),
       };
     } catch (error) {
       warnOnce(
@@ -418,25 +419,22 @@ export function createPlugin(
   ) => {
     if (!fileSystemCacheDirectory || !backendDescriptor) return;
     try {
-      const normalizedDependencies = normalizeBoundaryPaths(dependencies);
       writeFileSystemTransformCache(
         fileSystemCacheDirectory,
         normalizedFileId,
         source,
         {
-          dependencies: normalizedDependencies,
+          dependencies: [...dependencies],
           proof: createFileSystemCacheProof({
             backendFingerprint: backendDescriptor.cacheFingerprint,
             componentFile: normalizedFileId,
             configFiles: state.configFiles,
-            dependencies: normalizedDependencies,
+            dependencies,
             selectionFingerprint,
             trackedFiles: state.trackedFiles,
           }),
           result,
-          unresolvedDependencies: normalizeBoundaryPaths(
-            unresolvedDependencies,
-          ),
+          unresolvedDependencies: [...unresolvedDependencies],
         },
       );
     } catch (error) {
@@ -854,14 +852,11 @@ export function createPlugin(
         !isTearingDown &&
         !didDispose
       ) {
-        for (const { fileName } of persistedCachedTransform.proof.configFiles) {
-          const normalizedConfigFile = normalizeBoundaryPath(fileName);
-          cachedConfigFiles.add(normalizedConfigFile);
+        for (const fileName of persistedCachedTransform.configFiles) {
+          cachedConfigFiles.add(fileName);
         }
         watchFiles(this, [
-          ...persistedCachedTransform.proof.configFiles.map(
-            ({ fileName }) => fileName,
-          ),
+          ...persistedCachedTransform.configFiles,
           ...(persistedCachedTransform.dependencies ?? []),
           ...(persistedCachedTransform.unresolvedDependencies ?? []),
         ]);
@@ -880,9 +875,7 @@ export function createPlugin(
           normalizedFileId,
           [
             ...(persistedCachedTransform.dependencies ?? []),
-            ...persistedCachedTransform.proof.configFiles.map(
-              ({ fileName }) => fileName,
-            ),
+            ...persistedCachedTransform.configFiles,
           ],
           persistedCachedTransform.unresolvedDependencies,
         );
@@ -916,14 +909,16 @@ export function createPlugin(
         });
       } while (analysisRevision !== revision);
       projectState = analysis.project;
-      const unresolvedDependencies = normalizeBoundaryPaths([
-        ...(analysis.unresolvedDependencies ?? []),
-        ...collectUnresolvedRelativeDependencies(
-          normalizedFileId,
-          src,
-          analysis.dependencies,
-        ),
-      ]);
+      const unresolvedDependencies = [
+        ...new Set([
+          ...(analysis.unresolvedDependencies ?? []),
+          ...collectUnresolvedRelativeDependencies(
+            normalizedFileId,
+            src,
+            analysis.dependencies,
+          ),
+        ]),
+      ].sort();
       watchFiles(this, [
         ...analysis.project.configFiles,
         ...analysis.dependencies,

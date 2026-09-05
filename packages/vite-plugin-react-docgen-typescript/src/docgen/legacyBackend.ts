@@ -1436,12 +1436,14 @@ const createLegacyBackend = async (
     }
     syncProjectFilesFromProgram(project, program);
     return {
-      dependencies: collectTrackedFileDependencies(
-        normalizedFileName,
-        dependencyCacheByProgram,
-        program,
-        projectTrackedFiles,
-        typescriptModule,
+      dependencies: normalizeBoundaryPaths(
+        collectTrackedFileDependencies(
+          normalizedFileName,
+          dependencyCacheByProgram,
+          program,
+          projectTrackedFiles,
+          typescriptModule,
+        ),
       ),
       project: getProjectState(),
     };
