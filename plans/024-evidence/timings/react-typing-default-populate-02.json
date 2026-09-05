@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 2,
+  "benchmarkKind": "direct-plugin",
+  "processId": 6816,
+  "cache": "populate",
+  "identity": {
+    "buildSha256": "abdf0b0cfdc30b9916700d30b1c884dc6e525ab1205744bea8bf5702bded80e6",
+    "sourceSha256": "de949667cf8d4bae96a0cc42a6c68742cb7a99fccc099b9cb931f0bcaf1aeb86",
+    "benchmarkSha256": "6a7330f4a949277a5d1eae2ca5b540a4939056d35c6d4e10b2eb58ce5f9203bc",
+    "gitHead": "5f448ec8d596854eace55f59faa669193d187310",
+    "pluginVersion": "0.8.0",
+    "dependencies": {
+      "typescript": "6.0.3",
+      "react-docgen-typescript": "2.2.2",
+      "react": "18.3.1",
+      "@types/react": "18.2.25",
+      "vite": "8.1.5"
+    }
+  },
+  "parserOptions": {
+    "parser": {
+      "propFilter": "retainNativeDisabled: function retainNativeDisabled(prop) {\r\n  return (\r\n    prop.name === \"disabled\" ||\r\n    !prop.parent?.fileName.replaceAll(\"\\\\\", \"/\").includes(\"node_modules\")\r\n  );\r\n}",
+      "shouldExtractLiteralValuesFromEnum": true,
+      "shouldRemoveUndefinedFromOptional": true
+    },
+    "tsconfig": {
+      "include": [
+        "src/**/*"
+      ],
+      "compilerOptions": {
+        "target": "ES2020",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "strict": true,
+        "skipLibCheck": true,
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "types": [
+          "react"
+        ]
+      }
+    }
+  },
+  "timingScope": {
+    "coldBatchMs": "configResolved plus first transform batch; only the first measured instance has a fresh process",
+    "warmBatchMs": "same-instance in-memory reuse",
+    "sessionTotalMs": "plugin configuration and construction through first batch, warm batch, HMR, and awaited close; excludes fixture copy/restore, cache clearing, and child-process seeding"
+  },
+  "createdAt": "2026-09-05T12:53:13.116Z",
+  "iterations": 1,
+  "modes": [
+    "default"
+  ],
+  "nodeVersion": "v24.10.0",
+  "platform": "win32",
+  "scenario": {
+    "sourceSha256": "5c6d519faf10e79860958ef30586d3ea892f36e465d92ddd111d04a551458116",
+    "fileCount": 3,
+    "label": "react-typing",
+    "name": "react-typing",
+    "scale": 1
+  },
+  "results": [
+    {
+      "metrics": {
+        "componentHmr": {
+          "affectedModuleCount": 2,
+          "invalidatedModuleCount": 0,
+          "status": "updated",
+          "totalCycleMs": 682.4716000000003
+        },
+        "coldBatchMs": 1452.1863000000003,
+        "configResolvedMs": 5.703899999999976,
+        "fileCount": 3,
+        "firstBatchMs": 1446.4824000000003,
+        "sessionTotalMs": 2141.1906000000004,
+        "warmBatchMs": 2.257400000000416
+      },
+      "mode": "default",
+      "runs": [
+        {
+          "cache": "populate",
+          "mode": "default",
+          "processFirstMeasuredInstance": true,
+          "componentHmr": {
+            "affectedModuleCount": 2,
+            "invalidatedModuleCount": 0,
+            "status": "updated",
+            "totalCycleMs": 682.4716000000003
+          },
+          "coldBatchMs": 1452.1863000000003,
+          "configResolvedMs": 5.703899999999976,
+          "fileCount": 3,
+          "firstBatchMs": 1446.4824000000003,
+          "warmBatchMs": 2.257400000000416,
+          "sessionTotalMs": 2141.1906000000004,
+          "cacheLifecycle": {
+            "initialEntryCount": 0,
+            "seedProcessId": null,
+            "validation": {
+              "processId": 35900,
+              "fixtureValidation": {
+                "reactDeclaration": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\@types\\react\\index.d.ts",
+                "compilerDiagnostics": 0
+              }
+            },
+            "finalEntryCount": 3
+          }
+        }
+      ]
+    }
+  ]
+}
