@@ -47,6 +47,7 @@ type DependencyCache = Map<Filepath, readonly string[]>;
 type ProgramDependencyCache = {
   direct: DependencyCache;
   moduleResolution: ModuleResolutionCache;
+  sharedAmbient: readonly string[];
   typeReferenceResolution: TypeReferenceDirectiveResolutionCache;
   unresolved: DependencyCache;
 };
@@ -459,6 +460,41 @@ const startWatch = async (
   });
 };
 
+const isSharedAmbientSourceFile = (
+  sourceFile: SourceFile,
+  program: Program,
+  typescriptModule: typeof import("typescript"),
+) => {
+  if (!typescriptModule.isExternalModule(sourceFile)) {
+    if (sourceFile.flags & typescriptModule.NodeFlags.JavaScriptFile) {
+      const checker = program.getTypeChecker();
+      // isExternalModule excludes CommonJS. This optional current public API
+      // also exists at runtime in 4.3; without it, retain the input conservatively.
+      if (
+        typeof checker.resolveName === "function" &&
+        checker
+          .resolveName(
+            "exports",
+            sourceFile,
+            typescriptModule.SymbolFlags.ValueModule,
+            true,
+          )
+          ?.declarations?.includes(sourceFile)
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
+  return sourceFile.statements.some(
+    (statement) =>
+      typescriptModule.isModuleDeclaration(statement) &&
+      ((statement.flags & typescriptModule.NodeFlags.GlobalAugmentation) !==
+        0 ||
+        typescriptModule.isStringLiteral(statement.name)),
+  );
+};
+
 const getProgramDependencyCache = (
   cacheByProgram: WeakMap<Program, ProgramDependencyCache>,
   program: Program,
@@ -477,6 +513,14 @@ const getProgramDependencyCache = (
         canonicalFileName,
         program.getCompilerOptions(),
       ),
+      sharedAmbient: program
+        .getSourceFiles()
+        .filter(
+          (sourceFile) =>
+            !program.isSourceFileDefaultLibrary(sourceFile) &&
+            isSharedAmbientSourceFile(sourceFile, program, typescriptModule),
+        )
+        .map((sourceFile) => path.resolve(sourceFile.fileName)),
       typeReferenceResolution:
         typescriptModule.createTypeReferenceDirectiveResolutionCache(
           program.getCurrentDirectory(),
@@ -684,7 +728,12 @@ const collectTrackedFileDependencies = (
     program,
     typescriptModule,
   );
-  const pendingFiles = [path.resolve(entryFileName)];
+  const pendingFiles = [
+    path.resolve(entryFileName),
+    ...dependencyCache.sharedAmbient.filter((fileName) =>
+      trackedFiles.has(fileName),
+    ),
+  ];
   const dependencyFiles = new Set<string>();
 
   while (pendingFiles.length > 0) {

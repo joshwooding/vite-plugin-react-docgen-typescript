@@ -31,6 +31,9 @@ describe("TypeScript compatibility", () => {
       "augmented.ts": "export interface Original { value: string; }",
       "augmentation.ts":
         'export {}; declare module "./augmented" { interface Original { extra: string; } }',
+      "ambient-global.d.ts": "interface AmbientProps { extra: true; }",
+      "ambient-external.d.ts":
+        'import type { Props } from "./props"; declare global { interface AmbientProps extends Props {} }',
     };
     const source = `declare namespace JSX { interface Element {} }
 import type { Props } from "./props";
@@ -40,7 +43,7 @@ const required = require("./required");
 define(["./defined"], () => {});
 define("named", ["./named-defined"], () => {});
 import "./augmentation";
-export const Component = (_props: Props): JSX.Element => null as unknown as JSX.Element;
+export const Component = (_props: Props & AmbientProps): JSX.Element => null as unknown as JSX.Element;
 `;
     const propsSource = (revision: number) => `export interface Props {
   /** Tone ${revision}. */
@@ -48,6 +51,10 @@ export const Component = (_props: Props): JSX.Element => null as unknown as JSX.
 }`;
     writeFileSync(componentFile, source);
     writeFileSync(propsFile, propsSource(0));
+    writeFileSync(
+      path.join(root, "unrelated.js"),
+      "var out = exports; out.value = true;",
+    );
     for (const [file, content] of Object.entries(extraFiles)) {
       writeFileSync(path.join(root, file), content);
     }
@@ -55,13 +62,19 @@ export const Component = (_props: Props): JSX.Element => null as unknown as JSX.
       path.join(root, "tsconfig.json"),
       JSON.stringify({
         compilerOptions: {
+          allowJs: true,
           jsx: "preserve",
           module: "CommonJS",
           moduleResolution: "Node",
           target: "ES2020",
           skipLibCheck: true,
         },
-        files: ["Component.tsx", "props.ts", ...Object.keys(extraFiles)],
+        files: [
+          "Component.tsx",
+          "props.ts",
+          "unrelated.js",
+          ...Object.keys(extraFiles),
+        ],
       }),
     );
     const compiler = await loadTypescript(() =>
@@ -105,6 +118,10 @@ export const Component = (_props: Props): JSX.Element => null as unknown as JSX.
         expect(result.components[0]?.props.tone).toMatchObject({
           description: `Tone ${revision}.`,
           type: { name: `"tone-${revision}"` },
+        });
+        expect(result.components[0]?.props.extra).toMatchObject({
+          required: true,
+          type: { name: "true" },
         });
         expect(result.dependencies).toEqual(
           [
