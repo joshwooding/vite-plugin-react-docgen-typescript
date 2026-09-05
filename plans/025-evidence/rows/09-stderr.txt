@@ -1,0 +1,17 @@
+Error: D:\OSS\vite-plugin-react-docgen-typescript\.yarn\.codex-worktrees\plan025\vite-plugin-react-docgen-typescript\.yarn\simplification-evidence\025\runtime-windows\node-v20.19.5-win-x64\node.exe C:\Users\Joshu\AppData\Local\Temp\vite-rdt-packed-consumer-2ctTl9\verify.mjs exited 1
+file:///C:/Users/Joshu/AppData/Local/Temp/vite-rdt-packed-consumer-2ctTl9/verify.mjs:110
+            () => reject(new Error(`${label} exceeded 10 seconds`)),
+                         ^
+
+Error: experimental-watch/project-reference server close exceeded 10 seconds
+    at Timeout.<anonymous> (file:///C:/Users/Joshu/AppData/Local/Temp/vite-rdt-packed-consumer-2ctTl9/verify.mjs:110:26)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+
+Node.js v20.19.5
+    at run (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan025/vite-plugin-react-docgen-typescript/scripts/verify-runtime-compatibility.mjs:81:11)
+    at main (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan025/vite-plugin-react-docgen-typescript/scripts/verify-runtime-compatibility.mjs:780:20)
+    at file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan025/vite-plugin-react-docgen-typescript/scripts/verify-runtime-compatibility.mjs:805:3
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)

@@ -1,0 +1,14 @@
+diff --git a/scripts/verify-runtime-compatibility.mjs b/.yarn/simplification-evidence/025/diagnostic-runtime-compatibility.mjs
+index b5945e6..c82f882 100644
+--- a/scripts/verify-runtime-compatibility.mjs
++++ b/.yarn/simplification-evidence/025/diagnostic-runtime-compatibility.mjs
+@@ -655,6 +655,9 @@ if (import.meta.hot) import.meta.hot.accept();
+         mode: runtimeMode,
+         topology,
+       };
++    } catch (error) {
++      console.error(`ORIGINAL_TOPOLOGY_ERROR ${testLabel}: ${error.stack ?? error}`);
++      throw error;
+     } finally {
+       activeCapture = undefined;
+       if (server) {

@@ -1,0 +1,46 @@
+{
+  "rowIndex": 8,
+  "requested": {
+    "os": "windows-latest",
+    "node": "20.19.5",
+    "typescript": "4.3.5",
+    "vite": "3.2.11",
+    "modes": [
+      "default",
+      "legacy",
+      "project-service",
+      "experimental-watch"
+    ],
+    "purpose": "Windows lower families and watcher teardown"
+  },
+  "startedAt": "2026-09-05T13:57:44.258Z",
+  "completedAt": "2026-09-05T13:58:42.303Z",
+  "command": [
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan025\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\025\\runtime-windows\\node-v20.19.5-win-x64\\node.exe",
+    "--import",
+    "file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan025/vite-plugin-react-docgen-typescript/plans/025-evidence/observe-install.mjs",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan025\\vite-plugin-react-docgen-typescript\\scripts\\verify-runtime-compatibility.mjs",
+    "--package",
+    "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan025/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/025/reviewed-stack.tgz",
+    "--typescript",
+    "4.3.5",
+    "--vite",
+    "3.2.11",
+    "--modes",
+    "default,legacy,project-service,experimental-watch"
+  ],
+  "actual": {
+    "node": "20.19.5",
+    "platform": "win32",
+    "arch": "x64",
+    "release": "10.0.26340",
+    "osVersion": "Windows 11 Pro",
+    "linuxRelease": null
+  },
+  "archiveSha256": "fc258456dbee71ae641d605216025b6af399261c1a3b2528e2b63c90ec724b21",
+  "verifierSha256": "40451bfd7f18dccfc8e510d370033c79f0ecaafdcabbdbbe5b500dae679d4d94",
+  "exitCode": 1,
+  "error": null,
+  "status": "FAIL",
+  "validationError": "Error: D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan025\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\025\\runtime-windows\\node-v20.19.5-win-x64\\node.exe C:\\Users\\Joshu\\AppData\\Local\\Temp\\vite-rdt-packed-consumer-2ctTl9\\verify.mjs exited 1\nfile:///C:/Users/Joshu/AppData/Local/Temp/vite-rdt-packed-consumer-2ctTl9/verify.mjs:110\r\n            () => reject(new Error(`${label} exceeded 10 seconds`)),\r\n                         ^\r\n\r\nError: experimental-watch/project-reference server close exceeded 10 seconds\r\n    at Timeout.<anonymous> (file:///C:/Users/Joshu/AppData/Local/Temp/vite-rdt-packed-consumer-2ctTl9/verify.mjs:110:26)\r\n    at listOnTimeout (node:internal/timers:581:17)\r\n    at process.processTimers (node:internal/timers:519:7)\r\n\r\nNode.js v20.19.5\n    at run (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan025/vite-plugin-react-docgen-typescript/scripts/verify-runtime-compatibility.mjs:81:11)\n    at main (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan025/vite-plugin-react-docgen-typescript/scripts/verify-runtime-compatibility.mjs:780:20)\n    at file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan025/vite-plugin-react-docgen-typescript/scripts/verify-runtime-compatibility.mjs:805:3\n    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)\n    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)\n\n\n1 !== 0\n"
+}

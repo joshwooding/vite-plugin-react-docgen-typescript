@@ -38,6 +38,8 @@ When `fileSystemCache` is enabled without a custom directory, cache entries are 
 
 Persistent cache hits avoid repeat docgen extraction, but startup still loads TypeScript and validates the target program's current project membership and recorded dependency contents. Newly included declarations or module augmentations therefore invalidate stale metadata. Identical-source in-memory hits remain inexpensive.
 
+During development, the plugin registers existing external type dependencies with Vite's watcher. External type files that are absent at startup may not trigger a refresh when first created; restart the server to pick them up. This limitation also applies when the persistent cache is disabled.
+
 ### Runtime selection and migration
 
 Omitting `docgenMode` still uses the existing `"legacy"` builder. This release
