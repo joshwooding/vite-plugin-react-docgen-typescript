@@ -1,0 +1,9 @@
+
+ RUN  v4.1.0 D:/OSS/vite-plugin-react-docgen-typescript
+
+
+ Test Files  3 passed | 7 skipped (10)
+      Tests  6 passed | 180 skipped (186)
+   Start at  22:29:19
+   Duration  9.78s (transform 1.47s, setup 0ms, import 5.34s, tests 11.29s, environment 2ms)
+
