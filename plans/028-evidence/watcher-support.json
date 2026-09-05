@@ -1,0 +1,239 @@
+{
+  "sourceRoot": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan025/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/025/installed-source",
+  "results": [
+    {
+      "version": "3.2.11",
+      "declarations": {
+        "path": "dist/node/index.d.ts",
+        "sha256": "fe4a4ed3b2acff61e22d55bd43456809679ed1887b180d42db000939fdd2f2fd",
+        "excerpts": [
+          {
+            "line": 96,
+            "text": "export declare type AnymatchFn = (testString: string) => boolean"
+          },
+          {
+            "line": 98,
+            "text": "export declare type AnymatchPattern = string | RegExp | AnymatchFn"
+          },
+          {
+            "line": 1265,
+            "text": "export declare type Matcher = AnymatchPattern | AnymatchPattern[]"
+          },
+          {
+            "line": 1999,
+            "text": "    watch?: WatchOptions;"
+          },
+          {
+            "line": 2590,
+            "text": "    ignored?: Matcher"
+          }
+        ]
+      },
+      "source": {
+        "path": "dist/node/chunks/dep-3e87c7b2.js",
+        "sha256": "30f082e47704599cb4c6e9359bc67861c049ac2059d005f364052a99fb3a5982",
+        "excerpts": [
+          {
+            "line": 45120,
+            "text": "function resolveChokidarOptions(options) {\n    const { ignored = [], ...otherOptions } = options ?? {};\n    const resolvedWatchOptions = {\n        ignored: [\n            '**/.git/**',\n            '**/node_modules/**',\n            '**/test-results/**',\n            ...(Array.isArray(ignored) ? ignored : [ignored])\n        ],\n        ignoreInitial: true,\n        ignorePermissionErrors: true,\n        ...otherOptions\n    };\n    return resolvedWatchOptions;\n}"
+          }
+        ]
+      }
+    },
+    {
+      "version": "4.5.14",
+      "declarations": {
+        "path": "dist/node/index.d.ts",
+        "sha256": "37a80d6010f34ea173ed76803856d56a64af6a89b755ae9999689421f2542a82",
+        "excerpts": [
+          {
+            "line": 98,
+            "text": "export declare type AnymatchFn = (testString: string) => boolean"
+          },
+          {
+            "line": 100,
+            "text": "export declare type AnymatchPattern = string | RegExp | AnymatchFn"
+          },
+          {
+            "line": 1432,
+            "text": "export declare type Matcher = AnymatchPattern | AnymatchPattern[]"
+          },
+          {
+            "line": 2238,
+            "text": "    watch?: WatchOptions;"
+          },
+          {
+            "line": 2874,
+            "text": "    ignored?: Matcher"
+          }
+        ]
+      },
+      "source": {
+        "path": "dist/node/chunks/dep-827b23df.js",
+        "sha256": "79cca858ad84d667c41906c73d0cb45ccde73b99510790a58d5d97b29b294142",
+        "excerpts": [
+          {
+            "line": 47103,
+            "text": "function resolveChokidarOptions(config, options) {\n    const { ignored = [], ...otherOptions } = options ?? {};\n    const resolvedWatchOptions = {\n        ignored: [\n            '**/.git/**',\n            '**/node_modules/**',\n            '**/test-results/**',\n            glob.escapePath(config.cacheDir) + '/**',\n            ...(Array.isArray(ignored) ? ignored : [ignored]),\n        ],\n        ignoreInitial: true,\n        ignorePermissionErrors: true,\n        ...otherOptions,\n    };\n    return resolvedWatchOptions;\n}"
+          }
+        ]
+      }
+    },
+    {
+      "version": "5.4.21",
+      "declarations": {
+        "path": "dist/node/index.d.ts",
+        "sha256": "257b83faa134d971c738a6b9e4c47e59bb7b23274719d92197580dd662bfafc3",
+        "excerpts": [
+          {
+            "line": 65,
+            "text": "type AnymatchFn = (testString: string) => boolean"
+          },
+          {
+            "line": 66,
+            "text": "type AnymatchPattern = string | RegExp | AnymatchFn"
+          },
+          {
+            "line": 67,
+            "text": "type AnymatchMatcher = AnymatchPattern | AnymatchPattern[]"
+          },
+          {
+            "line": 171,
+            "text": "  ignored?: AnymatchMatcher"
+          },
+          {
+            "line": 1639,
+            "text": "    watch?: WatchOptions | null;"
+          }
+        ]
+      },
+      "source": {
+        "path": "dist/node/chunks/dep-BK3b2jBa.js",
+        "sha256": "bfa94186daff535fefdf286088c1588fad6b02c01ef11cd3b42a6cb3e4c90767",
+        "excerpts": [
+          {
+            "line": 54422,
+            "text": "function resolveChokidarOptions(options, resolvedOutDirs, emptyOutDir, cacheDir) {\n  const { ignored: ignoredList, ...otherOptions } = options ?? {};\n  const ignored = [\n    \"**/.git/**\",\n    \"**/node_modules/**\",\n    \"**/test-results/**\",\n    // Playwright\n    glob.escapePath(cacheDir) + \"/**\",\n    ...arraify(ignoredList || [])\n  ];\n  if (emptyOutDir) {\n    ignored.push(\n      ...[...resolvedOutDirs].map((outDir) => glob.escapePath(outDir) + \"/**\")\n    );\n  }\n  const resolvedWatchOptions = {\n    ignored,\n    ignoreInitial: true,\n    ignorePermissionErrors: true,\n    ...otherOptions\n  };\n  return resolvedWatchOptions;\n}"
+          }
+        ]
+      }
+    },
+    {
+      "version": "6.1.0",
+      "declarations": {
+        "path": "dist/node/index.d.ts",
+        "sha256": "bc79bc0ad2f913c29678bdd2ce7248a555d7c4a1d45ce97aaab0524f2a5a337f",
+        "excerpts": [
+          {
+            "line": 67,
+            "text": "type AnymatchFn = (testString: string) => boolean"
+          },
+          {
+            "line": 68,
+            "text": "type AnymatchPattern = string | RegExp | AnymatchFn"
+          },
+          {
+            "line": 69,
+            "text": "type AnymatchMatcher = AnymatchPattern | AnymatchPattern[]"
+          },
+          {
+            "line": 173,
+            "text": "  ignored?: AnymatchMatcher"
+          },
+          {
+            "line": 2939,
+            "text": "    watch?: WatchOptions | null;"
+          }
+        ]
+      },
+      "source": {
+        "path": "dist/node/chunks/dep-CfG9u7Cn.js",
+        "sha256": "0dfe2d39a88bb14710f015fae74dfcd4dabd691b1292f5ccf682e07673e5c0b4",
+        "excerpts": [
+          {
+            "line": 33049,
+            "text": "function resolveChokidarOptions(options, resolvedOutDirs, emptyOutDir, cacheDir) {\n  const { ignored: ignoredList, ...otherOptions } = options ?? {};\n  const ignored = [\n    \"**/.git/**\",\n    \"**/node_modules/**\",\n    \"**/test-results/**\",\n    // Playwright\n    escapePath(cacheDir) + \"/**\",\n    ...arraify(ignoredList || [])\n  ];\n  if (emptyOutDir) {\n    ignored.push(\n      ...[...resolvedOutDirs].map((outDir) => escapePath(outDir) + \"/**\")\n    );\n  }\n  const resolvedWatchOptions = {\n    ignored,\n    ignoreInitial: true,\n    ignorePermissionErrors: true,\n    ...otherOptions\n  };\n  return resolvedWatchOptions;\n}"
+          }
+        ]
+      }
+    },
+    {
+      "version": "7.2.4",
+      "declarations": {
+        "path": "dist/node/index.d.ts",
+        "sha256": "0277fd0870cd9abff0fefcaa0fb8d124a3a084c926a206c0f1591e07aec54222",
+        "excerpts": [
+          {
+            "line": 62,
+            "text": "type AnymatchFn = (testString: string) => boolean;"
+          },
+          {
+            "line": 63,
+            "text": "type AnymatchPattern = string | RegExp | AnymatchFn;"
+          },
+          {
+            "line": 64,
+            "text": "type AnymatchMatcher = AnymatchPattern | AnymatchPattern[];"
+          },
+          {
+            "line": 149,
+            "text": "  ignored?: AnymatchMatcher;"
+          },
+          {
+            "line": 2375,
+            "text": "  watch?: WatchOptions | null;"
+          }
+        ]
+      },
+      "source": {
+        "path": "dist/node/chunks/config.js",
+        "sha256": "231b020a78c99b297991dd7d7e08a6a5c033dd4c4955ae1d9eeee924a784d26d",
+        "excerpts": [
+          {
+            "line": 17342,
+            "text": "function resolveChokidarOptions(options$1, resolvedOutDirs, emptyOutDir, cacheDir) {\n\tconst { ignored: ignoredList, ...otherOptions } = options$1 ?? {};\n\tconst ignored = [\n\t\t\"**/.git/**\",\n\t\t\"**/node_modules/**\",\n\t\t\"**/test-results/**\",\n\t\tescapePath(cacheDir) + \"/**\",\n\t\t...arraify(ignoredList || [])\n\t];\n\tif (emptyOutDir) ignored.push(...[...resolvedOutDirs].map((outDir) => escapePath(outDir) + \"/**\"));\n\treturn {\n\t\tignored,\n\t\tignoreInitial: true,\n\t\tignorePermissionErrors: true,\n\t\t...otherOptions\n\t};\n}"
+          }
+        ]
+      }
+    },
+    {
+      "version": "8.1.5",
+      "declarations": {
+        "path": "dist/node/index.d.ts",
+        "sha256": "50eeb4447f12e65c86b01e5d51db45f1a35f820ed489b0550962de1bb9cfe932",
+        "excerpts": [
+          {
+            "line": 107,
+            "text": "type AnymatchFn = (testString: string) => boolean;"
+          },
+          {
+            "line": 108,
+            "text": "type AnymatchPattern = string | RegExp | AnymatchFn;"
+          },
+          {
+            "line": 109,
+            "text": "type AnymatchMatcher = AnymatchPattern | AnymatchPattern[];"
+          },
+          {
+            "line": 183,
+            "text": "  ignored?: AnymatchMatcher;"
+          },
+          {
+            "line": 2541,
+            "text": "  watch?: WatchOptions | null;"
+          }
+        ]
+      },
+      "source": {
+        "path": "dist/node/chunks/node.js",
+        "sha256": "3968fab97a9d0882f0e2e754bd0d5b417f0a84596e293179a9a6e585919f041c",
+        "excerpts": [
+          {
+            "line": 13229,
+            "text": "function resolveChokidarOptions(options, resolvedOutDirs, emptyOutDir, cacheDir) {\n\tconst { ignored: ignoredList, ...otherOptions } = options ?? {};\n\tconst ignored = [\n\t\t\"**/.git/**\",\n\t\t\"**/node_modules/**\",\n\t\t\"**/test-results/**\",\n\t\tescapePath(cacheDir) + \"/**\",\n\t\t...arraify(ignoredList || [])\n\t];\n\tif (emptyOutDir) ignored.push(...[...resolvedOutDirs].map((outDir) => escapePath(outDir) + \"/**\"));\n\treturn {\n\t\tignored,\n\t\tignoreInitial: true,\n\t\tignorePermissionErrors: true,\n\t\t...otherOptions\n\t};\n}"
+          }
+        ]
+      }
+    }
+  ]
+}
