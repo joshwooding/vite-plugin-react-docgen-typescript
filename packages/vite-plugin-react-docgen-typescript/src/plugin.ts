@@ -782,7 +782,9 @@ export function createPlugin(
       );
       if (persistedCachedTransform) {
         for (const { fileName } of persistedCachedTransform.proof.configFiles) {
-          cachedConfigFiles.add(normalizeBoundaryPath(fileName));
+          const normalizedConfigFile = normalizeBoundaryPath(fileName);
+          cachedConfigFiles.add(normalizedConfigFile);
+          this.addWatchFile(normalizedConfigFile);
         }
         backend?.recordCacheHit({
           cache: "persistent",

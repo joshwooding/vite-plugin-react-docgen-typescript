@@ -669,7 +669,7 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
       await warmPlugin.configResolved?.({ command: "serve", root });
       expect(
         await warmPlugin.transform?.call(
-          { warn: vi.fn() } as never,
+          { addWatchFile: vi.fn(), warn: vi.fn() } as never,
           source,
           componentFile,
         ),
@@ -955,7 +955,7 @@ export const Component = (_props: Props & Missing) => null;`;
     mkdirSync(root);
     const componentFile = path.join(root, "Component.tsx");
     const otherComponentFile = path.join(root, "Other.tsx");
-    const configFile = path.join(root, "tsconfig.json");
+    const configFile = path.join(root, "docgen.config.json");
     const extendedConfigFile = path.join(directory, "base.json");
     const unrelatedFile = path.join(root, "unrelated.json");
     const source = "export const Component = () => null;";
@@ -969,7 +969,7 @@ export const Component = (_props: Props & Missing) => null;`;
         directory: path.join(directory, ".cache"),
         enabled: true,
       },
-      tsconfigPath: "tsconfig.json",
+      tsconfigPath: "docgen.config.json",
     };
     const state: BackendProjectState = {
       configFiles: normalizeBoundaryPaths([configFile, extendedConfigFile]),
@@ -1039,7 +1039,11 @@ export const Component = (_props: Props & Missing) => null;`;
     const graph = {
       getModulesByFile: (fileName: string) => modulesByFile.get(fileName),
     };
-    const context = { environment: { moduleGraph: graph }, warn: vi.fn() };
+    const context = {
+      addWatchFile: vi.fn(),
+      environment: { moduleGraph: graph },
+      warn: vi.fn(),
+    };
     const seedPlugin = createPlugin(options, factory);
     const warmPlugin = createPlugin(options, factory);
     const transform = () =>
@@ -1081,6 +1085,11 @@ export const Component = (_props: Props & Missing) => null;`;
       await warmPlugin.configResolved?.({ command: "serve", root });
       expect(await transform()).toEqual(seeded);
       expect(counters).toEqual({ analyze: 1, create: 1 });
+      expect(context.addWatchFile.mock.calls).toEqual(
+        normalizeBoundaryPaths([configFile, extendedConfigFile]).map(
+          (fileName) => [fileName],
+        ),
+      );
 
       writeFileSync(unrelatedFile, '{"changed":true}');
       expect(await update(unrelatedFile, 1)).toBeUndefined();
@@ -1212,6 +1221,7 @@ export const Component = (_props: Props & Missing) => null;`;
       [otherComponentFile, new Set([otherComponentModule])],
     ]);
     const context = {
+      addWatchFile: vi.fn(),
       environment: {
         moduleGraph: {
           getModulesByFile: (fileName: string) => modulesByFile.get(fileName),
