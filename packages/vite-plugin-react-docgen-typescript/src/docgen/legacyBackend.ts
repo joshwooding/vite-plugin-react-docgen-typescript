@@ -488,10 +488,11 @@ const isSharedAmbientSourceFile = (
   }
   return sourceFile.statements.some(
     (statement) =>
-      typescriptModule.isModuleDeclaration(statement) &&
-      ((statement.flags & typescriptModule.NodeFlags.GlobalAugmentation) !==
-        0 ||
-        typescriptModule.isStringLiteral(statement.name)),
+      typescriptModule.isNamespaceExportDeclaration(statement) ||
+      (typescriptModule.isModuleDeclaration(statement) &&
+        ((statement.flags & typescriptModule.NodeFlags.GlobalAugmentation) !==
+          0 ||
+          typescriptModule.isStringLiteral(statement.name))),
   );
 };
 
