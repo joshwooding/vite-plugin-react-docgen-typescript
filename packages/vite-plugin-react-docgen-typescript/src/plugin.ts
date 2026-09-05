@@ -135,9 +135,10 @@ export function createPlugin(
   let revision = 0;
   let didDispose = false;
   let isTearingDown = false;
-  let legacyServer: ViteDevServer | undefined;
+  let devServer: ViteDevServer | undefined;
   let legacyAddHandler: ((fileName: string) => void) | undefined;
   let legacyUnlinkHandler: ((fileName: string) => void) | undefined;
+  let dependencyUnlinkHandler: ((fileName: string) => void) | undefined;
   let teardownPromise: Promise<void> | undefined;
   const disposedBackends = new WeakSet<DocgenBackend>();
 
@@ -210,6 +211,19 @@ export function createPlugin(
         moduleFilesByDependency.get(dependencyFile) ?? new Set<string>();
       dependentFiles.add(moduleFile);
       moduleFilesByDependency.set(dependencyFile, dependentFiles);
+    }
+  };
+
+  const watchFiles = (
+    context: { addWatchFile?: (fileName: string) => void },
+    files: readonly string[],
+  ) => {
+    for (const fileName of normalizeBoundaryPaths(files)) {
+      if (!existsSync(fileName)) continue;
+      const viteFileName = normalizePath(fileName);
+      // Serve watches use the existing reverse index for HMR, without creating import edges.
+      if (devServer) devServer.watcher.add(viteFileName);
+      else context.addWatchFile?.(viteFileName);
     }
   };
 
@@ -314,18 +328,19 @@ export function createPlugin(
     }
   };
 
-  const readCachedTransform = (
+  const readCachedTransform = async (
     pluginContext: { warn(message: string): void },
     normalizedFileId: string,
     source: string,
-  ):
+  ): Promise<
     | {
         dependencies: TrackedDependencies;
         proof: FileSystemCacheProof;
         result: CachedTransformResult;
         unresolvedDependencies?: readonly string[];
       }
-    | undefined => {
+    | undefined
+  > => {
     if (!fileSystemCacheDirectory || !backendDescriptor) return undefined;
     try {
       const cached = readFileSystemTransformCache(
@@ -333,12 +348,33 @@ export function createPlugin(
         normalizedFileId,
         source,
       );
+      if (!cached) return undefined;
+      const validationRevision = revision;
+      const activeBackend = await initializeBackend();
+      const validation = await activeBackend.prepareCacheValidation?.({
+        fileName: normalizedFileId,
+        revision: validationRevision,
+        source,
+      });
+      if (
+        !validation ||
+        validationRevision !== revision ||
+        isTearingDown ||
+        didDispose ||
+        !validation.project.docgenFiles.includes(normalizedFileId)
+      ) {
+        return undefined;
+      }
+      projectState = validation.project;
       const hasValidProof =
         cached &&
         isFileSystemCacheProofValid(cached.proof, {
           backendFingerprint: backendDescriptor.cacheFingerprint,
           componentFile: normalizedFileId,
+          configFiles: validation.project.configFiles,
+          dependencies: validation.dependencies,
           selectionFingerprint,
+          trackedFiles: validation.project.trackedFiles,
         });
       if (!cached || !hasValidProof) return;
       const unresolvedDependencies = cached.unresolvedDependencies;
@@ -357,7 +393,10 @@ export function createPlugin(
         );
         return;
       }
-      return cached;
+      return {
+        ...cached,
+        dependencies: normalizeBoundaryPaths(validation.dependencies),
+      };
     } catch (error) {
       warnOnce(
         pluginContext,
@@ -392,6 +431,7 @@ export function createPlugin(
             configFiles: state.configFiles,
             dependencies: normalizedDependencies,
             selectionFingerprint,
+            trackedFiles: state.trackedFiles,
           }),
           result,
           unresolvedDependencies: normalizeBoundaryPaths(
@@ -431,6 +471,7 @@ export function createPlugin(
       projectState?.trackedFiles.includes(normalizedFile) ?? false;
     const shouldProcess = projectState
       ? isConfigChange ||
+        affectedFiles.size > 0 ||
         wasTracked ||
         (kind === "create" && isPotentialTypescriptFile) ||
         (projectState.configFiles.length === 0 && isPotentialTypescriptFile)
@@ -513,6 +554,7 @@ export function createPlugin(
 
     if (
       kind === "create" &&
+      affectedFiles.size === 0 &&
       !projectState?.trackedFiles.includes(normalizedFile)
     ) {
       return {
@@ -663,13 +705,17 @@ export function createPlugin(
     teardownPromise ??= (async () => {
       if (didDispose) return;
       isTearingDown = true;
-      if (legacyServer && legacyAddHandler && legacyUnlinkHandler) {
-        legacyServer.watcher.off("add", legacyAddHandler);
-        legacyServer.watcher.off("unlink", legacyUnlinkHandler);
+      if (devServer && legacyAddHandler && legacyUnlinkHandler) {
+        devServer.watcher.off("add", legacyAddHandler);
+        devServer.watcher.off("unlink", legacyUnlinkHandler);
       }
+      if (devServer && dependencyUnlinkHandler) {
+        devServer.watcher.off("unlink", dependencyUnlinkHandler);
+      }
+      dependencyUnlinkHandler = undefined;
       legacyAddHandler = undefined;
       legacyUnlinkHandler = undefined;
-      legacyServer = undefined;
+      devServer = undefined;
       await Promise.allSettled([...hookUpdateTasks, ...legacyListenerTasks]);
       didDispose = true;
       transformCache.clear();
@@ -749,10 +795,31 @@ export function createPlugin(
       }
     },
     configureServer(server) {
+      devServer = server;
+      dependencyUnlinkHandler = (fileName) => {
+        const dependency = normalizeBoundaryPath(fileName);
+        const relative = path.relative(configRoot, dependency);
+        if (
+          !moduleFilesByDependency.has(dependency) ||
+          !(relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative))
+        ) {
+          return;
+        }
+        // Re-arm only this missing file after the watcher closes its old handle.
+        const task = Promise.resolve()
+          .then(() => {
+            if (!isTearingDown && !didDispose) {
+              server.watcher.add(normalizePath(dependency));
+            }
+          })
+          .catch((error: unknown) => sendLegacyListenerError(server, error));
+        legacyListenerTasks.add(task);
+        void task.finally(() => legacyListenerTasks.delete(task));
+      };
+      server.watcher.on("unlink", dependencyUnlinkHandler);
       if ((server as ViteDevServer & { environments?: unknown }).environments) {
         return;
       }
-      legacyServer = server;
       legacyAddHandler = (fileName) => {
         runLegacyListenerUpdate(server, fileName, "create");
       };
@@ -775,17 +842,29 @@ export function createPlugin(
         return memoryCachedTransform.result;
       }
 
-      const persistedCachedTransform = readCachedTransform(
+      const cacheValidationRevision = revision;
+      const persistedCachedTransform = await readCachedTransform(
         this,
         normalizedFileId,
         src,
       );
-      if (persistedCachedTransform) {
+      if (
+        persistedCachedTransform &&
+        cacheValidationRevision === revision &&
+        !isTearingDown &&
+        !didDispose
+      ) {
         for (const { fileName } of persistedCachedTransform.proof.configFiles) {
           const normalizedConfigFile = normalizeBoundaryPath(fileName);
           cachedConfigFiles.add(normalizedConfigFile);
-          this.addWatchFile(normalizedConfigFile);
         }
+        watchFiles(this, [
+          ...persistedCachedTransform.proof.configFiles.map(
+            ({ fileName }) => fileName,
+          ),
+          ...(persistedCachedTransform.dependencies ?? []),
+          ...(persistedCachedTransform.unresolvedDependencies ?? []),
+        ]);
         backend?.recordCacheHit({
           cache: "persistent",
           fileName: normalizedFileId,
@@ -810,6 +889,9 @@ export function createPlugin(
         return persistedCachedTransform.result;
       }
 
+      if (isTearingDown || didDispose) {
+        throw new Error("Docgen plugin is shutting down");
+      }
       const activeBackend = await initializeBackend();
       if (!projectState?.docgenFiles.includes(normalizedFileId)) {
         trackModuleDependencies(normalizedFileId, undefined);
@@ -841,6 +923,11 @@ export function createPlugin(
           src,
           analysis.dependencies,
         ),
+      ]);
+      watchFiles(this, [
+        ...analysis.project.configFiles,
+        ...analysis.dependencies,
+        ...unresolvedDependencies,
       ]);
       if (analysis.status === "error") {
         warnOnce(

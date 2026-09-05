@@ -36,6 +36,8 @@ This plugins support all parser options from [react-docgen-typescript](https://g
 
 When `fileSystemCache` is enabled without a custom directory, cache entries are stored in `node_modules/.cache/vite-plugin-react-docgen-typescript`.
 
+Persistent cache hits avoid repeat docgen extraction, but startup still loads TypeScript and validates the target program's current project membership and recorded dependency contents. Newly included declarations or module augmentations therefore invalidate stale metadata. Identical-source in-memory hits remain inexpensive.
+
 ### Runtime selection and migration
 
 Omitting `docgenMode` still uses the existing `"legacy"` builder. This release

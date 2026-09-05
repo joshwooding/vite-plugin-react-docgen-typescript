@@ -99,6 +99,15 @@ export interface DocgenBackend {
   }): Promise<AnalyzeResult>;
   dispose(): Promise<void>;
   initialize(): Promise<BackendProjectState>;
+  /** Return complete membership from the target program without extracting docgen. */
+  prepareCacheValidation?(input: {
+    fileName: string;
+    revision: number;
+    source: string;
+  }): Promise<
+    | { dependencies: readonly string[]; project: BackendProjectState }
+    | undefined
+  >;
   recordCacheHit(input: {
     cache: "memory" | "persistent";
     fileName: string;

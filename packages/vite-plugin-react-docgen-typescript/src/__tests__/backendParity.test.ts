@@ -497,7 +497,7 @@ declare global { interface AmbientProps extends SharedProps {} }`;
 
     const warmPlugin = await startPlugin();
     expectTone(await transform(warmPlugin, fixture.componentPath), "live");
-    expect(createCount).toBe(1);
+    expect(createCount).toBe(2);
     await closePlugin(warmPlugin);
     writeFileSync(changedPath, changedSource("offline"));
     const restartedPlugin = await startPlugin();
@@ -505,7 +505,7 @@ declare global { interface AmbientProps extends SharedProps {} }`;
       await transform(restartedPlugin, fixture.componentPath),
       "offline",
     );
-    expect(createCount).toBe(2);
+    expect(createCount).toBe(3);
     expect(dependencies.get(fixture.componentPath)).toEqual(
       expectedDependencies(fixture.componentPath),
     );

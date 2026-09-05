@@ -19,7 +19,7 @@ const DEFAULT_FILE_SYSTEM_CACHE_DIRECTORY = path.join(
   ".cache",
   "vite-plugin-react-docgen-typescript",
 );
-const FILE_SYSTEM_CACHE_VERSION = 8;
+const FILE_SYSTEM_CACHE_VERSION = 9;
 const PACKAGE_NAME = "@joshwooding/vite-plugin-react-docgen-typescript";
 
 type PersistedTransformResult =
@@ -53,6 +53,7 @@ export interface FileSystemCacheProof {
   configFiles: FileSystemCacheConfigProof[];
   dependencyFingerprints: FileSystemCacheDependencyFingerprint[];
   selectionFingerprint: string;
+  trackedFiles: string[];
 }
 
 export interface CacheableTransformResult {
@@ -387,6 +388,7 @@ export function createFileSystemCacheProof(input: {
   configFiles: readonly string[];
   dependencies: readonly string[];
   selectionFingerprint: string;
+  trackedFiles: readonly string[];
 }): FileSystemCacheProof {
   const componentFile = normalizeBoundaryPath(input.componentFile);
   const hashFiles = (fileNames: readonly string[]) =>
@@ -406,6 +408,7 @@ export function createFileSystemCacheProof(input: {
       ),
     ),
     selectionFingerprint: input.selectionFingerprint,
+    trackedFiles: normalizeBoundaryPaths(input.trackedFiles),
   };
 }
 
@@ -414,7 +417,10 @@ export function isFileSystemCacheProofValid(
   expected: {
     backendFingerprint: string;
     componentFile: string;
+    configFiles: readonly string[];
+    dependencies: readonly string[];
     selectionFingerprint: string;
+    trackedFiles: readonly string[];
   },
 ): boolean {
   if (
@@ -427,7 +433,9 @@ export function isFileSystemCacheProofValid(
       normalizeBoundaryPath(expected.componentFile) ||
     proof.selectionFingerprint !== expected.selectionFingerprint ||
     !Array.isArray(proof.configFiles) ||
-    !Array.isArray(proof.dependencyFingerprints)
+    !Array.isArray(proof.dependencyFingerprints) ||
+    !Array.isArray(proof.trackedFiles) ||
+    !proof.trackedFiles.every((file) => typeof file === "string")
   ) {
     return false;
   }
@@ -473,7 +481,22 @@ export function isFileSystemCacheProofValid(
 
   return (
     validateFiles(proof.configFiles) &&
-    validateFiles(proof.dependencyFingerprints)
+    validateFiles(proof.dependencyFingerprints) &&
+    JSON.stringify(
+      proof.dependencyFingerprints.map(({ fileName }) => fileName),
+    ) ===
+      JSON.stringify(
+        normalizeBoundaryPaths(expected.dependencies).filter(
+          (fileName) =>
+            fileName !== normalizeBoundaryPath(expected.componentFile),
+        ),
+      ) &&
+    JSON.stringify(proof.configFiles.map(({ fileName }) => fileName)) ===
+      JSON.stringify(normalizeBoundaryPaths(expected.configFiles)) &&
+    JSON.stringify(proof.trackedFiles) ===
+      JSON.stringify(normalizeBoundaryPaths(proof.trackedFiles)) &&
+    JSON.stringify(proof.trackedFiles) ===
+      JSON.stringify(normalizeBoundaryPaths(expected.trackedFiles))
   );
 }
 

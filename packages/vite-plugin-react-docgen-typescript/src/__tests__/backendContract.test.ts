@@ -10,6 +10,7 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { normalizePath } from "vite";
 import { describe, expect, it, vi } from "vitest";
 import {
   type BackendProjectState,
@@ -605,6 +606,7 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
       configFiles: [configFile],
       dependencies: [dependencyFile, componentFile],
       selectionFingerprint,
+      trackedFiles: [componentFile, dependencyFile],
     });
     let createCount = 0;
     const factory: DocgenBackendFactory = {
@@ -629,6 +631,12 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
           async dispose() {},
           async initialize() {
             return state;
+          },
+          async prepareCacheValidation() {
+            return {
+              project: state,
+              dependencies: [componentFile, dependencyFile],
+            };
           },
           recordCacheHit() {},
           async reset({ revision }) {
@@ -674,7 +682,7 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
           componentFile,
         ),
       ).toBeNull();
-      expect(createCount).toBe(1);
+      expect(createCount).toBe(2);
 
       expect(
         createFileSystemCacheNamespace(options, root, "fake/schema-2"),
@@ -684,6 +692,9 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
           backendFingerprint: descriptor.cacheFingerprint,
           componentFile,
           selectionFingerprint,
+          configFiles: [configFile],
+          dependencies: [componentFile, dependencyFile],
+          trackedFiles: [componentFile, dependencyFile],
         }),
       ).toBe(true);
 
@@ -693,6 +704,9 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
           backendFingerprint: descriptor.cacheFingerprint,
           componentFile,
           selectionFingerprint,
+          configFiles: [configFile],
+          dependencies: [componentFile, dependencyFile],
+          trackedFiles: [componentFile, dependencyFile],
         }),
       ).toBe(false);
 
@@ -706,7 +720,7 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
           componentFile,
         ),
       ).toBeNull();
-      expect(createCount).toBe(2);
+      expect(createCount).toBe(3);
 
       writeFileSync(configFile, '{"member":true}');
       const refreshedPlugin = createPlugin(options, factory);
@@ -719,7 +733,7 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
           componentFile,
         ),
       ).toBeNull();
-      expect(createCount).toBe(3);
+      expect(createCount).toBe(4);
       if (typeof refreshedPlugin.closeBundle === "function") {
         await refreshedPlugin.closeBundle.call({} as never);
       }
@@ -739,7 +753,7 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
           componentFile,
         ),
       ).resolves.toBeNull();
-      expect(createCount).toBe(4);
+      expect(createCount).toBe(5);
       expect(deletedDependencyWarnings).toHaveBeenCalledWith(
         expect.stringContaining("Failed to write the docgen file-system cache"),
       );
@@ -758,7 +772,7 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
           componentFile,
         ),
       ).toBeNull();
-      expect(createCount).toBe(5);
+      expect(createCount).toBe(6);
       if (typeof rewrittenDependencyPlugin.closeBundle === "function") {
         await rewrittenDependencyPlugin.closeBundle.call({} as never);
       }
@@ -779,7 +793,7 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
           componentFile,
         ),
       ).resolves.toBeNull();
-      expect(createCount).toBe(6);
+      expect(createCount).toBe(7);
       expect(unreadableDependencyWarnings).toHaveBeenCalledWith(
         expect.stringContaining("Failed to write the docgen file-system cache"),
       );
@@ -800,7 +814,7 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
     }
   });
 
-  it("keeps warm persistent-cache dependency edits and unresolved creations live before backend startup", async () => {
+  it("keeps warm persistent-cache dependency edits and unresolved creations live after backend validation", async () => {
     const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-warm-hmr-"));
     const componentFile = path.join(root, "Component.tsx");
     const dependencyFile = path.join(root, "types.ts");
@@ -844,6 +858,12 @@ export const Component = (_props: Props & Missing) => null;`;
           async dispose() {},
           async initialize() {
             return getState();
+          },
+          async prepareCacheValidation() {
+            return {
+              project: getState(),
+              dependencies: [componentFile, dependencyFile],
+            };
           },
           recordCacheHit() {},
           async reset({ revision }) {
@@ -894,7 +914,7 @@ export const Component = (_props: Props & Missing) => null;`;
           componentFile,
         ),
       ).resolves.toBeNull();
-      expect(createCount).toBe(1);
+      expect(createCount).toBe(2);
       if (typeof warmPlugin.hotUpdate !== "function") {
         throw new Error("Expected the Vite 6+ hotUpdate hook");
       }
@@ -913,7 +933,7 @@ export const Component = (_props: Props & Missing) => null;`;
           } as never,
         ),
       ).resolves.toEqual([componentModule]);
-      expect(createCount).toBe(1);
+      expect(createCount).toBe(2);
 
       writeFileSync(
         missingDependencyFile,
@@ -942,13 +962,13 @@ export const Component = (_props: Props & Missing) => null;`;
   });
 
   it.each([
-    { hook: "hotUpdate", startBackend: false },
-    { hook: "handleHotUpdate", startBackend: false },
-    { hook: "hotUpdate", startBackend: true },
-    { hook: "handleHotUpdate", startBackend: true },
-  ] as const)("invalidates warm persistent-cache config edits through $hook (backend started: $startBackend)", async ({
+    { hook: "hotUpdate", transformOther: false },
+    { hook: "handleHotUpdate", transformOther: false },
+    { hook: "hotUpdate", transformOther: true },
+    { hook: "handleHotUpdate", transformOther: true },
+  ] as const)("invalidates warm persistent-cache config edits through $hook (other component transformed: $transformOther)", async ({
     hook,
-    startBackend,
+    transformOther,
   }) => {
     const directory = mkdtempSync(path.join(tmpdir(), "vite-rdt-warm-config-"));
     const root = path.join(directory, "app");
@@ -1009,6 +1029,9 @@ export const Component = (_props: Props & Missing) => null;`;
           async dispose() {},
           async initialize() {
             return activeState;
+          },
+          async prepareCacheValidation({ fileName }) {
+            return { project: state, dependencies: [fileName] };
           },
           recordCacheHit() {},
           async reset({ revision }) {
@@ -1084,19 +1107,17 @@ export const Component = (_props: Props & Missing) => null;`;
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await warmPlugin.configResolved?.({ command: "serve", root });
       expect(await transform()).toEqual(seeded);
-      expect(counters).toEqual({ analyze: 1, create: 1 });
-      expect(context.addWatchFile.mock.calls).toEqual(
-        normalizeBoundaryPaths([configFile, extendedConfigFile]).map(
-          (fileName) => [fileName],
-        ),
-      );
+      expect(counters).toEqual({ analyze: 1, create: 2 });
+      for (const file of [componentFile, configFile, extendedConfigFile]) {
+        expect(context.addWatchFile).toHaveBeenCalledWith(normalizePath(file));
+      }
 
       writeFileSync(unrelatedFile, '{"changed":true}');
       expect(await update(unrelatedFile, 1)).toBeUndefined();
       expect(await transform()).toEqual(seeded);
-      expect(counters).toEqual({ analyze: 1, create: 1 });
+      expect(counters).toEqual({ analyze: 1, create: 2 });
 
-      if (startBackend) {
+      if (transformOther) {
         await warmPlugin.transform?.call(
           context as never,
           source,
@@ -1108,13 +1129,13 @@ export const Component = (_props: Props & Missing) => null;`;
       expect
         .soft(await update(extendedConfigFile, 2))
         .toEqual(
-          startBackend
+          transformOther
             ? [componentModule, otherComponentModule]
             : [componentModule],
         );
       expect(counters).toEqual({
-        analyze: startBackend ? 2 : 1,
-        create: startBackend ? 2 : 1,
+        analyze: transformOther ? 2 : 1,
+        create: 2,
       });
       const refreshed = await transform();
       expect.soft(refreshed).not.toEqual(seeded);
@@ -1123,7 +1144,7 @@ export const Component = (_props: Props & Missing) => null;`;
         .toEqual({ code: expect.stringContaining("true"), map: null });
       expect
         .soft(counters)
-        .toEqual({ analyze: startBackend ? 3 : 2, create: 2 });
+        .toEqual({ analyze: transformOther ? 3 : 2, create: 2 });
       expect(context.warn).not.toHaveBeenCalled();
     } finally {
       for (const plugin of [seedPlugin, warmPlugin]) {
@@ -1268,7 +1289,7 @@ export const Component = (_props: Props & Missing) => null;`;
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await warmPlugin.configResolved?.({ command: "serve", root });
       expect(await transform()).toEqual(seeded);
-      expect(counters).toEqual({ analyze: 1, create: 1, initialize: 1 });
+      expect(counters).toEqual({ analyze: 1, create: 2, initialize: 2 });
       await warmPlugin.transform?.call(
         context as never,
         otherSource,
@@ -1433,8 +1454,12 @@ export const Component = (_props: Props & Missing) => null;`;
         configFiles: [],
         dependencies: [dependencyFile, componentFile, dependencyFile],
         selectionFingerprint: "selection-1",
+        trackedFiles: [componentFile, dependencyFile],
       });
       const expected = {
+        configFiles: [],
+        dependencies: [componentFile, dependencyFile],
+        trackedFiles: [componentFile, dependencyFile],
         backendFingerprint: "proof/schema-1",
         componentFile,
         selectionFingerprint: "selection-1",
@@ -2315,7 +2340,7 @@ export const Component = (_props: Props & Missing) => null;`;
         },
       },
     );
-    const watcher = new EventEmitter();
+    const watcher = Object.assign(new EventEmitter(), { add: vi.fn() });
     const reloadModule = vi.fn(async () => {});
     const send = vi.fn();
     const server = {
@@ -2341,7 +2366,7 @@ export const Component = (_props: Props & Missing) => null;`;
       }
       plugin.configureServer(server as never);
       expect(watcher.listenerCount("add")).toBe(addBaseline + 1);
-      expect(watcher.listenerCount("unlink")).toBe(unlinkBaseline + 1);
+      expect(watcher.listenerCount("unlink")).toBe(unlinkBaseline + 2);
       await plugin.transform?.call(
         { warn: vi.fn() } as never,
         source,
@@ -2542,4 +2567,195 @@ export const Component = (_props: Props & Missing) => null;`;
       rmSync(root, { force: true, recursive: true });
     }
   });
+});
+
+it("rejects a persistent proof superseded between validation and acceptance", async () => {
+  const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-proof-race-"));
+  const componentFile = path.join(root, "Component.tsx");
+  const dependencyFile = path.join(root, "types.ts");
+  const source = "export const Component = () => null;";
+  writeFileSync(componentFile, source);
+  writeFileSync(dependencyFile, "before");
+  const state: BackendProjectState = {
+    configFiles: [],
+    docgenFiles: [componentFile],
+    generation: 1,
+    trackedFiles: [componentFile, dependencyFile].sort(),
+  };
+  const hit = vi.fn();
+  const analyze = vi.fn();
+  let scheduleUpdate: (() => void) | undefined;
+  let pendingUpdate: Promise<unknown> | undefined;
+  const factory: DocgenBackendFactory = {
+    describe: () => ({ cacheFingerprint: "proof-race/1", id: "fake" }),
+    async create() {
+      return {
+        async initialize() {
+          return state;
+        },
+        async prepareCacheValidation() {
+          return {
+            project: state,
+            get dependencies() {
+              if (scheduleUpdate) {
+                queueMicrotask(scheduleUpdate);
+                scheduleUpdate = undefined;
+              }
+              return [componentFile, dependencyFile];
+            },
+          };
+        },
+        async analyze({ revision }) {
+          analyze();
+          return {
+            status: "ok",
+            components: [
+              {
+                description: readFileSync(dependencyFile, "utf8"),
+                displayName: "Component",
+                filePath: componentFile,
+                methods: [],
+                props: {},
+                targetExpression: "Component",
+              },
+            ],
+            dependencies: [componentFile, dependencyFile],
+            project: state,
+            revision,
+          };
+        },
+        recordCacheHit: hit,
+        async dispose() {},
+        async reset({ revision }) {
+          return { status: "reset", revision };
+        },
+        async update({ change }) {
+          return { status: "ready", project: state, revision: change.revision };
+        },
+      };
+    },
+  };
+  const options: Options = {
+    compilerOptions: { jsx: 2 },
+    fileSystemCache: { directory: path.join(root, ".cache") },
+  };
+  const seed = createPlugin(options, factory);
+  const warm = createPlugin(options, factory);
+  const context = {
+    addWatchFile: vi.fn(),
+    warn: vi.fn(),
+    environment: { moduleGraph: { getModulesByFile() {} } },
+  };
+  try {
+    for (const plugin of [seed, warm]) {
+      // @ts-expect-error Focused harness supplies the resolved fields used.
+      await plugin.configResolved?.({ command: "serve", root });
+    }
+    await seed.transform?.call(context as never, source, componentFile);
+    if (typeof seed.closeBundle === "function")
+      await seed.closeBundle.call({} as never);
+    scheduleUpdate = () => {
+      writeFileSync(dependencyFile, "after");
+      if (typeof warm.hotUpdate !== "function")
+        throw new Error("Missing hotUpdate");
+      pendingUpdate = Promise.resolve(
+        warm.hotUpdate.call(
+          context as never,
+          {
+            file: dependencyFile,
+            modules: [],
+            timestamp: 1,
+            type: "update",
+          } as never,
+        ),
+      );
+    };
+    expect(
+      await warm.transform?.call(context as never, source, componentFile),
+    ).toEqual({
+      code: expect.stringContaining('"description":"after"'),
+      map: null,
+    });
+    await pendingUpdate;
+    expect(hit).not.toHaveBeenCalled();
+    expect(analyze).toHaveBeenCalledTimes(2);
+    expect(context.warn).not.toHaveBeenCalled();
+  } finally {
+    for (const plugin of [seed, warm])
+      if (typeof plugin.closeBundle === "function")
+        await plugin.closeBundle.call({} as never);
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+it("registers existing dependencies even when analysis returns an error", async () => {
+  const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-error-watch-"));
+  const componentFile = path.join(root, "Component.tsx");
+  const dependencyFile = path.join(root, "types.d.ts");
+  const missingFile = path.join(root, "missing.d.ts");
+  const source = "export const Component = () => null;";
+  writeFileSync(componentFile, source);
+  writeFileSync(dependencyFile, "export interface Props { label: string }");
+  const state: BackendProjectState = {
+    configFiles: [],
+    docgenFiles: [componentFile],
+    generation: 1,
+    trackedFiles: [componentFile, dependencyFile].sort(),
+  };
+  const plugin = createPlugin(
+    { compilerOptions: { jsx: 2 } },
+    {
+      describe: () => ({ cacheFingerprint: "error-watch/1", id: "fake" }),
+      async create() {
+        return {
+          async initialize() {
+            return state;
+          },
+          async analyze({ revision }) {
+            return {
+              status: "error",
+              error: { name: "Error", message: "expected extraction failure" },
+              dependencies: [componentFile, dependencyFile],
+              unresolvedDependencies: [missingFile],
+              project: state,
+              revision,
+            };
+          },
+          recordCacheHit() {},
+          async dispose() {},
+          async reset({ revision }) {
+            return { status: "reset", revision };
+          },
+          async update({ change }) {
+            return {
+              status: "ready",
+              project: state,
+              revision: change.revision,
+            };
+          },
+        };
+      },
+    },
+  );
+  const context = { addWatchFile: vi.fn(), warn: vi.fn() };
+  try {
+    // @ts-expect-error Focused harness supplies the resolved fields used.
+    await plugin.configResolved?.({ command: "serve", root });
+    expect(
+      await plugin.transform?.call(context as never, source, componentFile),
+    ).toBe(source);
+    expect(context.addWatchFile).toHaveBeenCalledWith(
+      normalizePath(dependencyFile),
+    );
+    expect(context.addWatchFile).not.toHaveBeenCalledWith(
+      normalizePath(missingFile),
+    );
+    expect(context.warn).toHaveBeenCalledWith(
+      expect.stringContaining("expected extraction failure"),
+    );
+  } finally {
+    if (typeof plugin.closeBundle === "function")
+      await plugin.closeBundle.call({} as never);
+    rmSync(root, { recursive: true, force: true });
+  }
 });

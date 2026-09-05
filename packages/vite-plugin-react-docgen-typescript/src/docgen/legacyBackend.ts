@@ -1412,6 +1412,41 @@ const createLegacyBackend = async (
     return getProjectState();
   };
 
+  const prepareCacheValidation: NonNullable<
+    DocgenBackend["prepareCacheValidation"]
+  > = async ({ fileName, revision, source }) => {
+    const validationLifecycle = lifecycleToken;
+    latestRevision = Math.max(latestRevision, revision);
+    while (pendingWatchUpdate) {
+      await pendingWatchUpdate.promise;
+    }
+    await ensureInitialized();
+    if (
+      isObsoleteLifecycle(validationLifecycle) ||
+      revision !== latestRevision ||
+      !project
+    ) {
+      return undefined;
+    }
+    const normalizedFileName = normalizeBoundaryPath(fileName);
+    const program =
+      tsProgram ?? getProjectServiceProgram(normalizedFileName, source);
+    if (!program?.getSourceFile(normalizedFileName) || !typescriptModule) {
+      return undefined;
+    }
+    syncProjectFilesFromProgram(project, program);
+    return {
+      dependencies: collectTrackedFileDependencies(
+        normalizedFileName,
+        dependencyCacheByProgram,
+        program,
+        projectTrackedFiles,
+        typescriptModule,
+      ),
+      project: getProjectState(),
+    };
+  };
+
   const analyze = async ({
     fileName,
     revision,
@@ -1610,7 +1645,7 @@ const createLegacyBackend = async (
       }
       await ensureInitialized();
       const refreshedProject = getProjectState();
-      return projectTrackedFiles.has(changedFile)
+      return projectTrackedFiles.has(changedFile) || affectedFiles.length > 0
         ? {
             project: refreshedProject,
             revision: change.revision,
@@ -1619,7 +1654,8 @@ const createLegacyBackend = async (
         : { revision: change.revision, status: "ignored" };
     }
     const isTracked = project
-      ? projectTrackedFiles.has(changedFile) ||
+      ? affectedFiles.length > 0 ||
+        projectTrackedFiles.has(changedFile) ||
         (!project.tsconfigPath && isPotentialTypescriptFile)
       : isPotentialTypescriptFile;
     if (!isTracked) return { revision: change.revision, status: "ignored" };
@@ -1696,6 +1732,7 @@ const createLegacyBackend = async (
     analyze,
     dispose,
     initialize,
+    prepareCacheValidation,
     recordCacheHit({ fileName }) {
       if (runtimeMode === "projectService") {
         touchProjectServiceOpenFile(normalizeBoundaryPath(fileName));
