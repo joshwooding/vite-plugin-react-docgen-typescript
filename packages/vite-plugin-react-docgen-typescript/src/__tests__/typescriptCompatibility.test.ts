@@ -34,6 +34,8 @@ describe("TypeScript compatibility", () => {
       "ambient-global.d.ts": "interface AmbientProps { extra: true; }",
       "ambient-external.d.ts":
         'import type { Props } from "./props"; declare global { interface AmbientProps extends Props {} }',
+      "ambient-umd.d.ts":
+        "export as namespace AmbientLib; export interface Props { umd: true; }",
     };
     const source = `declare namespace JSX { interface Element {} }
 import type { Props } from "./props";
@@ -43,7 +45,7 @@ const required = require("./required");
 define(["./defined"], () => {});
 define("named", ["./named-defined"], () => {});
 import "./augmentation";
-export const Component = (_props: Props & AmbientProps): JSX.Element => null as unknown as JSX.Element;
+export const Component = (_props: Props & AmbientProps & AmbientLib.Props): JSX.Element => null as unknown as JSX.Element;
 `;
     const propsSource = (revision: number) => `export interface Props {
   /** Tone ${revision}. */
@@ -63,6 +65,7 @@ export const Component = (_props: Props & AmbientProps): JSX.Element => null as 
       JSON.stringify({
         compilerOptions: {
           allowJs: true,
+          allowUmdGlobalAccess: true,
           jsx: "preserve",
           module: "CommonJS",
           moduleResolution: "Node",
@@ -120,6 +123,10 @@ export const Component = (_props: Props & AmbientProps): JSX.Element => null as 
           type: { name: `"tone-${revision}"` },
         });
         expect(result.components[0]?.props.extra).toMatchObject({
+          required: true,
+          type: { name: "true" },
+        });
+        expect(result.components[0]?.props.umd).toMatchObject({
           required: true,
           type: { name: "true" },
         });

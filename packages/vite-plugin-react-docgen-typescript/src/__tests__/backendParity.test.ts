@@ -271,18 +271,22 @@ describe.each([
     "global script",
     "declare global",
     "root augmentation",
+    "UMD global",
   ] as const)("tracks %s inputs through live edits and restarted persistent caches", async (shape) => {
-    const changedFile = shape === "declare global" ? "shared.ts" : "ambient.ts";
+    const ambientFile = shape === "UMD global" ? "ambient.d.ts" : "ambient.ts";
+    const changedFile = shape === "declare global" ? "shared.ts" : ambientFile;
     const changedSource = (phase: string) => {
       const props = `\n  /** ${phase} ambient tone. */\n  tone: "base" | "${phase}";\n`;
       if (shape === "global script") return `interface AmbientProps {${props}}`;
       if (shape === "declare global")
         return `export interface SharedProps {${props}}`;
+      if (shape === "UMD global")
+        return `export as namespace AmbientLib; export interface Props {${props}}`;
       return `export {}; declare module "./props" { interface Props {${props}} }`;
     };
     const componentSource = `declare namespace JSX { interface Element {} }
 ${shape === "root augmentation" ? 'import type { Props } from "./props";' : ""}
-export const Component = (_props: ${shape === "root augmentation" ? "Props" : "AmbientProps"}): JSX.Element =>
+export const Component = (_props: ${shape === "root augmentation" ? "Props" : shape === "UMD global" ? "AmbientLib.Props" : "AmbientProps"}): JSX.Element =>
   null as unknown as JSX.Element;
 `;
     const otherSource = `declare namespace JSX { interface Element {} }
@@ -295,7 +299,7 @@ export const Other = (_props: OrdinaryProps): JSX.Element =>
   /** ${phase} ordinary value. */
   value: string;
 }`;
-    const sharedFiles = ["ambient.ts"];
+    const sharedFiles = [ambientFile];
     const ambientFiles: Record<string, string> = {
       [changedFile]: changedSource("initial"),
     };
@@ -327,6 +331,8 @@ declare global { interface AmbientProps extends SharedProps {} }`;
       readFileSync(fixture.tsconfigPath, "utf-8"),
     );
     fixtureConfig.compilerOptions.allowJs = true;
+    if (shape === "UMD global")
+      fixtureConfig.compilerOptions.allowUmdGlobalAccess = true;
     writeFileSync(fixture.tsconfigPath, JSON.stringify(fixtureConfig));
     const otherFile = path.join(fixture.root, "Other.tsx");
     const changedPath = path.join(fixture.root, changedFile);

@@ -6,4 +6,4 @@ Track complete component dependencies through cyclic imports regardless of trans
 
 Follow the compiler's resolved declaration targets and import/require modes, including referenced-project path mappings and unresolved conditional targets.
 
-Include existing global declarations, module augmentations, and their imported types in dependency tracking so live edits and offline edits invalidate cached metadata while ordinary modules retain selective invalidation.
+Include existing global declarations, UMD namespaces, module augmentations, and their imported types in dependency tracking so live edits and offline edits invalidate cached metadata while ordinary modules retain selective invalidation.
