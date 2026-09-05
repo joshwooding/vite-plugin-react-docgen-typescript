@@ -153,6 +153,7 @@ export function createPlugin(
   const moduleFilesByDependency = new Map<Filepath, Set<Filepath>>();
   const transformedModuleFiles = new Set<string>();
   const transformCache = new Map<Filepath, TransformCacheEntry>();
+  const cachedConfigFiles = new Set<Filepath>();
   const warnedMessages = new Set<string>();
 
   const disposeBackend = async (candidate: DocgenBackend | undefined) => {
@@ -420,7 +421,8 @@ export function createPlugin(
   }): Promise<LogicalUpdateResult> => {
     const normalizedFile = normalizeBoundaryPath(cleanModuleId(file));
     const isConfigChange =
-      projectState?.configFiles.includes(normalizedFile) ?? false;
+      cachedConfigFiles.has(normalizedFile) ||
+      (projectState?.configFiles.includes(normalizedFile) ?? false);
     let affectedFiles = isConfigChange
       ? new Set(transformedModuleFiles)
       : getAffectedTransformedModuleFiles(normalizedFile);
@@ -432,7 +434,7 @@ export function createPlugin(
         wasTracked ||
         (kind === "create" && isPotentialTypescriptFile) ||
         (projectState.configFiles.length === 0 && isPotentialTypescriptFile)
-      : isPotentialTypescriptFile;
+      : isConfigChange || isPotentialTypescriptFile;
     if (!shouldProcess) {
       return {
         affectedFiles,
@@ -445,6 +447,7 @@ export function createPlugin(
     if (isConfigChange) {
       pendingAffectedFiles.clear();
       transformCache.clear();
+      cachedConfigFiles.clear();
       clearAllTrackedModuleDependencies();
       clearPersistentCache();
     }
@@ -477,6 +480,7 @@ export function createPlugin(
 
     if (update.status === "project-reset") {
       pendingAffectedFiles.clear();
+      cachedConfigFiles.clear();
       projectState = undefined;
       backendInitializationPromise = undefined;
       affectedFiles = new Set(transformedModuleFiles);
@@ -669,6 +673,7 @@ export function createPlugin(
       await Promise.allSettled([...hookUpdateTasks, ...legacyListenerTasks]);
       didDispose = true;
       transformCache.clear();
+      cachedConfigFiles.clear();
       clearAllTrackedModuleDependencies();
       transformedModuleFiles.clear();
       pendingAffectedFiles.clear();
@@ -776,6 +781,9 @@ export function createPlugin(
         src,
       );
       if (persistedCachedTransform) {
+        for (const { fileName } of persistedCachedTransform.proof.configFiles) {
+          cachedConfigFiles.add(normalizeBoundaryPath(fileName));
+        }
         backend?.recordCacheHit({
           cache: "persistent",
           fileName: normalizedFileId,
