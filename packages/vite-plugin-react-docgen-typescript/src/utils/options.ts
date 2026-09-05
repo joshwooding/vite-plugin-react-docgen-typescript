@@ -195,10 +195,7 @@ type PublicLegacyComponentNameResolver = {
 }["bivarianceHack"];
 
 type PublicPropFilter = {
-  bivarianceHack(
-    prop: PublicPropItem,
-    component: { name: string },
-  ): boolean;
+  bivarianceHack(prop: PublicPropItem, component: { name: string }): boolean;
 }["bivarianceHack"];
 
 interface PublicStaticPropFilter {
