@@ -1,0 +1,95 @@
+{
+  "rowIndex": 2,
+  "requested": {
+    "os": "ubuntu-latest",
+    "node": "20.19.5",
+    "typescript": "5.0.4",
+    "vite": "5.4.21",
+    "modes": [
+      "default",
+      "legacy",
+      "project-service"
+    ],
+    "purpose": "first TypeScript 5 / late Vite 5"
+  },
+  "startedAt": "2026-09-05T14:34:16.755Z",
+  "completedAt": "2026-09-05T14:34:29.267Z",
+  "command": [
+    "/var/tmp/vite-rdt-plan025/node-v20.19.5-linux-x64/bin/node",
+    "--import",
+    "file:///mnt/d/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan028/vite-plugin-react-docgen-typescript/plans/028-evidence/observe-install.mjs",
+    "/mnt/d/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan028/vite-plugin-react-docgen-typescript/scripts/verify-runtime-compatibility.mjs",
+    "--package",
+    "/mnt/d/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan025/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/025/reviewed-stack.tgz",
+    "--typescript",
+    "5.0.4",
+    "--vite",
+    "5.4.21",
+    "--modes",
+    "default,legacy,project-service"
+  ],
+  "actual": {
+    "node": "20.19.5",
+    "platform": "linux",
+    "arch": "x64",
+    "release": "6.18.40.1-microsoft-standard-WSL2",
+    "osVersion": "#1 SMP PREEMPT_DYNAMIC Fri Jul 31 22:12:15 UTC 2026",
+    "linuxRelease": "PRETTY_NAME=\"Ubuntu 22.04.3 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"22.04\"\nVERSION=\"22.04.3 LTS (Jammy Jellyfish)\"\nVERSION_CODENAME=jammy\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=jammy\n"
+  },
+  "archiveSha256": "fc258456dbee71ae641d605216025b6af399261c1a3b2528e2b63c90ec724b21",
+  "verifierSha256": "8241f94751ae0b833d59c26e3a2c33c0b12e63dfe2f5708b68239db4aef155f1",
+  "exitCode": 0,
+  "error": null,
+  "status": "PASS",
+  "report": {
+    "package": "reviewed-stack.tgz",
+    "result": {
+      "results": [
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "default",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "default",
+          "topology": "project-reference"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "legacy",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "legacy",
+          "topology": "project-reference"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "project-service",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "project-service",
+          "topology": "project-reference"
+        }
+      ],
+      "watcherHandles": 0
+    },
+    "modes": [
+      "default",
+      "legacy",
+      "project-service"
+    ],
+    "typescript": "5.0.4",
+    "vite": "5.4.21"
+  }
+}
