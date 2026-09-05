@@ -265,6 +265,289 @@ describe.each([
   ["default", {}],
   ["watch", { EXPERIMENTAL_useWatchProgram: true }],
   ["project service", { EXPERIMENTAL_useProjectService: true }],
+] as const)("compiler-consistent dependency resolution: %s", (_mode, modeOptions) => {
+  const declarationSource = (mode: string, revision: number) =>
+    `export interface Props {
+  /** ${mode} tone ${revision}. */
+  tone: "${mode}-${revision}";
+}
+`;
+  const componentSource = (statement: string, props = "Props") =>
+    `declare namespace JSX { interface Element {} }
+${statement}
+export const Component = (_props: ${props}): JSX.Element =>
+  null as unknown as JSX.Element;
+`;
+
+  const createConditionalFixture = (files: Record<string, string>) => {
+    const fixture = createFixture(
+      {
+        ...files,
+        "esm.d.ts": declarationSource("esm", 0),
+        "cjs.d.ts": declarationSource("cjs", 0),
+      },
+      Object.keys(files)[0],
+    );
+    writeFileSync(
+      path.join(fixture.root, "package.json"),
+      JSON.stringify({
+        exports: {
+          "./missing": { import: "./missing-esm.d.ts", require: "./cjs.d.ts" },
+          "./props": { import: "./esm.d.ts", require: "./cjs.d.ts" },
+        },
+        name: "conditional-types",
+        type: "module",
+      }),
+    );
+    writeFileSync(
+      fixture.tsconfigPath,
+      JSON.stringify({
+        compilerOptions: {
+          jsx: "preserve",
+          module: "NodeNext",
+          moduleResolution: "NodeNext",
+          skipLibCheck: true,
+          target: "ES2020",
+        },
+        include: ["**/*.tsx", "*.d.ts"],
+      }),
+    );
+    return fixture;
+  };
+
+  it("tracks the NodeNext declaration selected by each import and refreshes its metadata", async () => {
+    const fixture = createConditionalFixture({
+      "Import.tsx": componentSource(
+        'import type { Props } from "conditional-types/props";',
+      ),
+      "commonjs/Common.tsx": componentSource(
+        'import type { Props } from "conditional-types/props";',
+      ),
+      "Require.tsx": componentSource(
+        'import Required = require("conditional-types/props");',
+        "Required.Props",
+      ),
+      "Attribute.tsx": componentSource(
+        'import type { Props } from "conditional-types/props" with { "resolution-mode": "require" };',
+      ),
+      "Mixed.tsx": `${componentSource(
+        `import type { Props } from "conditional-types/props";
+import type { Props as RequiredProps } from "conditional-types/props" with { "resolution-mode": "require" };`,
+      )}
+export const RequiredComponent = (_props: RequiredProps): JSX.Element =>
+  null as unknown as JSX.Element;`,
+      "RequireCall.tsx": componentSource(
+        'declare function require(specifier: string): unknown; const required = require("conditional-types/props");',
+        "{ value: string }",
+      ),
+    });
+    writeFileSync(
+      path.join(fixture.root, "commonjs", "package.json"),
+      JSON.stringify({ type: "commonjs" }),
+    );
+    const backend = await createDirectBackend(fixture, {
+      ...modeOptions,
+      shouldExtractValuesFromUnion: true,
+    });
+    const cases = [
+      ["Import.tsx", ["esm"]],
+      ["commonjs/Common.tsx", ["cjs"]],
+      ["Require.tsx", ["cjs"]],
+      ["Attribute.tsx", ["cjs"]],
+      ["Mixed.tsx", ["esm", "cjs"]],
+    ] as const;
+    const typeRevisions = { cjs: 0, esm: 0 };
+    const analyze = async (revision: number) => {
+      for (const [file, modes] of cases) {
+        const fileName = path.join(fixture.root, file);
+        const result = await backend.analyze({
+          fileName,
+          revision,
+          source: readFileSync(fileName, "utf-8"),
+        });
+        expect(result.status).toBe("ok");
+        if (result.status !== "ok") throw new Error(result.error.message);
+        expect(
+          result.components.map((component) => component.props.tone),
+        ).toMatchObject(
+          modes.map((mode) => ({
+            description: `${mode} tone ${typeRevisions[mode]}.`,
+            type: { name: `"${mode}-${typeRevisions[mode]}"` },
+          })),
+        );
+        expect(result.dependencies).toEqual(
+          [
+            fileName,
+            ...modes.map((mode) => path.join(fixture.root, `${mode}.d.ts`)),
+          ].sort(),
+        );
+        expect(result.unresolvedDependencies).toEqual([]);
+      }
+    };
+    try {
+      await analyze(0);
+      const requireFile = path.join(fixture.root, "RequireCall.tsx");
+      const required = await backend.analyze({
+        fileName: requireFile,
+        revision: 0,
+        source: readFileSync(requireFile, "utf-8"),
+      });
+      expect(required.status).toBe("ok");
+      expect(required.dependencies).toEqual(
+        [requireFile, path.join(fixture.root, "cjs.d.ts")].sort(),
+      );
+      for (const [revision, mode] of [
+        [1, "esm"],
+        [2, "cjs"],
+      ] as const) {
+        const source = declarationSource(mode, revision);
+        const fileName = path.join(fixture.root, `${mode}.d.ts`);
+        writeFileSync(fileName, source);
+        const update = await backend.update({
+          affectedComponentFiles: cases
+            .filter(([, targets]) => targets.some((target) => target === mode))
+            .map(([file]) => path.join(fixture.root, file)),
+          change: { fileName, kind: "change", revision, source },
+        });
+        expect(
+          update.status === "pending"
+            ? (await update.ready).status
+            : update.status,
+        ).toBe("ready");
+        typeRevisions[mode] = revision;
+        await analyze(revision);
+      }
+    } finally {
+      await backend.dispose();
+    }
+  }, 60_000);
+
+  it("records a missing NodeNext import target instead of the existing require target", async () => {
+    const fixture = createConditionalFixture({
+      "Missing.tsx": componentSource(
+        'import type { Props } from "conditional-types/missing";',
+      ),
+    });
+    const backend = await createDirectBackend(fixture, modeOptions);
+    try {
+      const result = await backend.analyze({
+        fileName: fixture.componentPath,
+        revision: 0,
+        source: readFileSync(fixture.componentPath, "utf-8"),
+      });
+      expect(result.status).toBe("ok");
+      expect(result.unresolvedDependencies).toContain(
+        path.join(fixture.root, "missing-esm.d.ts"),
+      );
+      expect(result.dependencies).toEqual([fixture.componentPath]);
+      expect(result.unresolvedDependencies).not.toContain(
+        path.join(fixture.root, "cjs.d.ts"),
+      );
+    } finally {
+      await backend.dispose();
+    }
+  });
+});
+
+it("uses referenced ProjectService paths for resolved and missing imports after analyzing the root", async () => {
+  const root = createTemporaryDirectory();
+  const referencedRoot = path.join(root, "referenced");
+  mkdirSync(referencedRoot);
+  const componentSource = `declare namespace JSX { interface Element {} }
+import type { Props } from "@props";
+export const Component = (_props: Props): JSX.Element =>
+  null as unknown as JSX.Element;
+`;
+  const propsSource = (description: string) =>
+    `export interface Props {\n /** ${description} */\n tone: "base" | "quiet"; }`;
+  const rootFile = path.join(root, "Root.tsx");
+  const componentFile = path.join(referencedRoot, "Component.tsx");
+  const propsFile = path.join(referencedRoot, "props.ts");
+  writeFileSync(rootFile, componentSource);
+  writeFileSync(
+    componentFile,
+    `${componentSource}\nimport type { Missing } from "@missing";`,
+  );
+  writeFileSync(path.join(root, "props.ts"), propsSource("Root tone."));
+  writeFileSync(propsFile, propsSource("Referenced tone."));
+  const compilerOptions = {
+    baseUrl: ".",
+    jsx: "preserve",
+    module: "ESNext",
+    moduleResolution: "Bundler",
+    paths: { "@missing": ["missing.ts"], "@props": ["props.ts"] },
+    skipLibCheck: true,
+    target: "ES2020",
+  };
+  const tsconfigPath = path.join(root, "tsconfig.json");
+  writeFileSync(
+    tsconfigPath,
+    JSON.stringify({
+      compilerOptions,
+      files: ["Root.tsx", "props.ts"],
+      references: [{ path: "./referenced" }],
+    }),
+  );
+  writeFileSync(
+    path.join(referencedRoot, "tsconfig.json"),
+    JSON.stringify({
+      compilerOptions: { ...compilerOptions, composite: true },
+      files: ["Component.tsx", "props.ts"],
+    }),
+  );
+  const options: Options = {
+    EXPERIMENTAL_useProjectService: true,
+    tsconfigPath,
+  };
+  const backend = await createLegacyBackendFactory(options).create({
+    rootDir: root,
+    selection: resolveFileSelection(root, options),
+  });
+  const analyze = async (
+    fileName: string,
+    description: string,
+    revision: number,
+  ) => {
+    const result = await backend.analyze({
+      fileName,
+      revision,
+      source: readFileSync(fileName, "utf-8"),
+    });
+    expect(result.status).toBe("ok");
+    if (result.status !== "ok") throw new Error(result.error.message);
+    expect(result.components[0]?.props.tone.description).toBe(description);
+    expect(result.dependencies).toEqual(
+      [fileName, path.join(path.dirname(fileName), "props.ts")].sort(),
+    );
+    return result;
+  };
+  try {
+    await analyze(rootFile, "Root tone.", 0);
+    const result = await analyze(componentFile, "Referenced tone.", 0);
+    expect(result.unresolvedDependencies).toContain(
+      path.join(referencedRoot, "missing.ts"),
+    );
+    expect(result.unresolvedDependencies).not.toContain(
+      path.join(root, "missing.ts"),
+    );
+    const source = propsSource("Updated referenced tone.");
+    writeFileSync(propsFile, source);
+    const update = await backend.update({
+      affectedComponentFiles: [componentFile],
+      change: { fileName: propsFile, kind: "change", revision: 1, source },
+    });
+    expect(update.status).toBe("ready");
+    await analyze(componentFile, "Updated referenced tone.", 1);
+    await analyze(rootFile, "Root tone.", 1);
+  } finally {
+    await backend.dispose();
+  }
+});
+
+describe.each([
+  ["default", {}],
+  ["watch", { EXPERIMENTAL_useWatchProgram: true }],
+  ["project service", { EXPERIMENTAL_useProjectService: true }],
 ] as const)("cyclic dependency tracking: %s", (_mode, modeOptions) => {
   it.each([
     ["A then B", ["A.tsx", "B.tsx"]],
