@@ -941,6 +941,369 @@ export const Component = (_props: Props & Missing) => null;`;
     }
   });
 
+  it.each([
+    { hook: "hotUpdate", startBackend: false },
+    { hook: "handleHotUpdate", startBackend: false },
+    { hook: "hotUpdate", startBackend: true },
+    { hook: "handleHotUpdate", startBackend: true },
+  ] as const)("invalidates warm persistent-cache config edits through $hook (backend started: $startBackend)", async ({
+    hook,
+    startBackend,
+  }) => {
+    const directory = mkdtempSync(path.join(tmpdir(), "vite-rdt-warm-config-"));
+    const root = path.join(directory, "app");
+    mkdirSync(root);
+    const componentFile = path.join(root, "Component.tsx");
+    const otherComponentFile = path.join(root, "Other.tsx");
+    const configFile = path.join(root, "tsconfig.json");
+    const extendedConfigFile = path.join(directory, "base.json");
+    const unrelatedFile = path.join(root, "unrelated.json");
+    const source = "export const Component = () => null;";
+    writeFileSync(componentFile, source);
+    writeFileSync(otherComponentFile, source);
+    writeFileSync(configFile, '{"extends":"../base.json"}');
+    writeFileSync(extendedConfigFile, '{"compilerOptions":{"strict":false}}');
+    writeFileSync(unrelatedFile, "{}");
+    const options: Options = {
+      fileSystemCache: {
+        directory: path.join(directory, ".cache"),
+        enabled: true,
+      },
+      tsconfigPath: "tsconfig.json",
+    };
+    const state: BackendProjectState = {
+      configFiles: normalizeBoundaryPaths([configFile, extendedConfigFile]),
+      docgenFiles: [componentFile, otherComponentFile].sort(),
+      generation: 1,
+      trackedFiles: [componentFile, otherComponentFile].sort(),
+    };
+    const counters = { analyze: 0, create: 0 };
+    const factory: DocgenBackendFactory = {
+      async create() {
+        counters.create += 1;
+        // Another component's project need not list every cached proof config.
+        const activeState =
+          counters.create === 1
+            ? state
+            : { ...state, configFiles: [configFile] };
+        return {
+          async analyze({ fileName, revision }) {
+            counters.analyze += 1;
+            return {
+              components: [
+                {
+                  description: readFileSync(extendedConfigFile, "utf-8"),
+                  displayName: "Component",
+                  filePath: fileName,
+                  methods: [],
+                  props: {},
+                  targetExpression: "Component",
+                },
+              ],
+              dependencies: [fileName],
+              project: activeState,
+              revision,
+              status: "ok",
+            };
+          },
+          async dispose() {},
+          async initialize() {
+            return activeState;
+          },
+          recordCacheHit() {},
+          async reset({ revision }) {
+            return { revision, status: "reset" };
+          },
+          async update({ change }) {
+            return {
+              project: activeState,
+              revision: change.revision,
+              status: "ready",
+            };
+          },
+        };
+      },
+      describe() {
+        return { cacheFingerprint: "warm-config/schema-1", id: "warm-config" };
+      },
+    };
+    const componentModule = { id: componentFile, url: componentFile };
+    const otherComponentModule = {
+      id: otherComponentFile,
+      url: otherComponentFile,
+    };
+    const modulesByFile = new Map([
+      [componentFile, new Set([componentModule])],
+      [otherComponentFile, new Set([otherComponentModule])],
+    ]);
+    const graph = {
+      getModulesByFile: (fileName: string) => modulesByFile.get(fileName),
+    };
+    const context = { environment: { moduleGraph: graph }, warn: vi.fn() };
+    const seedPlugin = createPlugin(options, factory);
+    const warmPlugin = createPlugin(options, factory);
+    const transform = () =>
+      warmPlugin.transform?.call(context as never, source, componentFile);
+    const update = (file: string, timestamp: number) => {
+      const callback = warmPlugin[hook];
+      if (typeof callback !== "function") {
+        throw new Error(`Expected the ${hook} hook`);
+      }
+      return callback.call(
+        context as never,
+        {
+          file,
+          modules: [],
+          read: () => readFileSync(file, "utf-8"),
+          server: { moduleGraph: graph },
+          timestamp,
+          type: "update",
+        } as never,
+      );
+    };
+
+    try {
+      // @ts-expect-error Focused harness supplies only the resolved fields used.
+      await seedPlugin.configResolved?.({ command: "serve", root });
+      const seeded = await seedPlugin.transform?.call(
+        context as never,
+        source,
+        componentFile,
+      );
+      expect(seeded).toEqual({
+        code: expect.stringContaining("false"),
+        map: null,
+      });
+      if (typeof seedPlugin.closeBundle === "function") {
+        await seedPlugin.closeBundle.call({} as never);
+      }
+      // @ts-expect-error Focused harness supplies only the resolved fields used.
+      await warmPlugin.configResolved?.({ command: "serve", root });
+      expect(await transform()).toEqual(seeded);
+      expect(counters).toEqual({ analyze: 1, create: 1 });
+
+      writeFileSync(unrelatedFile, '{"changed":true}');
+      expect(await update(unrelatedFile, 1)).toBeUndefined();
+      expect(await transform()).toEqual(seeded);
+      expect(counters).toEqual({ analyze: 1, create: 1 });
+
+      if (startBackend) {
+        await warmPlugin.transform?.call(
+          context as never,
+          source,
+          otherComponentFile,
+        );
+        expect(counters).toEqual({ analyze: 2, create: 2 });
+      }
+      writeFileSync(extendedConfigFile, '{"compilerOptions":{"strict":true}}');
+      expect
+        .soft(await update(extendedConfigFile, 2))
+        .toEqual(
+          startBackend
+            ? [componentModule, otherComponentModule]
+            : [componentModule],
+        );
+      expect(counters).toEqual({
+        analyze: startBackend ? 2 : 1,
+        create: startBackend ? 2 : 1,
+      });
+      const refreshed = await transform();
+      expect.soft(refreshed).not.toEqual(seeded);
+      expect
+        .soft(refreshed)
+        .toEqual({ code: expect.stringContaining("true"), map: null });
+      expect
+        .soft(counters)
+        .toEqual({ analyze: startBackend ? 3 : 2, create: 2 });
+      expect(context.warn).not.toHaveBeenCalled();
+    } finally {
+      for (const plugin of [seedPlugin, warmPlugin]) {
+        if (typeof plugin.closeBundle === "function") {
+          await plugin.closeBundle.call({} as never);
+        }
+      }
+      rmSync(directory, { force: true, recursive: true });
+    }
+  });
+
+  it("refreshes warm config identity when the legacy backend replaces its project", async () => {
+    const directory = mkdtempSync(
+      path.join(tmpdir(), "vite-rdt-config-reset-"),
+    );
+    const root = path.join(directory, "app");
+    mkdirSync(root);
+    const componentFile = path.join(root, "Component.tsx");
+    const otherComponentFile = path.join(root, "Other.tsx");
+    const configFile = path.join(root, "tsconfig.json");
+    const oldConfigFile = path.join(directory, "base-a.json");
+    const newConfigFile = path.join(directory, "base-b.json");
+    const source =
+      'import type { Props } from "@props"; export const Component = (_props: Props) => null;';
+    const otherSource = "export const Other = () => null;";
+    const baseConfig = (type: string) =>
+      JSON.stringify({
+        compilerOptions: { paths: { "@props": [`./app/${type}-props.ts`] } },
+      });
+    const projectConfig = (base: string) =>
+      JSON.stringify({
+        compilerOptions: {
+          jsx: "preserve",
+          module: "ESNext",
+          moduleResolution: "Bundler",
+          strict: true,
+          target: "ES2020",
+        },
+        extends: `../${base}.json`,
+        include: ["*.tsx"],
+      });
+    writeFileSync(componentFile, source);
+    writeFileSync(otherComponentFile, otherSource);
+    writeFileSync(
+      path.join(root, "string-props.ts"),
+      "export interface Props { value: string }",
+    );
+    writeFileSync(
+      path.join(root, "number-props.ts"),
+      "export interface Props { value: number }",
+    );
+    writeFileSync(oldConfigFile, baseConfig("string"));
+    writeFileSync(newConfigFile, baseConfig("number"));
+    writeFileSync(configFile, projectConfig("base-a"));
+    const options: Options = {
+      fileSystemCache: {
+        directory: path.join(directory, ".cache"),
+        enabled: true,
+      },
+      tsconfigPath: "tsconfig.json",
+    };
+    const legacyFactory = createLegacyBackendFactory(options);
+    const counters = { analyze: 0, create: 0, initialize: 0 };
+    const updateStatuses: string[] = [];
+    const factory: DocgenBackendFactory = {
+      async create(context) {
+        counters.create += 1;
+        const backend = await legacyFactory.create(context);
+        return {
+          ...backend,
+          async analyze(input) {
+            counters.analyze += 1;
+            return backend.analyze(input);
+          },
+          async initialize() {
+            counters.initialize += 1;
+            return backend.initialize();
+          },
+          async update(input) {
+            const result = await backend.update(input);
+            updateStatuses.push(result.status);
+            return result;
+          },
+        };
+      },
+      describe: legacyFactory.describe,
+    };
+    const componentModule = { id: componentFile, url: componentFile };
+    const otherComponentModule = {
+      id: otherComponentFile,
+      url: otherComponentFile,
+    };
+    const modulesByFile = new Map([
+      [componentFile, new Set([componentModule])],
+      [otherComponentFile, new Set([otherComponentModule])],
+    ]);
+    const context = {
+      environment: {
+        moduleGraph: {
+          getModulesByFile: (fileName: string) => modulesByFile.get(fileName),
+        },
+      },
+      warn: vi.fn(),
+    };
+    const seedPlugin = createPlugin(options, factory);
+    const warmPlugin = createPlugin(options, factory);
+    const transform = () =>
+      warmPlugin.transform?.call(context as never, source, componentFile);
+    const update = (file: string, timestamp: number) => {
+      if (typeof warmPlugin.hotUpdate !== "function") {
+        throw new Error("Expected the Vite 6+ hotUpdate hook");
+      }
+      return warmPlugin.hotUpdate.call(
+        context as never,
+        {
+          file,
+          modules: [],
+          read: () => readFileSync(file, "utf-8"),
+          server: {},
+          timestamp,
+          type: "update",
+        } as never,
+      );
+    };
+
+    try {
+      // @ts-expect-error Focused harness supplies only the resolved fields used.
+      await seedPlugin.configResolved?.({ command: "serve", root });
+      const seeded = await seedPlugin.transform?.call(
+        context as never,
+        source,
+        componentFile,
+      );
+      expect(seeded).toEqual({
+        code: expect.stringContaining('"type":{"name":"string"}'),
+        map: null,
+      });
+      if (typeof seedPlugin.closeBundle === "function") {
+        await seedPlugin.closeBundle.call({} as never);
+      }
+      // @ts-expect-error Focused harness supplies only the resolved fields used.
+      await warmPlugin.configResolved?.({ command: "serve", root });
+      expect(await transform()).toEqual(seeded);
+      expect(counters).toEqual({ analyze: 1, create: 1, initialize: 1 });
+      await warmPlugin.transform?.call(
+        context as never,
+        otherSource,
+        otherComponentFile,
+      );
+      expect(counters).toEqual({ analyze: 2, create: 2, initialize: 2 });
+
+      writeFileSync(configFile, projectConfig("base-b"));
+      expect(await update(configFile, 1)).toEqual([
+        componentModule,
+        otherComponentModule,
+      ]);
+      expect(updateStatuses).toEqual(["project-reset"]);
+      const refreshed = await transform();
+      expect(refreshed).toEqual({
+        code: expect.stringContaining('"type":{"name":"number"}'),
+        map: null,
+      });
+      expect(counters).toEqual({ analyze: 3, create: 2, initialize: 3 });
+
+      writeFileSync(oldConfigFile, baseConfig("number"));
+      expect(await update(oldConfigFile, 2)).toBeUndefined();
+      expect(await transform()).toEqual(refreshed);
+      expect(counters).toEqual({ analyze: 3, create: 2, initialize: 3 });
+      expect(updateStatuses).toEqual(["project-reset"]);
+
+      writeFileSync(newConfigFile, baseConfig("string"));
+      expect(await update(newConfigFile, 3)).toEqual([
+        componentModule,
+        otherComponentModule,
+      ]);
+      expect(await transform()).toEqual(seeded);
+      expect(counters).toEqual({ analyze: 4, create: 2, initialize: 4 });
+      expect(updateStatuses).toEqual(["project-reset", "project-reset"]);
+      expect(context.warn).not.toHaveBeenCalled();
+    } finally {
+      for (const plugin of [seedPlugin, warmPlugin]) {
+        if (typeof plugin.closeBundle === "function") {
+          await plugin.closeBundle.call({} as never);
+        }
+      }
+      rmSync(directory, { force: true, recursive: true });
+    }
+  });
+
   it("rejects a persistent hit when an unresolved candidate was created offline", async () => {
     const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-offline-create-"));
     const componentFile = path.join(root, "Component.tsx");
