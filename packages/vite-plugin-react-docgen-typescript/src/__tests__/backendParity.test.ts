@@ -11,6 +11,7 @@ import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createLegacyBackendFactory } from "../docgen/legacyBackend";
 import createPlugin from "../index";
+import { createPlugin as createPluginWithBackend } from "../plugin";
 import { resolveFileSelection } from "../utils/fileSelection";
 import type { Options } from "../utils/options";
 import {
@@ -258,6 +259,200 @@ describe("pre-extraction public-plugin parity corpus", () => {
         .sort(),
     ).toEqual(recoverableErrorFixture.expectedDependencies);
   });
+});
+
+describe.each([
+  ["default", {}],
+  ["watch", { EXPERIMENTAL_useWatchProgram: true }],
+  ["project service", { EXPERIMENTAL_useProjectService: true }],
+] as const)("cyclic dependency tracking: %s", (_mode, modeOptions) => {
+  it.each([
+    ["A then B", ["A.tsx", "B.tsx"]],
+    ["B then A", ["B.tsx", "A.tsx"]],
+  ] as const)(
+    "keeps exact dependencies and fresh shared metadata in %s transform order",
+    async (_order, cycleFiles) => {
+      const sharedSource = (description: string, values: readonly string[]) =>
+        `export interface SharedProps {
+  /** ${description} */
+  tone: ${values.map((value) => JSON.stringify(value)).join(" | ")};
+}
+`;
+      const componentSource = (name: string, imports: string, props: string) =>
+        `declare namespace JSX { interface Element {} }
+${imports}
+export const ${name} = (_props: ${props}): JSX.Element =>
+  null as unknown as JSX.Element;
+`;
+      const fixture = createFixture(
+        {
+          "A.tsx": componentSource(
+            "A",
+            `import type { BLink } from "./B";
+import type { SharedProps } from "./Shared";
+export interface ALink { next?: BLink; }
+export type AProps = SharedProps;`,
+            "AProps",
+          ),
+          "B.tsx": componentSource(
+            "B",
+            `import type { ALink, AProps } from "./A";
+export interface BLink { next?: ALink; }`,
+            "AProps",
+          ),
+          "Diamond.tsx": componentSource(
+            "Diamond",
+            `import type { LeftProps } from "./Left";
+import type { RightProps } from "./Right";`,
+            "LeftProps & RightProps",
+          ),
+          "Left.ts":
+            'export type { SharedProps as LeftProps } from "./Shared";',
+          "Right.ts":
+            'export type { SharedProps as RightProps } from "./Shared";',
+          "Self.tsx": componentSource(
+            "Self",
+            `import type { SelfLink as Link } from "./Self";
+import type { SharedProps } from "./Shared";
+export interface SelfLink { next?: Link; }`,
+            "SharedProps",
+          ),
+          "Shared.ts": sharedSource("Initial shared tone.", ["base", "quiet"]),
+          "Unrelated.tsx": componentSource(
+            "Unrelated",
+            "",
+            "{ value: string }",
+          ),
+        },
+        "A.tsx",
+      );
+      const expectedDependencies = {
+        "A.tsx": ["A.tsx", "B.tsx", "Shared.ts"],
+        "B.tsx": ["A.tsx", "B.tsx", "Shared.ts"],
+        "Diamond.tsx": ["Diamond.tsx", "Left.ts", "Right.ts", "Shared.ts"],
+        "Self.tsx": ["Self.tsx", "Shared.ts"],
+        "Unrelated.tsx": ["Unrelated.tsx"],
+      };
+      const options: Options = {
+        ...modeOptions,
+        exclude: [],
+        include: ["*.tsx"],
+        shouldExtractValuesFromUnion: true,
+        tsconfigPath: fixture.tsconfigPath,
+      };
+      const dependencies = new Map<string, readonly string[]>();
+      const factory = createLegacyBackendFactory(options);
+      const plugin = createPluginWithBackend(options, {
+        ...factory,
+        async create(context) {
+          const backend = await factory.create(context);
+          return {
+            ...backend,
+            async analyze(request) {
+              const result = await backend.analyze(request);
+              dependencies.set(request.fileName, result.dependencies);
+              return result;
+            },
+          };
+        },
+      });
+      plugins.push(plugin);
+      // @ts-expect-error The focused harness supplies only the resolved fields used.
+      await plugin.configResolved?.({ command: "serve", root: fixture.root });
+
+      const transform = async (
+        file: keyof typeof expectedDependencies,
+        description: string,
+        values: readonly string[],
+      ) => {
+        const fileName = path.join(fixture.root, file);
+        const result = await plugin.transform?.call(
+          { warn: vi.fn() } as never,
+          readFileSync(fileName, "utf-8"),
+          fileName,
+        );
+        if (!result || typeof result === "string") {
+          throw new Error(`Expected generated transform result for ${file}`);
+        }
+        if (file !== "Unrelated.tsx") {
+          expect(extractGeneratedComponents(result.code, fixture.root)).toEqual(
+            [
+              expect.objectContaining({
+                props: expect.objectContaining({
+                  tone: expect.objectContaining({
+                    description,
+                    type: expect.objectContaining({
+                      value: values.map((value) => ({
+                        value: JSON.stringify(value),
+                      })),
+                    }),
+                  }),
+                }),
+              }),
+            ],
+          );
+        }
+        expect(dependencies.get(fileName)).toEqual(
+          expectedDependencies[file]
+            .map((dependency) => path.join(fixture.root, dependency))
+            .sort(),
+        );
+        return result.code;
+      };
+      const dependentFiles = [
+        ...cycleFiles,
+        "Self.tsx",
+        "Diamond.tsx",
+      ] as const;
+      for (const file of dependentFiles) {
+        await transform(file, "Initial shared tone.", ["base", "quiet"]);
+      }
+      const unrelatedCode = await transform("Unrelated.tsx", "", []);
+      const modules = new Map(
+        [...dependentFiles, "Unrelated.tsx"].map((file) => {
+          const fileName = path.join(fixture.root, file);
+          return [fileName, { id: fileName, url: fileName }];
+        }),
+      );
+      const sharedFile = path.join(fixture.root, "Shared.ts");
+      for (const [timestamp, member] of [
+        [1, "contrast"],
+        [2, "emphasis"],
+      ] as const) {
+        const description = `${member} shared tone.`;
+        const values = ["base", "quiet", member];
+        const source = sharedSource(description, values);
+        writeFileSync(sharedFile, source);
+        // @ts-expect-error The focused harness supplies only the used HMR fields.
+        const hotModules = await plugin.handleHotUpdate?.call(
+          { warn: vi.fn() },
+          {
+            file: sharedFile,
+            modules: [],
+            read: () => source,
+            server: {
+              moduleGraph: {
+                getModulesByFile: (fileName: string) => {
+                  const module = modules.get(fileName);
+                  return module ? new Set([module]) : undefined;
+                },
+                invalidateModule: vi.fn(),
+              },
+            },
+            timestamp,
+          },
+        );
+        expect(hotModules?.map((module) => module.id).sort()).toEqual(
+          dependentFiles.map((file) => path.join(fixture.root, file)).sort(),
+        );
+        for (const file of dependentFiles) {
+          await transform(file, description, values);
+        }
+        expect(await transform("Unrelated.tsx", "", [])).toBe(unrelatedCode);
+      }
+    },
+    60_000,
+  );
 });
 
 describe.each([

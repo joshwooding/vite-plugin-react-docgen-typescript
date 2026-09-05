@@ -546,7 +546,6 @@ const collectDirectTrackedFileDependencies = (
 const collectTrackedFileDependencies = (
   entryFileName: string,
   compilerOptions: CompilerOptions,
-  dependencyClosureCacheByProgram: WeakMap<Program, DependencyCache>,
   directDependencyCacheByProgram: WeakMap<Program, DependencyCache>,
   moduleResolutionCache: ModuleResolutionCache | undefined,
   program: Program,
@@ -560,27 +559,16 @@ const collectTrackedFileDependencies = (
     directDependencyCacheByProgram,
     program,
   );
-  const dependencyClosureCache = getProgramDependencyCache(
-    dependencyClosureCacheByProgram,
-    program,
-  );
-  const pendingFiles = new Set<string>();
+  const pendingFiles = [path.resolve(entryFileName)];
+  const dependencyFiles = new Set<string>();
 
-  const visit = (currentFileName: string): readonly string[] => {
-    const currentFile = path.resolve(currentFileName);
-    const cachedDependencies = dependencyClosureCache.get(currentFile);
-
-    if (cachedDependencies) {
-      return cachedDependencies;
+  while (pendingFiles.length > 0) {
+    const currentFile = pendingFiles.pop();
+    if (currentFile === undefined || dependencyFiles.has(currentFile)) {
+      continue;
     }
 
-    if (pendingFiles.has(currentFile)) {
-      return [currentFile];
-    }
-
-    pendingFiles.add(currentFile);
-
-    const dependencyFiles = new Set<string>([currentFile]);
+    dependencyFiles.add(currentFile);
     const directDependencies = collectDirectTrackedFileDependencies(
       currentFile,
       compilerOptions,
@@ -593,21 +581,11 @@ const collectTrackedFileDependencies = (
     );
 
     for (const directDependency of directDependencies) {
-      dependencyFiles.add(directDependency);
-
-      for (const transitiveDependency of visit(directDependency)) {
-        dependencyFiles.add(transitiveDependency);
-      }
+      pendingFiles.push(directDependency);
     }
+  }
 
-    pendingFiles.delete(currentFile);
-
-    const resolvedDependencies = [...dependencyFiles].sort();
-    dependencyClosureCache.set(currentFile, resolvedDependencies);
-    return resolvedDependencies;
-  };
-
-  return visit(entryFileName);
+  return [...dependencyFiles].sort();
 };
 
 const collectUnresolvedModuleDependencies = (
@@ -842,7 +820,6 @@ const createLegacyBackend = async (
     | undefined;
   let typescriptModule: typeof import("typescript") | null = null;
   let docGenParser: FileParser | undefined;
-  let dependencyClosureCacheByProgram = new WeakMap<Program, DependencyCache>();
   let directDependencyCacheByProgram = new WeakMap<Program, DependencyCache>();
   let directUnresolvedDependencyCacheByProgram = new WeakMap<
     Program,
@@ -876,7 +853,6 @@ const createLegacyBackend = async (
     | undefined;
 
   const clearDependencyAnalysisCache = () => {
-    dependencyClosureCacheByProgram = new WeakMap<Program, DependencyCache>();
     directDependencyCacheByProgram = new WeakMap<Program, DependencyCache>();
     directUnresolvedDependencyCacheByProgram = new WeakMap<
       Program,
@@ -1306,7 +1282,6 @@ const createLegacyBackend = async (
         ? collectTrackedFileDependencies(
             normalizedFileName,
             project.compilerOptions,
-            dependencyClosureCacheByProgram,
             directDependencyCacheByProgram,
             moduleResolutionCache,
             activeProgram,
