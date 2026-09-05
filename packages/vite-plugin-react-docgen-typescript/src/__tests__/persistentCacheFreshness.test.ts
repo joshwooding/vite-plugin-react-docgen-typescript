@@ -4,6 +4,7 @@ import {
   readdirSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
@@ -11,6 +12,7 @@ import path from "node:path";
 import { Parser } from "react-docgen-typescript";
 import { describe, expect, it, vi } from "vitest";
 import { createLegacyBackendFactory } from "../docgen/legacyBackend";
+import { normalizeBoundaryPath } from "../docgen/pathIdentity";
 import { createPlugin } from "../plugin";
 import type { Options } from "../utils/options";
 
@@ -18,6 +20,152 @@ describe.each([
   "legacy",
   "project-service",
 ] as const)("persistent project membership in %s", (docgenMode) => {
+  it("tracks aliased missing candidates restored from disk by physical identity", async () => {
+    const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-cache-alias-"));
+    const projectRoot = path.join(root, "project");
+    const aliasRoot = path.join(root, "alias");
+    const component = path.join(projectRoot, "Component.tsx");
+    const unrelated = path.join(projectRoot, "Unrelated.tsx");
+    const missing = path.join(projectRoot, "missing.ts");
+    const source =
+      "import type { Props } from './missing'; export const Component = (_props: Props) => null;";
+    const cacheRoot = path.join(root, ".cache");
+    mkdirSync(projectRoot);
+    symlinkSync(
+      projectRoot,
+      aliasRoot,
+      process.platform === "win32" ? "junction" : "dir",
+    );
+    writeFileSync(component, source);
+    writeFileSync(unrelated, "export const Unrelated = () => null;");
+    writeFileSync(
+      path.join(projectRoot, "tsconfig.json"),
+      JSON.stringify({
+        compilerOptions: { jsx: "preserve", types: [] },
+        include: ["*.ts", "*.tsx"],
+      }),
+    );
+    const hit = vi.fn();
+    const analyze = vi.fn();
+    const plugins: ReturnType<typeof createPlugin>[] = [];
+    const context = { addWatchFile: vi.fn(), warn: vi.fn() };
+    const create = async (cache: boolean) => {
+      const options: Options = {
+        docgenMode,
+        tsconfigPath: "tsconfig.json",
+        fileSystemCache: cache ? { directory: cacheRoot } : false,
+      };
+      const factory = createLegacyBackendFactory(options);
+      const plugin = createPlugin(options, {
+        ...factory,
+        async create(input) {
+          const backend = await factory.create(input);
+          const originalAnalyze = backend.analyze;
+          backend.analyze = (input) => {
+            analyze();
+            return originalAnalyze(input);
+          };
+          const recordHit = backend.recordCacheHit;
+          backend.recordCacheHit = (input) => {
+            hit(input);
+            recordHit(input);
+          };
+          return backend;
+        },
+      });
+      plugins.push(plugin);
+      // @ts-expect-error Focused harness supplies the resolved fields used.
+      await plugin.configResolved?.({ command: "serve", root: projectRoot });
+      return plugin;
+    };
+    const transform = (
+      plugin: ReturnType<typeof createPlugin>,
+      file = component,
+    ) =>
+      plugin.transform?.call(
+        context as never,
+        readFileSync(file, "utf8"),
+        file,
+      );
+    try {
+      const seed = await create(true);
+      const initial = await transform(seed);
+      const initialUnrelated = await transform(seed, unrelated);
+      if (typeof seed.closeBundle === "function")
+        await seed.closeBundle.call({} as never);
+      const cacheDir = path.join(cacheRoot, readdirSync(cacheRoot)[0]);
+      const entryName = readdirSync(cacheDir).find(
+        (file) =>
+          JSON.parse(readFileSync(path.join(cacheDir, file), "utf8")).proof
+            .componentFile === normalizeBoundaryPath(component),
+      );
+      if (!entryName) throw new Error("Expected the component cache entry");
+      const entryPath = path.join(cacheDir, entryName);
+      const entry = JSON.parse(readFileSync(entryPath, "utf8"));
+      expect(entry.unresolvedDependencies).toContain(
+        normalizeBoundaryPath(missing),
+      );
+      entry.unresolvedDependencies = entry.unresolvedDependencies.map(
+        (file: string) =>
+          path.join(aliasRoot, path.relative(projectRoot, file)),
+      );
+      writeFileSync(entryPath, JSON.stringify(entry));
+
+      analyze.mockClear();
+      const warm = await create(true);
+      expect(await transform(warm)).toEqual(initial);
+      expect(await transform(warm, unrelated)).toEqual(initialUnrelated);
+      expect(analyze).not.toHaveBeenCalled();
+      expect(hit).toHaveBeenCalledWith({
+        cache: "persistent",
+        fileName: normalizeBoundaryPath(component),
+      });
+
+      const addedSource = "export interface Props { added: boolean }";
+      writeFileSync(missing, addedSource);
+      const module = { file: component, id: component, url: component };
+      const unrelatedModule = {
+        file: unrelated,
+        id: unrelated,
+        url: unrelated,
+      };
+      const modulesByFile = new Map([
+        [normalizeBoundaryPath(component), new Set([module])],
+        [normalizeBoundaryPath(unrelated), new Set([unrelatedModule])],
+      ]);
+      const moduleGraph = {
+        getModulesByFile: (file: string) =>
+          modulesByFile.get(normalizeBoundaryPath(file)),
+      };
+      if (typeof warm.hotUpdate !== "function")
+        throw new Error("Expected the environment HMR hook");
+      expect(
+        await warm.hotUpdate.call(
+          { ...context, environment: { moduleGraph } } as never,
+          {
+            file: missing,
+            modules: [],
+            read: () => addedSource,
+            timestamp: 1,
+            type: "create",
+          } as never,
+        ),
+      ).toEqual([module]);
+      const updated = await transform(warm);
+      expect(updated).toEqual(await transform(await create(false)));
+      expect(updated).toEqual({
+        code: expect.stringContaining('"added"'),
+        map: null,
+      });
+      expect(context.warn).not.toHaveBeenCalled();
+    } finally {
+      for (const plugin of plugins)
+        if (typeof plugin.closeBundle === "function")
+          await plugin.closeBundle.call({} as never);
+      rmSync(root, { recursive: true, force: true });
+    }
+  }, 30_000);
+
   it.each([
     "global",
     "augmentation",
