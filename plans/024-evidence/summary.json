@@ -1,0 +1,577 @@
+{
+  "schemaVersion": 1,
+  "evaluatedIdentity": {
+    "buildSha256": "abdf0b0cfdc30b9916700d30b1c884dc6e525ab1205744bea8bf5702bded80e6",
+    "sourceSha256": "de949667cf8d4bae96a0cc42a6c68742cb7a99fccc099b9cb931f0bcaf1aeb86",
+    "benchmarkSha256": "6a7330f4a949277a5d1eae2ca5b540a4939056d35c6d4e10b2eb58ce5f9203bc",
+    "gitHead": "5f448ec8d596854eace55f59faa669193d187310",
+    "pluginVersion": "0.8.0",
+    "dependencies": {
+      "typescript": "6.0.3",
+      "react-docgen-typescript": "2.2.2",
+      "react": "18.3.1",
+      "@types/react": "18.2.25",
+      "vite": "8.1.5"
+    }
+  },
+  "rows": [
+    {
+      "scenario": "large-project",
+      "mode": "default",
+      "cache": "off",
+      "samples": [
+        "timings/large-project-default-off-01.json",
+        "timings/large-project-default-off-02.json",
+        "timings/large-project-default-off-03.json",
+        "timings/large-project-default-off-04.json",
+        "timings/large-project-default-off-05.json"
+      ],
+      "count": 5,
+      "cold": {
+        "median": 1662.2151,
+        "mad": 33.768299999999954
+      },
+      "warm": {
+        "median": 8.154299999999694,
+        "mad": 0.12329999999974461
+      },
+      "hmr": {
+        "median": 918.2642999999998,
+        "mad": 7.469399999999496
+      },
+      "session": {
+        "median": 2625.0782,
+        "mad": 46.97559999999976
+      },
+      "fileCount": 16,
+      "affectedModuleCount": 9,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        0
+      ]
+    },
+    {
+      "scenario": "large-project",
+      "mode": "default",
+      "cache": "populate",
+      "samples": [
+        "timings/large-project-default-populate-01.json",
+        "timings/large-project-default-populate-02.json",
+        "timings/large-project-default-populate-03.json",
+        "timings/large-project-default-populate-04.json",
+        "timings/large-project-default-populate-05.json"
+      ],
+      "count": 5,
+      "cold": {
+        "median": 2159.9693,
+        "mad": 40.44509999999991
+      },
+      "warm": {
+        "median": 8.197400000000016,
+        "mad": 0.3322000000002845
+      },
+      "hmr": {
+        "median": 1307.2325,
+        "mad": 52.215599999999995
+      },
+      "session": {
+        "median": 3479.4377,
+        "mad": 78.85860000000002
+      },
+      "fileCount": 16,
+      "affectedModuleCount": 9,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        16
+      ]
+    },
+    {
+      "scenario": "large-project",
+      "mode": "default",
+      "cache": "restart",
+      "samples": [
+        "timings/large-project-default-restart-01.json",
+        "timings/large-project-default-restart-02.json",
+        "timings/large-project-default-restart-03.json",
+        "timings/large-project-default-restart-04.json",
+        "timings/large-project-default-restart-05.json"
+      ],
+      "count": 5,
+      "cold": {
+        "median": 2005.4211,
+        "mad": 35.501299999999446
+      },
+      "warm": {
+        "median": 8.438599999999497,
+        "mad": 0.6668999999992593
+      },
+      "hmr": {
+        "median": 1413.8130999999994,
+        "mad": 48.543000000000575
+      },
+      "session": {
+        "median": 3397.0166999999997,
+        "mad": 49.003600000000006
+      },
+      "fileCount": 16,
+      "affectedModuleCount": 9,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        16
+      ],
+      "finalEntries": [
+        16
+      ]
+    },
+    {
+      "scenario": "large-project",
+      "mode": "projectService",
+      "cache": "off",
+      "samples": [
+        "timings/large-project-projectService-off-01.json",
+        "timings/large-project-projectService-off-02.json",
+        "timings/large-project-projectService-off-03.json",
+        "timings/large-project-projectService-off-04.json",
+        "timings/large-project-projectService-off-05.json"
+      ],
+      "count": 5,
+      "cold": {
+        "median": 1723.3049,
+        "mad": 36.560900000000174
+      },
+      "warm": {
+        "median": 12.470400000000154,
+        "mad": 0.3263999999999214
+      },
+      "hmr": {
+        "median": 678.0623,
+        "mad": 27.737499999999727
+      },
+      "session": {
+        "median": 2430.6063,
+        "mad": 74.4951000000001
+      },
+      "fileCount": 16,
+      "affectedModuleCount": 9,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        0
+      ]
+    },
+    {
+      "scenario": "large-project",
+      "mode": "projectService",
+      "cache": "populate",
+      "samples": [
+        "timings/large-project-projectService-populate-01.json",
+        "timings/large-project-projectService-populate-02.json",
+        "timings/large-project-projectService-populate-03.json",
+        "timings/large-project-projectService-populate-04.json",
+        "timings/large-project-projectService-populate-05.json"
+      ],
+      "count": 5,
+      "cold": {
+        "median": 2207.749,
+        "mad": 52.0944999999997
+      },
+      "warm": {
+        "median": 12.79130000000032,
+        "mad": 1.0636999999996988
+      },
+      "hmr": {
+        "median": 1028.5899,
+        "mad": 10.437799999999697
+      },
+      "session": {
+        "median": 3248.0017,
+        "mad": 43.831199999999626
+      },
+      "fileCount": 16,
+      "affectedModuleCount": 9,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        16
+      ]
+    },
+    {
+      "scenario": "large-project",
+      "mode": "projectService",
+      "cache": "restart",
+      "samples": [
+        "timings/large-project-projectService-restart-01.json",
+        "timings/large-project-projectService-restart-02.json",
+        "timings/large-project-projectService-restart-03.json",
+        "timings/large-project-projectService-restart-04.json",
+        "timings/large-project-projectService-restart-05.json"
+      ],
+      "count": 5,
+      "cold": {
+        "median": 2097.3109999999997,
+        "mad": 68.15379999999959
+      },
+      "warm": {
+        "median": 12.716699999999946,
+        "mad": 0.4713000000001557
+      },
+      "hmr": {
+        "median": 1142.1749,
+        "mad": 25.638600000000224
+      },
+      "session": {
+        "median": 3315.9853999999996,
+        "mad": 64.07459999999946
+      },
+      "fileCount": 16,
+      "affectedModuleCount": 9,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        16
+      ],
+      "finalEntries": [
+        16
+      ]
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "default",
+      "cache": "off",
+      "samples": [
+        "timings/react-typing-default-off-01.json",
+        "timings/react-typing-default-off-02.json",
+        "timings/react-typing-default-off-03.json",
+        "timings/react-typing-default-off-04.json",
+        "timings/react-typing-default-off-05.json"
+      ],
+      "count": 5,
+      "cold": {
+        "median": 1360.8120000000004,
+        "mad": 19.591100000000097
+      },
+      "warm": {
+        "median": 1.7476000000001477,
+        "mad": 0.06440000000020518
+      },
+      "hmr": {
+        "median": 601.6746000000003,
+        "mad": 27.726700000000164
+      },
+      "session": {
+        "median": 1967.9517999999994,
+        "mad": 56.70439999999917
+      },
+      "fileCount": 3,
+      "affectedModuleCount": 2,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        0
+      ]
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "default",
+      "cache": "populate",
+      "samples": [
+        "timings/react-typing-default-populate-01.json",
+        "timings/react-typing-default-populate-02.json",
+        "timings/react-typing-default-populate-03.json",
+        "timings/react-typing-default-populate-04.json",
+        "timings/react-typing-default-populate-05.json"
+      ],
+      "count": 5,
+      "cold": {
+        "median": 1448.5585,
+        "mad": 12.148400000000038
+      },
+      "warm": {
+        "median": 1.6754000000000815,
+        "mad": 0.1386000000002241
+      },
+      "hmr": {
+        "median": 664.1466999999998,
+        "mad": 10.300299999999424
+      },
+      "session": {
+        "median": 2107.1753999999996,
+        "mad": 33.7519999999995
+      },
+      "fileCount": 3,
+      "affectedModuleCount": 2,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        3
+      ]
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "default",
+      "cache": "restart",
+      "samples": [
+        "timings/react-typing-default-restart-01.json",
+        "timings/react-typing-default-restart-02.json",
+        "timings/react-typing-default-restart-03.json",
+        "timings/react-typing-default-restart-04.json",
+        "timings/react-typing-default-restart-05.json"
+      ],
+      "count": 5,
+      "cold": {
+        "median": 1219.5577000000003,
+        "mad": 27.64700000000039
+      },
+      "warm": {
+        "median": 1.6831999999999425,
+        "mad": 0.06340000000000146
+      },
+      "hmr": {
+        "median": 742.6171999999997,
+        "mad": 22.73030000000017
+      },
+      "session": {
+        "median": 2003.8639000000003,
+        "mad": 15.102300000000469
+      },
+      "fileCount": 3,
+      "affectedModuleCount": 2,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        3
+      ],
+      "finalEntries": [
+        3
+      ]
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "projectService",
+      "cache": "off",
+      "samples": [
+        "timings/react-typing-projectService-off-01.json",
+        "timings/react-typing-projectService-off-02.json",
+        "timings/react-typing-projectService-off-03.json",
+        "timings/react-typing-projectService-off-04.json",
+        "timings/react-typing-projectService-off-05.json"
+      ],
+      "count": 5,
+      "cold": {
+        "median": 1381.7783,
+        "mad": 35.177799999999934
+      },
+      "warm": {
+        "median": 2.332800000000134,
+        "mad": 0.01830000000018117
+      },
+      "hmr": {
+        "median": 212.20569999999998,
+        "mad": 6.613600000000133
+      },
+      "session": {
+        "median": 1601.1228,
+        "mad": 27.20859999999948
+      },
+      "fileCount": 3,
+      "affectedModuleCount": 2,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        0
+      ]
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "projectService",
+      "cache": "populate",
+      "samples": [
+        "timings/react-typing-projectService-populate-01.json",
+        "timings/react-typing-projectService-populate-02.json",
+        "timings/react-typing-projectService-populate-03.json",
+        "timings/react-typing-projectService-populate-04.json",
+        "timings/react-typing-projectService-populate-05.json"
+      ],
+      "count": 5,
+      "cold": {
+        "median": 1478.0009999999997,
+        "mad": 31.529899999999543
+      },
+      "warm": {
+        "median": 2.473700000000008,
+        "mad": 0.231399999999212
+      },
+      "hmr": {
+        "median": 261.9876999999997,
+        "mad": 15.104399999999714
+      },
+      "session": {
+        "median": 1783.9321999999997,
+        "mad": 21.493699999999535
+      },
+      "fileCount": 3,
+      "affectedModuleCount": 2,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        3
+      ]
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "projectService",
+      "cache": "restart",
+      "samples": [
+        "timings/react-typing-projectService-restart-01.json",
+        "timings/react-typing-projectService-restart-02.json",
+        "timings/react-typing-projectService-restart-03.json",
+        "timings/react-typing-projectService-restart-04.json",
+        "timings/react-typing-projectService-restart-05.json"
+      ],
+      "count": 5,
+      "cold": {
+        "median": 1220.3080999999997,
+        "mad": 15.997999999999593
+      },
+      "warm": {
+        "median": 2.48720000000003,
+        "mad": 0.09029999999984284
+      },
+      "hmr": {
+        "median": 342.3593000000001,
+        "mad": 1.996900000000096
+      },
+      "session": {
+        "median": 1574.8050000000003,
+        "mad": 8.44230000000016
+      },
+      "fileCount": 3,
+      "affectedModuleCount": 2,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        3
+      ],
+      "finalEntries": [
+        3
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "scenario": "large-project",
+      "mode": "default",
+      "coldSavingMs": -343.20600000000013,
+      "coldSavingPercent": -20.64750825570049,
+      "benefitThreshold": false,
+      "hmr": [
+        {
+          "cache": "populate",
+          "deltaMs": 388.96820000000025,
+          "deltaPercent": 42.359068080943615,
+          "materialRegression": true
+        },
+        {
+          "cache": "restart",
+          "deltaMs": 495.5487999999996,
+          "deltaPercent": 53.96581354627417,
+          "materialRegression": true
+        }
+      ],
+      "populationSessionOverheadMs": 854.3595,
+      "restartSessionSavingMs": -771.9384999999997,
+      "projectedReuseSessionsToBreakEven": null
+    },
+    {
+      "scenario": "large-project",
+      "mode": "projectService",
+      "coldSavingMs": -374.0060999999996,
+      "coldSavingPercent": -21.702839700624047,
+      "benefitThreshold": false,
+      "hmr": [
+        {
+          "cache": "populate",
+          "deltaMs": 350.5275999999999,
+          "deltaPercent": 51.69548579828135,
+          "materialRegression": true
+        },
+        {
+          "cache": "restart",
+          "deltaMs": 464.11259999999993,
+          "deltaPercent": 68.44689639875273,
+          "materialRegression": true
+        }
+      ],
+      "populationSessionOverheadMs": 817.3953999999999,
+      "restartSessionSavingMs": -885.3790999999997,
+      "projectedReuseSessionsToBreakEven": null
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "default",
+      "coldSavingMs": 141.25430000000006,
+      "coldSavingPercent": 10.380148029264882,
+      "benefitThreshold": false,
+      "hmr": [
+        {
+          "cache": "populate",
+          "deltaMs": 62.4720999999995,
+          "deltaPercent": 10.383037608700695,
+          "materialRegression": true
+        },
+        {
+          "cache": "restart",
+          "deltaMs": 140.9425999999994,
+          "deltaPercent": 23.425054007598018,
+          "materialRegression": true
+        }
+      ],
+      "populationSessionOverheadMs": 139.22360000000026,
+      "restartSessionSavingMs": -35.91210000000092,
+      "projectedReuseSessionsToBreakEven": null
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "projectService",
+      "coldSavingMs": 161.4702000000002,
+      "coldSavingPercent": 11.685680691323652,
+      "benefitThreshold": false,
+      "hmr": [
+        {
+          "cache": "populate",
+          "deltaMs": 49.7819999999997,
+          "deltaPercent": 23.45931329837026,
+          "materialRegression": true
+        },
+        {
+          "cache": "restart",
+          "deltaMs": 130.1536000000001,
+          "deltaPercent": 61.333696502968635,
+          "materialRegression": true
+        }
+      ],
+      "populationSessionOverheadMs": 182.80939999999964,
+      "restartSessionSavingMs": 26.317799999999806,
+      "projectedReuseSessionsToBreakEven": 7
+    }
+  ],
+  "initialNoisyGroups": [],
+  "noisyGroups": [],
+  "verdict": "SIMPLIFY_OR_DEPRECATE",
+  "scope": "Covered restart and existing-file edit workloads only; initially missing external files remain Plan 023. Direct-plugin HMR, not browser latency. Retained memory unmeasured."
+}
