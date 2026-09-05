@@ -1,0 +1,161 @@
+{
+  "status": "PASS",
+  "identity": {
+    "pluginCommit": "d6553de853530680b0d959120e3b0f9eeeaf8d33",
+    "saltCommit": "2e1da8e4fbc398b2a7dfffbd357feedf222f7e07",
+    "saltSourceSha256": "03a0ac52590092e999c3ba04e70b572d9402dd7150de244830f6b55ee92d0b69",
+    "pluginSourceSha256": "7b24ddf88cae1ca8610057ba0f162883c04861799d855ec1962d465e5cc76ae5",
+    "pluginBuildSha256": "8446e4c027f8f3506117209a857d6d55f30687db40a627351f4ab4f7f9390f5f",
+    "pluginLockSha256": "782c9e80e0789b79ecf721c60b38587fabf1d26eccb636e87471469fd530d9c4",
+    "saltLockSha256": "01423b24e1f1000ae471bfd852f8f9d409c18094e08eccc064241dbdc9b17045",
+    "consumerLockSha256": "e945d57e3af0e143e0f8c8533ba0e7e55e3f6b02d5959959d31feb2b3aef0650",
+    "configSha256": "f64535b421daaa1161a70a045c5e7ac0446888212bcfe28b8a4e6070d59693e7",
+    "targetsSha256": "fdde38eb255aa141c117f94a722df6b57508880b813363fe334a646f35ee37d5",
+    "targetCount": 215,
+    "workspaceLinks": {
+      "core": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\salt-ds\\packages\\core",
+      "icons": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\salt-ds\\packages\\icons",
+      "styles": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\salt-ds\\packages\\styles",
+      "window": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\salt-ds\\packages\\window"
+    },
+    "selectedConfigHashes": {
+      "core": "f64535b421daaa1161a70a045c5e7ac0446888212bcfe28b8a4e6070d59693e7",
+      "icons": "d38554336b3b456e68ce746c61720c9f4b8816ba1e5f53d1f64218a42f65e053",
+      "styles": "d38554336b3b456e68ce746c61720c9f4b8816ba1e5f53d1f64218a42f65e053",
+      "window": "d38554336b3b456e68ce746c61720c9f4b8816ba1e5f53d1f64218a42f65e053"
+    },
+    "node": "v24.10.0",
+    "host": {
+      "platform": "win32",
+      "release": "10.0.26340",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz",
+      "logicalCpus": 16
+    },
+    "pluginDependencies": {
+      "typescript": {
+        "version": "6.0.3",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\typescript\\package.json"
+      },
+      "react-docgen-typescript": {
+        "version": "2.2.2",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\react-docgen-typescript\\package.json"
+      },
+      "vite": {
+        "version": "8.1.5",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\vite\\package.json"
+      }
+    },
+    "consumerDependencies": {
+      "@floating-ui/react": {
+        "version": "0.27.19",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\@floating-ui\\react\\package.json"
+      },
+      "@floating-ui/core": {
+        "version": "1.7.5",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\@floating-ui\\core\\package.json"
+      },
+      "@types/react": {
+        "version": "18.3.31",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\@types\\react\\package.json"
+      },
+      "@types/react-dom": {
+        "version": "18.3.7",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\@types\\react-dom\\package.json"
+      },
+      "@types/node": {
+        "version": "24.10.1",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\@types\\node\\package.json"
+      },
+      "@types/use-sync-external-store": {
+        "version": "0.0.6",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\@types\\use-sync-external-store\\package.json"
+      },
+      "react": {
+        "version": "18.3.1",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\react\\package.json"
+      },
+      "react-dom": {
+        "version": "18.3.1",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\react-dom\\package.json"
+      },
+      "clsx": {
+        "version": "2.0.0",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\clsx\\package.json"
+      },
+      "compute-scroll-into-view": {
+        "version": "3.0.0",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\compute-scroll-into-view\\package.json"
+      },
+      "dom-accessibility-api": {
+        "version": "0.7.1",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\dom-accessibility-api\\package.json"
+      },
+      "tabbable": {
+        "version": "6.2.0",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\tabbable\\package.json"
+      },
+      "use-sync-external-store": {
+        "version": "1.5.0",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\use-sync-external-store\\package.json"
+      },
+      "vite": {
+        "version": "8.2.0",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan027\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\027\\consumer-dependencies\\node_modules\\vite\\package.json"
+      }
+    }
+  },
+  "baseline": {
+    "metadataFileCount": 201,
+    "componentCount": 221
+  },
+  "componentChangedFiles": [
+    "packages/core/src/button/Button.tsx",
+    "packages/core/src/dialog/DialogCloseButton.tsx",
+    "packages/core/src/drawer/DrawerCloseButton.tsx",
+    "packages/core/src/overlay/OverlayPanelCloseButton.tsx",
+    "packages/core/src/side-panel/SidePanelCloseButton.tsx",
+    "packages/core/src/stepper/internal/StepExpandTrigger.tsx",
+    "packages/core/src/tabs/TabAction.tsx"
+  ],
+  "sharedChangedFiles": [
+    "packages/core/src/banner/Banner.tsx",
+    "packages/core/src/checkbox/Checkbox.tsx",
+    "packages/core/src/checkbox/CheckboxGroup.tsx",
+    "packages/core/src/checkbox/CheckboxIcon.tsx",
+    "packages/core/src/combo-box/ComboBox.tsx",
+    "packages/core/src/dialog/Dialog.tsx",
+    "packages/core/src/dialog/DialogHeader.tsx",
+    "packages/core/src/dropdown/Dropdown.tsx",
+    "packages/core/src/file-drop-zone/FileDropZone.tsx",
+    "packages/core/src/file-drop-zone/FileDropZoneIcon.tsx",
+    "packages/core/src/form-field/FormField.tsx",
+    "packages/core/src/form-field/FormFieldHelperText.tsx",
+    "packages/core/src/form-field/FormFieldLabel.tsx",
+    "packages/core/src/input/Input.tsx",
+    "packages/core/src/multiline-input/MultilineInput.tsx",
+    "packages/core/src/number-input/NumberInput.tsx",
+    "packages/core/src/pill-input/PillInput.tsx",
+    "packages/core/src/radio-button/RadioButton.tsx",
+    "packages/core/src/radio-button/RadioButtonIcon.tsx",
+    "packages/core/src/side-panel/SidePanelTitle.tsx",
+    "packages/core/src/status-adornment/StatusAdornment.tsx",
+    "packages/core/src/status-indicator/StatusIndicator.tsx",
+    "packages/core/src/stepper/internal/StepText.tsx",
+    "packages/core/src/text/Code.tsx",
+    "packages/core/src/text/Display.tsx",
+    "packages/core/src/text/Headings.tsx",
+    "packages/core/src/text/Label.tsx",
+    "packages/core/src/text/Text.tsx",
+    "packages/core/src/text/TextAction.tsx",
+    "packages/core/src/text/TextNotation.tsx",
+    "packages/core/src/toast/Toast.tsx",
+    "packages/core/src/tooltip/Tooltip.tsx",
+    "packages/core/src/tooltip/TooltipBase.tsx"
+  ],
+  "negativeControls": {
+    "staleRejected": true,
+    "identityRejected": true
+  },
+  "backendSemanticParity": true
+}
