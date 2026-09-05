@@ -1,0 +1,1845 @@
+{
+  "policy": "baseline",
+  "identity": {
+    "evaluatedSha": "d6553de853530680b0d959120e3b0f9eeeaf8d33",
+    "lockfileSha256": "782c9e80e0789b79ecf721c60b38587fabf1d26eccb636e87471469fd530d9c4",
+    "sourceSha256": "23f3abe342593bb0f520806defe64ecf5e5b102f0ef0710aa51feb358ab0e7db",
+    "buildSha256": "8446e4c027f8f3506117209a857d6d55f30687db40a627351f4ab4f7f9390f5f",
+    "benchmarkSha256": "6a7330f4a949277a5d1eae2ca5b540a4939056d35c6d4e10b2eb58ce5f9203bc",
+    "node": "v24.10.0",
+    "os": {
+      "platform": "win32",
+      "release": "10.0.26340",
+      "arch": "x64"
+    },
+    "versions": {
+      "typescript": "6.0.3",
+      "typescript6": "6.0.2",
+      "vite": "8.1.5",
+      "react-docgen-typescript": "2.2.2",
+      "react": "18.3.1",
+      "@types/react": "18.2.25"
+    }
+  },
+  "rows": [
+    {
+      "policy": "baseline",
+      "mode": "default",
+      "cacheState": "off",
+      "parentKind": "shared-directory",
+      "prototypeOnly": false,
+      "checkpoints": [
+        {
+          "phase": "create-Component",
+          "receivedEvent": false,
+          "fresh": false,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 36476,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {}
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [],
+          "status": "FAIL",
+          "deliveredPaths": [],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": false
+        },
+        {
+          "phase": "create-Second",
+          "receivedEvent": false,
+          "fresh": false,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 44420,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [],
+          "status": "FAIL",
+          "deliveredPaths": [],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": false
+        }
+      ],
+      "initialExtractions": 3,
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "beforeWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src"
+        ],
+        "entryCount": 7,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ]
+        }
+      },
+      "afterWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src"
+        ],
+        "entryCount": 7,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ]
+        }
+      },
+      "addedDirectories": [],
+      "addedEntries": 0,
+      "unrelated": {
+        "receivedEvent": false,
+        "payloads": []
+      },
+      "status": "FAIL",
+      "closed": true,
+      "watchedDirectoriesAfterClose": 0,
+      "postCloseEvents": 0
+    },
+    {
+      "policy": "baseline",
+      "mode": "default",
+      "cacheState": "seed-absent",
+      "parentKind": "shared-directory",
+      "prototypeOnly": false,
+      "checkpoints": [
+        {
+          "phase": "create-Component",
+          "receivedEvent": false,
+          "fresh": false,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 39080,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {}
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [],
+          "status": "FAIL",
+          "deliveredPaths": [],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": false
+        },
+        {
+          "phase": "create-Second",
+          "receivedEvent": false,
+          "fresh": false,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 45160,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [],
+          "status": "FAIL",
+          "deliveredPaths": [],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": false
+        }
+      ],
+      "seed": {
+        "processId": 27024,
+        "docs": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {}
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {}
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        },
+        "extractions": 3
+      },
+      "initialExtractions": 0,
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "beforeWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/3a0706a0e9ebb729c2756fa06d3cee28209075bc97874229ee965d7be0008e68"
+        ],
+        "entryCount": 12,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "3a0706a0e9ebb729c2756fa06d3cee28209075bc97874229ee965d7be0008e68"
+          ],
+          "app/.cache/3a0706a0e9ebb729c2756fa06d3cee28209075bc97874229ee965d7be0008e68": [
+            "42974a4cf980d8eb0dd012d53ea8e655a984cb84d68151e37fc5db1756724788.json",
+            "4965a3e12b4aa99ca0bf077b29d85d304485f3d0963abd340527a7bea0b41a1c.json",
+            "ca865d72071fa37c1101b59fef85760d58b1c627df1d8e6e99c6d00b971268c2.json"
+          ]
+        }
+      },
+      "afterWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/3a0706a0e9ebb729c2756fa06d3cee28209075bc97874229ee965d7be0008e68"
+        ],
+        "entryCount": 12,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "3a0706a0e9ebb729c2756fa06d3cee28209075bc97874229ee965d7be0008e68"
+          ],
+          "app/.cache/3a0706a0e9ebb729c2756fa06d3cee28209075bc97874229ee965d7be0008e68": [
+            "42974a4cf980d8eb0dd012d53ea8e655a984cb84d68151e37fc5db1756724788.json",
+            "4965a3e12b4aa99ca0bf077b29d85d304485f3d0963abd340527a7bea0b41a1c.json",
+            "ca865d72071fa37c1101b59fef85760d58b1c627df1d8e6e99c6d00b971268c2.json"
+          ]
+        }
+      },
+      "addedDirectories": [],
+      "addedEntries": 0,
+      "unrelated": {
+        "receivedEvent": false,
+        "payloads": []
+      },
+      "status": "FAIL",
+      "closed": true,
+      "watchedDirectoriesAfterClose": 0,
+      "postCloseEvents": 0
+    },
+    {
+      "policy": "baseline",
+      "mode": "default",
+      "cacheState": "offline-delete",
+      "parentKind": "repository",
+      "prototypeOnly": false,
+      "checkpoints": [
+        {
+          "phase": "create-Component",
+          "receivedEvent": false,
+          "fresh": false,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 28944,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {}
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [],
+          "status": "FAIL",
+          "deliveredPaths": [],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": false
+        },
+        {
+          "phase": "create-Second",
+          "receivedEvent": false,
+          "fresh": false,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 17308,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [],
+          "status": "FAIL",
+          "deliveredPaths": [],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": false
+        }
+      ],
+      "seed": {
+        "processId": 3276,
+        "docs": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {
+              "label": {
+                "name": "label",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "string"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {
+              "label": {
+                "name": "label",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "string"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        },
+        "extractions": 3
+      },
+      "initialExtractions": 3,
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "beforeWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/b3f4389652ba452be5c61cb5af708b493e41d1de87dd27b749967d93fc635be0"
+        ],
+        "entryCount": 12,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "b3f4389652ba452be5c61cb5af708b493e41d1de87dd27b749967d93fc635be0"
+          ],
+          "app/.cache/b3f4389652ba452be5c61cb5af708b493e41d1de87dd27b749967d93fc635be0": [
+            "2be9e910d0c838480289cda78bc88c687fe9dd2e7cb8e8c90a8d8f7e9c572104.json",
+            "6bf91cfb5692b806d1b1617ef60a8fc13dd489905bdcecb2a4e12a36699dc82a.json",
+            "a1223170ed9e83eed2a984e74498669fbe4adf87d9abfdb2d8990737279a2219.json"
+          ]
+        }
+      },
+      "afterWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/b3f4389652ba452be5c61cb5af708b493e41d1de87dd27b749967d93fc635be0"
+        ],
+        "entryCount": 12,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "b3f4389652ba452be5c61cb5af708b493e41d1de87dd27b749967d93fc635be0"
+          ],
+          "app/.cache/b3f4389652ba452be5c61cb5af708b493e41d1de87dd27b749967d93fc635be0": [
+            "2be9e910d0c838480289cda78bc88c687fe9dd2e7cb8e8c90a8d8f7e9c572104.json",
+            "6bf91cfb5692b806d1b1617ef60a8fc13dd489905bdcecb2a4e12a36699dc82a.json",
+            "a1223170ed9e83eed2a984e74498669fbe4adf87d9abfdb2d8990737279a2219.json"
+          ]
+        }
+      },
+      "addedDirectories": [],
+      "addedEntries": 0,
+      "unrelated": {
+        "receivedEvent": false,
+        "payloads": []
+      },
+      "status": "FAIL",
+      "closed": true,
+      "watchedDirectoriesAfterClose": 0,
+      "postCloseEvents": 0
+    },
+    {
+      "policy": "baseline",
+      "mode": "projectService",
+      "cacheState": "off",
+      "parentKind": "shared-directory",
+      "prototypeOnly": false,
+      "checkpoints": [
+        {
+          "phase": "create-Component",
+          "receivedEvent": false,
+          "fresh": false,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 44344,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {}
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [],
+          "status": "FAIL",
+          "deliveredPaths": [],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": false
+        },
+        {
+          "phase": "create-Second",
+          "receivedEvent": false,
+          "fresh": false,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 17064,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [],
+          "status": "FAIL",
+          "deliveredPaths": [],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": false
+        }
+      ],
+      "initialExtractions": 3,
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "beforeWatch": {
+        "directories": [
+          "app/src",
+          "app",
+          "."
+        ],
+        "entryCount": 7,
+        "entries": {
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app": [
+            "src",
+            "tsconfig.json"
+          ],
+          ".": [
+            "app"
+          ]
+        }
+      },
+      "afterWatch": {
+        "directories": [
+          "app/src",
+          "app",
+          "."
+        ],
+        "entryCount": 7,
+        "entries": {
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app": [
+            "src",
+            "tsconfig.json"
+          ],
+          ".": [
+            "app"
+          ]
+        }
+      },
+      "addedDirectories": [],
+      "addedEntries": 0,
+      "unrelated": {
+        "receivedEvent": false,
+        "payloads": []
+      },
+      "status": "FAIL",
+      "closed": true,
+      "watchedDirectoriesAfterClose": 0,
+      "postCloseEvents": 0
+    },
+    {
+      "policy": "baseline",
+      "mode": "projectService",
+      "cacheState": "seed-absent",
+      "parentKind": "shared-directory",
+      "prototypeOnly": false,
+      "checkpoints": [
+        {
+          "phase": "create-Component",
+          "receivedEvent": false,
+          "fresh": false,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 7756,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {}
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [],
+          "status": "FAIL",
+          "deliveredPaths": [],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": false
+        },
+        {
+          "phase": "create-Second",
+          "receivedEvent": false,
+          "fresh": false,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 45716,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [],
+          "status": "FAIL",
+          "deliveredPaths": [],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": false
+        }
+      ],
+      "seed": {
+        "processId": 22912,
+        "docs": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {}
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {}
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        },
+        "extractions": 3
+      },
+      "initialExtractions": 0,
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "beforeWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/3007cb2d6672f30ff9f069b85caeaff6b8ac032da05a547188f8659cf5b9628c"
+        ],
+        "entryCount": 12,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "3007cb2d6672f30ff9f069b85caeaff6b8ac032da05a547188f8659cf5b9628c"
+          ],
+          "app/.cache/3007cb2d6672f30ff9f069b85caeaff6b8ac032da05a547188f8659cf5b9628c": [
+            "8708365134724279c63414059122d22a68c722f5018e9b86e58a062c5ffa94c0.json",
+            "a28219eba54270a9a36de60c8c026785b7c0d072e98ac2b333d66ccb6ec4fa1c.json",
+            "b5fb8cb01fbae882945592bc935c96a3b270bcdf87cba2815896b2f329ff9ea5.json"
+          ]
+        }
+      },
+      "afterWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/3007cb2d6672f30ff9f069b85caeaff6b8ac032da05a547188f8659cf5b9628c"
+        ],
+        "entryCount": 12,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "3007cb2d6672f30ff9f069b85caeaff6b8ac032da05a547188f8659cf5b9628c"
+          ],
+          "app/.cache/3007cb2d6672f30ff9f069b85caeaff6b8ac032da05a547188f8659cf5b9628c": [
+            "8708365134724279c63414059122d22a68c722f5018e9b86e58a062c5ffa94c0.json",
+            "a28219eba54270a9a36de60c8c026785b7c0d072e98ac2b333d66ccb6ec4fa1c.json",
+            "b5fb8cb01fbae882945592bc935c96a3b270bcdf87cba2815896b2f329ff9ea5.json"
+          ]
+        }
+      },
+      "addedDirectories": [],
+      "addedEntries": 0,
+      "unrelated": {
+        "receivedEvent": false,
+        "payloads": []
+      },
+      "status": "FAIL",
+      "closed": true,
+      "watchedDirectoriesAfterClose": 0,
+      "postCloseEvents": 0
+    },
+    {
+      "policy": "baseline",
+      "mode": "projectService",
+      "cacheState": "offline-delete",
+      "parentKind": "repository",
+      "prototypeOnly": false,
+      "checkpoints": [
+        {
+          "phase": "create-Component",
+          "receivedEvent": false,
+          "fresh": false,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 29016,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {}
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [],
+          "status": "FAIL",
+          "deliveredPaths": [],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": false
+        },
+        {
+          "phase": "create-Second",
+          "receivedEvent": false,
+          "fresh": false,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 27992,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [],
+          "status": "FAIL",
+          "deliveredPaths": [],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": false
+        }
+      ],
+      "seed": {
+        "processId": 40656,
+        "docs": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {
+              "label": {
+                "name": "label",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "string"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {
+              "label": {
+                "name": "label",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "string"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        },
+        "extractions": 3
+      },
+      "initialExtractions": 3,
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "beforeWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/0f4b4cb12b41f0fbffb3150f033acc64c0c989c86f1b921b91061d963eb46d32"
+        ],
+        "entryCount": 12,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "0f4b4cb12b41f0fbffb3150f033acc64c0c989c86f1b921b91061d963eb46d32"
+          ],
+          "app/.cache/0f4b4cb12b41f0fbffb3150f033acc64c0c989c86f1b921b91061d963eb46d32": [
+            "4536fa1c18372f05eabe84f29b643b14deebc65d266cd983d261ea905210c5fe.json",
+            "51418e8454b27a5184d4c2d47d354a988177462e14174021b6fb940764e730ea.json",
+            "82035828458400f480c40fde4f200814e7cd9de77fd8ac1844d36283b16ef4cb.json"
+          ]
+        }
+      },
+      "afterWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/0f4b4cb12b41f0fbffb3150f033acc64c0c989c86f1b921b91061d963eb46d32"
+        ],
+        "entryCount": 12,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "0f4b4cb12b41f0fbffb3150f033acc64c0c989c86f1b921b91061d963eb46d32"
+          ],
+          "app/.cache/0f4b4cb12b41f0fbffb3150f033acc64c0c989c86f1b921b91061d963eb46d32": [
+            "4536fa1c18372f05eabe84f29b643b14deebc65d266cd983d261ea905210c5fe.json",
+            "51418e8454b27a5184d4c2d47d354a988177462e14174021b6fb940764e730ea.json",
+            "82035828458400f480c40fde4f200814e7cd9de77fd8ac1844d36283b16ef4cb.json"
+          ]
+        }
+      },
+      "addedDirectories": [],
+      "addedEntries": 0,
+      "unrelated": {
+        "receivedEvent": false,
+        "payloads": []
+      },
+      "status": "FAIL",
+      "closed": true,
+      "watchedDirectoriesAfterClose": 0,
+      "postCloseEvents": 0
+    }
+  ],
+  "verdict": "FAIL"
+}
