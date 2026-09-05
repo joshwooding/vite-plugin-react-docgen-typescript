@@ -9,6 +9,7 @@ import {
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import type { DocgenBackend } from "../docgen/backend";
 import { createLegacyBackendFactory } from "../docgen/legacyBackend";
 import createPlugin from "../index";
 import { createPlugin as createPluginWithBackend } from "../plugin";
@@ -265,6 +266,250 @@ describe.each([
   ["default", {}],
   ["watch", { EXPERIMENTAL_useWatchProgram: true }],
   ["project service", { EXPERIMENTAL_useProjectService: true }],
+] as const)("existing ambient input freshness: %s", (_mode, modeOptions) => {
+  it.each([
+    "global script",
+    "declare global",
+    "root augmentation",
+  ] as const)("tracks %s inputs through live edits and restarted persistent caches", async (shape) => {
+    const changedFile = shape === "declare global" ? "shared.ts" : "ambient.ts";
+    const changedSource = (phase: string) => {
+      const props = `\n  /** ${phase} ambient tone. */\n  tone: "base" | "${phase}";\n`;
+      if (shape === "global script") return `interface AmbientProps {${props}}`;
+      if (shape === "declare global")
+        return `export interface SharedProps {${props}}`;
+      return `export {}; declare module "./props" { interface Props {${props}} }`;
+    };
+    const componentSource = `declare namespace JSX { interface Element {} }
+${shape === "root augmentation" ? 'import type { Props } from "./props";' : ""}
+export const Component = (_props: ${shape === "root augmentation" ? "Props" : "AmbientProps"}): JSX.Element =>
+  null as unknown as JSX.Element;
+`;
+    const otherSource = `declare namespace JSX { interface Element {} }
+import type { OrdinaryProps } from "./ordinary";
+import "./commonjs.js";
+export const Other = (_props: OrdinaryProps): JSX.Element =>
+  null as unknown as JSX.Element;
+`;
+    const ordinarySource = (phase: string) => `export interface OrdinaryProps {
+  /** ${phase} ordinary value. */
+  value: string;
+}`;
+    const sharedFiles = ["ambient.ts"];
+    const ambientFiles: Record<string, string> = {
+      [changedFile]: changedSource("initial"),
+    };
+    if (shape === "declare global") {
+      ambientFiles["ambient.ts"] = `import type { SharedProps } from "./shared";
+declare global { interface AmbientProps extends SharedProps {} }`;
+      sharedFiles.push("shared.ts");
+    } else if (shape === "root augmentation") {
+      ambientFiles["props.ts"] = "export interface Props {}";
+      sharedFiles.push("props.ts");
+    }
+    const fixture = createFixture(
+      {
+        ...ambientFiles,
+        "Component.tsx": componentSource,
+        "Other.tsx": otherSource,
+        "ordinary.ts": ordinarySource("initial"),
+        "ordinary.d.ts": "export interface UnusedProps { value: boolean; }",
+        "local-namespace.ts":
+          "export {}; declare namespace JSX { interface LocalElement {} }",
+        "commonjs.js": "var out = exports; out.value = 1;",
+        "commonjs-require.js": 'const local = require("./commonjs");',
+        "commonjs-define.js":
+          'Object.defineProperty(module.exports, "value", { value: 1 });',
+      },
+      "Component.tsx",
+    );
+    const fixtureConfig = JSON.parse(
+      readFileSync(fixture.tsconfigPath, "utf-8"),
+    );
+    fixtureConfig.compilerOptions.allowJs = true;
+    writeFileSync(fixture.tsconfigPath, JSON.stringify(fixtureConfig));
+    const otherFile = path.join(fixture.root, "Other.tsx");
+    const changedPath = path.join(fixture.root, changedFile);
+    const options: Options = {
+      ...modeOptions,
+      fileSystemCache: { directory: fixture.cacheDirectory, enabled: true },
+      shouldExtractValuesFromUnion: true,
+      tsconfigPath: fixture.tsconfigPath,
+    };
+    const expectedDependencies = (file: string) =>
+      [
+        file,
+        ...sharedFiles.map((shared) => path.join(fixture.root, shared)),
+        ...(file === otherFile
+          ? [
+              path.join(fixture.root, "ordinary.ts"),
+              path.join(fixture.root, "commonjs.js"),
+            ]
+          : []),
+      ].sort();
+    const dependencies = new Map<string, readonly string[]>();
+    const analyses = new Map<string, number>();
+    let backend: DocgenBackend | undefined;
+    let createCount = 0;
+    const factory = createLegacyBackendFactory(options);
+    const startPlugin = async () => {
+      const plugin = createPluginWithBackend(options, {
+        ...factory,
+        async create(context) {
+          createCount += 1;
+          const activeBackend = await factory.create(context);
+          backend = activeBackend;
+          return {
+            ...activeBackend,
+            async analyze(request) {
+              const result = await activeBackend.analyze(request);
+              dependencies.set(request.fileName, result.dependencies);
+              analyses.set(
+                request.fileName,
+                (analyses.get(request.fileName) ?? 0) + 1,
+              );
+              return result;
+            },
+          };
+        },
+      });
+      plugins.push(plugin);
+      // @ts-expect-error The focused harness supplies only the resolved fields used.
+      await plugin.configResolved?.({ command: "serve", root: fixture.root });
+      return plugin;
+    };
+    const transform = async (
+      plugin: ReturnType<typeof createPlugin>,
+      fileName: string,
+    ) => {
+      const result = await plugin.transform?.call(
+        { addWatchFile: vi.fn(), warn: vi.fn() } as never,
+        readFileSync(fileName, "utf-8"),
+        fileName,
+      );
+      if (!result || typeof result === "string")
+        throw new Error("Expected generated metadata");
+      return result.code;
+    };
+    const expectedTone = (phase: string) => ({
+      description: `${phase} ambient tone.`,
+      type: { value: [{ value: '"base"' }, { value: `"${phase}"` }] },
+    });
+    const expectTone = (code: string, phase: string) => {
+      expect
+        .soft(extractGeneratedComponents(code, fixture.root))
+        .toMatchObject([{ props: { tone: expectedTone(phase) } }]);
+    };
+    const componentModule = {
+      id: fixture.componentPath,
+      url: fixture.componentPath,
+    };
+    const otherModule = { id: otherFile, url: otherFile };
+    const hotUpdate = async (
+      plugin: ReturnType<typeof createPlugin>,
+      file: string,
+      source: string,
+      timestamp: number,
+    ) => {
+      // @ts-expect-error The focused harness supplies only the used HMR fields.
+      const modules = await plugin.handleHotUpdate?.call(
+        { warn: vi.fn() },
+        {
+          file,
+          modules: [],
+          read: () => source,
+          server: {
+            moduleGraph: {
+              getModulesByFile: (fileName: string) =>
+                fileName === fixture.componentPath
+                  ? new Set([componentModule])
+                  : fileName === otherFile
+                    ? new Set([otherModule])
+                    : undefined,
+              invalidateModule: vi.fn(),
+            },
+          },
+          timestamp,
+        },
+      );
+      return modules?.map((module) => module.id).sort();
+    };
+
+    const plugin = await startPlugin();
+    expectTone(await transform(plugin, fixture.componentPath), "initial");
+    expect
+      .soft(readOnlyCacheEntry(fixture.cacheDirectory).dependencies)
+      .toEqual(expectedDependencies(fixture.componentPath));
+    await transform(plugin, otherFile);
+    expect
+      .soft(dependencies.get(otherFile))
+      .toEqual(expectedDependencies(otherFile));
+
+    const liveSource = changedSource("live");
+    writeFileSync(changedPath, liveSource);
+    expect
+      .soft(await hotUpdate(plugin, changedPath, liveSource, 1))
+      .toEqual([fixture.componentPath, otherFile].sort());
+    if (!backend) throw new Error("Expected an initialized backend");
+    const fresh = await backend.analyze({
+      fileName: fixture.componentPath,
+      revision: 1,
+      source: componentSource,
+    });
+    expect(fresh.status).toBe("ok");
+    if (fresh.status !== "ok") throw new Error(fresh.error.message);
+    expect(fresh.components[0]?.props.tone).toMatchObject(expectedTone("live"));
+    const liveCode = await transform(plugin, fixture.componentPath);
+    expectTone(liveCode, "live");
+    expect
+      .soft(dependencies.get(fixture.componentPath))
+      .toEqual(expectedDependencies(fixture.componentPath));
+    await transform(plugin, otherFile);
+
+    const ordinaryPath = path.join(fixture.root, "ordinary.ts");
+    const updatedOrdinary = ordinarySource("updated");
+    writeFileSync(ordinaryPath, updatedOrdinary);
+    expect(await hotUpdate(plugin, ordinaryPath, updatedOrdinary, 2)).toEqual([
+      otherFile,
+    ]);
+    const componentAnalyses = analyses.get(fixture.componentPath);
+    expect(await transform(plugin, fixture.componentPath)).toBe(liveCode);
+    expect(analyses.get(fixture.componentPath)).toBe(componentAnalyses);
+    expect(await transform(plugin, otherFile)).toContain(
+      "updated ordinary value.",
+    );
+    const commonJsPath = path.join(fixture.root, "commonjs.js");
+    const commonJsSource = "var out = exports; out.value = 2;";
+    writeFileSync(commonJsPath, commonJsSource);
+    expect(await hotUpdate(plugin, commonJsPath, commonJsSource, 3)).toEqual([
+      otherFile,
+    ]);
+    expect(await transform(plugin, fixture.componentPath)).toBe(liveCode);
+    expect(analyses.get(fixture.componentPath)).toBe(componentAnalyses);
+    await transform(plugin, otherFile);
+    await closePlugin(plugin);
+
+    const warmPlugin = await startPlugin();
+    expectTone(await transform(warmPlugin, fixture.componentPath), "live");
+    expect(createCount).toBe(1);
+    await closePlugin(warmPlugin);
+    writeFileSync(changedPath, changedSource("offline"));
+    const restartedPlugin = await startPlugin();
+    expectTone(
+      await transform(restartedPlugin, fixture.componentPath),
+      "offline",
+    );
+    expect(createCount).toBe(2);
+    expect(dependencies.get(fixture.componentPath)).toEqual(
+      expectedDependencies(fixture.componentPath),
+    );
+  }, 60_000);
+});
+
+describe.each([
+  ["default", {}],
+  ["watch", { EXPERIMENTAL_useWatchProgram: true }],
+  ["project service", { EXPERIMENTAL_useProjectService: true }],
 ] as const)("compiler-consistent dependency resolution: %s", (_mode, modeOptions) => {
   const declarationSource = (mode: string, revision: number) =>
     `export interface Props {
@@ -449,13 +694,13 @@ export const RequiredComponent = (_props: RequiredProps): JSX.Element =>
   });
 });
 
-it("uses referenced ProjectService paths for resolved and missing imports after analyzing the root", async () => {
+it("uses referenced ProjectService paths and ambient inputs after analyzing the root", async () => {
   const root = createTemporaryDirectory();
   const referencedRoot = path.join(root, "referenced");
   mkdirSync(referencedRoot);
   const componentSource = `declare namespace JSX { interface Element {} }
 import type { Props } from "@props";
-export const Component = (_props: Props): JSX.Element =>
+export const Component = (_props: Props & AmbientProps): JSX.Element =>
   null as unknown as JSX.Element;
 `;
   const propsSource = (description: string) =>
@@ -470,6 +715,14 @@ export const Component = (_props: Props): JSX.Element =>
   );
   writeFileSync(path.join(root, "props.ts"), propsSource("Root tone."));
   writeFileSync(propsFile, propsSource("Referenced tone."));
+  writeFileSync(
+    path.join(root, "ambient.ts"),
+    'interface AmbientProps { ambient: "root"; }',
+  );
+  writeFileSync(
+    path.join(referencedRoot, "ambient.ts"),
+    'interface AmbientProps { ambient: "referenced"; }',
+  );
   const compilerOptions = {
     baseUrl: ".",
     jsx: "preserve",
@@ -484,7 +737,7 @@ export const Component = (_props: Props): JSX.Element =>
     tsconfigPath,
     JSON.stringify({
       compilerOptions,
-      files: ["Root.tsx", "props.ts"],
+      files: ["Root.tsx", "props.ts", "ambient.ts"],
       references: [{ path: "./referenced" }],
     }),
   );
@@ -492,7 +745,7 @@ export const Component = (_props: Props): JSX.Element =>
     path.join(referencedRoot, "tsconfig.json"),
     JSON.stringify({
       compilerOptions: { ...compilerOptions, composite: true },
-      files: ["Component.tsx", "props.ts"],
+      files: ["Component.tsx", "props.ts", "ambient.ts"],
     }),
   );
   const options: Options = {
@@ -516,8 +769,15 @@ export const Component = (_props: Props): JSX.Element =>
     expect(result.status).toBe("ok");
     if (result.status !== "ok") throw new Error(result.error.message);
     expect(result.components[0]?.props.tone.description).toBe(description);
+    expect(result.components[0]?.props.ambient.type.name).toBe(
+      fileName === rootFile ? '"root"' : '"referenced"',
+    );
     expect(result.dependencies).toEqual(
-      [fileName, path.join(path.dirname(fileName), "props.ts")].sort(),
+      [
+        fileName,
+        path.join(path.dirname(fileName), "props.ts"),
+        path.join(path.dirname(fileName), "ambient.ts"),
+      ].sort(),
     );
     return result;
   };
