@@ -4,6 +4,7 @@ import { createNativeBackendFactory } from "./docgen/nativeBackend";
 import { createPlugin } from "./plugin";
 import {
   type Options,
+  type PublicDynamicModeOptions,
   type PublicLegacyOptions,
   type PublicNativeOptions,
   type PublicOptions,
@@ -17,6 +18,9 @@ export default function reactDocgenTypescript(
 ): Plugin;
 export default function reactDocgenTypescript(
   publicConfig: PublicNativeOptions,
+): Plugin;
+export default function reactDocgenTypescript(
+  publicConfig: PublicDynamicModeOptions,
 ): Plugin;
 export default function reactDocgenTypescript(
   publicConfig: PublicOptions = {},

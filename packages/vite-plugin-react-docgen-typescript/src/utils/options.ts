@@ -156,23 +156,23 @@ interface PublicSourceFile {
 }
 
 interface PublicPropItem {
-  readonly declarations?: readonly PublicPropParent[];
-  readonly defaultValue: unknown;
-  readonly description: string;
-  readonly name: string;
-  readonly parent?: PublicPropParent;
-  readonly required: boolean;
-  readonly tags?: Readonly<Record<string, unknown>>;
-  readonly type: {
-    readonly name: string;
-    readonly raw?: string;
-    readonly value?: unknown;
+  declarations?: PublicPropParent[];
+  defaultValue: any;
+  description: string;
+  name: string;
+  parent?: PublicPropParent;
+  required: boolean;
+  tags?: object;
+  type: {
+    name: string;
+    raw?: string;
+    value?: any;
   };
 }
 
 interface PublicPropParent {
-  readonly fileName: string;
-  readonly name: string;
+  fileName: string;
+  name: string;
 }
 
 type PublicComponentNameResolver = {
@@ -197,7 +197,7 @@ type PublicLegacyComponentNameResolver = {
 type PublicPropFilter = {
   bivarianceHack(
     prop: PublicPropItem,
-    component: { readonly name: string },
+    component: { name: string },
   ): boolean;
 }["bivarianceHack"];
 
@@ -240,7 +240,15 @@ export interface PublicNativeOptions extends PublicOptionsBase {
   docgenMode: "native";
 }
 
-export type PublicOptions = PublicLegacyOptions | PublicNativeOptions;
+export interface PublicDynamicModeOptions extends PublicOptionsBase {
+  componentNameResolver?: PublicComponentNameResolver;
+  docgenMode: DocgenMode;
+}
+
+export type PublicOptions =
+  | PublicLegacyOptions
+  | PublicNativeOptions
+  | PublicDynamicModeOptions;
 
 export type RuntimeMode = "default" | "native" | "projectService" | "watch";
 

@@ -71,13 +71,30 @@ describe("public option types", () => {
       .replace(/\.ts$/, "");
     writeFileSync(
       consumerPath,
-      `import reactDocgenTypescript from ${JSON.stringify(importPath)};
+      `import reactDocgenTypescript, { type DocgenMode } from ${JSON.stringify(importPath)};
+
+declare const mode: DocgenMode;
+
+reactDocgenTypescript({ docgenMode: mode });
+
+reactDocgenTypescript({
+  componentNameResolver(symbol, source) {
+    return source.fileName + ":" + symbol.getName();
+  },
+  docgenMode: mode,
+});
 
 reactDocgenTypescript({
   componentNameResolver(symbol, source) {
     return symbol.flags && source.statements.length > 0
       ? symbol.getName()
       : undefined;
+  },
+});
+
+reactDocgenTypescript({
+  propFilter(prop) {
+    return prop.defaultValue?.value !== "hidden";
   },
 });
 
