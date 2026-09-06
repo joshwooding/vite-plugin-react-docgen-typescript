@@ -1,0 +1,6 @@
+{
+  "findings": [],
+  "overall_correctness": "patch is correct",
+  "overall_explanation": "The change consistently derives dependency resolution from the active TypeScript Program, preserves the supported import/require/AMD/module-augmentation syntax, scopes caches to Program lifetime, and uses guarded APIs compatible with the stated TypeScript range. The added tests cover the targeted conditional-resolution, referenced-project, unresolved-candidate, update, and syntax-preservation behaviors. No actionable regression or security defect is evident in the bundle.",
+  "overall_confidence": 0.91
+}

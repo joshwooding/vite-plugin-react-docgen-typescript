@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "processes": 9,
+  "parity": "188 complete normalized components match the independent oracle in every run",
+  "lanes": [
+    {
+      "mode": "projectService",
+      "valuesMs": [
+        2089.2439000000004,
+        2205.308,
+        2176.7088999999996
+      ],
+      "medianMs": 2176.7088999999996,
+      "madMs": 28.599100000000362
+    },
+    {
+      "mode": "native",
+      "valuesMs": [
+        1229.1729,
+        1245.7467,
+        1275.7916
+      ],
+      "medianMs": 1245.7467,
+      "madMs": 16.573799999999892
+    },
+    {
+      "mode": "storybook",
+      "valuesMs": [
+        2600.7690000000002,
+        2688.0974,
+        2641.731
+      ],
+      "medianMs": 2641.731,
+      "madMs": 40.96199999999999
+    }
+  ]
+}

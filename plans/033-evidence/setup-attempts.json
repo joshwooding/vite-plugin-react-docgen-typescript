@@ -1,0 +1,16 @@
+{
+  "attempts": [
+    {
+      "command": "python plans/033-evidence/prepare-artifacts.py",
+      "status": "FAIL before compatibility or measurement",
+      "reason": "Main matrix checkout uses LF while the Plan029 frozen matrix hash uses CRLF. Exact normalized-LF bytes and JSON contents are unchanged (an initial unexecuted diagnosis reversed the line-ending direction).",
+      "recovery": "Preserve and verify all already-copied source/evidence/archive bytes; compare historical matrix normalized-LF hash and current main/candidate parsed JSON. Record the actual current matrix byte hash for new evidence."
+    },
+    {
+      "command": "node plans/033-evidence/verify-controls.mjs",
+      "status": "FAIL before controls or sampling",
+      "reason": "Common module requires workload and variant CLI arguments even though this verifier checks both workloads.",
+      "recovery": "Successful invocation: node plans/033-evidence/verify-controls.mjs shallow baseline; controls.json records both workloads and negative controls."
+    }
+  ]
+}

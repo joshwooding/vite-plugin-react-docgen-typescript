@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "externalInvocation": false,
+  "bundleCharacters": 134986,
+  "bundleSha256": "a4814b3558d9374f8f7275ca8c321413cce581c9d16b000809282c7b61e0037d",
+  "changedPaths": [
+    ".changeset/reuse-backend-canonical-dependencies.md",
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/backendCanonicalDependencies.test.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts"
+  ],
+  "allInputComplete": true
+}

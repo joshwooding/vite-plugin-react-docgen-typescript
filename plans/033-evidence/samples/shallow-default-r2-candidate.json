@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "benchmarkKind": "direct-plugin",
+  "metadataChecks": [
+    {
+      "stage": "baseline",
+      "fileCount": 3,
+      "metadataFileCount": 3,
+      "componentCount": 3,
+      "sha256": "f9f3753240a0a976175339f469d0c032854583093f53fa3a7eb12e4abdc8bee0",
+      "files": {
+        "src/components/Button.tsx": {
+          "sha256": "d83f6948bafd6a2a500fc5db47af9846d334d8d941b1ac4b94fa3b9c0dd94051",
+          "displayNames": [
+            "Button"
+          ]
+        },
+        "src/components/ButtonWrapper.tsx": {
+          "sha256": "c538a37d3c0f8487deb9e29a85a1b16690fc40619612cc932967b8deff388284",
+          "displayNames": [
+            "ButtonWrapper"
+          ]
+        },
+        "src/components/IconButton.tsx": {
+          "sha256": "fa78bed829dfe8650947756b32d63f7a05f343ab0f1dcf3d6ca189bcc90b9fac",
+          "displayNames": [
+            "IconButton"
+          ]
+        }
+      }
+    },
+    {
+      "stage": "baseline",
+      "fileCount": 3,
+      "metadataFileCount": 3,
+      "componentCount": 3,
+      "sha256": "f9f3753240a0a976175339f469d0c032854583093f53fa3a7eb12e4abdc8bee0",
+      "files": {
+        "src/components/Button.tsx": {
+          "sha256": "d83f6948bafd6a2a500fc5db47af9846d334d8d941b1ac4b94fa3b9c0dd94051",
+          "displayNames": [
+            "Button"
+          ]
+        },
+        "src/components/ButtonWrapper.tsx": {
+          "sha256": "c538a37d3c0f8487deb9e29a85a1b16690fc40619612cc932967b8deff388284",
+          "displayNames": [
+            "ButtonWrapper"
+          ]
+        },
+        "src/components/IconButton.tsx": {
+          "sha256": "fa78bed829dfe8650947756b32d63f7a05f343ab0f1dcf3d6ca189bcc90b9fac",
+          "displayNames": [
+            "IconButton"
+          ]
+        }
+      }
+    },
+    {
+      "stage": "component",
+      "fileCount": 3,
+      "metadataFileCount": 3,
+      "componentCount": 3,
+      "sha256": "c6a0c84198db0d8b48dddd30450802027bf4bebed49105762a2abc83eda1fabd",
+      "files": {
+        "src/components/Button.tsx": {
+          "sha256": "ebe2b0ad7e715eafd550dbce2e157d62d9b800ae658e3074fef52197b626c273",
+          "displayNames": [
+            "Button"
+          ]
+        },
+        "src/components/ButtonWrapper.tsx": {
+          "sha256": "c538a37d3c0f8487deb9e29a85a1b16690fc40619612cc932967b8deff388284",
+          "displayNames": [
+            "ButtonWrapper"
+          ]
+        },
+        "src/components/IconButton.tsx": {
+          "sha256": "fa78bed829dfe8650947756b32d63f7a05f343ab0f1dcf3d6ca189bcc90b9fac",
+          "displayNames": [
+            "IconButton"
+          ]
+        }
+      }
+    },
+    {
+      "stage": "shared",
+      "fileCount": 3,
+      "metadataFileCount": 3,
+      "componentCount": 3,
+      "sha256": "9305ffa75cc921e141042a1bca8b5bb48d6f2e9ec5fa36cb6ba7a6815a73cb77",
+      "files": {
+        "src/components/Button.tsx": {
+          "sha256": "0385a24e86e73222818adc14e33cf6e5c10e49743163e6a2f5380a8bebcf5054",
+          "displayNames": [
+            "Button"
+          ]
+        },
+        "src/components/ButtonWrapper.tsx": {
+          "sha256": "1bd934227f540d12a2c426d3d92802675e530c45bccd79e498087a7f8d316221",
+          "displayNames": [
+            "ButtonWrapper"
+          ]
+        },
+        "src/components/IconButton.tsx": {
+          "sha256": "fd0e51443f1753deab829b06ef70cff3c051c469f5aee64a777a8a8ece7ecb5c",
+          "displayNames": [
+            "IconButton"
+          ]
+        }
+      }
+    }
+  ],
+  "cache": false,
+  "processFirstMeasuredInstance": true,
+  "compilerModulesBeforeCold": [],
+  "processId": 19696,
+  "workload": "shallow",
+  "variant": "candidate",
+  "mode": "default",
+  "label": "r2",
+  "startIso": "2026-09-06T00:54:00.457Z",
+  "finishIso": "2026-09-06T00:54:02.857Z",
+  "identity": {
+    "workload": "shallow",
+    "root": "C:\\Users\\Joshu\\AppData\\Local\\Temp\\rdt029-react",
+    "node": "v24.10.0",
+    "host": {
+      "platform": "win32",
+      "release": "10.0.26340",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz",
+      "logicalCpus": 16
+    },
+    "sourceSha256": "5e9af5dece7316337d6dc9126b137883145f6c792e589e6f14974c166098d427",
+    "configSha256": "7401725cb3cdcd9cfc3c310ec9566c43011b86b0899e6ba68850f12fbef5caaf",
+    "targetsSha256": "ce252c49dd428f480bf1fe4dcec2171350b2b7f4d3fb365b39fb1d3577cabf5b",
+    "targetCount": 3,
+    "parserOptions": {
+      "propFilter": "function retainNativeDisabled(prop) {\n  return (\n    prop.name === \"disabled\" ||\n    !prop.parent?.fileName.replaceAll(\"\\\\\", \"/\").includes(\"node_modules\")\n  );\n}",
+      "shouldExtractLiteralValuesFromEnum": true,
+      "shouldRemoveUndefinedFromOptional": true
+    },
+    "pluginLockSha256": "782c9e80e0789b79ecf721c60b38587fabf1d26eccb636e87471469fd530d9c4",
+    "consumerLockSha256": null,
+    "saltLockSha256": null,
+    "selectedConfigHashes": null,
+    "workspaceLinks": null,
+    "pluginDependencies": {
+      "typescript": {
+        "version": "6.0.3",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\typescript\\package.json"
+      },
+      "react-docgen-typescript": {
+        "version": "2.2.2",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\react-docgen-typescript\\package.json"
+      },
+      "vite": {
+        "version": "8.1.5",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\vite\\package.json"
+      }
+    },
+    "consumerDependencies": {
+      "react": {
+        "version": "18.3.1",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\react\\package.json"
+      },
+      "@types/react": {
+        "version": "18.2.25",
+        "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\@types\\react\\package.json"
+      }
+    },
+    "artifact": {
+      "variant": "candidate",
+      "root": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\033\\artifacts\\candidate",
+      "files": {
+        "CHANGELOG.md": "7c3dbb1fcab0b9b4a85f9f5620b0ebe1aedd143782f599e019c7904aa142def3",
+        "dist/chunks/fileSelection.mjs": "49d944c7dd814dbbb9b1a9290f13334bfd1bccf94f02a2e96c813b0b16ce1826",
+        "dist/chunks/typescript.mjs": "566dede0c2d983ce2e3ad455f497af0e6a4e436b515177c3b05a6e2f569d78d3",
+        "dist/index.d.mts": "e43fdc3aba416e95d34bc1cac76942c574f9345f62bd04910983180c3826977b",
+        "dist/index.d.ts": "e43fdc3aba416e95d34bc1cac76942c574f9345f62bd04910983180c3826977b",
+        "dist/index.mjs": "0039755d18125248d78268a266405aded347fa1dfbd8034f2e08e9b5363bb1cb",
+        "package.json": "4ab72b0d26b8fc09d8053c03316189209d060e9679e4c01661482466f3ceea78"
+      }
+    }
+  },
+  "harnessSha256": "1e64c5e44ffd813fc9e6c7c29dab24f55a64401a69d90f127f19d280b0c9eaf2",
+  "metrics": {
+    "configResolvedMs": 4.4062000000000126,
+    "firstBatchMs": 1180.8164,
+    "coldBatchMs": 1185.8118,
+    "warmBatchMs": 1.237500000000182,
+    "closeMs": 0.2553000000002612,
+    "harnessElapsedMs": 2191.1508,
+    "pluginSessionTotalMs": 2183.9844000000003
+  },
+  "componentHmr": {
+    "hookMs": 2.9692999999999756,
+    "transformMs": 531.6468,
+    "totalCycleMs": 534.6791000000001,
+    "affectedTargetCount": 2,
+    "invalidatedTargetCount": 0,
+    "files": [
+      "src/components/Button.tsx",
+      "src/components/ButtonWrapper.tsx"
+    ],
+    "metadataSha256": "c6a0c84198db0d8b48dddd30450802027bf4bebed49105762a2abc83eda1fabd"
+  },
+  "sharedHmr": {
+    "hookMs": 2.3342999999999847,
+    "transformMs": 459.6403,
+    "totalCycleMs": 462.0006999999998,
+    "affectedTargetCount": 3,
+    "invalidatedTargetCount": 0,
+    "files": [
+      "src/components/Button.tsx",
+      "src/components/ButtonWrapper.tsx",
+      "src/components/IconButton.tsx"
+    ],
+    "metadataSha256": "9305ffa75cc921e141042a1bca8b5bb48d6f2e9ec5fa36cb6ba7a6815a73cb77"
+  }
+}

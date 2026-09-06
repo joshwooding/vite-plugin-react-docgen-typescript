@@ -1,0 +1,774 @@
+{
+  "startedAt": "2026-09-05T20:55:31.629Z",
+  "flag": "experimentalDocgenServer: true",
+  "url": "http://127.0.0.1:6031",
+  "before": {
+    "data": {
+      "id": "project-00-src-component000",
+      "name": "Component000",
+      "path": "./packages/project-00/src/Component000.stories.tsx",
+      "description": "Benchmark component 0.",
+      "jsDocTags": {},
+      "argTypes": {
+        "label": {
+          "name": "label",
+          "description": "Visible label for Component000.",
+          "type": {
+            "required": true,
+            "name": "string"
+          },
+          "table": {
+            "type": {
+              "summary": "string"
+            }
+          }
+        },
+        "variant": {
+          "name": "variant",
+          "description": "Local visual variant.",
+          "type": {
+            "required": false,
+            "raw": "\"solid\" | \"outline\"",
+            "name": "enum",
+            "value": [
+              "solid",
+              "outline"
+            ]
+          },
+          "table": {
+            "type": {
+              "summary": "\"solid\" | \"outline\""
+            }
+          }
+        },
+        "tone": {
+          "name": "tone",
+          "description": "Shared tone revision 001.",
+          "type": {
+            "required": false,
+            "raw": "\"base\" | \"revision-001\"",
+            "name": "enum",
+            "value": [
+              "base",
+              "revision-001"
+            ]
+          },
+          "table": {
+            "type": {
+              "summary": "\"base\" | \"revision-001\""
+            }
+          }
+        },
+        "density": {
+          "name": "density",
+          "description": "Project-local density.",
+          "type": {
+            "required": false,
+            "raw": "\"compact\" | \"comfortable\"",
+            "name": "enum",
+            "value": [
+              "compact",
+              "comfortable"
+            ]
+          },
+          "table": {
+            "type": {
+              "summary": "\"compact\" | \"comfortable\""
+            }
+          }
+        }
+      },
+      "reactComponentMeta": {
+        "displayName": "Component000",
+        "exportName": "Component000",
+        "filePath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\031\\fixture\\packages\\project-00\\src\\Component000.tsx",
+        "description": "Benchmark component 0.",
+        "jsDocTags": {},
+        "props": {
+          "label": {
+            "name": "label",
+            "required": true,
+            "type": {
+              "name": "string"
+            },
+            "description": "Visible label for Component000.",
+            "defaultValue": null,
+            "parent": {
+              "name": "Component000Props",
+              "fileName": "packages/project-00/src/Component000.tsx"
+            },
+            "declarations": [
+              {
+                "name": "Component000Props",
+                "fileName": "packages/project-00/src/Component000.tsx"
+              }
+            ]
+          },
+          "variant": {
+            "name": "variant",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "raw": "\"solid\" | \"outline\"",
+              "value": [
+                {
+                  "value": "\"solid\""
+                },
+                {
+                  "value": "\"outline\""
+                }
+              ]
+            },
+            "description": "Local visual variant.",
+            "defaultValue": null,
+            "parent": {
+              "name": "Component000Props",
+              "fileName": "packages/project-00/src/Component000.tsx"
+            },
+            "declarations": [
+              {
+                "name": "Component000Props",
+                "fileName": "packages/project-00/src/Component000.tsx"
+              }
+            ]
+          },
+          "tone": {
+            "name": "tone",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "raw": "\"base\" | \"revision-001\"",
+              "value": [
+                {
+                  "value": "\"base\""
+                },
+                {
+                  "value": "\"revision-001\""
+                }
+              ]
+            },
+            "description": "Shared tone revision 001.",
+            "defaultValue": null,
+            "parent": {
+              "name": "SharedProps",
+              "fileName": "shared/shared-types.ts"
+            },
+            "declarations": [
+              {
+                "name": "SharedProps",
+                "fileName": "shared/shared-types.ts"
+              }
+            ]
+          },
+          "density": {
+            "name": "density",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "raw": "\"compact\" | \"comfortable\"",
+              "value": [
+                {
+                  "value": "\"compact\""
+                },
+                {
+                  "value": "\"comfortable\""
+                }
+              ]
+            },
+            "description": "Project-local density.",
+            "defaultValue": null,
+            "parent": {
+              "name": "ProjectProps",
+              "fileName": "packages/project-00/src/project-types.ts"
+            },
+            "declarations": [
+              {
+                "name": "ProjectProps",
+                "fileName": "packages/project-00/src/project-types.ts"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "sharedSourceAfterEdit": "export type SharedTone =\n  | \"base\"\n  | \"revision-002\";\n\nexport interface SharedProps {\n  /** Shared tone revision 002. */\n  tone?: SharedTone;\n}\n",
+  "cachedAfterTwoSeconds": {
+    "data": {
+      "id": "project-00-src-component000",
+      "name": "Component000",
+      "path": "./packages/project-00/src/Component000.stories.tsx",
+      "description": "Benchmark component 0.",
+      "jsDocTags": {},
+      "argTypes": {
+        "label": {
+          "name": "label",
+          "description": "Visible label for Component000.",
+          "type": {
+            "required": true,
+            "name": "string"
+          },
+          "table": {
+            "type": {
+              "summary": "string"
+            }
+          }
+        },
+        "variant": {
+          "name": "variant",
+          "description": "Local visual variant.",
+          "type": {
+            "required": false,
+            "raw": "\"solid\" | \"outline\"",
+            "name": "enum",
+            "value": [
+              "solid",
+              "outline"
+            ]
+          },
+          "table": {
+            "type": {
+              "summary": "\"solid\" | \"outline\""
+            }
+          }
+        },
+        "tone": {
+          "name": "tone",
+          "description": "Shared tone revision 001.",
+          "type": {
+            "required": false,
+            "raw": "\"base\" | \"revision-001\"",
+            "name": "enum",
+            "value": [
+              "base",
+              "revision-001"
+            ]
+          },
+          "table": {
+            "type": {
+              "summary": "\"base\" | \"revision-001\""
+            }
+          }
+        },
+        "density": {
+          "name": "density",
+          "description": "Project-local density.",
+          "type": {
+            "required": false,
+            "raw": "\"compact\" | \"comfortable\"",
+            "name": "enum",
+            "value": [
+              "compact",
+              "comfortable"
+            ]
+          },
+          "table": {
+            "type": {
+              "summary": "\"compact\" | \"comfortable\""
+            }
+          }
+        }
+      },
+      "reactComponentMeta": {
+        "displayName": "Component000",
+        "exportName": "Component000",
+        "filePath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\031\\fixture\\packages\\project-00\\src\\Component000.tsx",
+        "description": "Benchmark component 0.",
+        "jsDocTags": {},
+        "props": {
+          "label": {
+            "name": "label",
+            "required": true,
+            "type": {
+              "name": "string"
+            },
+            "description": "Visible label for Component000.",
+            "defaultValue": null,
+            "parent": {
+              "name": "Component000Props",
+              "fileName": "packages/project-00/src/Component000.tsx"
+            },
+            "declarations": [
+              {
+                "name": "Component000Props",
+                "fileName": "packages/project-00/src/Component000.tsx"
+              }
+            ]
+          },
+          "variant": {
+            "name": "variant",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "raw": "\"solid\" | \"outline\"",
+              "value": [
+                {
+                  "value": "\"solid\""
+                },
+                {
+                  "value": "\"outline\""
+                }
+              ]
+            },
+            "description": "Local visual variant.",
+            "defaultValue": null,
+            "parent": {
+              "name": "Component000Props",
+              "fileName": "packages/project-00/src/Component000.tsx"
+            },
+            "declarations": [
+              {
+                "name": "Component000Props",
+                "fileName": "packages/project-00/src/Component000.tsx"
+              }
+            ]
+          },
+          "tone": {
+            "name": "tone",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "raw": "\"base\" | \"revision-001\"",
+              "value": [
+                {
+                  "value": "\"base\""
+                },
+                {
+                  "value": "\"revision-001\""
+                }
+              ]
+            },
+            "description": "Shared tone revision 001.",
+            "defaultValue": null,
+            "parent": {
+              "name": "SharedProps",
+              "fileName": "shared/shared-types.ts"
+            },
+            "declarations": [
+              {
+                "name": "SharedProps",
+                "fileName": "shared/shared-types.ts"
+              }
+            ]
+          },
+          "density": {
+            "name": "density",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "raw": "\"compact\" | \"comfortable\"",
+              "value": [
+                {
+                  "value": "\"compact\""
+                },
+                {
+                  "value": "\"comfortable\""
+                }
+              ]
+            },
+            "description": "Project-local density.",
+            "defaultValue": null,
+            "parent": {
+              "name": "ProjectProps",
+              "fileName": "packages/project-00/src/project-types.ts"
+            },
+            "declarations": [
+              {
+                "name": "ProjectProps",
+                "fileName": "packages/project-00/src/project-types.ts"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "forcedAfterTwoSeconds": {
+    "data": {
+      "id": "project-00-src-component000",
+      "name": "Component000",
+      "path": "./packages/project-00/src/Component000.stories.tsx",
+      "description": "Benchmark component 0.",
+      "jsDocTags": {},
+      "argTypes": {
+        "label": {
+          "name": "label",
+          "description": "Visible label for Component000.",
+          "type": {
+            "required": true,
+            "name": "string"
+          },
+          "table": {
+            "type": {
+              "summary": "string"
+            }
+          }
+        },
+        "variant": {
+          "name": "variant",
+          "description": "Local visual variant.",
+          "type": {
+            "required": false,
+            "raw": "\"solid\" | \"outline\"",
+            "name": "enum",
+            "value": [
+              "solid",
+              "outline"
+            ]
+          },
+          "table": {
+            "type": {
+              "summary": "\"solid\" | \"outline\""
+            }
+          }
+        },
+        "tone": {
+          "name": "tone",
+          "description": "Shared tone revision 001.",
+          "type": {
+            "required": false,
+            "raw": "\"base\" | \"revision-001\"",
+            "name": "enum",
+            "value": [
+              "base",
+              "revision-001"
+            ]
+          },
+          "table": {
+            "type": {
+              "summary": "\"base\" | \"revision-001\""
+            }
+          }
+        },
+        "density": {
+          "name": "density",
+          "description": "Project-local density.",
+          "type": {
+            "required": false,
+            "raw": "\"compact\" | \"comfortable\"",
+            "name": "enum",
+            "value": [
+              "compact",
+              "comfortable"
+            ]
+          },
+          "table": {
+            "type": {
+              "summary": "\"compact\" | \"comfortable\""
+            }
+          }
+        }
+      },
+      "reactComponentMeta": {
+        "displayName": "Component000",
+        "exportName": "Component000",
+        "filePath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\031\\fixture\\packages\\project-00\\src\\Component000.tsx",
+        "description": "Benchmark component 0.",
+        "jsDocTags": {},
+        "props": {
+          "label": {
+            "name": "label",
+            "required": true,
+            "type": {
+              "name": "string"
+            },
+            "description": "Visible label for Component000.",
+            "defaultValue": null,
+            "parent": {
+              "name": "Component000Props",
+              "fileName": "packages/project-00/src/Component000.tsx"
+            },
+            "declarations": [
+              {
+                "name": "Component000Props",
+                "fileName": "packages/project-00/src/Component000.tsx"
+              }
+            ]
+          },
+          "variant": {
+            "name": "variant",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "raw": "\"solid\" | \"outline\"",
+              "value": [
+                {
+                  "value": "\"solid\""
+                },
+                {
+                  "value": "\"outline\""
+                }
+              ]
+            },
+            "description": "Local visual variant.",
+            "defaultValue": null,
+            "parent": {
+              "name": "Component000Props",
+              "fileName": "packages/project-00/src/Component000.tsx"
+            },
+            "declarations": [
+              {
+                "name": "Component000Props",
+                "fileName": "packages/project-00/src/Component000.tsx"
+              }
+            ]
+          },
+          "tone": {
+            "name": "tone",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "raw": "\"base\" | \"revision-001\"",
+              "value": [
+                {
+                  "value": "\"base\""
+                },
+                {
+                  "value": "\"revision-001\""
+                }
+              ]
+            },
+            "description": "Shared tone revision 001.",
+            "defaultValue": null,
+            "parent": {
+              "name": "SharedProps",
+              "fileName": "shared/shared-types.ts"
+            },
+            "declarations": [
+              {
+                "name": "SharedProps",
+                "fileName": "shared/shared-types.ts"
+              }
+            ]
+          },
+          "density": {
+            "name": "density",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "raw": "\"compact\" | \"comfortable\"",
+              "value": [
+                {
+                  "value": "\"compact\""
+                },
+                {
+                  "value": "\"comfortable\""
+                }
+              ]
+            },
+            "description": "Project-local density.",
+            "defaultValue": null,
+            "parent": {
+              "name": "ProjectProps",
+              "fileName": "packages/project-00/src/project-types.ts"
+            },
+            "declarations": [
+              {
+                "name": "ProjectProps",
+                "fileName": "packages/project-00/src/project-types.ts"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "forcedAfterFiveSeconds": {
+    "data": {
+      "id": "project-00-src-component000",
+      "name": "Component000",
+      "path": "./packages/project-00/src/Component000.stories.tsx",
+      "description": "Benchmark component 0.",
+      "jsDocTags": {},
+      "argTypes": {
+        "label": {
+          "name": "label",
+          "description": "Visible label for Component000.",
+          "type": {
+            "required": true,
+            "name": "string"
+          },
+          "table": {
+            "type": {
+              "summary": "string"
+            }
+          }
+        },
+        "variant": {
+          "name": "variant",
+          "description": "Local visual variant.",
+          "type": {
+            "required": false,
+            "raw": "\"solid\" | \"outline\"",
+            "name": "enum",
+            "value": [
+              "solid",
+              "outline"
+            ]
+          },
+          "table": {
+            "type": {
+              "summary": "\"solid\" | \"outline\""
+            }
+          }
+        },
+        "tone": {
+          "name": "tone",
+          "description": "Shared tone revision 001.",
+          "type": {
+            "required": false,
+            "raw": "\"base\" | \"revision-001\"",
+            "name": "enum",
+            "value": [
+              "base",
+              "revision-001"
+            ]
+          },
+          "table": {
+            "type": {
+              "summary": "\"base\" | \"revision-001\""
+            }
+          }
+        },
+        "density": {
+          "name": "density",
+          "description": "Project-local density.",
+          "type": {
+            "required": false,
+            "raw": "\"compact\" | \"comfortable\"",
+            "name": "enum",
+            "value": [
+              "compact",
+              "comfortable"
+            ]
+          },
+          "table": {
+            "type": {
+              "summary": "\"compact\" | \"comfortable\""
+            }
+          }
+        }
+      },
+      "reactComponentMeta": {
+        "displayName": "Component000",
+        "exportName": "Component000",
+        "filePath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\031\\fixture\\packages\\project-00\\src\\Component000.tsx",
+        "description": "Benchmark component 0.",
+        "jsDocTags": {},
+        "props": {
+          "label": {
+            "name": "label",
+            "required": true,
+            "type": {
+              "name": "string"
+            },
+            "description": "Visible label for Component000.",
+            "defaultValue": null,
+            "parent": {
+              "name": "Component000Props",
+              "fileName": "packages/project-00/src/Component000.tsx"
+            },
+            "declarations": [
+              {
+                "name": "Component000Props",
+                "fileName": "packages/project-00/src/Component000.tsx"
+              }
+            ]
+          },
+          "variant": {
+            "name": "variant",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "raw": "\"solid\" | \"outline\"",
+              "value": [
+                {
+                  "value": "\"solid\""
+                },
+                {
+                  "value": "\"outline\""
+                }
+              ]
+            },
+            "description": "Local visual variant.",
+            "defaultValue": null,
+            "parent": {
+              "name": "Component000Props",
+              "fileName": "packages/project-00/src/Component000.tsx"
+            },
+            "declarations": [
+              {
+                "name": "Component000Props",
+                "fileName": "packages/project-00/src/Component000.tsx"
+              }
+            ]
+          },
+          "tone": {
+            "name": "tone",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "raw": "\"base\" | \"revision-001\"",
+              "value": [
+                {
+                  "value": "\"base\""
+                },
+                {
+                  "value": "\"revision-001\""
+                }
+              ]
+            },
+            "description": "Shared tone revision 001.",
+            "defaultValue": null,
+            "parent": {
+              "name": "SharedProps",
+              "fileName": "shared/shared-types.ts"
+            },
+            "declarations": [
+              {
+                "name": "SharedProps",
+                "fileName": "shared/shared-types.ts"
+              }
+            ]
+          },
+          "density": {
+            "name": "density",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "raw": "\"compact\" | \"comfortable\"",
+              "value": [
+                {
+                  "value": "\"compact\""
+                },
+                {
+                  "value": "\"comfortable\""
+                }
+              ]
+            },
+            "description": "Project-local density.",
+            "defaultValue": null,
+            "parent": {
+              "name": "ProjectProps",
+              "fileName": "packages/project-00/src/project-types.ts"
+            },
+            "declarations": [
+              {
+                "name": "ProjectProps",
+                "fileName": "packages/project-00/src/project-types.ts"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "toneDescriptions": {
+    "before": "Shared tone revision 001.",
+    "cachedAfterTwoSeconds": "Shared tone revision 001.",
+    "forcedAfterTwoSeconds": "Shared tone revision 001.",
+    "forcedAfterFiveSeconds": "Shared tone revision 001."
+  },
+  "status": "stale",
+  "finishedAt": "2026-09-05T20:55:36.781Z"
+}

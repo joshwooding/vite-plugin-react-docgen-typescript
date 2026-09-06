@@ -1,0 +1,18 @@
+{
+  "findings": [
+    {
+      "title": "Track UMD namespace exports as shared ambient inputs",
+      "body": "An external declaration file can expose globals with `export as namespace Foo` without containing a `declare global` or string-named module declaration. Its AST contains a `NamespaceExportDeclaration`, so this predicate rejects it. With `allowUmdGlobalAccess`, a component may legally derive its props from `Foo.Props` without importing that declaration file; the file is then absent from `sharedAmbient` and the component's dependencies, leaving live and offline cached metadata stale after edits. Recognize namespace-export declarations (or otherwise detect the source file's UMD global exports) as shared ambient inputs.",
+      "priority": "P1",
+      "confidence": 0.94,
+      "category": "bug",
+      "code_location": {
+        "file_path": "packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts",
+        "line": 488
+      }
+    }
+  ],
+  "overall_correctness": "patch is incorrect",
+  "overall_explanation": "The new ambient-input discovery covers global scripts, `declare global`, and module augmentations, but misses the standard `export as namespace` form used by UMD declaration files. Consequently, supported components using those ambient namespaces can still retain stale dependency metadata.",
+  "overall_confidence": 0.93
+}

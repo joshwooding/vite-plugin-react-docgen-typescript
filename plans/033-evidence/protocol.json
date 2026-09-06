@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-09-06T00:29:57.496862+00:00",
+  "plan": "033-reuse-backend-canonical-dependencies.md",
+  "baseCommit": "eb7a7650a3541d08630ed60d4e684f495123d343",
+  "baselineSourceCommit": "41b536a1293ba8a2b13a3f42c18f6b414334e22c",
+  "baselineArchiveSha256": "6dd49e628729c4314c5f32a46533d5b62ecb27231433914757eb323e38d61ce8",
+  "candidateStatus": "awaiting isolated implementation and correctness freeze",
+  "workloadOrder": [
+    "shallow",
+    "salt"
+  ],
+  "processBudget": 24,
+  "pairsPerModePerWorkload": 3,
+  "timeoutPerChildMs": 1200000,
+  "varianceExtension": false,
+  "order": "r1 default AB/projectService BA; r2 default BA/projectService AB; r3 default AB/projectService BA; A=baseline B=candidate",
+  "phases": [
+    "cold",
+    "warm",
+    "component",
+    "shared",
+    "close",
+    "session"
+  ],
+  "saltRule": "cold/shared median reduction >=10% AND >=100ms in each mode, all three paired directions positive; MAD>20% or mixed signs inconclusive; component/session regression >10% AND >100ms or warm >10ms flagged",
+  "shallowRule": "cold/component/shared/session regression >10% AND >20ms flagged; all values and inconclusive phases retained",
+  "semantics": "full baseline/warm/effective-edit metadata equals frozen same-workload fresh oracles; exact affected sets215/215 Salt and2/3 shallow; edits restored; no candidate/oracle weakening",
+  "harnessAdaptation": "Copies frozen029 common/driver/runner/summary/diagnostic with033 evidence destinations. Driver records full phase metadata summaries after timing. Existing paths/options/phase timing/semantic helpers unchanged. Candidate build and all inputs frozen before sampling.",
+  "noConcurrentHeavyWork": true,
+  "profileDuringSampling": false,
+  "reuseProfilesAsTimings": false,
+  "oracleHashes": {
+    "salt-default-baseline.json": "6312c3da7c5d3602abc6fb9fee78cd25da3029dd720908d827b8a8aa5ecbcc63",
+    "salt-default-component.json": "9b65d0333c12b36e86232f949a2c60fd47271dc95ce081eec69e960ea25fe58f",
+    "salt-default-shared.json": "6ea8974a8b3b2f553dceecef5904cf8d4f4ce45201a06a47b848be5ac9edc319",
+    "salt-projectService-baseline.json": "786e282413ab429d37bf73a5bed8fa54606d37aad44574c595155bf478d41ef1",
+    "salt-projectService-component.json": "0e8a6364abc1b705424770e4f3082b11611c7257696b43ee9d13bd5e588e0780",
+    "salt-projectService-shared.json": "d7f81d2d52c3a647281fe97a387741dbdff68ea0dfe4d545e2ba7576fe9bca8e",
+    "shallow-default-baseline.json": "ee665d8e159d24344aed2a5eefc86618138e178a0306c0652979b3d8ebca4c80",
+    "shallow-default-component.json": "26f8c4be955ad3c1775e997e5ee2027550fac5189edfe158866fb2875a060f2d",
+    "shallow-default-shared.json": "4f00395d958545300d9083a3a5a99b3d021d98b98f467f96ab793ec30b0282e5",
+    "shallow-projectService-baseline.json": "277dcd373a246796f1f7dde0e1909b500c4a1c1cb977543711d3abdf1b74616d",
+    "shallow-projectService-component.json": "21140ea2033d7f41365c0d68bf2e67d6d09b6222046dfeb12ebc5c8d12f30002",
+    "shallow-projectService-shared.json": "65cabeddf8eb046ccaad55b471c3ff27e30b12cc1ee7fda34deaed29f0eacf7f"
+  }
+}

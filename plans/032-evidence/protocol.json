@@ -1,0 +1,33 @@
+{
+  "createdAt": "2026-09-06T00:06:44.596551+00:00",
+  "sourceCommit": "41b536a1293ba8a2b13a3f42c18f6b414334e22c",
+  "head": "eb7a7650a3541d08630ed60d4e684f495123d343",
+  "scope": "Post-029 Salt diagnostic profiles; no new performance comparison or backend ranking",
+  "processOrder": [
+    "default",
+    "projectService"
+  ],
+  "profilesPerProcess": [
+    "cold",
+    "shared"
+  ],
+  "verificationPhases": [
+    "baseline",
+    "warm-baseline",
+    "component",
+    "shared"
+  ],
+  "processCount": 2,
+  "timeoutPerProcessMinutes": 20,
+  "retryPolicy": "No replacement successful profiles; preserve failed attempts and investigate before retry",
+  "workloadReuse": "Exact Plan 029 consumer path, candidate artifact, dependency paths, options and six fresh oracle summaries; no setup reinstall or source/config adaptation",
+  "sourceEdits": "Only the two existing owned Salt fixture edits, nested finally restoration; no concurrent mutation of consumer",
+  "harnessChanges": "New wrapper re-exports frozen 029 helpers. Driver adds inspector phase boundaries/output paths/metadata proof. Summary adapts existing 027 logic to candidate artifact URL; historical files unchanged.",
+  "profileCaveats": "Time-delta weighted samples describe sampled work, not new unprofiled timing estimates or promised savings. Metadata verification, disk profile writes and source identity work stay outside profile windows.",
+  "setupAttempts": [
+    {
+      "result": "local script generation assertion failed before any profile",
+      "reason": "A replacement anchor matched both an import and output paths; corrected the anchor before generating the driver. Follow-on syntax commands reported missing files; no plugin process ran."
+    }
+  ]
+}

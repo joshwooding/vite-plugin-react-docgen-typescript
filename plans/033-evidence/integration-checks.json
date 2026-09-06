@@ -1,0 +1,9 @@
+{
+  "exitCodes": {
+    "build": 0,
+    "typecheck": 0,
+    "tests": 0,
+    "whitespace": 0
+  },
+  "scope": "Main checkout: unbuild, TS6 typecheck, new four alias/lifecycle/error tests, whitespace; source unchanged from reviewed freeze."
+}

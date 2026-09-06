@@ -1,0 +1,507 @@
+{
+  "mode": "storybook",
+  "versions": {
+    "storybook": "10.6.0",
+    "typescript": "6.0.3"
+  },
+  "limit": 1,
+  "startedAt": "2026-09-05T20:51:20.014Z",
+  "stages": [
+    {
+      "name": "cold",
+      "elapsedMs": 1803.8471000000002,
+      "output": {
+        "Component000": {
+          "description": "Benchmark component 0.",
+          "displayName": "Component000",
+          "props": {
+            "density": {
+              "defaultValue": null,
+              "description": "Project-local density.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "values": [
+                  "\"comfortable\"",
+                  "\"compact\""
+                ]
+              }
+            },
+            "label": {
+              "defaultValue": null,
+              "description": "Visible label for Component000.",
+              "required": true,
+              "type": {
+                "name": "string"
+              }
+            },
+            "tone": {
+              "defaultValue": null,
+              "description": "Shared tone revision 000.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "values": [
+                  "\"base\"",
+                  "\"revision-000\""
+                ]
+              }
+            },
+            "variant": {
+              "defaultValue": null,
+              "description": "Local visual variant.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "values": [
+                  "\"outline\"",
+                  "\"solid\""
+                ]
+              }
+            }
+          }
+        }
+      },
+      "payloads": [
+        {
+          "id": "component000",
+          "name": "Component000",
+          "path": "./packages/project-00/src/Component000.stories.tsx",
+          "jsDocTags": {},
+          "description": "Benchmark component 0.",
+          "reactComponentMeta": {
+            "displayName": "Component000",
+            "exportName": "Component000",
+            "filePath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\031\\fixture\\packages\\project-00\\src\\Component000.tsx",
+            "description": "Benchmark component 0.",
+            "jsDocTags": {},
+            "props": {
+              "label": {
+                "name": "label",
+                "required": true,
+                "type": {
+                  "name": "string"
+                },
+                "description": "Visible label for Component000.",
+                "defaultValue": null,
+                "parent": {
+                  "name": "Component000Props",
+                  "fileName": "packages/project-00/src/Component000.tsx"
+                },
+                "declarations": [
+                  {
+                    "name": "Component000Props",
+                    "fileName": "packages/project-00/src/Component000.tsx"
+                  }
+                ]
+              },
+              "variant": {
+                "name": "variant",
+                "required": false,
+                "type": {
+                  "name": "enum",
+                  "raw": "\"solid\" | \"outline\"",
+                  "value": [
+                    {
+                      "value": "\"solid\""
+                    },
+                    {
+                      "value": "\"outline\""
+                    }
+                  ]
+                },
+                "description": "Local visual variant.",
+                "defaultValue": null,
+                "parent": {
+                  "name": "Component000Props",
+                  "fileName": "packages/project-00/src/Component000.tsx"
+                },
+                "declarations": [
+                  {
+                    "name": "Component000Props",
+                    "fileName": "packages/project-00/src/Component000.tsx"
+                  }
+                ]
+              },
+              "tone": {
+                "name": "tone",
+                "required": false,
+                "type": {
+                  "name": "enum",
+                  "raw": "\"base\" | \"revision-000\"",
+                  "value": [
+                    {
+                      "value": "\"base\""
+                    },
+                    {
+                      "value": "\"revision-000\""
+                    }
+                  ]
+                },
+                "description": "Shared tone revision 000.",
+                "defaultValue": null,
+                "parent": {
+                  "name": "SharedProps",
+                  "fileName": "shared/shared-types.ts"
+                },
+                "declarations": [
+                  {
+                    "name": "SharedProps",
+                    "fileName": "shared/shared-types.ts"
+                  }
+                ]
+              },
+              "density": {
+                "name": "density",
+                "required": false,
+                "type": {
+                  "name": "enum",
+                  "raw": "\"compact\" | \"comfortable\"",
+                  "value": [
+                    {
+                      "value": "\"compact\""
+                    },
+                    {
+                      "value": "\"comfortable\""
+                    }
+                  ]
+                },
+                "description": "Project-local density.",
+                "defaultValue": null,
+                "parent": {
+                  "name": "ProjectProps",
+                  "fileName": "packages/project-00/src/project-types.ts"
+                },
+                "declarations": [
+                  {
+                    "name": "ProjectProps",
+                    "fileName": "packages/project-00/src/project-types.ts"
+                  }
+                ]
+              }
+            }
+          },
+          "argTypes": {
+            "label": {
+              "name": "label",
+              "description": "Visible label for Component000.",
+              "type": {
+                "required": true,
+                "name": "string"
+              },
+              "table": {
+                "type": {
+                  "summary": "string"
+                }
+              }
+            },
+            "variant": {
+              "name": "variant",
+              "description": "Local visual variant.",
+              "type": {
+                "required": false,
+                "raw": "\"solid\" | \"outline\"",
+                "name": "enum",
+                "value": [
+                  "solid",
+                  "outline"
+                ]
+              },
+              "table": {
+                "type": {
+                  "summary": "\"solid\" | \"outline\""
+                }
+              }
+            },
+            "tone": {
+              "name": "tone",
+              "description": "Shared tone revision 000.",
+              "type": {
+                "required": false,
+                "raw": "\"base\" | \"revision-000\"",
+                "name": "enum",
+                "value": [
+                  "base",
+                  "revision-000"
+                ]
+              },
+              "table": {
+                "type": {
+                  "summary": "\"base\" | \"revision-000\""
+                }
+              }
+            },
+            "density": {
+              "name": "density",
+              "description": "Project-local density.",
+              "type": {
+                "required": false,
+                "raw": "\"compact\" | \"comfortable\"",
+                "name": "enum",
+                "value": [
+                  "compact",
+                  "comfortable"
+                ]
+              },
+              "table": {
+                "type": {
+                  "summary": "\"compact\" | \"comfortable\""
+                }
+              }
+            }
+          }
+        }
+      ],
+      "digest": "84a10fcf88cf33fcaed75e1465c13decfd96d2b6cd4fc05c14f259390d647652"
+    },
+    {
+      "name": "shared-1",
+      "elapsedMs": 7.129400000000032,
+      "output": {
+        "Component000": {
+          "description": "Benchmark component 0.",
+          "displayName": "Component000",
+          "props": {
+            "density": {
+              "defaultValue": null,
+              "description": "Project-local density.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "values": [
+                  "\"comfortable\"",
+                  "\"compact\""
+                ]
+              }
+            },
+            "label": {
+              "defaultValue": null,
+              "description": "Visible label for Component000.",
+              "required": true,
+              "type": {
+                "name": "string"
+              }
+            },
+            "tone": {
+              "defaultValue": null,
+              "description": "Shared tone revision 000.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "values": [
+                  "\"base\"",
+                  "\"revision-000\""
+                ]
+              }
+            },
+            "variant": {
+              "defaultValue": null,
+              "description": "Local visual variant.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "values": [
+                  "\"outline\"",
+                  "\"solid\""
+                ]
+              }
+            }
+          }
+        }
+      },
+      "payloads": [
+        {
+          "id": "component000",
+          "name": "Component000",
+          "path": "./packages/project-00/src/Component000.stories.tsx",
+          "jsDocTags": {},
+          "description": "Benchmark component 0.",
+          "reactComponentMeta": {
+            "displayName": "Component000",
+            "exportName": "Component000",
+            "filePath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\031\\fixture\\packages\\project-00\\src\\Component000.tsx",
+            "description": "Benchmark component 0.",
+            "jsDocTags": {},
+            "props": {
+              "label": {
+                "name": "label",
+                "required": true,
+                "type": {
+                  "name": "string"
+                },
+                "description": "Visible label for Component000.",
+                "defaultValue": null,
+                "parent": {
+                  "name": "Component000Props",
+                  "fileName": "packages/project-00/src/Component000.tsx"
+                },
+                "declarations": [
+                  {
+                    "name": "Component000Props",
+                    "fileName": "packages/project-00/src/Component000.tsx"
+                  }
+                ]
+              },
+              "variant": {
+                "name": "variant",
+                "required": false,
+                "type": {
+                  "name": "enum",
+                  "raw": "\"solid\" | \"outline\"",
+                  "value": [
+                    {
+                      "value": "\"solid\""
+                    },
+                    {
+                      "value": "\"outline\""
+                    }
+                  ]
+                },
+                "description": "Local visual variant.",
+                "defaultValue": null,
+                "parent": {
+                  "name": "Component000Props",
+                  "fileName": "packages/project-00/src/Component000.tsx"
+                },
+                "declarations": [
+                  {
+                    "name": "Component000Props",
+                    "fileName": "packages/project-00/src/Component000.tsx"
+                  }
+                ]
+              },
+              "tone": {
+                "name": "tone",
+                "required": false,
+                "type": {
+                  "name": "enum",
+                  "raw": "\"base\" | \"revision-000\"",
+                  "value": [
+                    {
+                      "value": "\"base\""
+                    },
+                    {
+                      "value": "\"revision-000\""
+                    }
+                  ]
+                },
+                "description": "Shared tone revision 000.",
+                "defaultValue": null,
+                "parent": {
+                  "name": "SharedProps",
+                  "fileName": "shared/shared-types.ts"
+                },
+                "declarations": [
+                  {
+                    "name": "SharedProps",
+                    "fileName": "shared/shared-types.ts"
+                  }
+                ]
+              },
+              "density": {
+                "name": "density",
+                "required": false,
+                "type": {
+                  "name": "enum",
+                  "raw": "\"compact\" | \"comfortable\"",
+                  "value": [
+                    {
+                      "value": "\"compact\""
+                    },
+                    {
+                      "value": "\"comfortable\""
+                    }
+                  ]
+                },
+                "description": "Project-local density.",
+                "defaultValue": null,
+                "parent": {
+                  "name": "ProjectProps",
+                  "fileName": "packages/project-00/src/project-types.ts"
+                },
+                "declarations": [
+                  {
+                    "name": "ProjectProps",
+                    "fileName": "packages/project-00/src/project-types.ts"
+                  }
+                ]
+              }
+            }
+          },
+          "argTypes": {
+            "label": {
+              "name": "label",
+              "description": "Visible label for Component000.",
+              "type": {
+                "required": true,
+                "name": "string"
+              },
+              "table": {
+                "type": {
+                  "summary": "string"
+                }
+              }
+            },
+            "variant": {
+              "name": "variant",
+              "description": "Local visual variant.",
+              "type": {
+                "required": false,
+                "raw": "\"solid\" | \"outline\"",
+                "name": "enum",
+                "value": [
+                  "solid",
+                  "outline"
+                ]
+              },
+              "table": {
+                "type": {
+                  "summary": "\"solid\" | \"outline\""
+                }
+              }
+            },
+            "tone": {
+              "name": "tone",
+              "description": "Shared tone revision 000.",
+              "type": {
+                "required": false,
+                "raw": "\"base\" | \"revision-000\"",
+                "name": "enum",
+                "value": [
+                  "base",
+                  "revision-000"
+                ]
+              },
+              "table": {
+                "type": {
+                  "summary": "\"base\" | \"revision-000\""
+                }
+              }
+            },
+            "density": {
+              "name": "density",
+              "description": "Project-local density.",
+              "type": {
+                "required": false,
+                "raw": "\"compact\" | \"comfortable\"",
+                "name": "enum",
+                "value": [
+                  "compact",
+                  "comfortable"
+                ]
+              },
+              "table": {
+                "type": {
+                  "summary": "\"compact\" | \"comfortable\""
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "status": "failed",
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'Shared tone revision 000.'\n- 'Shared tone revision 001.'\n                          ^\n\n    at checkpoint (file:///D:/OSS/vite-plugin-react-docgen-typescript/plans/031-evidence/runner.mjs:27:12)\n    at file:///D:/OSS/vite-plugin-react-docgen-typescript/plans/031-evidence/runner.mjs:90:35",
+  "finishedAt": "2026-09-05T20:51:21.835Z"
+}

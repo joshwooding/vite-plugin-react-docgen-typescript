@@ -1,0 +1,23 @@
+{
+  "workload": "salt",
+  "compiler": "ts6",
+  "command": [
+    "C:\\nvm4w\\nodejs\\node.exe",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\typescript\\bin\\tsc",
+    "--noEmit",
+    "--incremental",
+    "false",
+    "--pretty",
+    "false",
+    "--noCheck",
+    "false",
+    "--extendedDiagnostics",
+    "--project",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan029\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\029\\salt-ds\\packages\\core\\tsconfig.json"
+  ],
+  "cwd": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan029\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\029\\salt-ds",
+  "status": 0,
+  "signal": null,
+  "stdout": "Files:                        1190\r\nLines of Library:            74736\r\nLines of Definitions:        89836\r\nLines of TypeScript:         51023\r\nLines of JavaScript:             0\r\nLines of JSON:                   0\r\nLines of Other:                  0\r\nIdentifiers:                185728\r\nSymbols:                    317473\r\nTypes:                       59431\r\nInstantiations:             467546\r\nMemory used:               494308K\r\nAssignability cache size:    60703\r\nIdentity cache size:          2811\r\nSubtype cache size:           1869\r\nStrict subtype cache size:    4311\r\nI/O Read time:               0.18s\r\nParse time:                  0.50s\r\nResolveModule time:          0.36s\r\nResolveTypeReference time:   0.01s\r\nProgram time:                1.16s\r\nBind time:                   0.27s\r\nCheck time:                  7.57s\r\nprintTime time:              0.00s\r\nEmit time:                   0.00s\r\nTotal time:                  8.99s\r\n",
+  "stderr": ""
+}

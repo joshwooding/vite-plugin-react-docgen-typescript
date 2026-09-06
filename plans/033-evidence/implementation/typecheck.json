@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "D:/OSS/vite-plugin-react-docgen-typescript/node_modules/typescript6/bin/tsc6",
+    "--noEmit",
+    "-p",
+    "packages/vite-plugin-react-docgen-typescript/tsconfig.json"
+  ],
+  "exitCode": 0
+}
