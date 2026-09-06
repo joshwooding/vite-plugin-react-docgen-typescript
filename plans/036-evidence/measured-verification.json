@@ -1,0 +1,534 @@
+{
+  "status": "PASS",
+  "createdAt": "2026-09-06T13:48:54.694603+00:00",
+  "protocolSha256": "808469453c87a227bd88e5f9787792480622a963ec9591427c454fe6f05b828c",
+  "reportSha256": "849fb4231da6d81af06fab12a963a15378a8def220964fc5231e1ab6890e857d",
+  "independentProcesses": 16,
+  "processesPerLane": 4,
+  "editsPerProcess": 10,
+  "fullFinalMetadata": "All 188 components and all four normalized prop records match the expected final fixture and one another in every retained child.",
+  "intermediateChecks": "The unchanged harness fails on missing/stale cold or edit revision descriptions and incomplete affected sets. Intermediate complete outputs are not retained; this is not an independent fresh oracle for every phase.",
+  "statistics": "Arithmetic midpoint median for even N; unscaled MAD. Edits are reduced to one median per process before comparison. No discarded or added samples; smoke excluded.",
+  "samples": {
+    "trunk:default": [
+      {
+        "iteration": 0,
+        "order": 0,
+        "coldMs": 22880.1841,
+        "editMedianMs": 22006.528999999995,
+        "coldPeakRssBytes": 317128704,
+        "editPeakRssBytes": 907763712
+      },
+      {
+        "iteration": 1,
+        "order": 3,
+        "coldMs": 25995.708100000003,
+        "editMedianMs": 25184.55400000001,
+        "coldPeakRssBytes": 313630720,
+        "editPeakRssBytes": 907071488
+      },
+      {
+        "iteration": 2,
+        "order": 2,
+        "coldMs": 34443.7358,
+        "editMedianMs": 29719.299649999997,
+        "coldPeakRssBytes": 315506688,
+        "editPeakRssBytes": 907603968
+      },
+      {
+        "iteration": 3,
+        "order": 1,
+        "coldMs": 23951.721600000004,
+        "editMedianMs": 23511.17270000001,
+        "coldPeakRssBytes": 314384384,
+        "editPeakRssBytes": 907071488
+      }
+    ],
+    "trunk:projectService": [
+      {
+        "iteration": 0,
+        "order": 1,
+        "coldMs": 25853.3155,
+        "editMedianMs": 22864.632400000002,
+        "coldPeakRssBytes": 341151744,
+        "editPeakRssBytes": 418607104
+      },
+      {
+        "iteration": 1,
+        "order": 0,
+        "coldMs": 24541.968,
+        "editMedianMs": 23906.098700000002,
+        "coldPeakRssBytes": 335732736,
+        "editPeakRssBytes": 416710656
+      },
+      {
+        "iteration": 2,
+        "order": 3,
+        "coldMs": 27136.5632,
+        "editMedianMs": 24546.155750000005,
+        "coldPeakRssBytes": 336392192,
+        "editPeakRssBytes": 416587776
+      },
+      {
+        "iteration": 3,
+        "order": 2,
+        "coldMs": 29049.8181,
+        "editMedianMs": 26403.44429999999,
+        "coldPeakRssBytes": 335949824,
+        "editPeakRssBytes": 417169408
+      }
+    ],
+    "performance:default": [
+      {
+        "iteration": 0,
+        "order": 2,
+        "coldMs": 3689.4373,
+        "editMedianMs": 2836.2389999999996,
+        "coldPeakRssBytes": 317263872,
+        "editPeakRssBytes": 735100928
+      },
+      {
+        "iteration": 1,
+        "order": 1,
+        "coldMs": 4545.410599999999,
+        "editMedianMs": 3566.441200000001,
+        "coldPeakRssBytes": 311619584,
+        "editPeakRssBytes": 735641600
+      },
+      {
+        "iteration": 2,
+        "order": 0,
+        "coldMs": 4389.141199999999,
+        "editMedianMs": 3678.0254000000023,
+        "coldPeakRssBytes": 309551104,
+        "editPeakRssBytes": 734367744
+      },
+      {
+        "iteration": 3,
+        "order": 3,
+        "coldMs": 4983.844899999999,
+        "editMedianMs": 3152.5815000000002,
+        "coldPeakRssBytes": 322768896,
+        "editPeakRssBytes": 735649792
+      }
+    ],
+    "performance:projectService": [
+      {
+        "iteration": 0,
+        "order": 3,
+        "coldMs": 5277.9785,
+        "editMedianMs": 3123.3046000000013,
+        "coldPeakRssBytes": 332402688,
+        "editPeakRssBytes": 456142848
+      },
+      {
+        "iteration": 1,
+        "order": 2,
+        "coldMs": 6687.6705999999995,
+        "editMedianMs": 4182.9146,
+        "coldPeakRssBytes": 341876736,
+        "editPeakRssBytes": 439492608
+      },
+      {
+        "iteration": 2,
+        "order": 1,
+        "coldMs": 6901.706399999999,
+        "editMedianMs": 5271.7880000000005,
+        "coldPeakRssBytes": 334790656,
+        "editPeakRssBytes": 456425472
+      },
+      {
+        "iteration": 3,
+        "order": 0,
+        "coldMs": 5551.6624,
+        "editMedianMs": 3573.9039,
+        "coldPeakRssBytes": 329490432,
+        "editPeakRssBytes": 455667712
+      }
+    ]
+  },
+  "comparisons": [
+    {
+      "mode": "default",
+      "metric": "coldMs",
+      "trunk": {
+        "samples": [
+          22880.1841,
+          25995.708100000003,
+          34443.7358,
+          23951.721600000004
+        ],
+        "median": 24973.714850000004,
+        "mad": 1557.7620000000024,
+        "madFraction": 0.062376062566438815
+      },
+      "performance": {
+        "samples": [
+          3689.4373,
+          4545.410599999999,
+          4389.141199999999,
+          4983.844899999999
+        ],
+        "median": 4467.275899999999,
+        "mad": 297.35185000000047,
+        "madFraction": 0.06656223091123621
+      },
+      "pairedRounds": [
+        {
+          "iteration": 0,
+          "trunkMs": 22880.1841,
+          "performanceMs": 3689.4373,
+          "deltaMs": -19190.746799999997,
+          "reductionPercent": 83.87496672284206
+        },
+        {
+          "iteration": 1,
+          "trunkMs": 25995.708100000003,
+          "performanceMs": 4545.410599999999,
+          "deltaMs": -21450.297500000004,
+          "reductionPercent": 82.51476519695188
+        },
+        {
+          "iteration": 2,
+          "trunkMs": 34443.7358,
+          "performanceMs": 4389.141199999999,
+          "deltaMs": -30054.594600000004,
+          "reductionPercent": 87.2570698327096
+        },
+        {
+          "iteration": 3,
+          "trunkMs": 23951.721600000004,
+          "performanceMs": 4983.844899999999,
+          "deltaMs": -18967.876700000004,
+          "reductionPercent": 79.19212245686758
+        }
+      ],
+      "medianReductionPercent": 82.1120889429872,
+      "ratioOfMedians": 5.590367689177203,
+      "verdict": "CONSISTENT_IMPROVEMENT"
+    },
+    {
+      "mode": "default",
+      "metric": "editMedianMs",
+      "trunk": {
+        "samples": [
+          22006.528999999995,
+          25184.55400000001,
+          29719.299649999997,
+          23511.17270000001
+        ],
+        "median": 24347.86335000001,
+        "mad": 1589.012500000008,
+        "madFraction": 0.06526291351146454
+      },
+      "performance": {
+        "samples": [
+          2836.2389999999996,
+          3566.441200000001,
+          3678.0254000000023,
+          3152.5815000000002
+        ],
+        "median": 3359.5113500000007,
+        "mad": 262.721950000001,
+        "madFraction": 0.07820242964799061
+      },
+      "pairedRounds": [
+        {
+          "iteration": 0,
+          "trunkMs": 22006.528999999995,
+          "performanceMs": 2836.2389999999996,
+          "deltaMs": -19170.289999999994,
+          "reductionPercent": 87.11182940299219
+        },
+        {
+          "iteration": 1,
+          "trunkMs": 25184.55400000001,
+          "performanceMs": 3566.441200000001,
+          "deltaMs": -21618.11280000001,
+          "reductionPercent": 85.8387756241385
+        },
+        {
+          "iteration": 2,
+          "trunkMs": 29719.299649999997,
+          "performanceMs": 3678.0254000000023,
+          "deltaMs": -26041.274249999995,
+          "reductionPercent": 87.62411818812829
+        },
+        {
+          "iteration": 3,
+          "trunkMs": 23511.17270000001,
+          "performanceMs": 3152.5815000000002,
+          "deltaMs": -20358.59120000001,
+          "reductionPercent": 86.59113460554863
+        }
+      ],
+      "medianReductionPercent": 86.20202807241401,
+      "ratioOfMedians": 7.247441908478745,
+      "verdict": "CONSISTENT_IMPROVEMENT"
+    },
+    {
+      "mode": "projectService",
+      "metric": "coldMs",
+      "trunk": {
+        "samples": [
+          25853.3155,
+          24541.968,
+          27136.5632,
+          29049.8181
+        ],
+        "median": 26494.93935,
+        "mad": 1297.2975999999999,
+        "madFraction": 0.04896397696415183
+      },
+      "performance": {
+        "samples": [
+          5277.9785,
+          6687.6705999999995,
+          6901.706399999999,
+          5551.6624
+        ],
+        "median": 6119.666499999999,
+        "mad": 675.0219999999999,
+        "madFraction": 0.11030372325027843
+      },
+      "pairedRounds": [
+        {
+          "iteration": 0,
+          "trunkMs": 25853.3155,
+          "performanceMs": 5277.9785,
+          "deltaMs": -20575.337,
+          "reductionPercent": 79.58490662445209
+        },
+        {
+          "iteration": 1,
+          "trunkMs": 24541.968,
+          "performanceMs": 6687.6705999999995,
+          "deltaMs": -17854.297400000003,
+          "reductionPercent": 72.75006389055679
+        },
+        {
+          "iteration": 2,
+          "trunkMs": 27136.5632,
+          "performanceMs": 6901.706399999999,
+          "deltaMs": -20234.8568,
+          "reductionPercent": 74.56676311906733
+        },
+        {
+          "iteration": 3,
+          "trunkMs": 29049.8181,
+          "performanceMs": 5551.6624,
+          "deltaMs": -23498.1557,
+          "reductionPercent": 80.88916639378199
+        }
+      ],
+      "medianReductionPercent": 76.90250798781315,
+      "ratioOfMedians": 4.32947438393906,
+      "verdict": "CONSISTENT_IMPROVEMENT"
+    },
+    {
+      "mode": "projectService",
+      "metric": "editMedianMs",
+      "trunk": {
+        "samples": [
+          22864.632400000002,
+          23906.098700000002,
+          24546.155750000005,
+          26403.44429999999
+        ],
+        "median": 24226.127225000004,
+        "mad": 840.7616750000016,
+        "madFraction": 0.03470474942987927
+      },
+      "performance": {
+        "samples": [
+          3123.3046000000013,
+          4182.9146,
+          5271.7880000000005,
+          3573.9039
+        ],
+        "median": 3878.4092499999997,
+        "mad": 529.8049999999994,
+        "madFraction": 0.13660368616334118
+      },
+      "pairedRounds": [
+        {
+          "iteration": 0,
+          "trunkMs": 22864.632400000002,
+          "performanceMs": 3123.3046000000013,
+          "deltaMs": -19741.3278,
+          "reductionPercent": 86.34001830705137
+        },
+        {
+          "iteration": 1,
+          "trunkMs": 23906.098700000002,
+          "performanceMs": 4182.9146,
+          "deltaMs": -19723.184100000002,
+          "reductionPercent": 82.50273015061215
+        },
+        {
+          "iteration": 2,
+          "trunkMs": 24546.155750000005,
+          "performanceMs": 5271.7880000000005,
+          "deltaMs": -19274.367750000005,
+          "reductionPercent": 78.52295873255021
+        },
+        {
+          "iteration": 3,
+          "trunkMs": 26403.44429999999,
+          "performanceMs": 3573.9039,
+          "deltaMs": -22829.540399999987,
+          "reductionPercent": 86.46425118104762
+        }
+      ],
+      "medianReductionPercent": 83.99079962728133,
+      "ratioOfMedians": 6.24640816979281,
+      "verdict": "CONSISTENT_IMPROVEMENT"
+    }
+  ],
+  "children": [
+    {
+      "lane": "trunk:default",
+      "iteration": 0,
+      "order": 0,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-0-0.json",
+      "retainedPath": "measured-children\\run-0-0.json",
+      "sha256": "9d4871bd65b0422c9549a8e3208a2d7fdb539bf6847c5a715c401655acc1d622",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "trunk:default",
+      "iteration": 1,
+      "order": 3,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-1-3.json",
+      "retainedPath": "measured-children\\run-1-3.json",
+      "sha256": "ee01b8dab3d491282f92a45b576a5d684e10f68793e40dba99aff97385a7709a",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "trunk:default",
+      "iteration": 2,
+      "order": 2,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-2-2.json",
+      "retainedPath": "measured-children\\run-2-2.json",
+      "sha256": "a1ae42b870235c59a6620eba703c1136462cdd47dc627c73db59a28842523b80",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "trunk:default",
+      "iteration": 3,
+      "order": 1,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-3-1.json",
+      "retainedPath": "measured-children\\run-3-1.json",
+      "sha256": "31451b4b1e853e89ebde46aa18e46cf49aa67d76797daf8d5fd7692557159107",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "trunk:projectService",
+      "iteration": 0,
+      "order": 1,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-0-1.json",
+      "retainedPath": "measured-children\\run-0-1.json",
+      "sha256": "bdbb1621944557ea2bde46d18573554194903453744eb94d587252aff04bfee7",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "trunk:projectService",
+      "iteration": 1,
+      "order": 0,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-1-0.json",
+      "retainedPath": "measured-children\\run-1-0.json",
+      "sha256": "7625b74cb45b974a0d73c58d4cbff0bbfff966c046e469484363dc81949890b6",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "trunk:projectService",
+      "iteration": 2,
+      "order": 3,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-2-3.json",
+      "retainedPath": "measured-children\\run-2-3.json",
+      "sha256": "cb9aa97137a86ba63873e5de96ebf9d3df53253ed798c04eee8ca780ba0731a1",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "trunk:projectService",
+      "iteration": 3,
+      "order": 2,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-3-2.json",
+      "retainedPath": "measured-children\\run-3-2.json",
+      "sha256": "7f750dbeb8214417aab67c9f9100a37e53d0167118ed4db39a19f1fa8da22be5",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "performance:default",
+      "iteration": 0,
+      "order": 2,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-0-2.json",
+      "retainedPath": "measured-children\\run-0-2.json",
+      "sha256": "11ec9270315ec3e752d7bcc104c647b66f96ac36d155a3c0ea5ebb6a6d4a82a8",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "performance:default",
+      "iteration": 1,
+      "order": 1,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-1-1.json",
+      "retainedPath": "measured-children\\run-1-1.json",
+      "sha256": "0bc1bac2bdf4d647e062922fb6875ff923df129f62bac0604189a4c3aa0fab88",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "performance:default",
+      "iteration": 2,
+      "order": 0,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-2-0.json",
+      "retainedPath": "measured-children\\run-2-0.json",
+      "sha256": "182f594a4b00ce3cc61f66947d72a05326c4b5e4358cbb009aca6930b03b4d79",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "performance:default",
+      "iteration": 3,
+      "order": 3,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-3-3.json",
+      "retainedPath": "measured-children\\run-3-3.json",
+      "sha256": "7c48ddd318a9dd27e55787e1e958958c722709119c6a1799ecc38718fd8c53c9",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "performance:projectService",
+      "iteration": 0,
+      "order": 3,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-0-3.json",
+      "retainedPath": "measured-children\\run-0-3.json",
+      "sha256": "1bedaa950a00353758b46433866195487516e8e30c4e871a8833ce32a028eb22",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "performance:projectService",
+      "iteration": 1,
+      "order": 2,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-1-2.json",
+      "retainedPath": "measured-children\\run-1-2.json",
+      "sha256": "67175e5b539e897e3c867a4f27fef63b22ddcf7d1f5f77dc747f4cb08b180563",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "performance:projectService",
+      "iteration": 2,
+      "order": 1,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-2-1.json",
+      "retainedPath": "measured-children\\run-2-1.json",
+      "sha256": "e46890bb4ba5a1d906eae24494826a4c667cef2e561c209e67df108e67d11f88",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    },
+    {
+      "lane": "performance:projectService",
+      "iteration": 3,
+      "order": 0,
+      "originalPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\.yarn\\benchmark-workspaces\\vite-rdt-backends-ktolWw\\run-3-0.json",
+      "retainedPath": "measured-children\\run-3-0.json",
+      "sha256": "276f88ff926f836c564224b5cff2cf02a9518e97f100a20f38ddd6a1e42a2f85",
+      "outputDigest": "1058bc95616502ebd4994ed8c012a97001366215f128391904acc91e368e0290"
+    }
+  ]
+}

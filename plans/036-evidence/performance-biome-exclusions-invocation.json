@@ -1,0 +1,17 @@
+{
+  "status": "FAILED",
+  "command": [
+    "D:/OSS/vite-plugin-react-docgen-typescript/node_modules/@biomejs/cli-win32-x64/biome.exe",
+    "ci",
+    ".",
+    "--max-diagnostics=20"
+  ],
+  "cwd": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan036/performance/vite-plugin-react-docgen-typescript",
+  "startedAt": "2026-09-06T13:52:02.721756+00:00",
+  "CI": "true",
+  "pid": 28392,
+  "exitCode": 1,
+  "durationSeconds": 1.110000000000582,
+  "finishedAt": "2026-09-06T13:52:03.832511+00:00",
+  "logSha256": "9e107bbe46b08ff4c5379714df3a0c2262e02ec0369f679f6daa7c92889c25e8"
+}

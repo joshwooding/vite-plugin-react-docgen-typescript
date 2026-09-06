@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "measuredSourceCommit": "ea077567e23ccde17e8742c2a9f1559ffabe91c0",
+  "packageSourceAndHarnessGitBlobsUnchanged": true,
+  "passedChecks": [
+    "performance-tests",
+    "performance-biome-final",
+    "performance-fixture-playground",
+    "performance-fixture-large-project",
+    "performance-fixture-large-design-system"
+  ],
+  "buildTypecheckPack": "Frozen premeasurement build, typecheck and archive verification passed; package source unchanged.",
+  "formatting": "Windows source CRLF converted to LF without Git blob changes, except explicit Biome config exclusions. Exact measured harness bytes preserved.",
+  "remoteCI": "Pending push and pull request creation."
+}

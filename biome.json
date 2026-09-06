@@ -1,8 +1,14 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.4.7/schema.json",
-  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
   "files": {
-    "includes": ["**", "!**/package.json"]
+    "includes": ["**", "!**/package.json", "!!plans", "!!.yarn", "!!**/dist"]
   },
   "linter": {
     "enabled": true,
@@ -24,7 +30,9 @@
       "includes": ["**/__tests__/**"],
       "linter": {
         "rules": {
-          "complexity": { "noForEach": "off" }
+          "complexity": {
+            "noForEach": "off"
+          }
         }
       }
     }
