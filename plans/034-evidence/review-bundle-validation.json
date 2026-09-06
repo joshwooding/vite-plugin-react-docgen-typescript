@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "externalReviewInvoked": false,
+  "repo": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\review034\\vite-plugin-react-docgen-typescript",
+  "base": "4e78cf3bebcae3896b53ef4ae154d6cdca95b274",
+  "reviewPaths": [
+    "README.md",
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts"
+  ],
+  "sourceFreeze": [
+    {
+      "path": "README.md",
+      "sha256": "e1564034deb3953e1c01c1f41e1094649be4c3738427e0481b89370fb673234d"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts",
+      "sha256": "a73db0803e38176a71faba59be5bbb2f97c7e6bd5fc7a5ddf51f683fb3b63b63"
+    }
+  ],
+  "bundleCharacters": 33318,
+  "promptCharacters": 113449,
+  "inputTruncated": false,
+  "promptSha256": "17601a32c8770f60830f759824529407e392b5c75dbaf66043c8c6a578f52ebe",
+  "diffSha256": "db299b91f62ac9d41106dcefeef2ea6682ac0b4489a4a7fc27750c2cc810288e",
+  "helperSha256": "70472cddd657ae5af276333f158258bab3df5e924acf15b80b608387ded13bf6",
+  "supplementalFiles": [
+    {
+      "path": ".yarn/simplification-evidence/034/review-scope.txt",
+      "sha256": "f4955243a6450595aff692681e5812e55ada1732253e35cb99e79057670260e9"
+    },
+    {
+      "path": ".yarn/simplification-evidence/034/review-context.md",
+      "sha256": "ba832a2346bf2d0b5438fbe8e840c16f46d0521c530a2b5807cb3c67204a640b"
+    }
+  ],
+  "preparedCommand": [
+    "C:/Python311/python.exe",
+    "C:\\Users\\Joshu\\.agents\\skills\\autoreview\\scripts\\autoreview",
+    "--mode",
+    "local",
+    "--engine",
+    "codex",
+    "--prompt-file",
+    ".yarn/simplification-evidence/034/review-scope.txt",
+    "--dataset",
+    ".yarn/simplification-evidence/034/review-context.md",
+    "--json-output",
+    ".yarn/simplification-evidence/034/autoreview.json",
+    "--output",
+    ".yarn/simplification-evidence/034/autoreview.txt",
+    "--stream-engine-output"
+  ]
+}

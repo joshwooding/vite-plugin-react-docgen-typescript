@@ -4,7 +4,7 @@ Updated 2026-09-06. Priorities reflect completed verification, known bugs and
 measured results. New items are proposals; existing plans retain their recorded
 status and scope.
 
-Current source checkpoint: 09039b9f32bab728b2418b24e74636f93703b998 on
+Current runtime checkpoint: 09039b9f32bab728b2418b24e74636f93703b998 on
 codex/simplify-changesets-publish. Plans 017–022/024, release coverage, the 028
 verifier correction, 023 decision and 027 profile evidence are integrated locally.
 No push/release occurred.
@@ -26,6 +26,14 @@ with explicit user authorization and unchanged persistent signing configuration.
 See [033 verification](033-verification.md).
 Graph narrowing remains a separate design investigation.
 
+The user subsequently selected [Plan 034](034-document-explicit-external-type-watches.md):
+a tested consumer-local Vite configuration recipe for an explicit existing type
+directory. It is reviewed and integrated at unsigned local source commit
+653e203: 29 tests and eight native boundary executions/40 mutations pass, with
+no external-review findings. See [034 verification](034-verification.md). This
+adds no package option or automatic parent watches and does not close the general
+Plan 023 discovery gap.
+
 ## Prioritized list
 
 | # | Work | Status | Completion target |
@@ -40,6 +48,7 @@ Graph narrowing remains a separate design investigation.
 | 8 | Reuse already-canonical dependency paths internally | DONE at signed source commit 41b536a | Both Salt modes meet the benefit rule; 339 tests, ten compatibility rows, external review and main workspace verification pass |
 | 9 | Profile the optimized Salt workload | DONE: Plan 032; four profiles and independent audit | Backend output pass removed in completed 033; smaller candidates deferred and watcher checks retained as detailed below |
 | 10 | Reuse the backend's canonical dependency output | DONE: Plan 033 at unsigned source commit 09039b9 | Canonical/lifecycle proof, 343 tests, ten matrix rows and 24 samples pass; 53–55% Salt cold/edit benefit. External review clean; main source/build and committed bytes verified |
+| 11 | Document explicit external type directory watching | DONE: Plan 034 at unsigned source commit 653e203 | Existing Vite configuration, 29 tests, eight native rows/40 mutations and clean external review; automatic discovery remains open |
 
 ## Scope and evidence
 

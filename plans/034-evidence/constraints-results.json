@@ -1,0 +1,410 @@
+{
+  "status": "FAIL",
+  "node": "v24.10.0",
+  "versions": {
+    "vite": "8.1.5",
+    "typescript": "6.0.3",
+    "react-docgen-typescript": "2.2.2"
+  },
+  "scriptSha256": "e959a75e37dfafb0afa1a79c0a5ddec8d863d4d513aac6615c85482472fd2bd8",
+  "distSha256": "0039755d18125248d78268a266405aded347fa1dfbd8034f2e08e9b5363bb1cb",
+  "rows": [
+    {
+      "kind": "ignored",
+      "mode": "legacy",
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "nativeControl": true,
+      "effectiveWatchSettings": {
+        "ignored": [
+          "C:/Users/Joshu/AppData/Local/Temp/vite-rdt034-constraints-G7WIFU/shared-types/**"
+        ]
+      },
+      "watched": {
+        ".": [
+          "app"
+        ],
+        "app": [
+          "src",
+          "tsconfig.json"
+        ],
+        "app/src": [
+          "Component.tsx",
+          "Other.tsx",
+          "Second.tsx",
+          "control.js"
+        ]
+      },
+      "expectedLimitation": {
+        "events": [],
+        "payloads": [],
+        "metadata": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {}
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {}
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        }
+      },
+      "fresh": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "amount": {
+              "name": "amount",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "number | undefined"
+              },
+              "defaultValue": {
+                "value": "7"
+              }
+            },
+            "label": {
+              "name": "label",
+              "description": "Blocked by consumer watcher settings.",
+              "required": true,
+              "type": {
+                "name": "number"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {
+            "amount": {
+              "name": "amount",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "number | undefined"
+              },
+              "defaultValue": {
+                "value": "7"
+              }
+            },
+            "label": {
+              "name": "label",
+              "description": "Blocked by consumer watcher settings.",
+              "required": true,
+              "type": {
+                "name": "number"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "watchedAfterClose": {},
+      "postCloseEvents": 0,
+      "status": "PASS"
+    },
+    {
+      "kind": "disabled",
+      "mode": "legacy",
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "nativeControl": "not applicable: watcher intentionally disabled",
+      "effectiveWatchSettings": null,
+      "watched": {},
+      "expectedLimitation": {
+        "events": [],
+        "payloads": [],
+        "metadata": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {}
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {}
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        }
+      },
+      "fresh": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "amount": {
+              "name": "amount",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "number | undefined"
+              },
+              "defaultValue": {
+                "value": "7"
+              }
+            },
+            "label": {
+              "name": "label",
+              "description": "Blocked by consumer watcher settings.",
+              "required": true,
+              "type": {
+                "name": "number"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {
+            "amount": {
+              "name": "amount",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "number | undefined"
+              },
+              "defaultValue": {
+                "value": "7"
+              }
+            },
+            "label": {
+              "name": "label",
+              "description": "Blocked by consumer watcher settings.",
+              "required": true,
+              "type": {
+                "name": "number"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "watchedAfterClose": {},
+      "postCloseEvents": 0,
+      "status": "PASS"
+    },
+    {
+      "kind": "scope",
+      "mode": "legacy",
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "nativeControl": true,
+      "effectiveWatchSettings": {},
+      "watched": {
+        ".": [
+          "app",
+          "shared-types"
+        ],
+        "app": [
+          "src",
+          "tsconfig.json"
+        ],
+        "shared-types": [
+          "owned"
+        ],
+        "app/src": [
+          "Component.tsx",
+          "Other.tsx",
+          "Second.tsx",
+          "control.js"
+        ],
+        "shared-types/owned": [
+          "deep"
+        ],
+        "shared-types/owned/deep": [
+          "noise.txt"
+        ]
+      },
+      "noise": {
+        "events": [
+          {
+            "event": "change",
+            "file": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt034-constraints-a5DdIG/shared-types/owned/deep/noise.txt"
+          }
+        ],
+        "payloads": []
+      },
+      "watchedAfterClose": {},
+      "postCloseEvents": 0,
+      "status": "PASS"
+    },
+    {
+      "kind": "depth",
+      "mode": "legacy",
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: control unregistered\n    at control (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan034/vite-plugin-react-docgen-typescript/plans/034-evidence/constraints.mjs:72:3)\n    at async file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan034/vite-plugin-react-docgen-typescript/plans/034-evidence/constraints.mjs:97:28",
+      "watchedAfterClose": {},
+      "postCloseEvents": 0
+    }
+  ]
+}

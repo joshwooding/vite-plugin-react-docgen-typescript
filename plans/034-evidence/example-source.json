@@ -1,0 +1,5 @@
+{
+  "source": "README.md / Watching a known external type directory",
+  "sha256": "ed027a619b465b7f14799cadc444e01323520f62e47953138f194935f3ab3d4f",
+  "code": "import { statSync } from \"node:fs\";\nimport { fileURLToPath } from \"node:url\";\nimport { defineConfig, normalizePath } from \"vite\";\nimport reactDocgenTypescript from \"@joshwooding/vite-plugin-react-docgen-typescript\";\n\nconst externalTypesDirectory = fileURLToPath(\n  new URL(\"../shared-types/\", import.meta.url),\n);\n\nexport default defineConfig({\n  plugins: [\n    reactDocgenTypescript(),\n    {\n      name: \"watch-external-types\",\n      apply: \"serve\",\n      config() {\n        if (!statSync(externalTypesDirectory).isDirectory()) {\n          throw new Error(\"externalTypesDirectory must be an existing directory\");\n        }\n      },\n      configureServer(server) {\n        server.watcher.add(normalizePath(externalTypesDirectory));\n      },\n    },\n  ],\n});\n"
+}

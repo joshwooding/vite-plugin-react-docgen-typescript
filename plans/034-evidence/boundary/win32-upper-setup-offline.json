@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-09-06T09:49:23.000Z",
+  "completedAt": "2026-09-06T09:49:37.878Z",
+  "directory": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\034\\boundary\\windows-upper",
+  "versions": {
+    "node": "24.10.0",
+    "vite": "8.1.5",
+    "typescript": "6.0.3"
+  },
+  "command": [
+    "C:\\nvm4w\\nodejs\\node.exe",
+    "C:\\nvm4w\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+    "install",
+    "--ignore-scripts",
+    "--no-audit",
+    "--no-fund",
+    "--save-exact",
+    "--offline",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\033\\candidate.tgz",
+    "vite@8.1.5",
+    "typescript@6.0.3",
+    "react-docgen-typescript@2.2.2",
+    "glob@13.0.6"
+  ],
+  "archiveSha256": "a7aa4620b18c2eebfffbeab4cb623d94f91b4f0371b684b37eacd52ee901dfbe",
+  "scriptSha256": "9163c0c9f3fc7eda5b10369d10079195e9413b7c1b2bc9c4095fe0b3a8b035d1",
+  "exitCode": 0,
+  "error": null,
+  "stdout": "\nadded 56 packages in 14s\n",
+  "stderr": ""
+}

@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-09-06T09:48:45.592Z",
+  "completedAt": "2026-09-06T09:48:49.071Z",
+  "directory": "/var/tmp/vite-rdt-plan034-boundary/linux-lower",
+  "versions": {
+    "node": "20.19.5",
+    "vite": "3.2.11",
+    "typescript": "4.3.5"
+  },
+  "command": [
+    "/var/tmp/vite-rdt-plan025/node-v20.19.5-linux-x64/bin/node",
+    "/var/tmp/vite-rdt-plan025/node-v20.19.5-linux-x64/lib/node_modules/npm/bin/npm-cli.js",
+    "install",
+    "--ignore-scripts",
+    "--no-audit",
+    "--no-fund",
+    "--save-exact",
+    "--offline",
+    "/mnt/d/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/candidate.tgz",
+    "vite@3.2.11",
+    "typescript@4.3.5",
+    "react-docgen-typescript@2.2.2",
+    "glob@13.0.6"
+  ],
+  "archiveSha256": "a7aa4620b18c2eebfffbeab4cb623d94f91b4f0371b684b37eacd52ee901dfbe",
+  "scriptSha256": "9163c0c9f3fc7eda5b10369d10079195e9413b7c1b2bc9c4095fe0b3a8b035d1",
+  "exitCode": 1,
+  "error": null,
+  "stdout": "",
+  "stderr": "npm error code ENOTCACHED\nnpm error request to https://registry.npmjs.org/react-docgen-typescript/-/react-docgen-typescript-2.2.2.tgz failed: cache mode is 'only-if-cached' but no cached response is available.\nnpm error A complete log of this run can be found in: /home/josh/.npm/_logs/2026-09-06T09_48_45_791Z-debug-0.log\n"
+}

@@ -1,0 +1,86 @@
+{
+  "status": "PASS",
+  "base": "4e78cf3bebcae3896b53ef4ae154d6cdca95b274",
+  "candidateFiles": [
+    {
+      "path": "README.md",
+      "sha256": "e1564034deb3953e1c01c1f41e1094649be4c3738427e0481b89370fb673234d"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts",
+      "sha256": "a73db0803e38176a71faba59be5bbb2f97c7e6bd5fc7a5ddf51f683fb3b63b63"
+    }
+  ],
+  "runtimeFilesUnchanged": 15,
+  "distFilesUnchanged": 5,
+  "checkoutLineEndings": [
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/cache.ts",
+      "mainSha256": "2b7cc6fcce06a61330e0c15fe640bd45e53e14fe89dcc19a2c6fb2878a5bd148",
+      "worktreeAndGitBlobSha256": "420ce5906502741a6d37de6ca802113803a7ce3e645f3d180cead82dc6a0f5ae",
+      "difference": "Existing main CRLF versus isolated LF checkout only; neither file edited."
+    }
+  ],
+  "nativeRows": [
+    {
+      "label": "win32-lower-legacy",
+      "checkpoints": 5,
+      "resultSha256": "721d4c87c9d31305bb13727dd06dd9290223f6122e5b29e9d392a169498e634f"
+    },
+    {
+      "label": "win32-lower-project-service",
+      "checkpoints": 5,
+      "resultSha256": "b0213b282e061c227a3a4b01cbc83b20cdb1750a6a657aa044fe95ef2fd56c1c"
+    },
+    {
+      "label": "win32-upper-legacy",
+      "checkpoints": 5,
+      "resultSha256": "1be4b85f6f67f0dc45e3babc6133dcd758cc7cd05dd1f9b97ef89a15b0b9a336"
+    },
+    {
+      "label": "win32-upper-project-service",
+      "checkpoints": 5,
+      "resultSha256": "651a4613cddb8a58d32ed8699a999654e0db631a4eecdc7d2cc0047bb4a20a55"
+    },
+    {
+      "label": "linux-lower-legacy",
+      "checkpoints": 5,
+      "resultSha256": "adc2969dc35fade8f9ae93568cf8050d16b1995c988d86f94cf9f0c787fb873e"
+    },
+    {
+      "label": "linux-lower-project-service",
+      "checkpoints": 5,
+      "resultSha256": "fe96bcea8b0ecf58863430f2c9baadf37a1321c8cbb097e8939e1df5f4c873df"
+    },
+    {
+      "label": "linux-upper-legacy",
+      "checkpoints": 5,
+      "resultSha256": "27f581b97e05b7e337bbf3fe46393b2c5af66e9d2a21470fefb2699134e65108"
+    },
+    {
+      "label": "linux-upper-project-service",
+      "checkpoints": 5,
+      "resultSha256": "22a9f1a8360062481b7265dcae70c8f60d5ccb4bf58176393f966c101f42ec66"
+    }
+  ],
+  "nativeCheckpoints": 40,
+  "currentEnvironmentConstraintCases": [
+    "ignored",
+    "disabled",
+    "scope",
+    "depth",
+    "near-consecutive",
+    "offline-delete",
+    "missing-directory",
+    "regular-file"
+  ],
+  "finalFocusedTests": {
+    "passed": 29,
+    "files": 2,
+    "exitCode": 0,
+    "durationSeconds": 50.66,
+    "logSha256": "6900130f9fc8df3727045d32970b627f501ff293b40e69d9b63d948f3c2854ee"
+  },
+  "review": "Not run; separate approval required for this new two-file upload.",
+  "automaticDiscovery": "Plan023 gap remains open without explicit configuration."
+}

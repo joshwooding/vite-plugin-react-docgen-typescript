@@ -1,0 +1,22 @@
+ignored: PASS
+disabled: PASS
+scope: PASS
+depth: FAIL
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'FAIL' !== 'PASS'
+
+    at file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan034/vite-plugin-react-docgen-typescript/plans/034-evidence/constraints.mjs:155:8 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'FAIL',
+  expected: 'PASS',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.10.0

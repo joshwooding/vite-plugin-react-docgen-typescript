@@ -1,0 +1,5 @@
+depth: PASS
+near-consecutive: PASS
+offline-delete: PASS
+missing-directory: PASS
+regular-file: PASS
