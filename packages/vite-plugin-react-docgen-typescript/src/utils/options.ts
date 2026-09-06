@@ -38,6 +38,11 @@ interface TypescriptOptions {
   compilerOptions?: CompilerOptions;
 }
 
+/**
+ * Options for the persistent file-system cache.
+ *
+ * @deprecated Remove `fileSystemCache` from configuration, or set it to `false`.
+ */
 export interface FileSystemCacheOptions {
   /**
    * Enable the persistent file-system cache.
@@ -73,7 +78,14 @@ export type DocGenOptions = ParserOptions & {
    */
   // Default: ["**/*.tsx"]
   include?: string[];
-  /** Persistent transform cache stored on disk. */
+  /**
+   * Persistent transform cache stored on disk.
+   *
+   * In-memory caching and TypeScript program reuse continue when disabled.
+   *
+   * @default false
+   * @deprecated Remove `fileSystemCache` from configuration, or set it to `false`.
+   */
   fileSystemCache?: boolean | FileSystemCacheOptions;
   /**
    * Select the TypeScript project runtime used by docgen.

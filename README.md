@@ -29,7 +29,7 @@ This plugins support all parser options from [react-docgen-typescript](https://g
 | typePropName                   | string         | Specify the name of the property for docgen info prop type.                                                                                         | `type`          |
 | exclude                        | string[]       | String globs to ignore and not generate docgen information for. (Great for ignoring large icon libraries)                                           | `["**/*.stories.tsx"]` |
 | include                        | string[]       | String globs that select files for docgen information.                                                                                              | `["**/*.tsx"]` |
-| fileSystemCache                | boolean/object | Enables a persistent file-system cache. Configure with `{ enabled?: boolean; directory?: string }`.                                                 | `false`         |
+| fileSystemCache                | boolean/object | **Deprecated.** Persistent file-system cache. Remove this option or set it to `false`; existing boolean/object configurations still work.            | `false`         |
 | docgenMode                     | `"legacy"` or `"project-service"` | Selects the TypeScript project runtime. ProjectService is the recommended stable opt-in.                                             | `"legacy"`      |
 | EXPERIMENTAL_useWatchProgram   | boolean        | **Deprecated.** Enables the legacy WatchProgram runtime. Migrate to `docgenMode: "project-service"`.                                 | `false`         |
 | EXPERIMENTAL_useProjectService | boolean        | **Deprecated.** Enables ProjectService. Migrate to `docgenMode: "project-service"`.                                                  | `false`         |
@@ -39,6 +39,31 @@ When `fileSystemCache` is enabled without a custom directory, cache entries are 
 Persistent cache hits avoid repeat docgen extraction, but startup still loads TypeScript and validates the target program's current project membership and recorded dependency contents. Newly included declarations or module augmentations therefore invalidate stale metadata. Identical-source in-memory hits remain inexpensive.
 
 During development, the plugin registers existing external type dependencies with Vite's watcher. External type files that are absent at startup may not trigger a refresh when first created; restart the server to pick them up. This limitation also applies when the persistent cache is disabled.
+
+### Migrating from disk persistence
+
+`fileSystemCache` is deprecated. Remove it from your configuration while keeping
+your other options, or set it to `false`:
+
+```ts
+// Before
+reactDocgenTypescript({ fileSystemCache: true });
+
+// After
+reactDocgenTypescript();
+```
+
+In-memory transform caching and TypeScript program reuse continue. Existing
+boolean and object configurations, including custom cache directories, still
+work during deprecation; the default remains `false`.
+
+The [60-run performance recheck](plans/035-persistent-cache-measurement.md) found
+insufficient startup benefit and slower edit processing in the two tested Windows
+fixtures across both stable modes. Those results support simplifying disk
+persistence; they do not establish a speedup for every consumer.
+
+Removal is intended for a later breaking release, after at least one published
+compatible release carrying this notice. No removal version or date is set.
 
 ### Watching a known external type directory
 
