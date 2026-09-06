@@ -1,0 +1,24 @@
+[21:53:26.167] [INFO] storybook v10.6.0
+[21:53:26.342] [ERROR] [38;2;241;97;97mSB_CORE-SERVER_0007 (MainFileEvaluationError): Storybook couldn't evaluate your .yarn\simplification-evidence\031\fixture\.storybook\main.js file.
+
+Original error:
+file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/fixture/.storybook/main.js:1
+import { getService } from "file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/storybook-runtime/node_modules/storybook/dist/shared/open-service/index.js";
+         ^^^^^^^^^^
+SyntaxError: The requested module 'file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/storybook-runtime/node_modules/storybook/dist/shared/open-service/index.js' does not provide an export named 'getService'
+    at #_instantiate (node:internal/modules/esm/module_job:254:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:369:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:691:26)
+    at async importModule (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/storybook-runtime/node_modules/storybook/dist/_node-chunks/chunk-5G6TGQDE.js:740:11)
+    at async loadMainConfig (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/storybook-runtime/node_modules/storybook/dist/_node-chunks/chunk-IQHYYTFR.js:14275:12)
+    at async buildDevStandalone (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/storybook-runtime/node_modules/storybook/dist/core-server/index.js:9240:16)
+    at async withTelemetry (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/storybook-runtime/node_modules/storybook/dist/_node-chunks/chunk-FTP3QZ7O.js:142:12)
+    at async dev (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/storybook-runtime/node_modules/storybook/dist/bin/core.js:4906:3)
+    at async _Command.<anonymous> (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/storybook-runtime/node_modules/storybook/dist/bin/core.js:5014:3)[39m
+    at loadMainConfig (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/storybook-runtime/node_modules/storybook/dist/_node-chunks/chunk-IQHYYTFR.js:14306:11)
+    at async buildDevStandalone (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/storybook-runtime/node_modules/storybook/dist/core-server/index.js:9240:16)
+    at async withTelemetry (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/storybook-runtime/node_modules/storybook/dist/_node-chunks/chunk-FTP3QZ7O.js:142:12)
+    at async dev (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/storybook-runtime/node_modules/storybook/dist/bin/core.js:4906:3)
+    at async _Command.<anonymous> (file:///D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/031/storybook-runtime/node_modules/storybook/dist/bin/core.js:5014:3)
+[21:53:26.346] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.

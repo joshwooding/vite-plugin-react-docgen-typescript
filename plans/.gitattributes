@@ -1,0 +1,2 @@
+# Preserve structured review and evidence bytes.
+*.json -text

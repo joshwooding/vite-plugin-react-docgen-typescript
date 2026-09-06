@@ -1,0 +1,459 @@
+{
+  "schemaVersion": 1,
+  "identity": {
+    "evaluatedSha": "eb7a7650a3541d08630ed60d4e684f495123d343",
+    "lockfileSha256": "782c9e80e0789b79ecf721c60b38587fabf1d26eccb636e87471469fd530d9c4",
+    "sourceSha256": "3d9f666aef6c9a0760bf62d8aa52326042ebedb5123103232ba35b64317cdb5a",
+    "buildSha256": "0039755d18125248d78268a266405aded347fa1dfbd8034f2e08e9b5363bb1cb",
+    "benchmarkSha256": "6a7330f4a949277a5d1eae2ca5b540a4939056d35c6d4e10b2eb58ce5f9203bc",
+    "node": "v24.10.0",
+    "os": {
+      "platform": "win32",
+      "release": "10.0.26340",
+      "arch": "x64"
+    },
+    "versions": {
+      "typescript": "6.0.3",
+      "typescript6": "6.0.2",
+      "vite": "8.1.5",
+      "react-docgen-typescript": "2.2.2",
+      "react": "18.3.1",
+      "@types/react": "18.2.25"
+    }
+  },
+  "rows": [
+    {
+      "mode": "default",
+      "startup": "fresh",
+      "cacheEntries": 0,
+      "seed": null,
+      "observed": {
+        "pid": 44376,
+        "root": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\033\\compatibility\\watcher-default-fresh-odEqlC\\app",
+        "initial": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "string"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "after": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "number"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "transformCount": 2,
+        "initialExtractions": 1,
+        "persistedHit": false,
+        "initialRegisteredWatchFiles": [],
+        "windowMs": 5000,
+        "watchedExternalAtStartup": true,
+        "controlEvents": [
+          {
+            "event": "change",
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-default-fresh-odEqlC/app/src/control.js"
+          }
+        ],
+        "externalEvents": [
+          {
+            "event": "change",
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-default-fresh-odEqlC/shared/types.d.ts"
+          }
+        ],
+        "controlHotHooks": [
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-default-fresh-odEqlC/app/src/control.js",
+            "type": "update"
+          },
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-default-fresh-odEqlC/app/src/control.js",
+            "type": "update"
+          }
+        ],
+        "externalHotHooks": [
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-default-fresh-odEqlC/shared/types.d.ts",
+            "type": "update"
+          },
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-default-fresh-odEqlC/shared/types.d.ts",
+            "type": "update"
+          }
+        ],
+        "responseUnchanged": false
+      },
+      "oracle": {
+        "pid": 38924,
+        "root": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\033\\compatibility\\watcher-default-fresh-odEqlC\\app",
+        "metadata": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "number"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "mode": "default",
+      "startup": "validated-persistent",
+      "cacheEntries": 1,
+      "seed": {
+        "pid": 30712,
+        "root": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\033\\compatibility\\watcher-default-validated-persistent-rXYgQM\\app",
+        "initial": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "string"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "observed": {
+        "pid": 9856,
+        "root": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\033\\compatibility\\watcher-default-validated-persistent-rXYgQM\\app",
+        "initial": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "string"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "after": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "number"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "transformCount": 2,
+        "initialExtractions": 0,
+        "persistedHit": true,
+        "initialRegisteredWatchFiles": [],
+        "windowMs": 5000,
+        "watchedExternalAtStartup": true,
+        "controlEvents": [
+          {
+            "event": "change",
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-default-validated-persistent-rXYgQM/app/src/control.js"
+          }
+        ],
+        "externalEvents": [
+          {
+            "event": "change",
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-default-validated-persistent-rXYgQM/shared/types.d.ts"
+          }
+        ],
+        "controlHotHooks": [
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-default-validated-persistent-rXYgQM/app/src/control.js",
+            "type": "update"
+          },
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-default-validated-persistent-rXYgQM/app/src/control.js",
+            "type": "update"
+          }
+        ],
+        "externalHotHooks": [
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-default-validated-persistent-rXYgQM/shared/types.d.ts",
+            "type": "update"
+          },
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-default-validated-persistent-rXYgQM/shared/types.d.ts",
+            "type": "update"
+          }
+        ],
+        "responseUnchanged": false
+      },
+      "oracle": {
+        "pid": 41044,
+        "root": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\033\\compatibility\\watcher-default-validated-persistent-rXYgQM\\app",
+        "metadata": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "number"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "mode": "projectService",
+      "startup": "fresh",
+      "cacheEntries": 0,
+      "seed": null,
+      "observed": {
+        "pid": 28776,
+        "root": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\033\\compatibility\\watcher-projectService-fresh-6ny5r9\\app",
+        "initial": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "string"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "after": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "number"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "transformCount": 2,
+        "initialExtractions": 1,
+        "persistedHit": false,
+        "initialRegisteredWatchFiles": [],
+        "windowMs": 5000,
+        "watchedExternalAtStartup": true,
+        "controlEvents": [
+          {
+            "event": "change",
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-projectService-fresh-6ny5r9/app/src/control.js"
+          }
+        ],
+        "externalEvents": [
+          {
+            "event": "change",
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-projectService-fresh-6ny5r9/shared/types.d.ts"
+          }
+        ],
+        "controlHotHooks": [
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-projectService-fresh-6ny5r9/app/src/control.js",
+            "type": "update"
+          },
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-projectService-fresh-6ny5r9/app/src/control.js",
+            "type": "update"
+          }
+        ],
+        "externalHotHooks": [
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-projectService-fresh-6ny5r9/shared/types.d.ts",
+            "type": "update"
+          },
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-projectService-fresh-6ny5r9/shared/types.d.ts",
+            "type": "update"
+          }
+        ],
+        "responseUnchanged": false
+      },
+      "oracle": {
+        "pid": 33640,
+        "root": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\033\\compatibility\\watcher-projectService-fresh-6ny5r9\\app",
+        "metadata": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "number"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "mode": "projectService",
+      "startup": "validated-persistent",
+      "cacheEntries": 1,
+      "seed": {
+        "pid": 20028,
+        "root": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\033\\compatibility\\watcher-projectService-validated-persistent-Z3gao4\\app",
+        "initial": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "string"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "observed": {
+        "pid": 25140,
+        "root": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\033\\compatibility\\watcher-projectService-validated-persistent-Z3gao4\\app",
+        "initial": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "string"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "after": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "number"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "transformCount": 2,
+        "initialExtractions": 0,
+        "persistedHit": true,
+        "initialRegisteredWatchFiles": [],
+        "windowMs": 5000,
+        "watchedExternalAtStartup": true,
+        "controlEvents": [
+          {
+            "event": "change",
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-projectService-validated-persistent-Z3gao4/app/src/control.js"
+          }
+        ],
+        "externalEvents": [
+          {
+            "event": "change",
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-projectService-validated-persistent-Z3gao4/shared/types.d.ts"
+          }
+        ],
+        "controlHotHooks": [
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-projectService-validated-persistent-Z3gao4/app/src/control.js",
+            "type": "update"
+          },
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-projectService-validated-persistent-Z3gao4/app/src/control.js",
+            "type": "update"
+          }
+        ],
+        "externalHotHooks": [
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-projectService-validated-persistent-Z3gao4/shared/types.d.ts",
+            "type": "update"
+          },
+          {
+            "file": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/compatibility/watcher-projectService-validated-persistent-Z3gao4/shared/types.d.ts",
+            "type": "update"
+          }
+        ],
+        "responseUnchanged": false
+      },
+      "oracle": {
+        "pid": 28468,
+        "root": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\033\\compatibility\\watcher-projectService-validated-persistent-Z3gao4\\app",
+        "metadata": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "number"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "status": "PASS"
+    }
+  ],
+  "verdict": "PASS"
+}

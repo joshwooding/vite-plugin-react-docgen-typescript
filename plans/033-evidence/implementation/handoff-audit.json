@@ -1,0 +1,25 @@
+{
+  "sourceFreezeUnchanged": true,
+  "artifactUnchanged": true,
+  "resultLogsAudited": [
+    "baseline-canonical-tests.txt",
+    "focused-tests.txt",
+    "full-tests.txt",
+    "lint.txt",
+    "build.txt",
+    "pack.txt"
+  ],
+  "fullSuite": {
+    "tests": 343,
+    "files": 14
+  },
+  "sourceUncommitted": true,
+  "remainingGates": [
+    "root independent verification",
+    "ten-row compatibility",
+    "restart and native watcher coverage",
+    "paired unprofiled measurement",
+    "scoped external review",
+    "local signed integration"
+  ]
+}

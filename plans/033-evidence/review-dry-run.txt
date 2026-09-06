@@ -1,0 +1,8 @@
+autoreview target: local
+branch: detached
+engine: codex
+model: gpt-5.6-sol
+fallback_model: gpt-5.6-terra
+thinking: high
+tools: on
+web_search: on

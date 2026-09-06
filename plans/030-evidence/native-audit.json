@@ -1,0 +1,222 @@
+{
+  "status": "verified",
+  "createdAt": "2026-09-05T20:42:54.560Z",
+  "resultPath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\plans\\030-evidence\\native-188x7.json",
+  "resultSha256": "e95e0c58d2ac691abc33b2c113a8c8b85fd5dde67314466859017270801bdca1",
+  "harness": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\ts7-native-stacked\\scripts\\benchmark-backends.mjs",
+  "harnessSha256": "f5dcde4895b27f948d2158acba86199b0abbec1f2f3f5aed0b60ed9b92a60bd0",
+  "compilerPackages": [
+    {
+      "name": "typescript",
+      "version": "6.0.3",
+      "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\typescript\\package.json",
+      "sha256": "9332e97c30d3e53ed54910b89207ed657fb444066484df6e5b6965bf130865e9",
+      "gitHead": "050880ce59e30b356b686bd3144efe24f875ebc8"
+    },
+    {
+      "name": "typescript7next",
+      "version": "7.1.0-dev.20260905.1",
+      "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\030\\next-runtime\\node_modules\\typescript\\package.json",
+      "sha256": "3bd9796db57bbff6ad302a36589eb49d092f0fe423624b72b494aac27b1d92b1",
+      "gitHead": "1f70213d4922b434345f639b441681e470c7cfc1"
+    }
+  ],
+  "nativeExecutable": {
+    "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\030\\next-runtime\\node_modules\\@typescript\\typescript-win32-x64\\lib\\tsc.exe",
+    "sha256": "9c992ac8540d8b0383485b0c75b7ee53643c530d7273e6291eede9049d0e7bf6"
+  },
+  "host": {
+    "node": "v24.10.0",
+    "platform": "win32",
+    "arch": "x64",
+    "release": "10.0.26340",
+    "cpu": "Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz",
+    "logicalCpus": 16
+  },
+  "processes": 8,
+  "rawFiles": [
+    {
+      "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\ts7-native-stacked\\.yarn\\benchmark-workspaces\\vite-rdt-backends-LQoHKD\\run-0-0.json",
+      "sha256": "a5df8c2fb1803bb4a82dff0f96cb7cdb5e73c14c493c6aac5dcb560516e25ae1",
+      "outputDigest": "f8e44f947bdca311074327c80780a8f6cf6775d05b4a7d098fb9f9c86c09a656"
+    },
+    {
+      "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\ts7-native-stacked\\.yarn\\benchmark-workspaces\\vite-rdt-backends-LQoHKD\\run-1-1.json",
+      "sha256": "3e300cc7a699e6f3a472254668ca051112344af29ae44b439f7995d345f16412",
+      "outputDigest": "f8e44f947bdca311074327c80780a8f6cf6775d05b4a7d098fb9f9c86c09a656"
+    },
+    {
+      "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\ts7-native-stacked\\.yarn\\benchmark-workspaces\\vite-rdt-backends-LQoHKD\\run-2-0.json",
+      "sha256": "126198fcd5915c1dee04bcfca23b5a46a326c32dad2e850d13d56b32b5dfe3de",
+      "outputDigest": "f8e44f947bdca311074327c80780a8f6cf6775d05b4a7d098fb9f9c86c09a656"
+    },
+    {
+      "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\ts7-native-stacked\\.yarn\\benchmark-workspaces\\vite-rdt-backends-LQoHKD\\run-3-1.json",
+      "sha256": "49a3c83675c6721689b19a1fc007eb7adc9b84dcf9930f748330eed3315b1fb9",
+      "outputDigest": "f8e44f947bdca311074327c80780a8f6cf6775d05b4a7d098fb9f9c86c09a656"
+    },
+    {
+      "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\ts7-native-stacked\\.yarn\\benchmark-workspaces\\vite-rdt-backends-LQoHKD\\run-0-1.json",
+      "sha256": "f20a8d871aa6c1d6990bd80a0fac16534c03abec19981c14e119dde34be71b2b",
+      "outputDigest": "f8e44f947bdca311074327c80780a8f6cf6775d05b4a7d098fb9f9c86c09a656"
+    },
+    {
+      "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\ts7-native-stacked\\.yarn\\benchmark-workspaces\\vite-rdt-backends-LQoHKD\\run-1-0.json",
+      "sha256": "d2b092c68e8063a3c283a60e875561d01c031a58b027c4a223dab6c8681a9e1f",
+      "outputDigest": "f8e44f947bdca311074327c80780a8f6cf6775d05b4a7d098fb9f9c86c09a656"
+    },
+    {
+      "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\ts7-native-stacked\\.yarn\\benchmark-workspaces\\vite-rdt-backends-LQoHKD\\run-2-1.json",
+      "sha256": "f038d431d7be61f5b9a7fb567dad9677012be07eb842b35508826a42c4f97515",
+      "outputDigest": "f8e44f947bdca311074327c80780a8f6cf6775d05b4a7d098fb9f9c86c09a656"
+    },
+    {
+      "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\ts7-native-stacked\\.yarn\\benchmark-workspaces\\vite-rdt-backends-LQoHKD\\run-3-0.json",
+      "sha256": "06546f25cbde78f4a10e9d6b25c7330f85f26433fb7ef960caaaefc55497b8e8",
+      "outputDigest": "f8e44f947bdca311074327c80780a8f6cf6775d05b4a7d098fb9f9c86c09a656"
+    }
+  ],
+  "lanes": [
+    {
+      "mode": "projectService",
+      "version": "6.0.3",
+      "coldMs": {
+        "values": [
+          2407.4878,
+          2441.7649,
+          2307.7322,
+          2346.2221999999997
+        ],
+        "median": 2376.8549999999996,
+        "mad": 47.77135000000044
+      },
+      "meanEditMs": {
+        "values": [
+          646.3297666666664,
+          719.6873000000002,
+          692.7153333333332,
+          693.9862333333331
+        ],
+        "median": 693.3507833333331,
+        "mad": 13.485983333333536
+      },
+      "coldRetainedRssMiB": {
+        "values": [
+          318.9140625,
+          313.484375,
+          319.1015625,
+          317.09765625
+        ],
+        "median": 318.005859375,
+        "mad": 1.001953125
+      },
+      "editSamplesMs": [
+        [
+          672.0711000000001,
+          662.9106999999995,
+          604.0074999999997
+        ],
+        [
+          714.0565999999999,
+          771.9031000000004,
+          673.1022000000003
+        ],
+        [
+          802.3140000000003,
+          645.3036999999995,
+          630.5283
+        ],
+        [
+          820.6944999999996,
+          661.7806,
+          599.4835999999996
+        ]
+      ]
+    },
+    {
+      "mode": "native",
+      "version": "7.1.0-dev.20260905.1",
+      "coldMs": {
+        "values": [
+          1313.1225,
+          1335.4514999999997,
+          1332.9501,
+          1354.0224
+        ],
+        "median": 1334.2007999999998,
+        "mad": 10.53615000000002
+      },
+      "meanEditMs": {
+        "values": [
+          410.8403666666666,
+          411.8171333333333,
+          414.57103333333333,
+          360.5269333333334
+        ],
+        "median": 411.32874999999996,
+        "mad": 1.8653333333333535
+      },
+      "coldRetainedRssMiB": {
+        "values": [
+          207.0703125,
+          206.41015625,
+          202.23828125,
+          208.44921875
+        ],
+        "median": 206.740234375,
+        "mad": 1.01953125
+      },
+      "editSamplesMs": [
+        [
+          512.9398000000001,
+          402.45740000000023,
+          317.1238999999996
+        ],
+        [
+          433.3511000000003,
+          405.5295000000001,
+          396.5707999999995
+        ],
+        [
+          471.13589999999976,
+          442.1048999999998,
+          330.47230000000036
+        ],
+        [
+          369.74090000000024,
+          338.6895999999997,
+          373.15030000000024
+        ]
+      ]
+    }
+  ],
+  "comparisons": {
+    "coldMs": {
+      "ratioOfMedians": 1.7814822176691842,
+      "reductionPercent": 43.866967063619775,
+      "pairedDifferencesMs": [
+        1094.3653,
+        1106.3134000000005,
+        974.7820999999999,
+        992.1997999999996
+      ],
+      "allPairsFavorNightly": true
+    },
+    "meanEditMs": {
+      "ratioOfMedians": 1.6856365700995448,
+      "reductionPercent": 40.675231082525386,
+      "pairedDifferencesMs": [
+        235.48939999999976,
+        307.8701666666669,
+        278.1442999999999,
+        333.4592999999997
+      ],
+      "allPairsFavorNightly": true
+    }
+  },
+  "limits": [
+    "Synthetic fixture; older experimental artifact, not Plan 029 or Salt DS.",
+    "Final normalized output equality checked on every run; intermediate revisions checked by original harness for count and shared description, not full cross-backend field equality.",
+    "Native timing instrumentation enabled; request profiling disabled. Cold total excludes Node process startup."
+  ]
+}

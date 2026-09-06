@@ -1,0 +1,29 @@
+{
+  "recordedAt": "2026-09-06T08:58:07.669729+00:00",
+  "status": "COMPLETE_IN_CONTAINING_EVIDENCE_COMMIT",
+  "sourceCommit": "09039b9f32bab728b2418b24e74636f93703b998",
+  "candidateSourceCommitted": true,
+  "sourceStaged": false,
+  "unsignedAuthorization": "Can you do an unsigned commit for now you don\u2019t need to push yet",
+  "configuredSigningRemainsEnabled": true,
+  "correctnessAndMeasurement": "PASS",
+  "externalReview": {
+    "exitCode": 0,
+    "findings": 0,
+    "model": "gpt-5.6-sol",
+    "thread": "01a075dd-b296-7462-89e4-4d69283d3f9c"
+  },
+  "candidateArchiveSha256": "a7aa4620b18c2eebfffbeab4cb623d94f91b4f0371b684b37eacd52ee901dfbe",
+  "comparisonSha256": "5df605996b91877d5bdf1992e29267c6c024d359b0e99b328614709b9187bf77",
+  "consumersRestored": true,
+  "liveProcesses": [],
+  "remainingRequired": [],
+  "optionalDeprecationScope": "Completed proposal only; no notice or removal implemented.",
+  "evidenceCommit": "The commit containing this final closeout record; intentionally no self-referential commit hash.",
+  "finalVerificationReceipt": ".yarn/simplification-evidence/033/final-commit-verification.json (local ignored receipt written after the evidence commit)",
+  "impasseAudit": {
+    "resolvedBy": "Explicit authorization for unsigned local commits after signing timeout"
+  },
+  "pushPerformed": false,
+  "releasePerformed": false
+}

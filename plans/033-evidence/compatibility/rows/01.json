@@ -1,0 +1,123 @@
+{
+  "rowIndex": 0,
+  "requested": {
+    "os": "ubuntu-latest",
+    "node": "20.19.5",
+    "typescript": "4.3.5",
+    "vite": "3.2.11",
+    "modes": [
+      "default",
+      "legacy",
+      "project-service",
+      "experimental-watch",
+      "experimental-project-service"
+    ],
+    "purpose": "declared lower bounds"
+  },
+  "startedAt": "2026-09-06T00:46:06.259Z",
+  "completedAt": "2026-09-06T00:46:22.183Z",
+  "command": [
+    "/var/tmp/vite-rdt-plan025/node-v20.19.5-linux-x64/bin/node",
+    "--import",
+    "file:///mnt/d/OSS/vite-plugin-react-docgen-typescript/plans/033-evidence/compat-observe-install.mjs",
+    "/mnt/d/OSS/vite-plugin-react-docgen-typescript/scripts/verify-runtime-compatibility.mjs",
+    "--package",
+    "/mnt/d/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/candidate.tgz",
+    "--typescript",
+    "4.3.5",
+    "--vite",
+    "3.2.11",
+    "--modes",
+    "default,legacy,project-service,experimental-watch,experimental-project-service"
+  ],
+  "actual": {
+    "node": "20.19.5",
+    "platform": "linux",
+    "arch": "x64",
+    "release": "6.18.40.1-microsoft-standard-WSL2",
+    "osVersion": "#1 SMP PREEMPT_DYNAMIC Fri Jul 31 22:12:15 UTC 2026",
+    "linuxRelease": "PRETTY_NAME=\"Ubuntu 22.04.3 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"22.04\"\nVERSION=\"22.04.3 LTS (Jammy Jellyfish)\"\nVERSION_CODENAME=jammy\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=jammy\n"
+  },
+  "archiveSha256": "a7aa4620b18c2eebfffbeab4cb623d94f91b4f0371b684b37eacd52ee901dfbe",
+  "verifierSha256": "94dd0637db2d5e34501559060798252ee7175dd163871515f470f7181b3be55a",
+  "exitCode": 0,
+  "error": null,
+  "status": "PASS",
+  "report": {
+    "package": "candidate.tgz",
+    "result": {
+      "results": [
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "default",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "default",
+          "topology": "project-reference"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "legacy",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "legacy",
+          "topology": "project-reference"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "project-service",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "project-service",
+          "topology": "project-reference"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "experimental-watch",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "experimental-watch",
+          "topology": "project-reference"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "experimental-project-service",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "experimental-project-service",
+          "topology": "project-reference"
+        }
+      ],
+      "watcherHandles": 0
+    },
+    "modes": [
+      "default",
+      "legacy",
+      "project-service",
+      "experimental-watch",
+      "experimental-project-service"
+    ],
+    "typescript": "4.3.5",
+    "vite": "3.2.11"
+  }
+}

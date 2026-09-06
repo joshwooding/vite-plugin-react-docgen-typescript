@@ -1,0 +1,18 @@
+{
+  "baseCommit": "eb7a7650a3541d08630ed60d4e684f495123d343",
+  "createdAt": "2026-09-06T00:35:22.314880+00:00",
+  "files": [
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts",
+      "sha256": "41d8f13dfcef813144179db2a91d9e0c1705841ab6eb9e0f3e9c494072fe8332"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/backendCanonicalDependencies.test.ts",
+      "sha256": "a63a7c58a791dc0375bb7f27cdaf6dc114bc68c10a517f8a2159315bf9658f9f"
+    },
+    {
+      "path": ".changeset/reuse-backend-canonical-dependencies.md",
+      "sha256": "09b63b51a44e6d11efa88cb5027058dfc84f756d3e78862de612f21f97006e1c"
+    }
+  ]
+}

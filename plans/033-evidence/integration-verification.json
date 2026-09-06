@@ -1,0 +1,36 @@
+{
+  "verifiedAt": "2026-09-06T08:41:29.833042+00:00",
+  "status": "PASS",
+  "sourceFiles": [
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts",
+      "sha256": "41d8f13dfcef813144179db2a91d9e0c1705841ab6eb9e0f3e9c494072fe8332"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/backendCanonicalDependencies.test.ts",
+      "sha256": "a63a7c58a791dc0375bb7f27cdaf6dc114bc68c10a517f8a2159315bf9658f9f"
+    },
+    {
+      "path": ".changeset/reuse-backend-canonical-dependencies.md",
+      "sha256": "09b63b51a44e6d11efa88cb5027058dfc84f756d3e78862de612f21f97006e1c"
+    }
+  ],
+  "distFiles": {
+    "chunks/fileSelection.mjs": "49d944c7dd814dbbb9b1a9290f13334bfd1bccf94f02a2e96c813b0b16ce1826",
+    "chunks/typescript.mjs": "566dede0c2d983ce2e3ad455f497af0e6a4e436b515177c3b05a6e2f569d78d3",
+    "index.d.mts": "e43fdc3aba416e95d34bc1cac76942c574f9345f62bd04910983180c3826977b",
+    "index.d.ts": "e43fdc3aba416e95d34bc1cac76942c574f9345f62bd04910983180c3826977b",
+    "index.mjs": "0039755d18125248d78268a266405aded347fa1dfbd8034f2e08e9b5363bb1cb"
+  },
+  "candidateArchiveSha256": "a7aa4620b18c2eebfffbeab4cb623d94f91b4f0371b684b37eacd52ee901dfbe",
+  "checks": {
+    "exitCodes": {
+      "build": 0,
+      "typecheck": 0,
+      "tests": 0,
+      "whitespace": 0
+    },
+    "scope": "Main checkout: unbuild, TS6 typecheck, new four alias/lifecycle/error tests, whitespace; source unchanged from reviewed freeze."
+  },
+  "scope": "Main source hashes and all five rebuilt distribution files equal the reviewed and measured candidate; focused alias/lifecycle/error cases pass in main."
+}

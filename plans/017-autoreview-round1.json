@@ -1,0 +1,18 @@
+{
+  "findings": [
+    {
+      "title": "[P1] Register proof-listed external configs with Vite's watcher",
+      "body": "Adding the proof paths to this private set only helps after an update hook is invoked. Vite's dev watcher watches the project root (plus files explicitly registered by plugins/config loading), so an extended config outside the root\u00e2\u20ac\u201dsuch as the `../base.json` case added here\u00e2\u20ac\u201dis not guaranteed to produce either `hotUpdate` or `handleHotUpdate` at all during a persistent-only startup. The new tests call the hooks directly and therefore miss this runtime path. When consuming the proof, register each config with the plugin context (for example via `this.addWatchFile(fileName)`); otherwise edits to the external config can leave the warm cached transform stale indefinitely.",
+      "priority": "P1",
+      "confidence": 0.91,
+      "category": "bug",
+      "code_location": {
+        "file_path": "packages/vite-plugin-react-docgen-typescript/src/plugin.ts",
+        "line": 782
+      }
+    }
+  ],
+  "overall_correctness": "patch is incorrect",
+  "overall_explanation": "The in-hook invalidation logic handles proof-listed paths once Vite reports an update, but it does not ensure that external proof-listed configs are watched. Consequently, the explicit external-extended-config scenario can still fail in an actual dev server despite passing the direct hook tests.",
+  "overall_confidence": 0.88
+}
