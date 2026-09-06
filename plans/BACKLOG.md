@@ -9,8 +9,9 @@ codex/simplify-changesets-publish. Plans 017–022/024, release coverage, the 02
 verifier correction, 023 decision and 027 profile evidence are integrated locally.
 No push/release occurred.
 The selected items 1–4 are complete with their stated scope: item 2 is a
-NEEDS_DESIGN decision with an open production gap; item 3 is a proposal, with no
-shipped deprecation; item 4 is a CPU profile investigation, with no speedup claim.
+NEEDS_DESIGN decision with an open production gap; item 3 now includes a locally
+implemented compatible notice, with no published deprecation; item 4 is a CPU
+profile investigation, with no speedup claim.
 The selected [Plan 029](029-reuse-canonical-dependency-paths.md) is implemented and
 independently verified from 2fd034a. Salt measurements meet its declared benefit
 rule and external review passed with no findings. The change is integrated and
@@ -38,7 +39,11 @@ The selected [Plan 035](035-recheck-optimized-persistence.md) is complete: 60
 measurements on the unchanged optimized runtime return SIMPLIFY_OR_DEPRECATE.
 True persisted hits, full metadata freshness, equal affected work and independent
 statistics pass. See [035 verification](035-verification.md). The option remains
-supported; no deprecation, removal or default change was implemented.
+supported; that experiment implemented no deprecation, removal or default change.
+The user then selected Plan 026 Stage A, now integrated at unsigned source commit
+`d431709`: README/JSDoc/patch notice, three focused tests, typecheck/build/format
+and packed-declaration checks pass. Runtime JavaScript and public type shapes are
+unchanged. See [Stage A verification](026-stage-a-verification.md).
 
 ## Prioritized list
 
@@ -46,7 +51,7 @@ supported; no deprecation, removal or default change was implemented.
 | --- | --- | --- | --- |
 | 1 | Integrate the reviewed fixes and prepare release coverage | DONE at6eeed0e; all10 matrix equivalents, independent boundary/native checks, build/typecheck | Locally integrated; no push/release requested |
 | 2 | Handle external type files created after startup | DONE decision at02d8da2; NEEDS_DESIGN, production gap remains | Independent repeats confirm exact candidates unreliable and parent watches broaden unrelated scope |
-| 3 | Plan filesystem-cache simplification/deprecation | DONE: Plan026 prepared; nothing deprecated or removed yet | Compatible docs/types notice first; removal only after a published notice window and a later breaking-release decision |
+| 3 | Compatible filesystem-cache deprecation notice | STAGE A DONE locally at d431709; no published notice or removal | README/JSDoc/patch Changeset verified; removal requires a published compatible notice and a separate breaking release |
 | 4 | Profile remaining startup/HMR cost on a representative consumer | DONE: Plan 027, pinned Salt DS core, 215 targets and 221 components | Six fresh oracles and four CPU profiles pass; repeated physical-path resolution is the first measured optimization candidate |
 | 5 | Finish the deprecated WatchProgram/experimental-option cleanup | Later; release/deprecation decision required | Remove old flags/runtime only after the documented compatibility window, with migration guidance and lifecycle/parity coverage |
 | 6 | Decide whether ProjectService should become the default | Later; separate product/compatibility decision | Compare supported workloads and release behavior, retain an explicit legacy fallback, and justify any default change |
@@ -99,10 +104,10 @@ found no tested workload meeting the retention rule on historical source
 5f448ec, before the 029/033 runtime changes. Keep fileSystemCache's
 existing default false. Plan an explicit deprecation/removal sequence rather than
 silently ignoring the option. Keep in-memory caching and TypeScript program reuse.
-A decision to remove the option has not yet been implemented or announced.
-The requested [compatible proposal](026-deprecate-filesystem-cache.md) is prepared.
-It retains working configurations during a documented release window and separates
-later removal from the current task.
+The [compatible notice](026-deprecate-filesystem-cache.md) is implemented locally
+in README/JSDoc and a patch Changeset, with migration to omission or false.
+Existing configurations remain functional. Intended later removal is documented
+without a version/date; no notice has been published and no option was removed.
 Plan 035 completed the proposal's current-artifact evidence gate using the unchanged
 off/populate/restart benchmark and stronger hit/freshness/affected-work controls.
 Neither of the two fixtures in either stable mode meets the retention rule:
@@ -111,8 +116,7 @@ react-typing; restart HMR is 19.5–107.7% slower. These Windows fixture results
 not establish Salt-specific or universal benefit from removal. Plan 024 remains
 unchanged. Repeat the evidence gate only if relevant runtime/workload inputs change
 before relying on a new current-performance claim. Stage A's docs/JSDoc/patch
-Changeset and packed-declaration checks are prepared as the next proposed step.
-Stage B requires an actual
+Changeset and packed-declaration checks are complete. Stage B requires an actual
 published compatible notice release, a separately chosen breaking release and
 review of consumer reliance; neither deprecation nor removal has shipped here.
 

@@ -1,15 +1,17 @@
 # Plan 026: Deprecate disk persistence through a compatible release window
 
-Status: PREPARED — backlog item 3's requested proposal is complete; no deprecation
-has been implemented or published. Priority P3; effort S for stage A, M for stage B;
+Status: STAGE A COMPLETE locally at unsigned source commit `d431709`. The README,
+JSDoc and patch Changeset notice are implemented and verified; nothing is published
+and removal remains a later decision. See [Stage A verification](026-stage-a-verification.md).
+Priority P3; effort S for stage A, M for stage B;
 risk MED because this is a public option. Planned at d6553de853530680b0d959120e3b0f9eeeaf8d33,
 2026-09-05. Depends on Plan 022's retained correctness fixes, Plan 024's historical
 evidence and the completed Plan 035 current-artifact recheck. Updated 2026-09-06.
 
 ## Decision and limits
 
-Recommend a compatible documentation/type-annotation deprecation first, followed
-by removal in a later release explicitly designated breaking. Keep the existing
+The compatible documentation/type-annotation notice is implemented locally.
+Removal remains a proposal for a later release explicitly designated breaking. Keep the existing
 default off throughout. Removing disk persistence does not remove in-memory
 transform caching or TypeScript Program reuse.
 
@@ -99,7 +101,12 @@ Omitted fileSystemCache and false disable persistence; true enables it; an objec
 enables it unless enabled:false. Object.enabled's default true is not the public
 option's default. Custom directory paths resolve from the Vite root.
 
-## Stage A — compatible deprecation (future implementation)
+## Stage A — compatible deprecation (implemented locally)
+
+The user selected this stage after Plan 035. Its three-file change was built,
+typechecked, checked with existing option tests, and inspected in the packed
+declarations. JavaScript and public type shapes are unchanged. The steps below
+record the completed scope; they do not establish a published release.
 
 Create a clean codex/ branch/worktree from the latest integrated source after a
 drift check. Scope: README.md, options.ts JSDoc, and one patch Changeset. Add only

@@ -1,0 +1,5 @@
+{
+  "initialBiomeExitCode": 1,
+  "reason": "The newly edited options.ts was written with CRLF; Biome requires LF. Only line endings were corrected. Initial scope and diagnostic retained; final freeze follows verification.",
+  "runtimeContentChanged": false
+}
