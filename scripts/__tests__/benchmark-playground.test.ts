@@ -98,7 +98,11 @@ describe("cache lifecycle and accounting", () => {
     expect(configs[0].fileSystemCache).toEqual(
       cache === "off" ? false : { directory: workspace.cacheDirectory },
     );
-    if (cache === "restart") expect(configs[0]).toEqual(configs[1]);
+    if (cache === "restart") {
+      const { __benchmark, ...measuredConfig } = configs[1];
+      expect(configs[0]).toEqual(measuredConfig);
+      expect(__benchmark).toMatchObject({ bypassMemoryCache: false });
+    }
     await prepareIteration(workspace, "default", "off", seed);
     expect(existsSync(workspace.cacheDirectory)).toBe(false);
   });
@@ -156,7 +160,10 @@ describe("cache lifecycle and accounting", () => {
       firstBatchMs: 4,
       coldBatchMs: 9,
       warmBatchMs: 4,
-      sessionTotalMs: 75,
+      memoryCacheBatchMs: 4,
+      reanalysisBatchMs: 4,
+      componentHmr: { totalCycleMs: 5 },
+      sessionTotalMs: 79,
     });
   });
 
@@ -178,7 +185,7 @@ describe("cache lifecycle and accounting", () => {
     expect(() =>
       validateBaseline(
         {
-          schemaVersion: 2,
+          schemaVersion: 3,
           benchmarkKind: "direct-plugin",
           cache: "restart",
           scenario: { name: "playground", scale: 1 },
@@ -191,7 +198,7 @@ describe("cache lifecycle and accounting", () => {
   it("rejects baseline comparisons with different process-warmth profiles or parser options", () => {
     const options = parseArgs(["--modes", "default,projectService"]);
     const baseline = {
-      schemaVersion: 2,
+      schemaVersion: 3,
       benchmarkKind: "direct-plugin",
       cache: "off",
       scenario: { name: "playground", scale: 1 },
@@ -200,6 +207,12 @@ describe("cache lifecycle and accounting", () => {
       parserOptions: { parser: { propFilter: "plugin-default" } },
     };
     expect(() => validateBaseline(baseline, options)).not.toThrow();
+    expect(() =>
+      validateBaseline({ ...baseline, schemaVersion: 2 }, options),
+    ).toThrow("baseline schema");
+    expect(() =>
+      validateBaseline({ ...baseline, nativeTiming: true }, options),
+    ).toThrow("native timing");
     expect(() =>
       validateBaseline(
         { ...baseline, modes: ["projectService", "default"] },
@@ -355,7 +368,7 @@ describe("direct plugin benchmark lifecycle", () => {
       workspace,
     );
     expect(
-      plugin.transform.mock.calls.slice(4).map((call: any[]) => call[1]),
+      plugin.transform.mock.calls.slice(6).map((call: any[]) => call[1]),
     ).toEqual(workspace.files);
     expect(result.componentHmr).toMatchObject({
       affectedModuleCount: 2,
@@ -374,7 +387,7 @@ describe("direct plugin benchmark lifecycle", () => {
       workspace,
     );
     expect(
-      plugin.transform.mock.calls.slice(4).map((call: any[]) => call[1]),
+      plugin.transform.mock.calls.slice(6).map((call: any[]) => call[1]),
     ).toEqual(workspace.files);
     expect(result.componentHmr.affectedModuleCount).toBe(2);
     expect(result.componentHmr.invalidatedModuleCount).toBe(0);
@@ -399,7 +412,7 @@ describe("direct plugin benchmark lifecycle", () => {
       workspace,
     );
     expect(
-      plugin.transform.mock.calls.slice(4).map((call: any[]) => call[1]),
+      plugin.transform.mock.calls.slice(6).map((call: any[]) => call[1]),
     ).toEqual(workspace.files);
     expect(result.componentHmr.affectedModuleCount).toBe(2);
     expect(result.componentHmr.invalidatedModuleCount).toBe(1);
@@ -414,7 +427,7 @@ describe("direct plugin benchmark lifecycle", () => {
     );
     expect(result.componentHmr.affectedModuleCount).toBe(1);
     expect(
-      plugin.transform.mock.calls.slice(4).map((call: any[]) => call[1]),
+      plugin.transform.mock.calls.slice(6).map((call: any[]) => call[1]),
     ).toEqual([workspace.changedFile]);
   });
 
@@ -423,7 +436,7 @@ describe("direct plugin benchmark lifecycle", () => {
     await expect(
       measureModeIteration(() => plugin, "default", workspace),
     ).rejects.toThrow(/stale/i);
-    expect(plugin.transform).toHaveBeenCalledTimes(4);
+    expect(plugin.transform).toHaveBeenCalledTimes(6);
   });
 
   it("rejects stale metadata and still restores the fixture after closing", async () => {

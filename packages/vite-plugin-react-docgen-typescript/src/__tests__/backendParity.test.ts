@@ -20,6 +20,7 @@ import {
   emptyExtractionFixture,
   recoverableErrorFixture,
 } from "./support/backendParityCorpus";
+import { runTransformHook } from "./support/pluginHooks";
 
 const temporaryDirectories: string[] = [];
 const plugins: ReturnType<typeof createPlugin>[] = [];
@@ -150,7 +151,8 @@ const transformFixture = async (
   await plugin.configResolved?.({ root: fixture.root });
   const source = readFileSync(fixture.componentPath, "utf-8");
   // @ts-expect-error The focused parity harness needs only the warning API.
-  const result = await plugin.transform?.call(
+  const result = await runTransformHook(
+    plugin,
     { warn: vi.fn() },
     source,
     fixture.componentPath,
@@ -388,7 +390,8 @@ declare global { interface AmbientProps extends SharedProps {} }`;
       plugin: ReturnType<typeof createPlugin>,
       fileName: string,
     ) => {
-      const result = await plugin.transform?.call(
+      const result = await runTransformHook(
+        plugin,
         { addWatchFile: vi.fn(), warn: vi.fn() } as never,
         readFileSync(fileName, "utf-8"),
         fileName,
@@ -915,7 +918,8 @@ export interface SelfLink { next?: Link; }`,
         values: readonly string[],
       ) => {
         const fileName = path.join(fixture.root, file);
-        const result = await plugin.transform?.call(
+        const result = await runTransformHook(
+          plugin,
           { warn: vi.fn() } as never,
           readFileSync(fileName, "utf-8"),
           fileName,

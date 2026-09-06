@@ -19,7 +19,11 @@ export default {
 
 ### Options
 
-This plugins support all parser options from [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript#parseroptions) and all of the following options:
+Legacy and ProjectService modes support all parser options from
+[react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript#parseroptions).
+Native mode supports the common metadata and filtering options listed below;
+its `componentNameResolver` receives a name-compatible symbol facade because
+TypeScript 7 uses different compiler objects.
 
 | Option                         | Type           | Description                                                                                                                                         | Default         |
 |--------------------------------| -------------- |-----------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
@@ -30,7 +34,7 @@ This plugins support all parser options from [react-docgen-typescript](https://g
 | exclude                        | string[]       | String globs to ignore and not generate docgen information for. (Great for ignoring large icon libraries)                                           | `["**/*.stories.tsx"]` |
 | include                        | string[]       | String globs that select files for docgen information.                                                                                              | `["**/*.tsx"]` |
 | fileSystemCache                | boolean/object | **Deprecated.** Persistent file-system cache. Remove this option or set it to `false`; existing boolean/object configurations still work.            | `false`         |
-| docgenMode                     | `"legacy"` or `"project-service"` | Selects the TypeScript project runtime. ProjectService is the recommended stable opt-in.                                             | `"legacy"`      |
+| docgenMode                     | `"legacy"`, `"project-service"`, or `"native"` | Selects the TypeScript project runtime. ProjectService is the recommended stable opt-in. Native mode is experimental and requires TypeScript 7.1.                                    | `"legacy"`      |
 | EXPERIMENTAL_useWatchProgram   | boolean        | **Deprecated.** Enables the legacy WatchProgram runtime. Migrate to `docgenMode: "project-service"`.                                 | `false`         |
 | EXPERIMENTAL_useProjectService | boolean        | **Deprecated.** Enables ProjectService. Migrate to `docgenMode: "project-service"`.                                                  | `false`         |
 
@@ -157,6 +161,20 @@ reactDocgenTypescript({
 });
 ```
 
+TypeScript 7.1 prereleases can use the experimental native backend:
+
+```ts
+reactDocgenTypescript({
+  docgenMode: "native",
+});
+```
+
+Native mode uses TypeScript's `typescript/unstable/sync` API directly and does
+not load `react-docgen-typescript`. It currently targets function components,
+including `forwardRef` and default exports. Because the upstream API is
+unstable, pin the TypeScript prerelease in CI and expect compatibility changes
+before TypeScript 7.1 is stable.
+
 ### File selection
 
 `include` and `exclude` accept arrays of string globs only; runtime `RegExp`
@@ -183,19 +201,13 @@ historically supported an earlier Node.js version.
 
 ### TypeScript compatibility
 
-This plugin supports the TypeScript JavaScript compiler API in TypeScript
-`>=4.3 <7`. TypeScript 7's root npm export does not provide the legacy stable
-compiler API consumed by this plugin and `react-docgen-typescript`, so installing
-TypeScript 7 as `typescript` produces an early compatibility error.
+Legacy and ProjectService modes support TypeScript `>=4.3 <7`. TypeScript 7 no
+longer exports the legacy compiler API from the package root, so those modes
+produce an early compatibility error when TypeScript 7 is installed.
 
-TypeScript 7 includes unstable native API subpaths, but they use a different
-project, snapshot, and checker model. They are not a supported drop-in
-replacement in this release. Native support needs a separate backend plus
-parity, HMR, and packaging evidence before the peer range can be widened.
-It will be reconsidered only when TypeScript provides either a stable
-programmatic project API or a documented batched high-level checker that
-removes the request amplification found in the native experiment. Any future
-path must then pass the same parity, HMR, packed-package, and performance gates.
+Experimental native mode supports current TypeScript 7.1 prereleases through
+`typescript/unstable/sync`. TypeScript 7.0 is not supported because it lacks the
+program and temporary-file APIs required by this backend.
 
 If a project needs the TypeScript 7 CLI alongside docgen, expose Microsoft's
 TypeScript 6 compatibility package under the name `typescript` and install
@@ -251,3 +263,22 @@ Use modes supported by both revisions for direct comparisons. Optional internal
 phase timings are recorded when a plugin build exposes benchmark telemetry;
 end-to-end latency, output parity, and process memory remain available for older
 builds that do not.
+
+TypeScript 7 contributors can additionally compare TypeScript 6 ProjectService
+with the native backend on the representative design-system fixture:
+
+```sh
+yarn benchmark:native:ci
+```
+
+The benchmark counterbalances mode order, retains every measured run, and
+reports cold transforms, memory-cache hits, backend re-analysis, and HMR
+separately. Native timing also separates TypeScript server processing from API
+transport overhead. CI runs the same comparison on Linux and Windows and
+uploads the raw JSON result as a workflow artifact; timings are diagnostic and
+do not currently enforce a release threshold.
+
+To diagnose native API request amplification without affecting the normal CI
+timings, add `--native-request-profile` when running
+`scripts/benchmark-backends.mjs`. The resulting JSON separates physical
+transport calls from logical requests carried inside TypeScript batch calls.

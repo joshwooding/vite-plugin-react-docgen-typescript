@@ -1,3 +1,7 @@
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import typescript from "typescript";
 import type { Plugin } from "vite";
 import { describe, expect, it, vi } from "vitest";
 import type { DocgenBackendFactory } from "../docgen/backend";
@@ -9,6 +13,7 @@ describe("runtime-mode resolution", () => {
   it.each([
     [{}, "default"],
     [{ docgenMode: "legacy" }, "default"],
+    [{ docgenMode: "native" }, "native"],
     [{ docgenMode: "project-service" }, "projectService"],
     [{ EXPERIMENTAL_useWatchProgram: true }, "watch"],
     [{ EXPERIMENTAL_useProjectService: true }, "projectService"],
@@ -50,6 +55,98 @@ describe("runtime-mode resolution", () => {
     expect(() => resolveDocgenRuntimeMode(options)).toThrow(
       `docgenMode cannot be combined with ${names}`,
     );
+  });
+});
+
+describe("public option types", () => {
+  it("keeps callbacks strict and mode-specific for package consumers", () => {
+    const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-public-options-"));
+    const consumerPath = path.join(root, "consumer.ts");
+    const indexPath = path.resolve(
+      "packages/vite-plugin-react-docgen-typescript/src/index.ts",
+    );
+    const importPath = path
+      .relative(root, indexPath)
+      .replaceAll("\\", "/")
+      .replace(/\.ts$/, "");
+    writeFileSync(
+      consumerPath,
+      `import reactDocgenTypescript, { type DocgenMode } from ${JSON.stringify(importPath)};
+
+declare const mode: DocgenMode;
+
+reactDocgenTypescript({ shouldSortUnions: true });
+reactDocgenTypescript({ docgenMode: "legacy", shouldSortUnions: true });
+reactDocgenTypescript({ docgenMode: "project-service", shouldSortUnions: true });
+reactDocgenTypescript({ docgenMode: "native", shouldSortUnions: true });
+reactDocgenTypescript({ docgenMode: mode, shouldSortUnions: true });
+
+reactDocgenTypescript({ docgenMode: mode });
+
+reactDocgenTypescript({
+  componentNameResolver(symbol, source) {
+    return source.fileName + ":" + symbol.getName();
+  },
+  docgenMode: mode,
+});
+
+reactDocgenTypescript({
+  componentNameResolver(symbol, source) {
+    return symbol.flags && source.statements.length > 0
+      ? symbol.getName()
+      : undefined;
+  },
+});
+
+reactDocgenTypescript({
+  propFilter(prop) {
+    return prop.defaultValue?.value !== "hidden";
+  },
+});
+
+reactDocgenTypescript({
+  componentNameResolver(symbol, source) {
+    return symbol.flags && source.statements.length > 0
+      ? symbol.getName()
+      : undefined;
+  },
+  docgenMode: "legacy",
+});
+
+reactDocgenTypescript({
+  componentNameResolver(symbol, source) {
+    // @ts-expect-error Native mode deliberately hides compiler-specific fields.
+    symbol.flags;
+    return source.fileName + ":" + symbol.getName();
+  },
+  docgenMode: "native",
+});
+`,
+    );
+
+    try {
+      const program = typescript.createProgram([consumerPath], {
+        allowSyntheticDefaultImports: true,
+        esModuleInterop: true,
+        module: typescript.ModuleKind.ESNext,
+        moduleResolution: typescript.ModuleResolutionKind.Bundler,
+        noEmit: true,
+        skipLibCheck: true,
+        strict: true,
+        target: typescript.ScriptTarget.ES2022,
+      });
+      const consumer = program.getSourceFile(consumerPath);
+      expect(consumer).toBeDefined();
+      const diagnostics = typescript
+        .getPreEmitDiagnostics(program, consumer)
+        .map((diagnostic) =>
+          typescript.flattenDiagnosticMessageText(diagnostic.messageText, "\n"),
+        );
+
+      expect(diagnostics).toEqual([]);
+    } finally {
+      rmSync(root, { force: true, recursive: true });
+    }
   });
 });
 
@@ -106,6 +203,7 @@ describe("runtime-mode deprecation warnings", () => {
       ],
     ],
     [{ docgenMode: "project-service" }, []],
+    [{ docgenMode: "native" }, []],
     [{ docgenMode: "legacy" }, []],
   ] as const)("warns once per present deprecated field for %j", async (options, expected) => {
     const warn = vi.fn();
@@ -119,6 +217,7 @@ describe("runtime-mode deprecation warnings", () => {
 describe("parser option isolation", () => {
   it("does not forward docgenMode to react-docgen-typescript", () => {
     const parserOptions = getReactDocgenParserOptions({
+      __benchmark: { bypassMemoryCache: true },
       docgenMode: "legacy",
       EXPERIMENTAL_useProjectService: false,
       EXPERIMENTAL_useWatchProgram: false,
@@ -126,6 +225,7 @@ describe("parser option isolation", () => {
     });
 
     expect(parserOptions).not.toHaveProperty("docgenMode");
+    expect(parserOptions).not.toHaveProperty("__benchmark");
     expect(parserOptions).not.toHaveProperty("EXPERIMENTAL_useWatchProgram");
     expect(parserOptions).not.toHaveProperty("EXPERIMENTAL_useProjectService");
     expect(parserOptions).toMatchObject({

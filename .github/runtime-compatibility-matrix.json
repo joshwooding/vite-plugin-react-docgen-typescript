@@ -62,6 +62,14 @@
     },
     {
       "os": "ubuntu-latest",
+      "node": "24",
+      "typescript": "next",
+      "vite": "8.1.5",
+      "modes": ["native"],
+      "purpose": "TypeScript 7.1 native API prerelease"
+    },
+    {
+      "os": "ubuntu-latest",
       "node": "20.19.5",
       "typescript": "4.3.5",
       "vite": "8.1.5",

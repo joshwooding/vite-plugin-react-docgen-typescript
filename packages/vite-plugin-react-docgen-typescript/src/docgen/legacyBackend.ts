@@ -92,6 +92,7 @@ export const createUnresolvedCaptureResolutionHost = (
 
 export const getReactDocgenParserOptions = (config: Options) => {
   const {
+    __benchmark,
     compilerOptions: inlineCompilerOptions,
     exclude,
     include,
@@ -1749,7 +1750,11 @@ const createLegacyBackend = async (
 export function createLegacyBackendFactory(
   config: Options = {},
 ): DocgenBackendFactory {
-  resolveDocgenRuntimeMode(config);
+  if (resolveDocgenRuntimeMode(config) === "native") {
+    throw new Error(
+      "Native docgen mode requires the TypeScript native backend",
+    );
+  }
   return {
     async create({ rootDir, selection }) {
       return createLegacyBackend(

@@ -15,6 +15,7 @@ import { createLegacyBackendFactory } from "../docgen/legacyBackend";
 import { normalizeBoundaryPath } from "../docgen/pathIdentity";
 import { createPlugin } from "../plugin";
 import type { Options } from "../utils/options";
+import { runTransformHook } from "./support/pluginHooks";
 
 describe.each([
   "legacy",
@@ -82,7 +83,8 @@ describe.each([
       plugin: ReturnType<typeof createPlugin>,
       file = component,
     ) =>
-      plugin.transform?.call(
+      runTransformHook(
+        plugin,
         context as never,
         readFileSync(file, "utf8"),
         file,
@@ -261,7 +263,8 @@ describe.each([
       try {
         // @ts-expect-error Focused harness supplies the fields used by the plugin.
         await plugin.configResolved?.({ command: "serve", root });
-        const result = await plugin.transform?.call(
+        const result = await runTransformHook(
+          plugin,
           {
             addWatchFile: vi.fn(),
             warn: (message: string) => {

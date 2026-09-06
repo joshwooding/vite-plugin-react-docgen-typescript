@@ -29,7 +29,7 @@ import {
   normalizeBoundaryPaths,
 } from "../docgen/pathIdentity";
 import { isSupportedRuntimeTargetExpression } from "../docgen/runtimeTarget";
-import { createPlugin } from "../plugin";
+import { collectUnresolvedRelativeDependencies, createPlugin } from "../plugin";
 import {
   createFileSelectionFingerprint,
   createFileSystemCacheNamespace,
@@ -39,6 +39,7 @@ import {
 import { resolveFileSelection } from "../utils/fileSelection";
 import type { Options } from "../utils/options";
 import { loadTypescript } from "../utils/typescriptCompatibility";
+import { runTransformHook } from "./support/pluginHooks";
 
 const projectState = (generation: number): BackendProjectState => ({
   configFiles: [path.resolve("tsconfig.json")],
@@ -69,6 +70,31 @@ describe("compiler-neutral backend contract", () => {
     );
   });
 
+  it("refreshes physical identity when a previously missing path becomes an alias", () => {
+    const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-created-alias-"));
+    const physicalDirectory = path.join(root, "physical");
+    const aliasDirectory = path.join(root, "alias");
+    const physicalFile = path.join(physicalDirectory, "Component.tsx");
+    const aliasFile = path.join(aliasDirectory, "Component.tsx");
+    try {
+      mkdirSync(physicalDirectory);
+      writeFileSync(physicalFile, "export const Component = () => null;");
+      expect(normalizeBoundaryPath(aliasFile)).toBe(
+        path.join(normalizeBoundaryPath(root), "alias", "Component.tsx"),
+      );
+      symlinkSync(
+        physicalDirectory,
+        aliasDirectory,
+        process.platform === "win32" ? "junction" : "dir",
+      );
+      expect(normalizeBoundaryPath(aliasFile)).toBe(
+        normalizeBoundaryPath(physicalFile),
+      );
+    } finally {
+      rmSync(root, { force: true, recursive: true });
+    }
+  });
+
   it("collapses physical path aliases for existing and missing files", () => {
     const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-path-identity-"));
     const physicalDirectory = path.join(root, "physical");
@@ -89,6 +115,118 @@ describe("compiler-neutral backend contract", () => {
       expect(
         normalizeBoundaryPath(path.join(aliasDirectory, "missing.ts")),
       ).toBe(normalizeBoundaryPath(path.join(physicalDirectory, "missing.ts")));
+    } finally {
+      rmSync(root, { force: true, recursive: true });
+    }
+  });
+
+  it("uses physical root identity for filtering and backend membership", async () => {
+    const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-root-identity-"));
+    const physicalRoot = path.join(root, "physical");
+    const aliasRoot = path.join(root, "alias");
+    const physicalComponent = path.join(physicalRoot, "src", "Component.tsx");
+    const aliasComponent = path.join(aliasRoot, "src", "Component.tsx");
+    const source = "export const Component = () => null;";
+    let analyzeCount = 0;
+    let plugin: ReturnType<typeof createPlugin> | undefined;
+
+    try {
+      mkdirSync(path.dirname(physicalComponent), { recursive: true });
+      writeFileSync(physicalComponent, source);
+      symlinkSync(
+        physicalRoot,
+        aliasRoot,
+        process.platform === "win32" ? "junction" : "dir",
+      );
+      const normalizedComponent = normalizeBoundaryPath(physicalComponent);
+      const factory: DocgenBackendFactory = {
+        async create({ selection }) {
+          const state: BackendProjectState = {
+            configFiles: [],
+            docgenFiles: selection.matchesDocgenFile(normalizedComponent)
+              ? [normalizedComponent]
+              : [],
+            generation: 1,
+            trackedFiles: [normalizedComponent],
+          };
+          return {
+            async analyze({ revision }) {
+              analyzeCount += 1;
+              return {
+                components: [],
+                dependencies: [normalizedComponent],
+                project: state,
+                revision,
+                status: "ok",
+              };
+            },
+            async dispose() {},
+            async initialize() {
+              return state;
+            },
+            recordCacheHit() {},
+            async reset({ revision }) {
+              return { revision, status: "reset" };
+            },
+            async update({ change }) {
+              return {
+                project: state,
+                revision: change.revision,
+                status: "ready",
+              };
+            },
+          };
+        },
+        describe() {
+          return { cacheFingerprint: "physical/schema-1", id: "physical" };
+        },
+      };
+      plugin = createPlugin({ include: ["src/**/*.tsx"] }, factory);
+      // @ts-expect-error Focused harness supplies only the resolved fields used.
+      await plugin.configResolved?.({ command: "serve", root: aliasRoot });
+
+      const result = await runTransformHook(
+        plugin,
+        { warn: vi.fn() } as never,
+        source,
+        aliasComponent,
+      );
+
+      expect(result).toBeNull();
+      expect(analyzeCount).toBe(1);
+    } finally {
+      if (plugin && typeof plugin.closeBundle === "function") {
+        await plugin.closeBundle.call({} as never);
+      }
+      rmSync(root, { force: true, recursive: true });
+    }
+  });
+
+  it("tracks only unresolved candidates that outrank the resolved dependency", () => {
+    const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-resolution-order-"));
+    const componentFile = path.join(root, "Component.tsx");
+    const typescriptCandidate = path.join(root, "types.ts");
+    const tsxCandidate = path.join(root, "types.tsx");
+    try {
+      writeFileSync(componentFile, 'import type { Props } from "./types";');
+      writeFileSync(tsxCandidate, "export interface Props {}");
+
+      expect(
+        collectUnresolvedRelativeDependencies(
+          componentFile,
+          readFileSync(componentFile, "utf-8"),
+          [normalizeBoundaryPath(tsxCandidate)],
+        ),
+      ).toEqual([normalizeBoundaryPath(typescriptCandidate)]);
+
+      writeFileSync(typescriptCandidate, "export interface Props {}");
+      expect(
+        collectUnresolvedRelativeDependencies(
+          componentFile,
+          readFileSync(componentFile, "utf-8"),
+          [normalizeBoundaryPath(typescriptCandidate)],
+        ),
+      ).toEqual([]);
     } finally {
       rmSync(root, { force: true, recursive: true });
     }
@@ -557,12 +695,14 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
     expect(counters).toEqual({ create: 1, initialize: 1 });
 
     await Promise.all([
-      servePlugin.transform?.call(
+      runTransformHook(
+        servePlugin,
         { warn: vi.fn() } as never,
         "export const Component = () => null;",
         componentFile,
       ),
-      servePlugin.transform?.call(
+      runTransformHook(
+        servePlugin,
         { warn: vi.fn() } as never,
         "export const Component = () => null;",
         componentFile,
@@ -661,7 +801,8 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await seedPlugin.configResolved?.({ command: "serve", root });
       expect(
-        await seedPlugin.transform?.call(
+        await runTransformHook(
+          seedPlugin,
           { warn: vi.fn() } as never,
           source,
           componentFile,
@@ -676,7 +817,8 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await warmPlugin.configResolved?.({ command: "serve", root });
       expect(
-        await warmPlugin.transform?.call(
+        await runTransformHook(
+          warmPlugin,
           { addWatchFile: vi.fn(), warn: vi.fn() } as never,
           source,
           componentFile,
@@ -714,7 +856,8 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await stalePlugin.configResolved?.({ command: "serve", root });
       expect(
-        await stalePlugin.transform?.call(
+        await runTransformHook(
+          stalePlugin,
           { warn: vi.fn() } as never,
           source,
           componentFile,
@@ -727,7 +870,8 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await refreshedPlugin.configResolved?.({ command: "serve", root });
       expect(
-        await refreshedPlugin.transform?.call(
+        await runTransformHook(
+          refreshedPlugin,
           { warn: vi.fn() } as never,
           source,
           componentFile,
@@ -747,7 +891,8 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
         root,
       });
       await expect(
-        deletedDependencyPlugin.transform?.call(
+        runTransformHook(
+          deletedDependencyPlugin,
           { warn: deletedDependencyWarnings } as never,
           source,
           componentFile,
@@ -766,7 +911,8 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
         root,
       });
       expect(
-        await rewrittenDependencyPlugin.transform?.call(
+        await runTransformHook(
+          rewrittenDependencyPlugin,
           { warn: vi.fn() } as never,
           source,
           componentFile,
@@ -787,7 +933,8 @@ export const Dependent = ({ tone }: ImportedProps): JSX.Element =>
         root,
       });
       await expect(
-        unreadableDependencyPlugin.transform?.call(
+        runTransformHook(
+          unreadableDependencyPlugin,
           { warn: unreadableDependencyWarnings } as never,
           source,
           componentFile,
@@ -893,7 +1040,8 @@ export const Component = (_props: Props & Missing) => null;`;
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await seedPlugin.configResolved?.({ command: "serve", root });
       await expect(
-        seedPlugin.transform?.call(
+        runTransformHook(
+          seedPlugin,
           { warn: vi.fn() } as never,
           source,
           componentFile,
@@ -908,7 +1056,8 @@ export const Component = (_props: Props & Missing) => null;`;
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await warmPlugin.configResolved?.({ command: "serve", root });
       await expect(
-        warmPlugin.transform?.call(
+        runTransformHook(
+          warmPlugin,
           { warn: vi.fn() } as never,
           source,
           componentFile,
@@ -1070,7 +1219,7 @@ export const Component = (_props: Props & Missing) => null;`;
     const seedPlugin = createPlugin(options, factory);
     const warmPlugin = createPlugin(options, factory);
     const transform = () =>
-      warmPlugin.transform?.call(context as never, source, componentFile);
+      runTransformHook(warmPlugin, context as never, source, componentFile);
     const update = (file: string, timestamp: number) => {
       const callback = warmPlugin[hook];
       if (typeof callback !== "function") {
@@ -1092,7 +1241,8 @@ export const Component = (_props: Props & Missing) => null;`;
     try {
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await seedPlugin.configResolved?.({ command: "serve", root });
-      const seeded = await seedPlugin.transform?.call(
+      const seeded = await runTransformHook(
+        seedPlugin,
         context as never,
         source,
         componentFile,
@@ -1118,7 +1268,8 @@ export const Component = (_props: Props & Missing) => null;`;
       expect(counters).toEqual({ analyze: 1, create: 2 });
 
       if (transformOther) {
-        await warmPlugin.transform?.call(
+        await runTransformHook(
+          warmPlugin,
           context as never,
           source,
           otherComponentFile,
@@ -1253,7 +1404,7 @@ export const Component = (_props: Props & Missing) => null;`;
     const seedPlugin = createPlugin(options, factory);
     const warmPlugin = createPlugin(options, factory);
     const transform = () =>
-      warmPlugin.transform?.call(context as never, source, componentFile);
+      runTransformHook(warmPlugin, context as never, source, componentFile);
     const update = (file: string, timestamp: number) => {
       if (typeof warmPlugin.hotUpdate !== "function") {
         throw new Error("Expected the Vite 6+ hotUpdate hook");
@@ -1274,7 +1425,8 @@ export const Component = (_props: Props & Missing) => null;`;
     try {
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await seedPlugin.configResolved?.({ command: "serve", root });
-      const seeded = await seedPlugin.transform?.call(
+      const seeded = await runTransformHook(
+        seedPlugin,
         context as never,
         source,
         componentFile,
@@ -1290,7 +1442,8 @@ export const Component = (_props: Props & Missing) => null;`;
       await warmPlugin.configResolved?.({ command: "serve", root });
       expect(await transform()).toEqual(seeded);
       expect(counters).toEqual({ analyze: 1, create: 2, initialize: 2 });
-      await warmPlugin.transform?.call(
+      await runTransformHook(
+        warmPlugin,
         context as never,
         otherSource,
         otherComponentFile,
@@ -1403,7 +1556,8 @@ export const Component = (_props: Props & Missing) => null;`;
       const seedPlugin = createPlugin(options, factory);
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await seedPlugin.configResolved?.({ command: "serve", root });
-      await seedPlugin.transform?.call(
+      await runTransformHook(
+        seedPlugin,
         { warn: vi.fn() } as never,
         source,
         componentFile,
@@ -1423,7 +1577,8 @@ export const Component = (_props: Props & Missing) => null;`;
       const reopenedPlugin = createPlugin(options, factory);
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await reopenedPlugin.configResolved?.({ command: "serve", root });
-      await reopenedPlugin.transform?.call(
+      await runTransformHook(
+        reopenedPlugin,
         { warn: vi.fn() } as never,
         source,
         componentFile,
@@ -1608,7 +1763,8 @@ export const Component = (_props: Props & Missing) => null;`;
     try {
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await plugin.configResolved?.({ command: "serve", root });
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         { warn: vi.fn() } as never,
         source,
         componentFile,
@@ -1647,6 +1803,311 @@ export const Component = (_props: Props & Missing) => null;`;
       ]);
       expect(invalidateModule).not.toHaveBeenCalled();
     } finally {
+      if (typeof plugin.closeBundle === "function") {
+        await plugin.closeBundle.call({} as never);
+      }
+      rmSync(root, { force: true, recursive: true });
+    }
+  });
+
+  it("reuses prepared HMR analysis across client and SSR transforms", async () => {
+    const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-analyze-many-"));
+    const firstFile = path.join(root, "First.tsx");
+    const secondFile = path.join(root, "Second.tsx");
+    const dependencyFile = path.join(root, "types.ts");
+    const firstSource =
+      'import type { Props } from "./types"; export const First = (_props: Props) => null;';
+    const secondSource =
+      'import type { Props } from "./types"; export const Second = (_props: Props) => null;';
+    writeFileSync(firstFile, firstSource);
+    writeFileSync(secondFile, secondSource);
+    writeFileSync(dependencyFile, "export interface Props { value: string }");
+    const state: BackendProjectState = {
+      configFiles: [],
+      docgenFiles: [firstFile, secondFile].sort(),
+      generation: 1,
+      trackedFiles: [dependencyFile, firstFile, secondFile].sort(),
+    };
+    const createResult = (fileName: string, resultRevision: number) => ({
+      components: [],
+      dependencies: [dependencyFile, fileName].sort(),
+      project: state,
+      revision: resultRevision,
+      status: "ok" as const,
+    });
+    let analyzeCalls = 0;
+    const bulkFiles: string[][] = [];
+    const backend: DocgenBackend = {
+      async analyze({ fileName, revision: resultRevision }) {
+        analyzeCalls += 1;
+        return createResult(fileName, resultRevision);
+      },
+      async analyzeMany(inputs) {
+        bulkFiles.push(inputs.map(({ fileName }) => fileName));
+        return inputs.map(({ fileName, revision: resultRevision }) =>
+          createResult(fileName, resultRevision),
+        );
+      },
+      async dispose() {},
+      async initialize() {
+        return state;
+      },
+      recordCacheHit() {},
+      async reset({ revision: resultRevision }) {
+        return { revision: resultRevision, status: "reset" };
+      },
+      async update({ change }) {
+        return { project: state, revision: change.revision, status: "ready" };
+      },
+    };
+    const plugin = createPlugin(
+      { __benchmark: { bypassMemoryCache: true } },
+      {
+        async create() {
+          return backend;
+        },
+        describe() {
+          return {
+            cacheFingerprint: "analyze-many/schema-1",
+            id: "analyze-many",
+          };
+        },
+      },
+    );
+    const modules = new Map(
+      [dependencyFile, firstFile, secondFile].map((fileName) => [
+        fileName,
+        { file: fileName, id: fileName, url: fileName },
+      ]),
+    );
+    const server = {
+      moduleGraph: {
+        getModulesByFile: (fileName: string) => {
+          const module = modules.get(fileName);
+          return module ? new Set([module]) : undefined;
+        },
+        invalidateModule: vi.fn(),
+      },
+    };
+
+    try {
+      // @ts-expect-error Focused harness supplies only the resolved fields used.
+      await plugin.configResolved?.({ command: "serve", root });
+      await runTransformHook(
+        plugin,
+        { warn: vi.fn() } as never,
+        firstSource,
+        firstFile,
+      );
+      await runTransformHook(
+        plugin,
+        { warn: vi.fn() } as never,
+        secondSource,
+        secondFile,
+      );
+      expect(analyzeCalls).toBe(2);
+
+      writeFileSync(dependencyFile, "export interface Props { value: number }");
+      // @ts-expect-error Focused harness supplies only the HMR fields used.
+      await plugin.handleHotUpdate?.call(
+        { warn: vi.fn() },
+        {
+          file: dependencyFile,
+          modules: [modules.get(dependencyFile)],
+          read: () => "export interface Props { value: number }",
+          server,
+          timestamp: 1,
+        },
+      );
+
+      expect(bulkFiles).toEqual([[firstFile, secondFile].sort()]);
+      await runTransformHook(
+        plugin,
+        { warn: vi.fn() } as never,
+        firstSource,
+        `${firstFile}?client`,
+      );
+      await runTransformHook(
+        plugin,
+        { warn: vi.fn() } as never,
+        firstSource,
+        `${firstFile}?ssr`,
+      );
+      await runTransformHook(
+        plugin,
+        { warn: vi.fn() } as never,
+        secondSource,
+        `${secondFile}?client`,
+      );
+      await runTransformHook(
+        plugin,
+        { warn: vi.fn() } as never,
+        secondSource,
+        `${secondFile}?ssr`,
+      );
+      expect(analyzeCalls).toBe(2);
+      expect(bulkFiles).toHaveLength(1);
+    } finally {
+      if (typeof plugin.closeBundle === "function") {
+        await plugin.closeBundle.call({} as never);
+      }
+      rmSync(root, { force: true, recursive: true });
+    }
+  });
+
+  it("does not publish prepared analyses from a superseded HMR revision", async () => {
+    const root = mkdtempSync(path.join(tmpdir(), "vite-rdt-stale-bulk-"));
+    const firstFile = path.join(root, "First.tsx");
+    const secondFile = path.join(root, "Second.tsx");
+    const dependencyFile = path.join(root, "types.ts");
+    const componentSource =
+      'import type { Props } from "./types"; export const Component = (_props: Props) => null;';
+    writeFileSync(firstFile, componentSource);
+    writeFileSync(secondFile, componentSource);
+    writeFileSync(dependencyFile, "export interface Props { value: string }");
+    const state: BackendProjectState = {
+      configFiles: [],
+      docgenFiles: [firstFile, secondFile].sort(),
+      generation: 1,
+      trackedFiles: [dependencyFile, firstFile, secondFile].sort(),
+    };
+    const createResult = (fileName: string, resultRevision: number) => ({
+      components: [],
+      dependencies: [dependencyFile, fileName].sort(),
+      project: state,
+      revision: resultRevision,
+      status: "ok" as const,
+    });
+    let analyzeCalls = 0;
+    let resolveFirstBulk: (() => void) | undefined;
+    const bulkRevisions: number[] = [];
+    const analysisRevisions: number[] = [];
+    const backend: DocgenBackend = {
+      async analyze({ fileName, revision: resultRevision }) {
+        analyzeCalls += 1;
+        return createResult(fileName, resultRevision);
+      },
+      async analyzeMany(inputs) {
+        const resultRevision = inputs[0]?.revision ?? -1;
+        bulkRevisions.push(resultRevision);
+        if (resultRevision === 1) {
+          await new Promise<void>((resolve) => {
+            resolveFirstBulk = resolve;
+          });
+        }
+        return inputs.map(({ fileName }) =>
+          createResult(fileName, resultRevision),
+        );
+      },
+      async dispose() {},
+      async initialize() {
+        return state;
+      },
+      recordCacheHit() {},
+      async reset({ revision: resultRevision }) {
+        return { revision: resultRevision, status: "reset" };
+      },
+      async update({ change }) {
+        return { project: state, revision: change.revision, status: "ready" };
+      },
+    };
+    const plugin = createPlugin(
+      {
+        __benchmark: {
+          bypassMemoryCache: true,
+          onAnalysis: ({ revision: resultRevision }) =>
+            analysisRevisions.push(resultRevision),
+        },
+      },
+      {
+        async create() {
+          return backend;
+        },
+        describe() {
+          return {
+            cacheFingerprint: "stale-bulk/schema-1",
+            id: "stale-bulk",
+          };
+        },
+      },
+    );
+    const modules = new Map(
+      [dependencyFile, firstFile, secondFile].map((fileName) => [
+        fileName,
+        { file: fileName, id: fileName, url: fileName },
+      ]),
+    );
+    const server = {
+      moduleGraph: {
+        getModulesByFile: (fileName: string) => {
+          const module = modules.get(fileName);
+          return module ? new Set([module]) : undefined;
+        },
+        invalidateModule: vi.fn(),
+      },
+    };
+
+    try {
+      // @ts-expect-error Focused harness supplies only the resolved fields used.
+      await plugin.configResolved?.({ command: "serve", root });
+      for (const fileName of [firstFile, secondFile]) {
+        await runTransformHook(
+          plugin,
+          { warn: vi.fn() } as never,
+          componentSource,
+          fileName,
+        );
+      }
+      expect(analyzeCalls).toBe(2);
+      analysisRevisions.length = 0;
+
+      writeFileSync(dependencyFile, "export interface Props { value: number }");
+      // @ts-expect-error Focused harness supplies only the HMR fields used.
+      const firstUpdate = plugin.handleHotUpdate?.call(
+        { warn: vi.fn() },
+        {
+          file: dependencyFile,
+          modules: [modules.get(dependencyFile)],
+          read: () => "export interface Props { value: number }",
+          server,
+          timestamp: 1,
+        },
+      );
+      while (bulkRevisions.length < 1) await Promise.resolve();
+
+      writeFileSync(
+        dependencyFile,
+        "export interface Props { value: boolean }",
+      );
+      // @ts-expect-error Focused harness supplies only the HMR fields used.
+      const secondUpdate = plugin.handleHotUpdate?.call(
+        { warn: vi.fn() },
+        {
+          file: dependencyFile,
+          modules: [modules.get(dependencyFile)],
+          read: () => "export interface Props { value: boolean }",
+          server,
+          timestamp: 2,
+        },
+      );
+      await secondUpdate;
+      resolveFirstBulk?.();
+      await firstUpdate;
+
+      expect(bulkRevisions).toEqual([1, 2]);
+      expect(analysisRevisions).toEqual([2, 2]);
+      for (const fileName of [firstFile, secondFile]) {
+        await runTransformHook(
+          plugin,
+          { warn: vi.fn() } as never,
+          componentSource,
+          `${fileName}?client`,
+        );
+      }
+      expect(analyzeCalls).toBe(2);
+      expect(analysisRevisions).toEqual([2, 2]);
+    } finally {
+      resolveFirstBulk?.();
       if (typeof plugin.closeBundle === "function") {
         await plugin.closeBundle.call({} as never);
       }
@@ -1716,7 +2177,8 @@ export const Component = (_props: Props & Missing) => null;`;
     try {
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await plugin.configResolved?.({ command: "serve", root });
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         { warn: vi.fn() } as never,
         source,
         componentFile,
@@ -1835,7 +2297,8 @@ export const Component = (_props: Props & Missing) => null;`;
     try {
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await plugin.configResolved?.({ command: "serve", root });
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         { warn: vi.fn() } as never,
         source,
         componentFile,
@@ -2006,7 +2469,8 @@ export const Component = (_props: Props & Missing) => null;`;
     try {
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await plugin.configResolved?.({ command: "serve", root });
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         { warn: vi.fn() } as never,
         source,
         componentFile,
@@ -2121,7 +2585,8 @@ export const Component = (_props: Props & Missing) => null;`;
     try {
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await plugin.configResolved?.({ command: "serve", root });
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         { warn: vi.fn() } as never,
         source,
         componentFile,
@@ -2236,7 +2701,8 @@ export const Component = (_props: Props & Missing) => null;`;
     try {
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await plugin.configResolved?.({ command: "serve", root });
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         { warn: vi.fn() } as never,
         source,
         componentFile,
@@ -2367,7 +2833,8 @@ export const Component = (_props: Props & Missing) => null;`;
       plugin.configureServer(server as never);
       expect(watcher.listenerCount("add")).toBe(addBaseline + 1);
       expect(watcher.listenerCount("unlink")).toBe(unlinkBaseline + 2);
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         { warn: vi.fn() } as never,
         source,
         componentFile,
@@ -2438,7 +2905,8 @@ export const Component = (_props: Props & Missing) => null;`;
     );
     // @ts-expect-error Focused harness supplies only the resolved fields used.
     await plugin.configResolved?.({ command: "serve", root: process.cwd() });
-    const transform = plugin.transform?.call(
+    const transform = runTransformHook(
+      plugin,
       { warn: vi.fn() } as never,
       "export const LateComponent = () => null;",
       componentFile,
@@ -2528,7 +2996,8 @@ export const Component = (_props: Props & Missing) => null;`;
     try {
       // @ts-expect-error Focused harness supplies only the resolved fields used.
       await plugin.configResolved?.({ command: "serve", root });
-      const transform = plugin.transform?.call(
+      const transform = runTransformHook(
+        plugin,
         { warn: vi.fn() } as never,
         source,
         componentFile,
@@ -2651,7 +3120,7 @@ it("rejects a persistent proof superseded between validation and acceptance", as
       // @ts-expect-error Focused harness supplies the resolved fields used.
       await plugin.configResolved?.({ command: "serve", root });
     }
-    await seed.transform?.call(context as never, source, componentFile);
+    await runTransformHook(seed, context as never, source, componentFile);
     if (typeof seed.closeBundle === "function")
       await seed.closeBundle.call({} as never);
     scheduleUpdate = () => {
@@ -2671,7 +3140,7 @@ it("rejects a persistent proof superseded between validation and acceptance", as
       );
     };
     expect(
-      await warm.transform?.call(context as never, source, componentFile),
+      await runTransformHook(warm, context as never, source, componentFile),
     ).toEqual({
       code: expect.stringContaining('"description":"after"'),
       map: null,
@@ -2742,7 +3211,7 @@ it("registers existing dependencies even when analysis returns an error", async 
     // @ts-expect-error Focused harness supplies the resolved fields used.
     await plugin.configResolved?.({ command: "serve", root });
     expect(
-      await plugin.transform?.call(context as never, source, componentFile),
+      await runTransformHook(plugin, context as never, source, componentFile),
     ).toBe(source);
     expect(context.addWatchFile).toHaveBeenCalledWith(
       normalizePath(dependencyFile),

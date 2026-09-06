@@ -1,5 +1,5 @@
-import path from "node:path";
 import { createFilter } from "vite";
+import { normalizeBoundaryPath } from "../docgen/pathIdentity";
 
 export const DEFAULT_INCLUDE = ["**/*.tsx"] as const;
 export const DEFAULT_EXCLUDE = ["**/*.stories.tsx"] as const;
@@ -65,8 +65,11 @@ export const resolveFileSelection = (
   const include = resolvePatterns("include", options.include, DEFAULT_INCLUDE);
   const exclude = resolvePatterns("exclude", options.exclude, DEFAULT_EXCLUDE);
   const hasIncludes = include.length > 0;
+  const normalizedConfigRoot = normalizeBoundaryPath(configRoot);
   const filter = hasIncludes
-    ? createFilter([...include], [...exclude], { resolve: configRoot })
+    ? createFilter([...include], [...exclude], {
+        resolve: normalizedConfigRoot,
+      })
     : undefined;
 
   return Object.freeze({
@@ -81,7 +84,7 @@ export const resolveFileSelection = (
       const queryIndex = absolutePath.indexOf("?");
       const queryFreePath =
         queryIndex === -1 ? absolutePath : absolutePath.slice(0, queryIndex);
-      const normalizedPath = path.resolve(queryFreePath);
+      const normalizedPath = normalizeBoundaryPath(queryFreePath);
 
       return (
         !DECLARATION_FILE_PATTERN.test(normalizedPath) && filter(normalizedPath)

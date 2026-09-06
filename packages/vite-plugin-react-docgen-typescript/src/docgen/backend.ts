@@ -44,6 +44,12 @@ export type AnalyzeResult =
       readonly status: "error";
     });
 
+export interface AnalyzeInput {
+  readonly fileName: string;
+  readonly revision: number;
+  readonly source: string;
+}
+
 export type UpdateCompletion =
   | {
       readonly project: BackendProjectState;
@@ -94,11 +100,10 @@ export type BackendSourceChange =
     };
 
 export interface DocgenBackend {
-  analyze(input: {
-    fileName: string;
-    revision: number;
-    source: string;
-  }): Promise<AnalyzeResult>;
+  analyze(input: AnalyzeInput): Promise<AnalyzeResult>;
+  analyzeMany?(
+    inputs: readonly AnalyzeInput[],
+  ): Promise<readonly AnalyzeResult[]>;
   dispose(): Promise<void>;
   initialize(): Promise<BackendProjectState>;
   /** Return canonical dependency paths and complete membership without extracting docgen. */

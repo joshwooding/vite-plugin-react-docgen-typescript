@@ -353,7 +353,10 @@ describe.each([
           ? { directory: path.join(root, ".cache") }
           : false,
       });
-      const transformHook = plugin.transform;
+      const transformHook =
+        typeof plugin.transform === "function"
+          ? plugin.transform
+          : plugin.transform?.handler;
       if (typeof transformHook !== "function")
         throw new Error("Expected callable docgen transform");
       let configured = !watch;

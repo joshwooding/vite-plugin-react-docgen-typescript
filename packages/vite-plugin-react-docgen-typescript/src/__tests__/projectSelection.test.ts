@@ -147,6 +147,24 @@ const createReferencedProject = () => {
 };
 
 describe("file-selection contract", () => {
+  it("declares a query-safe transform hook filter for JavaScript and TypeScript modules", async () => {
+    const plugin = await createPlugin();
+    const hook = plugin.transform;
+    expect(hook).toBeTypeOf("object");
+    if (!hook || typeof hook === "function") {
+      throw new Error("Expected an object transform hook");
+    }
+
+    const idFilter = hook.filter?.id;
+    expect(idFilter).toBeInstanceOf(RegExp);
+    const pattern = idFilter as RegExp;
+    expect(pattern.test("/src/Component.tsx")).toBe(true);
+    expect(pattern.test("/src/Component.tsx?direct")).toBe(true);
+    expect(pattern.test("/src/component.mts")).toBe(true);
+    expect(pattern.test("/src/styles.css")).toBe(false);
+    expect(pattern.test("\0virtual:module")).toBe(false);
+  });
+
   it("resolves root, referenced, parent, exclusion, and empty-array globs", () => {
     const project = createReferencedProject();
     const rootStoryPath = path.join(project.root, "src", "Root.stories.tsx");

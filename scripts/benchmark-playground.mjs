@@ -31,11 +31,12 @@ const packageRoot = path.join(
 const distEntry = path.join(packageRoot, "dist", "index.mjs");
 const require = createRequire(distEntry);
 const execFileAsync = promisify(execFile);
-const REPORT_SCHEMA_VERSION = 2;
+const REPORT_SCHEMA_VERSION = 3;
 const CACHE_MODES = ["off", "populate", "restart"];
 
 const DEFAULT_ITERATIONS = 5;
 const DEFAULT_MODES = ["default", "watch", "projectService"];
+const SUPPORTED_MODES = [...DEFAULT_MODES, "native"];
 const DEFAULT_SCENARIO = "playground";
 const HMR_POLL_INTERVAL_MS = 25;
 const HMR_TIMEOUT_MS = 10_000;
@@ -192,8 +193,9 @@ const HELP_TEXT = `Usage: node ./scripts/benchmark-playground.mjs [options]
 Options:
   --scenario <name>       Benchmark fixture to run. Default: ${DEFAULT_SCENARIO}
   --iterations <number>   Number of measured runs per mode. Default: ${DEFAULT_ITERATIONS}
-  --modes <list>          Comma-separated modes: default,watch,projectService
+  --modes <list>          Comma-separated modes: default,watch,projectService,native
   --scale <number>        Number of scenario expansions to benchmark. Default: 1
+  --native-timing         Collect TS7 server, transport, and materialization timing
   --cache <state>         Persistent cache: off,populate,restart. Default: off
   --output <file>         Write JSON results to a file
   --baseline <file>       Compare results against a previous JSON output
@@ -213,6 +215,7 @@ export function parseArgs(argv) {
     iterations: DEFAULT_ITERATIONS,
     keepTemp: false,
     modes: [...DEFAULT_MODES],
+    nativeTiming: false,
     output: null,
     scenario: DEFAULT_SCENARIO,
     scale: 1,
@@ -258,6 +261,9 @@ export function parseArgs(argv) {
       case "--scale":
         options.scale = Number(argv[++index]);
         break;
+      case "--native-timing":
+        options.nativeTiming = true;
+        break;
       case "--output":
         options.output = argv[++index];
         break;
@@ -296,12 +302,12 @@ export function parseArgs(argv) {
   }
 
   const invalidModes = options.modes.filter(
-    (mode) => !DEFAULT_MODES.includes(mode),
+    (mode) => !SUPPORTED_MODES.includes(mode),
   );
 
   if (invalidModes.length > 0) {
     throw new Error(
-      `Unsupported mode(s): ${invalidModes.join(", ")}. Expected: ${DEFAULT_MODES.join(", ")}`,
+      `Unsupported mode(s): ${invalidModes.join(", ")}. Expected: ${SUPPORTED_MODES.join(", ")}`,
     );
   }
 
@@ -317,6 +323,49 @@ function median(values) {
     : sorted[middle];
 }
 
+const NATIVE_TIMING_PHASES = [
+  "firstBatch",
+  "memoryCacheBatch",
+  "reanalysisBatch",
+  "componentHmr",
+];
+
+function readNativeTiming(controls) {
+  const timing = controls.getNativeTimingInfo?.();
+  if (!timing?.enabled) return null;
+  const { totals } = timing;
+  return {
+    bytesReceived: totals.bytesReceived,
+    bytesSent: totals.bytesSent,
+    nodesFetched: totals.nodesFetched,
+    nodesMaterialized: totals.nodesMaterialized,
+    requestCount: totals.requestCount,
+    roundTripMs: totals.roundTripMs,
+    serverTimeMs: totals.serverTimeMs,
+    sourceFilesFetched: totals.sourceFilesFetched,
+    transportOverheadMs: totals.transportOverheadMs,
+  };
+}
+
+function summarizeNativeTiming(runs) {
+  const summary = {};
+
+  for (const phase of NATIVE_TIMING_PHASES) {
+    const samples = runs
+      .map((run) => run.nativeTiming?.[phase])
+      .filter(Boolean);
+    if (samples.length === 0) continue;
+    summary[phase] = Object.fromEntries(
+      Object.keys(samples[0]).map((key) => [
+        key,
+        median(samples.map((sample) => sample[key])),
+      ]),
+    );
+  }
+
+  return Object.keys(summary).length > 0 ? summary : undefined;
+}
+
 function summarizeRuns(runs) {
   const statuses = runs.map((run) => run.componentHmr.status);
   const hmrStatus = statuses.every((status) => status === "updated")
@@ -325,6 +374,7 @@ function summarizeRuns(runs) {
       ? "stale"
       : "unsupported";
 
+  const nativeTiming = summarizeNativeTiming(runs);
   return {
     componentHmr: {
       affectedModuleCount: median(
@@ -340,8 +390,11 @@ function summarizeRuns(runs) {
     configResolvedMs: median(runs.map((run) => run.configResolvedMs)),
     fileCount: runs[0].fileCount,
     firstBatchMs: median(runs.map((run) => run.firstBatchMs)),
+    memoryCacheBatchMs: median(runs.map((run) => run.memoryCacheBatchMs)),
+    reanalysisBatchMs: median(runs.map((run) => run.reanalysisBatchMs)),
     sessionTotalMs: median(runs.map((run) => run.sessionTotalMs)),
     warmBatchMs: median(runs.map((run) => run.warmBatchMs)),
+    ...(nativeTiming ? { nativeTiming } : {}),
   };
 }
 
@@ -460,12 +513,14 @@ function createServer() {
   };
 }
 
-function createModeConfig(mode, workspace, cache = "off") {
+function createModeConfig(mode, workspace, cache = "off", benchmarkControls) {
   return {
+    ...(benchmarkControls ? { __benchmark: benchmarkControls } : {}),
     ...parserOptions(workspace.scenario),
     fileSystemCache:
       cache === "off" ? false : { directory: workspace.cacheDirectory },
     tsconfigPath: workspace.tsconfigPath,
+    ...(mode === "native" ? { docgenMode: "native" } : {}),
     ...(mode === "watch" ? { EXPERIMENTAL_useWatchProgram: true } : {}),
     ...(mode === "projectService"
       ? { EXPERIMENTAL_useProjectService: true }
@@ -681,10 +736,17 @@ async function resolveComponentHmrStatus(plugin, files, mode, workspace) {
 async function transformFiles(plugin, files) {
   const pluginContext = createPluginContext();
   const outputs = new Map();
+  const transform =
+    typeof plugin.transform === "function"
+      ? plugin.transform
+      : plugin.transform?.handler;
+  if (typeof transform !== "function") {
+    throw new Error("Expected plugin hook transform");
+  }
 
   for (const file of files) {
     const source = readFileSync(file, "utf-8");
-    const result = await plugin.transform.call(pluginContext, source, file);
+    const result = await transform.call(pluginContext, source, file);
     outputs.set(file, result);
   }
 
@@ -717,8 +779,16 @@ export async function measureModeIteration(
   reactDocgenTypescript,
   mode,
   workspace,
-  { cache = "off", processFirstMeasuredInstance = true } = {},
+  {
+    cache = "off",
+    processFirstMeasuredInstance = true,
+    collectNativeTiming = false,
+  } = {},
 ) {
+  const benchmarkControls = {
+    bypassMemoryCache: false,
+    collectNativeTiming: collectNativeTiming && mode === "native",
+  };
   const originalChangedFile = readFileSync(workspace.changedFile, "utf-8");
   const updatedChangedFile = originalChangedFile.replace(
     workspace.markerText,
@@ -733,11 +803,17 @@ export async function measureModeIteration(
 
   const sessionStart = performance.now();
   const plugin = reactDocgenTypescript(
-    createModeConfig(mode, workspace, cache),
+    createModeConfig(mode, workspace, cache, benchmarkControls),
   );
   let result;
   try {
     result = await withWorkingDirectory(workspace.root, async () => {
+      const nativeTiming = {};
+      const captureNativeTiming = (phase) => {
+        const timing = readNativeTiming(benchmarkControls);
+        if (timing) nativeTiming[phase] = timing;
+        benchmarkControls.resetNativeTimingInfo?.();
+      };
       const configResolvedStart = performance.now();
       await plugin.configResolved?.({ command: "serve", root: workspace.root });
       const configResolvedMs = performance.now() - configResolvedStart;
@@ -746,11 +822,24 @@ export async function measureModeIteration(
       const firstOutputs = await transformFiles(plugin, workspace.files);
       const firstBatchMs = performance.now() - firstBatchStart;
       assertReactMetadata(firstOutputs, workspace);
+      captureNativeTiming("firstBatch");
 
-      const warmBatchStart = performance.now();
+      const memoryCacheBatchStart = performance.now();
       const warmOutputs = await transformFiles(plugin, workspace.files);
-      const warmBatchMs = performance.now() - warmBatchStart;
+      const memoryCacheBatchMs = performance.now() - memoryCacheBatchStart;
       assertReactMetadata(warmOutputs, workspace);
+      captureNativeTiming("memoryCacheBatch");
+
+      benchmarkControls.bypassMemoryCache = true;
+      const reanalysisBatchStart = performance.now();
+      try {
+        const reanalysisOutputs = await transformFiles(plugin, workspace.files);
+        assertReactMetadata(reanalysisOutputs, workspace);
+      } finally {
+        benchmarkControls.bypassMemoryCache = false;
+      }
+      const reanalysisBatchMs = performance.now() - reanalysisBatchStart;
+      captureNativeTiming("reanalysisBatch");
 
       writeFileSync(workspace.changedFile, updatedChangedFile);
 
@@ -790,6 +879,9 @@ export async function measureModeIteration(
         );
       }
 
+      const componentHmrMs = performance.now() - componentHmrStart;
+      captureNativeTiming("componentHmr");
+
       return {
         cache,
         mode,
@@ -800,13 +892,17 @@ export async function measureModeIteration(
             [...invalidatedModules].map(moduleFileIdentity),
           ).size,
           status: updated ? "updated" : "stale",
-          totalCycleMs: performance.now() - componentHmrStart,
+          totalCycleMs: componentHmrMs,
         },
         coldBatchMs: configResolvedMs + firstBatchMs,
         configResolvedMs,
         fileCount: workspace.fileCount,
         firstBatchMs,
-        warmBatchMs,
+        memoryCacheBatchMs,
+        ...(Object.keys(nativeTiming).length > 0 ? { nativeTiming } : {}),
+        reanalysisBatchMs,
+        // Preserve the previous field for consumers of existing benchmark JSON.
+        warmBatchMs: memoryCacheBatchMs,
       };
     });
     return result;
@@ -936,6 +1032,11 @@ export function validateBaseline(baseline, options) {
       `Incompatible benchmark baseline schema: expected ${REPORT_SCHEMA_VERSION}; rerun the baseline with this benchmark script.`,
     );
   }
+  if (Boolean(baseline.nativeTiming) !== Boolean(options.nativeTiming)) {
+    throw new Error(
+      "Incompatible benchmark baseline native timing instrumentation.",
+    );
+  }
   if (
     baseline.benchmarkKind !== "direct-plugin" ||
     baseline.cache !== options.cache ||
@@ -973,8 +1074,10 @@ function printSummary(result, baseline) {
       componentHmr,
       configResolvedMs,
       firstBatchMs,
+      memoryCacheBatchMs,
+      nativeTiming,
+      reanalysisBatchMs,
       sessionTotalMs,
-      warmBatchMs,
     } = modeResult.metrics;
     const hmrText =
       componentHmr.status === "updated"
@@ -982,8 +1085,18 @@ function printSummary(result, baseline) {
         : `${componentHmr.status} (${componentHmr.totalCycleMs.toFixed(1)}ms)`;
 
     console.log(
-      `${modeResult.mode.padEnd(14)} setup ${configResolvedMs.toFixed(1)}ms  first ${firstBatchMs.toFixed(1)}ms  cold ${coldBatchMs.toFixed(1)}ms  warm ${warmBatchMs.toFixed(1)}ms  hmr ${hmrText}  affected ${componentHmr.affectedModuleCount.toFixed(0)}  invalidated ${componentHmr.invalidatedModuleCount.toFixed(0)}  session ${sessionTotalMs.toFixed(1)}ms`,
+      `${modeResult.mode.padEnd(14)} setup ${configResolvedMs.toFixed(1)}ms  first ${firstBatchMs.toFixed(1)}ms  cold ${coldBatchMs.toFixed(1)}ms  cache ${memoryCacheBatchMs.toFixed(1)}ms  reanalyze ${reanalysisBatchMs.toFixed(1)}ms  hmr ${hmrText}  affected ${componentHmr.affectedModuleCount.toFixed(0)}  invalidated ${componentHmr.invalidatedModuleCount.toFixed(0)}  session ${sessionTotalMs.toFixed(1)}ms`,
     );
+
+    if (nativeTiming) {
+      for (const phase of NATIVE_TIMING_PHASES) {
+        const timing = nativeTiming[phase];
+        if (!timing) continue;
+        console.log(
+          `  ${phase.padEnd(16)} ${timing.requestCount.toFixed(0)} requests  server ${timing.serverTimeMs.toFixed(1)}ms  transport ${timing.transportOverheadMs.toFixed(1)}ms  round-trip ${timing.roundTripMs.toFixed(1)}ms`,
+        );
+      }
+    }
 
     if (!baseline) {
       continue;
@@ -1001,9 +1114,18 @@ function printSummary(result, baseline) {
       ["setup", baselineMode.metrics.configResolvedMs, configResolvedMs],
       ["first", baselineMode.metrics.firstBatchMs, firstBatchMs],
       ["cold", baselineMode.metrics.coldBatchMs, coldBatchMs],
-      ["warm", baselineMode.metrics.warmBatchMs, warmBatchMs],
+      [
+        "cache",
+        baselineMode.metrics.memoryCacheBatchMs ??
+          baselineMode.metrics.warmBatchMs,
+        memoryCacheBatchMs,
+      ],
+      ["reanalyze", baselineMode.metrics.reanalysisBatchMs, reanalysisBatchMs],
       ["session", baselineMode.metrics.sessionTotalMs, sessionTotalMs],
-    ].filter((comparison) => typeof comparison[1] === "number");
+    ].filter(
+      (comparison) =>
+        typeof comparison[1] === "number" && typeof comparison[2] === "number",
+    );
 
     if (
       baselineMode.metrics.componentHmr.status === "updated" &&
@@ -1041,6 +1163,13 @@ function printSummary(result, baseline) {
 async function main() {
   const options = parseArgs(process.argv.slice(2));
 
+  if (
+    options.modes.includes("native") &&
+    !process.env.VITE_RDT_NATIVE_TYPESCRIPT_PACKAGE
+  ) {
+    process.env.VITE_RDT_NATIVE_TYPESCRIPT_PACKAGE = "typescript7next";
+  }
+
   if (!existsSync(distEntry)) {
     throw new Error(
       `Missing build output at ${distEntry}. Run "yarn exec unbuild packages/vite-plugin-react-docgen-typescript" first.`,
@@ -1072,13 +1201,18 @@ async function main() {
   const workspace = createWorkspace(options.scenario, options.scale);
 
   try {
-    const results = [];
+    const runsByMode = new Map(options.modes.map((mode) => [mode, []]));
+    const executionOrder = [];
     let measuredInstanceCount = 0;
 
-    for (const mode of options.modes) {
-      const runs = [];
-
-      for (let iteration = 0; iteration < options.iterations; iteration += 1) {
+    for (let iteration = 0; iteration < options.iterations; iteration += 1) {
+      const offset = iteration % options.modes.length;
+      const iterationModes = [
+        ...options.modes.slice(offset),
+        ...options.modes.slice(0, offset),
+      ];
+      executionOrder.push(iterationModes);
+      for (const [order, mode] of iterationModes.entries()) {
         const cacheLifecycle = await prepareIteration(
           workspace,
           mode,
@@ -1091,6 +1225,7 @@ async function main() {
           {
             cache: options.cache,
             processFirstMeasuredInstance: measuredInstanceCount === 0,
+            collectNativeTiming: options.nativeTiming,
           },
         );
         cacheLifecycle.finalEntryCount = countCacheEntries(
@@ -1101,18 +1236,22 @@ async function main() {
             "Measured instance produced no persistent cache entries",
           );
         }
-        runs.push({ ...run, cacheLifecycle });
+        runsByMode.get(mode).push({ ...run, cacheLifecycle, iteration, order });
         measuredInstanceCount += 1;
       }
+    }
 
-      results.push({
+    const results = options.modes.map((mode) => {
+      const runs = runsByMode.get(mode);
+      return {
         metrics: summarizeRuns(runs),
         mode,
         runs,
-      });
-    }
+      };
+    });
 
     const result = {
+      counterbalanced: true,
       schemaVersion: REPORT_SCHEMA_VERSION,
       benchmarkKind: "direct-plugin",
       processId: process.pid,
@@ -1126,12 +1265,16 @@ async function main() {
         coldBatchMs:
           "configResolved plus first transform batch; only the first measured instance has a fresh process",
         warmBatchMs: "same-instance in-memory reuse",
+        reanalysisBatchMs:
+          "in-memory cache bypass; may reuse persisted entries when --cache is enabled",
         sessionTotalMs:
-          "plugin configuration and construction through first batch, warm batch, HMR, and awaited close; excludes fixture copy/restore, cache clearing, and child-process seeding",
+          "plugin configuration and construction through first batch, memory-cache batch, memory-cache-bypass batch, HMR, and awaited close; excludes fixture copy/restore, cache clearing, and child-process seeding",
       },
       createdAt: new Date().toISOString(),
+      executionOrder,
       iterations: options.iterations,
       modes: options.modes,
+      nativeTiming: options.nativeTiming,
       nodeVersion: process.version,
       platform: process.platform,
       scenario: {

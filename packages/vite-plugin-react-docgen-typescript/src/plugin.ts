@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
+import { performance } from "node:perf_hooks";
 import type {
   EnvironmentModuleNode,
   ModuleNode,
@@ -10,6 +11,7 @@ import type {
 } from "vite";
 import { normalizePath } from "vite";
 import type {
+  AnalyzeInput,
   AnalyzeResult,
   BackendDescriptor,
   BackendProjectState,
@@ -33,7 +35,12 @@ import {
 } from "./utils/cache";
 import type { ResolvedFileSelection } from "./utils/fileSelection";
 import { generateDocgenCodeBlock } from "./utils/generate";
-import { getGenerateOptions, type Options } from "./utils/options";
+import {
+  getGenerateOptions,
+  type InternalBenchmarkAnalysisEvent,
+  type InternalBenchmarkPhaseEvent,
+  type Options,
+} from "./utils/options";
 
 type Filepath = string;
 type TransformResult = { code: string; map: null } | null | string;
@@ -59,6 +66,12 @@ interface TransformCacheEntry {
   unresolvedDependencies: readonly string[];
 }
 
+interface PreparedAnalysis {
+  readonly result: AnalyzeResult;
+  readonly revision: number;
+  readonly source: string;
+}
+
 interface EventUpdateEntry {
   promise: Promise<LogicalUpdateResult>;
   settled: boolean;
@@ -71,6 +84,7 @@ const hasOwnOption = (options: Options, key: keyof Options): boolean =>
   Object.hasOwn(options, key);
 const IMPORT_SPECIFIER_PATTERN =
   /\b(?:import|export)\s+(?:type\s+)?(?:[^"'`]*?\s+from\s*)?["']([^"']+)["']|\b(?:import|require)\s*\(\s*["']([^"']+)["']/g;
+const TRANSFORM_HOOK_ID_FILTER = /\.[cm]?[jt]sx?(?:$|[?#])/i;
 const UNRESOLVED_MODULE_EXTENSIONS = [
   ".ts",
   ".tsx",
@@ -83,7 +97,7 @@ const UNRESOLVED_MODULE_EXTENSIONS = [
   ".cjs",
 ] as const;
 
-const collectUnresolvedRelativeDependencies = (
+export const collectUnresolvedRelativeDependencies = (
   moduleFile: string,
   source: string,
   resolvedDependencies: readonly string[],
@@ -106,8 +120,13 @@ const collectUnresolvedRelativeDependencies = (
           ),
         ];
     for (const candidate of candidates) {
+      if (resolved.has(candidate)) break;
       const normalizedCandidate = normalizeBoundaryPath(candidate);
-      if (!existsSync(candidate) && !resolved.has(normalizedCandidate)) {
+      if (existsSync(candidate)) {
+        if (resolved.has(normalizedCandidate)) break;
+        continue;
+      }
+      if (!resolved.has(normalizedCandidate)) {
         unresolved.add(normalizedCandidate);
       }
     }
@@ -151,8 +170,25 @@ export function createPlugin(
   const moduleFilesByDependency = new Map<Filepath, Set<Filepath>>();
   const transformedModuleFiles = new Set<string>();
   const transformCache = new Map<Filepath, TransformCacheEntry>();
+  const preparedAnalyses = new Map<Filepath, PreparedAnalysis>();
   const cachedConfigFiles = new Set<Filepath>();
   const warnedMessages = new Set<string>();
+
+  const emitBenchmarkPhase = (event: InternalBenchmarkPhaseEvent) => {
+    try {
+      config.__benchmark?.onPhase?.(event);
+    } catch {
+      // Benchmark instrumentation is observational and must not affect Vite.
+    }
+  };
+
+  const emitBenchmarkAnalysis = (event: InternalBenchmarkAnalysisEvent) => {
+    try {
+      config.__benchmark?.onAnalysis?.(event);
+    } catch {
+      // Benchmark instrumentation is observational and must not affect Vite.
+    }
+  };
 
   const disposeBackend = async (candidate: DocgenBackend | undefined) => {
     if (!candidate || disposedBackends.has(candidate)) return;
@@ -259,9 +295,33 @@ export function createPlugin(
 
   const initializeBackend = async () => {
     backendInitializationPromise ??= (async () => {
-      const activeBackend = await getBackend();
-      projectState = await activeBackend.initialize();
-      return activeBackend;
+      const shouldMeasure = config.__benchmark?.onPhase !== undefined;
+      const startedAt = shouldMeasure ? performance.now() : 0;
+      try {
+        const activeBackend = await getBackend();
+        projectState = await activeBackend.initialize();
+        if (shouldMeasure) {
+          emitBenchmarkPhase({
+            durationMs: performance.now() - startedAt,
+            fileCount: projectState.docgenFiles.length,
+            phase: "backend-initialize",
+            revision,
+            status: "completed",
+          });
+        }
+        return activeBackend;
+      } catch (error) {
+        if (shouldMeasure) {
+          emitBenchmarkPhase({
+            durationMs: performance.now() - startedAt,
+            fileCount: 0,
+            phase: "backend-initialize",
+            revision,
+            status: "failed",
+          });
+        }
+        throw error;
+      }
     })();
     try {
       return await backendInitializationPromise;
@@ -304,6 +364,7 @@ export function createPlugin(
     affectedFiles: Iterable<Filepath>,
   ) => {
     for (const affectedFile of affectedFiles) {
+      preparedAnalyses.delete(affectedFile);
       const cachedTransform = transformCache.get(affectedFile);
       if (fileSystemCacheDirectory && cachedTransform) {
         try {
@@ -321,6 +382,89 @@ export function createPlugin(
         }
       }
       transformCache.delete(affectedFile);
+    }
+  };
+
+  const prepareAffectedAnalyses = async (
+    activeBackend: DocgenBackend,
+    affectedFiles: ReadonlySet<Filepath>,
+  ) => {
+    if (!activeBackend.analyzeMany || affectedFiles.size < 2) return;
+    const preparedRevision = revision;
+    const inputs: AnalyzeInput[] = [];
+    for (const fileName of [...affectedFiles].sort()) {
+      if (
+        !fileSelection?.matchesDocgenFile(fileName) ||
+        !projectState?.docgenFiles.includes(fileName) ||
+        !existsSync(fileName)
+      ) {
+        continue;
+      }
+      try {
+        inputs.push({
+          fileName,
+          revision: preparedRevision,
+          source: readFileSync(fileName, "utf-8"),
+        });
+      } catch {
+        // The file may disappear between dependency collection and prefetch.
+        // Its transform will use the ordinary single-file path if it returns.
+      }
+    }
+    if (inputs.length < 2) return;
+
+    const shouldMeasure =
+      config.__benchmark?.onPhase !== undefined ||
+      config.__benchmark?.onAnalysis !== undefined;
+    const startedAt = shouldMeasure ? performance.now() : 0;
+    try {
+      const results = await activeBackend.analyzeMany(inputs);
+      if (results.length !== inputs.length) {
+        throw new Error(
+          `Backend returned ${results.length} results for ${inputs.length} analysis inputs`,
+        );
+      }
+      if (preparedRevision !== revision) return;
+      const durationMs = shouldMeasure ? performance.now() - startedAt : 0;
+      for (const [index, input] of inputs.entries()) {
+        const result = results[index];
+        if (!result || result.revision !== preparedRevision) continue;
+        preparedAnalyses.set(input.fileName, {
+          result,
+          revision: preparedRevision,
+          source: input.source,
+        });
+        if (shouldMeasure) {
+          emitBenchmarkAnalysis({
+            durationMs: durationMs / inputs.length,
+            fileName: input.fileName,
+            result,
+            revision: preparedRevision,
+          });
+        }
+      }
+      if (shouldMeasure) {
+        emitBenchmarkPhase({
+          durationMs,
+          fileCount: inputs.length,
+          phase: "backend-analyze",
+          revision: preparedRevision,
+          status: "completed",
+        });
+      }
+      projectState = results.at(-1)?.project ?? projectState;
+    } catch {
+      if (shouldMeasure) {
+        emitBenchmarkPhase({
+          durationMs: performance.now() - startedAt,
+          fileCount: inputs.length,
+          phase: "backend-analyze",
+          revision: preparedRevision,
+          status: "failed",
+        });
+      }
+      // Bulk analysis is an optimization. Individual transforms remain the
+      // correctness fallback if a backend cannot prepare the whole set.
     }
   };
 
@@ -483,6 +627,7 @@ export function createPlugin(
     }
 
     revision += 1;
+    preparedAnalyses.clear();
     if (isConfigChange) {
       pendingAffectedFiles.clear();
       transformCache.clear();
@@ -504,18 +649,45 @@ export function createPlugin(
       };
     }
 
-    const update = await activeBackend.update({
-      affectedComponentFiles: [...affectedFiles],
-      change:
-        kind === "delete"
-          ? { fileName: normalizedFile, kind, revision }
-          : {
-              fileName: normalizedFile,
-              kind: kind === "update" ? "change" : "create",
-              revision,
-              source: source ?? readFileSync(normalizedFile, "utf-8"),
-            },
-    });
+    const shouldMeasureUpdate = config.__benchmark?.onPhase !== undefined;
+    const updateStartedAt = shouldMeasureUpdate ? performance.now() : 0;
+    let update: Awaited<ReturnType<DocgenBackend["update"]>>;
+    try {
+      update = await activeBackend.update({
+        affectedComponentFiles: [...affectedFiles],
+        change:
+          kind === "delete"
+            ? { fileName: normalizedFile, kind, revision }
+            : {
+                fileName: normalizedFile,
+                kind: kind === "update" ? "change" : "create",
+                revision,
+                source: source ?? readFileSync(normalizedFile, "utf-8"),
+              },
+      });
+      if (shouldMeasureUpdate) {
+        emitBenchmarkPhase({
+          durationMs: performance.now() - updateStartedAt,
+          fileCount: affectedFiles.size,
+          fileName: normalizedFile,
+          phase: "backend-update",
+          revision,
+          status: "completed",
+        });
+      }
+    } catch (error) {
+      if (shouldMeasureUpdate) {
+        emitBenchmarkPhase({
+          durationMs: performance.now() - updateStartedAt,
+          fileCount: affectedFiles.size,
+          fileName: normalizedFile,
+          phase: "backend-update",
+          revision,
+          status: "failed",
+        });
+      }
+      throw error;
+    }
 
     if (update.status === "project-reset") {
       pendingAffectedFiles.clear();
@@ -572,6 +744,7 @@ export function createPlugin(
     if (!isConfigChange) {
       deleteCachedTransforms({ warn }, affectedFiles);
     }
+    await prepareAffectedAnalyses(activeBackend, affectedFiles);
     return {
       affectedFiles,
       handled: true,
@@ -716,6 +889,7 @@ export function createPlugin(
       devServer = undefined;
       await Promise.allSettled([...hookUpdateTasks, ...legacyListenerTasks]);
       didDispose = true;
+      preparedAnalyses.clear();
       transformCache.clear();
       cachedConfigFiles.clear();
       clearAllTrackedModuleDependencies();
@@ -827,147 +1001,285 @@ export function createPlugin(
       server.watcher.on("add", legacyAddHandler);
       server.watcher.on("unlink", legacyUnlinkHandler);
     },
-    async transform(src, id) {
-      const normalizedFileId = normalizeBoundaryPath(cleanModuleId(id));
-      if (!fileSelection?.matchesDocgenFile(normalizedFileId)) return;
+    transform: {
+      filter: { id: TRANSFORM_HOOK_ID_FILTER },
+      async handler(src, id) {
+        const normalizedFileId = normalizeBoundaryPath(cleanModuleId(id));
+        if (!fileSelection?.matchesDocgenFile(normalizedFileId)) return;
 
-      const memoryCachedTransform = transformCache.get(normalizedFileId);
-      if (memoryCachedTransform?.source === src) {
-        backend?.recordCacheHit({
-          cache: "memory",
-          fileName: normalizedFileId,
-        });
-        return memoryCachedTransform.result;
-      }
+        const memoryCachedTransform = transformCache.get(normalizedFileId);
+        if (
+          !config.__benchmark?.bypassMemoryCache &&
+          memoryCachedTransform?.source === src
+        ) {
+          backend?.recordCacheHit({
+            cache: "memory",
+            fileName: normalizedFileId,
+          });
+          return memoryCachedTransform.result;
+        }
 
-      const cacheValidationRevision = revision;
-      const persistedCachedTransform = await readCachedTransform(
-        this,
-        normalizedFileId,
-        src,
-      );
-      if (
-        persistedCachedTransform &&
-        cacheValidationRevision === revision &&
-        !isTearingDown &&
-        !didDispose
-      ) {
-        for (const fileName of persistedCachedTransform.configFiles) {
-          cachedConfigFiles.add(fileName);
+        const cacheValidationRevision = revision;
+        const persistedCachedTransform = await readCachedTransform(
+          this,
+          normalizedFileId,
+          src,
+        );
+        if (
+          persistedCachedTransform &&
+          cacheValidationRevision === revision &&
+          !isTearingDown &&
+          !didDispose
+        ) {
+          for (const fileName of persistedCachedTransform.configFiles) {
+            cachedConfigFiles.add(fileName);
+          }
+          watchFiles(this, [
+            ...persistedCachedTransform.configFiles,
+            ...(persistedCachedTransform.dependencies ?? []),
+            ...(persistedCachedTransform.unresolvedDependencies ?? []),
+          ]);
+          backend?.recordCacheHit({
+            cache: "persistent",
+            fileName: normalizedFileId,
+          });
+          transformCache.set(normalizedFileId, {
+            dependencies: persistedCachedTransform.dependencies,
+            result: persistedCachedTransform.result,
+            source: src,
+            unresolvedDependencies:
+              persistedCachedTransform.unresolvedDependencies ?? [],
+          });
+          trackModuleDependencies(
+            normalizedFileId,
+            [
+              ...(persistedCachedTransform.dependencies ?? []),
+              ...persistedCachedTransform.configFiles,
+            ],
+            persistedCachedTransform.unresolvedDependencies,
+          );
+          return persistedCachedTransform.result;
+        }
+
+        if (isTearingDown || didDispose) {
+          throw new Error("Docgen plugin is shutting down");
+        }
+        const activeBackend = await initializeBackend();
+        if (!projectState?.docgenFiles.includes(normalizedFileId)) {
+          trackModuleDependencies(normalizedFileId, undefined);
+          warnOnce(
+            this,
+            `${normalizedFileId}:excluded-from-typescript-project`,
+            projectState && projectState.configFiles.length > 0
+              ? `Skipping docgen for "${normalizedFileId}" because it matches the plugin patterns but is not a member of the configured TypeScript project.`
+              : `Skipping docgen for "${normalizedFileId}" because it matches the plugin patterns but is not a member of the active TypeScript project.`,
+          );
+          return src;
+        }
+
+        let analysisRevision = revision;
+        let analysis: AnalyzeResult;
+        const preparedAnalysis = preparedAnalyses.get(normalizedFileId);
+        if (
+          preparedAnalysis?.revision === analysisRevision &&
+          preparedAnalysis.source === src
+        ) {
+          analysis = preparedAnalysis.result;
+        } else {
+          do {
+            analysisRevision = revision;
+            const shouldMeasureAnalysis =
+              config.__benchmark?.onPhase !== undefined ||
+              config.__benchmark?.onAnalysis !== undefined;
+            const analysisStartedAt = shouldMeasureAnalysis
+              ? performance.now()
+              : 0;
+            try {
+              analysis = await activeBackend.analyze({
+                fileName: normalizedFileId,
+                revision: analysisRevision,
+                source: src,
+              });
+              if (shouldMeasureAnalysis) {
+                const durationMs = performance.now() - analysisStartedAt;
+                emitBenchmarkPhase({
+                  durationMs,
+                  fileCount: 1,
+                  fileName: normalizedFileId,
+                  phase: "backend-analyze",
+                  revision: analysisRevision,
+                  status: "completed",
+                });
+                emitBenchmarkAnalysis({
+                  durationMs,
+                  fileName: normalizedFileId,
+                  result: analysis,
+                  revision: analysisRevision,
+                });
+              }
+            } catch (error) {
+              if (shouldMeasureAnalysis) {
+                emitBenchmarkPhase({
+                  durationMs: performance.now() - analysisStartedAt,
+                  fileCount: 1,
+                  fileName: normalizedFileId,
+                  phase: "backend-analyze",
+                  revision: analysisRevision,
+                  status: "failed",
+                });
+              }
+              throw error;
+            }
+          } while (analysisRevision !== revision);
+        }
+        projectState = analysis.project;
+        const shouldMeasureDependencyDiscovery =
+          config.__benchmark?.onPhase !== undefined;
+        const dependencyDiscoveryStartedAt = shouldMeasureDependencyDiscovery
+          ? performance.now()
+          : 0;
+        let unresolvedDependencies: string[];
+        try {
+          unresolvedDependencies = normalizeBoundaryPaths([
+            ...(analysis.unresolvedDependencies ?? []),
+            ...collectUnresolvedRelativeDependencies(
+              normalizedFileId,
+              src,
+              analysis.dependencies,
+            ),
+          ]);
+          if (shouldMeasureDependencyDiscovery) {
+            emitBenchmarkPhase({
+              durationMs: performance.now() - dependencyDiscoveryStartedAt,
+              fileCount: 1,
+              fileName: normalizedFileId,
+              phase: "dependency-discovery",
+              revision: analysisRevision,
+              status: "completed",
+            });
+          }
+        } catch (error) {
+          if (shouldMeasureDependencyDiscovery) {
+            emitBenchmarkPhase({
+              durationMs: performance.now() - dependencyDiscoveryStartedAt,
+              fileCount: 1,
+              fileName: normalizedFileId,
+              phase: "dependency-discovery",
+              revision: analysisRevision,
+              status: "failed",
+            });
+          }
+          throw error;
         }
         watchFiles(this, [
-          ...persistedCachedTransform.configFiles,
-          ...(persistedCachedTransform.dependencies ?? []),
-          ...(persistedCachedTransform.unresolvedDependencies ?? []),
+          ...analysis.project.configFiles,
+          ...analysis.dependencies,
+          ...unresolvedDependencies,
         ]);
-        backend?.recordCacheHit({
-          cache: "persistent",
-          fileName: normalizedFileId,
-        });
-        transformCache.set(normalizedFileId, {
-          dependencies: persistedCachedTransform.dependencies,
-          result: persistedCachedTransform.result,
-          source: src,
-          unresolvedDependencies:
-            persistedCachedTransform.unresolvedDependencies ?? [],
-        });
-        trackModuleDependencies(
-          normalizedFileId,
-          [
-            ...(persistedCachedTransform.dependencies ?? []),
-            ...persistedCachedTransform.configFiles,
-          ],
-          persistedCachedTransform.unresolvedDependencies,
-        );
-        return persistedCachedTransform.result;
-      }
+        if (analysis.status === "error") {
+          warnOnce(
+            this,
+            `${normalizedFileId}:${analysis.error.message}`,
+            `Failed to generate docgen for "${normalizedFileId}": ${analysis.error.message}`,
+          );
+          trackModuleDependencies(
+            normalizedFileId,
+            analysis.dependencies,
+            unresolvedDependencies,
+          );
+          return src;
+        }
 
-      if (isTearingDown || didDispose) {
-        throw new Error("Docgen plugin is shutting down");
-      }
-      const activeBackend = await initializeBackend();
-      if (!projectState?.docgenFiles.includes(normalizedFileId)) {
-        trackModuleDependencies(normalizedFileId, undefined);
-        warnOnce(
-          this,
-          `${normalizedFileId}:excluded-from-typescript-project`,
-          projectState && projectState.configFiles.length > 0
-            ? `Skipping docgen for "${normalizedFileId}" because it matches the plugin patterns but is not a member of the configured TypeScript project.`
-            : `Skipping docgen for "${normalizedFileId}" because it matches the plugin patterns but is not a member of the active TypeScript project.`,
-        );
-        return src;
-      }
-
-      let analysisRevision: number;
-      let analysis: AnalyzeResult;
-      do {
-        analysisRevision = revision;
-        analysis = await activeBackend.analyze({
-          fileName: normalizedFileId,
-          revision: analysisRevision,
-          source: src,
-        });
-      } while (analysisRevision !== revision);
-      projectState = analysis.project;
-      const unresolvedDependencies = [
-        ...new Set([
-          ...(analysis.unresolvedDependencies ?? []),
-          ...collectUnresolvedRelativeDependencies(
+        const shouldMeasureCodeGeneration =
+          config.__benchmark?.onPhase !== undefined;
+        const codeGenerationStartedAt = shouldMeasureCodeGeneration
+          ? performance.now()
+          : 0;
+        let result: CachedTransformResult;
+        try {
+          result =
+            analysis.components.length === 0
+              ? null
+              : generateDocgenCodeBlock({
+                  componentDocs: analysis.components,
+                  filename: normalizedFileId,
+                  source: src,
+                  ...getGenerateOptions(config),
+                });
+          if (shouldMeasureCodeGeneration) {
+            emitBenchmarkPhase({
+              durationMs: performance.now() - codeGenerationStartedAt,
+              fileCount: 1,
+              fileName: normalizedFileId,
+              phase: "code-generation",
+              revision: analysisRevision,
+              status: "completed",
+            });
+          }
+        } catch (error) {
+          if (shouldMeasureCodeGeneration) {
+            emitBenchmarkPhase({
+              durationMs: performance.now() - codeGenerationStartedAt,
+              fileCount: 1,
+              fileName: normalizedFileId,
+              phase: "code-generation",
+              revision: analysisRevision,
+              status: "failed",
+            });
+          }
+          throw error;
+        }
+        const shouldMeasureTransformCommit =
+          config.__benchmark?.onPhase !== undefined;
+        const transformCommitStartedAt = shouldMeasureTransformCommit
+          ? performance.now()
+          : 0;
+        try {
+          transformCache.set(normalizedFileId, {
+            dependencies: analysis.dependencies,
+            result,
+            source: src,
+            unresolvedDependencies,
+          });
+          writeCachedTransform(
+            this,
             normalizedFileId,
             src,
             analysis.dependencies,
-          ),
-        ]),
-      ].sort();
-      watchFiles(this, [
-        ...analysis.project.configFiles,
-        ...analysis.dependencies,
-        ...unresolvedDependencies,
-      ]);
-      if (analysis.status === "error") {
-        warnOnce(
-          this,
-          `${normalizedFileId}:${analysis.error.message}`,
-          `Failed to generate docgen for "${normalizedFileId}": ${analysis.error.message}`,
-        );
-        trackModuleDependencies(
-          normalizedFileId,
-          analysis.dependencies,
-          unresolvedDependencies,
-        );
-        return src;
-      }
-
-      const result =
-        analysis.components.length === 0
-          ? null
-          : generateDocgenCodeBlock({
-              componentDocs: analysis.components,
-              filename: normalizedFileId,
-              source: src,
-              ...getGenerateOptions(config),
+            unresolvedDependencies,
+            result,
+            analysis.project,
+          );
+          trackModuleDependencies(
+            normalizedFileId,
+            analysis.dependencies,
+            unresolvedDependencies,
+          );
+          if (shouldMeasureTransformCommit) {
+            emitBenchmarkPhase({
+              durationMs: performance.now() - transformCommitStartedAt,
+              fileCount: 1,
+              fileName: normalizedFileId,
+              phase: "transform-commit",
+              revision: analysisRevision,
+              status: "completed",
             });
-      transformCache.set(normalizedFileId, {
-        dependencies: analysis.dependencies,
-        result,
-        source: src,
-        unresolvedDependencies,
-      });
-      writeCachedTransform(
-        this,
-        normalizedFileId,
-        src,
-        analysis.dependencies,
-        unresolvedDependencies,
-        result,
-        analysis.project,
-      );
-      trackModuleDependencies(
-        normalizedFileId,
-        analysis.dependencies,
-        unresolvedDependencies,
-      );
-      return result;
+          }
+        } catch (error) {
+          if (shouldMeasureTransformCommit) {
+            emitBenchmarkPhase({
+              durationMs: performance.now() - transformCommitStartedAt,
+              fileCount: 1,
+              fileName: normalizedFileId,
+              phase: "transform-commit",
+              revision: analysisRevision,
+              status: "failed",
+            });
+          }
+          throw error;
+        }
+        return result;
+      },
     },
     hotUpdate({ file, modules, read, timestamp, type }) {
       return trackHookUpdate(async () => {
