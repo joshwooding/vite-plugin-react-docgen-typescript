@@ -130,3 +130,40 @@ This keeps docgen on the TypeScript 6 compiler API; it does not make the plugin
 use TypeScript 7. Yarn 4.13 applies an incompatible built-in patch to that
 reverse alias, so Yarn users should install `typescript@6.0.x` under its normal
 name instead and keep TypeScript 7 on the separate alias.
+
+### Performance benchmarking
+
+Repository contributors can compare the legacy and ProjectService backends on
+a generated monorepo containing 188 components across seven TypeScript
+projects:
+
+```sh
+yarn benchmark:backends:ci
+```
+
+The harness runs every backend in a fresh process, counterbalances execution
+order, and measures cold extraction plus shared-type edits that invalidate
+every component. Reports retain raw samples, p50/p95 latency, normalized output
+parity, forced-GC heap, and aggregate process memory. CI runs the benchmark on
+Linux and Windows and uploads the JSON report without enforcing a timing
+threshold.
+
+The same harness can compare two separately built revisions without loading
+both plugins into one process:
+
+```sh
+node scripts/benchmark-backends.mjs \
+  --plugin-entry ../trunk/packages/vite-plugin-react-docgen-typescript/dist/index.mjs \
+  --label trunk \
+  --compare-plugin-entry ../candidate/packages/vite-plugin-react-docgen-typescript/dist/index.mjs \
+  --compare-label candidate \
+  --modes projectService \
+  --iterations 6 \
+  --edits 50 \
+  --require-parity
+```
+
+Use modes supported by both revisions for direct comparisons. Optional internal
+phase timings are recorded when a plugin build exposes benchmark telemetry;
+end-to-end latency, output parity, and process memory remain available for older
+builds that do not.
