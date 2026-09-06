@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "typescript": "6.0.3",
+  "sourceExecutableAndTypeTokensUnchanged": true,
+  "declarations": [
+    {
+      "name": "package/dist/index.d.ts",
+      "publicShapeUnchanged": true,
+      "interfaceDeprecated": true,
+      "optionDeprecated": true,
+      "defaultFalse": true,
+      "objectEnabledDefaultTrue": true
+    },
+    {
+      "name": "package/dist/index.d.mts",
+      "publicShapeUnchanged": true,
+      "interfaceDeprecated": true,
+      "optionDeprecated": true,
+      "defaultFalse": true,
+      "objectEnabledDefaultTrue": true
+    }
+  ],
+  "changeset": {
+    "releases": [
+      {
+        "name": "@joshwooding/vite-plugin-react-docgen-typescript",
+        "type": "patch"
+      }
+    ],
+    "summary": "Deprecate `fileSystemCache` and annotate its options interface with `@deprecated`.\r\nRemove `fileSystemCache` from configuration or set it to `false`. In-memory\r\ntransform caching and TypeScript program reuse continue. Existing boolean and\r\nobject configurations, including custom directories, still work; the default\r\nremains `false`.\r\n\r\nA 60-run recheck on two Windows fixtures across both stable modes found\r\ninsufficient startup benefit and slower edit processing with disk persistence.\r\nThese results support simplifying the feature, without promising a speedup for\r\nevery consumer.\r\n\r\nRemoval is intended for a later breaking release, after at least one published\r\ncompatible release carrying this notice. No removal version or date is set.",
+    "id": "deprecate-filesystem-cache"
+  },
+  "finalFileSha256": {
+    "README.md": "85fd7fe10312cb125cefd5da4828999c0a26990955f60805f39b636529a1046a",
+    "packages/vite-plugin-react-docgen-typescript/src/utils/options.ts": "670eeb1ec272481c4a43ebceb110d86436fa8f20f5cfde6fe2c4f6986a31b117",
+    ".changeset/deprecate-filesystem-cache.md": "7a1f68dfb7fae160e60e01b1930ef0cd70f126886cb20ba8748249ea89603ea7"
+  },
+  "initialOptionsHashChangedOnlyForLfFormatting": true
+}

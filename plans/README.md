@@ -30,11 +30,17 @@ general benchmark framework is not the default solution.
 
 ## Recommended order
 
+The selected compatible notice in [Plan 026](026-deprecate-filesystem-cache.md)
+is implemented locally at unsigned source commit **d431709**. README migration
+guidance, JSDoc annotations and a patch Changeset are verified; existing options
+still work and packed JavaScript/public type shapes are unchanged. Nothing is
+published. See [Stage A verification](026-stage-a-verification.md).
+
 The selected [Plan 035](035-recheck-optimized-persistence.md) is complete: 60
 current-artifact measurements, genuine-hit/full-metadata controls and independent
 statistics verification pass. Its SIMPLIFY_OR_DEPRECATE result supports the
-compatible notice proposed in 026 on the two tested fixtures. No deprecation or
-runtime change is implemented. See [035 verification](035-verification.md).
+compatible notice in 026 on the two tested fixtures. The experiment itself changed
+no product behavior. See [035 verification](035-verification.md).
 
 The user selected follow-up [Plan 034](034-document-explicit-external-type-watches.md).
 Its documentation and tests are reviewed and integrated at unsigned local source
@@ -45,7 +51,7 @@ is unchanged. See [034 verification](034-verification.md).
 
 Current remaining work is tracked in [BACKLOG.md](BACKLOG.md). Plans 017–022/024
 are integrated, together with the reviewed 023 decision and 025/028 release checks.
-Plan026 is the completed deprecation proposal; implementation remains a later step.
+Plan026 Stage A is implemented locally; publication and later removal remain separate.
 Plan 027's Salt DS profile is complete; Plan 029's implementation, measurements and
 external review pass. Main workspace verification passes; signed source commit 41b536a is integrated.
 Plan 032's post-029 Salt profile is complete: backend dependency normalization
@@ -68,7 +74,7 @@ agreement and a reproduced shared-type freshness failure.
 | [023](023-decide-missing-external-type-watches.md) | Decide bounded support for initially missing external type files | P2 | M | MED | 022 | DONE — decision/evidence at02d8da2; NEEDS_DESIGN, production gap remains open |
 | [024](024-measure-corrected-persistent-cache.md) | Measure the retained value of corrected persistent caching | P3 | M | LOW: evidence only | 020, 022 | DONE — SIMPLIFY_OR_DEPRECATE at d6553de; 60 samples, no variance extension; evidence only, integrated at 6eeed0e; 023 remains separate |
 | [025](025-integrate-reviewed-stack.md) | Integrate reviewed fixes and verify release coverage | P1 | M | MED | 017–022, 024 | DONE — integrated at6eeed0e; ten matrix equivalents pass; no publish/push |
-| [026](026-deprecate-filesystem-cache.md) | Prepare a compatible disk-cache deprecation path | P3 | S proposal / M removal | MED | 022, 024 | DONE — proposal prepared; deprecation/removal not implemented or published |
+| [026](026-deprecate-filesystem-cache.md) | Compatible disk-cache deprecation notice | P3 | S notice / M removal | MED | 022, 024, 035 | STAGE A DONE at unsigned source commit d431709; checks pass, runtime unchanged; unpublished, no removal |
 | [027](027-profile-salt-ds-consumer.md) | Profile a pinned Salt DS core workload | P3 | M | LOW: evidence only | 022, 024 | DONE — 215 targets, six fresh oracles and four CPU profiles; no statistical timing or speedup claim |
 | [028](028-isolate-runtime-verifier-events.md) | Isolate compatibility verifier events across Vite versions | P1 | S | LOW | 025 | DONE — ebe8385 integrated at6eeed0e; original assertions retained |
 | [029](029-reuse-canonical-dependency-paths.md) | Reuse canonical internal dependency paths | P2 | M | MED | 027 | DONE — 339 tests, ten compatibility rows, 24 processes and external review pass; integrated locally at signed source commit 41b536a |
@@ -148,7 +154,7 @@ The post-033 recheck in [035](035-verification.md) also returns
 SIMPLIFY_OR_DEPRECATE: larger-fixture restarts were 35.0–36.2% slower; React-fixture
 startup saved 6.1–6.4%; restart HMR was 19.5–107.7% slower. These are bounded
 Windows fixture results. Keep disk persistence disabled by default; the compatible
-notice in [026](026-deprecate-filesystem-cache.md) is prepared, with no removal yet.
+notice in [026](026-deprecate-filesystem-cache.md) is implemented locally, with no publication or removal yet.
 Do not add shared fingerprint caches or weaken freshness checks on this evidence.
 
 Deferred rather than silently removed:

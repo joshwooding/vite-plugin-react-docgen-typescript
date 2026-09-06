@@ -1,0 +1,15 @@
+{
+  "base": "f6cfcdbad522b600c0729365e7dc5ac72e62f86d",
+  "sourceScope": [
+    "README.md",
+    "packages/vite-plugin-react-docgen-typescript/src/utils/options.ts",
+    ".changeset/deprecate-filesystem-cache.md"
+  ],
+  "fileSha256": {
+    "README.md": "85fd7fe10312cb125cefd5da4828999c0a26990955f60805f39b636529a1046a",
+    "packages/vite-plugin-react-docgen-typescript/src/utils/options.ts": "7af21326b2936de2092358af1ac7453ae60dffa3af6dc1db741f4a49cd815171",
+    ".changeset/deprecate-filesystem-cache.md": "7a1f68dfb7fae160e60e01b1930ef0cd70f126886cb20ba8748249ea89603ea7"
+  },
+  "runtimeChanges": "JSDoc only in options.ts; executable and public shape checks pending",
+  "externalReview": "Not required for documentation/JSDoc-only edits under Plan026; local source and artifact review required."
+}
