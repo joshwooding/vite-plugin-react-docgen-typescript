@@ -1,0 +1,818 @@
+{
+  "status": "PASS",
+  "base": "ec7455ac7bf3986610b7f79291dd1acae644beba",
+  "executorInventorySha256": "e46432964ef285ebedaf259b53f546621810a3863f5025174c6e3760d435ec89",
+  "files": [
+    {
+      "path": "plans/035-evidence/.gitattributes",
+      "executorSha256": "8b9c3028d6467ff3be7c793141927841d70f47f52d0590677438f488ca154992",
+      "integratedSha256": "5153beed4a700a23dd97141a6bf955e8024667cc016a15962147efed97c8ff37",
+      "action": "preserved root attributes with equivalent binary rule and explanatory comment"
+    },
+    {
+      "path": "plans/035-evidence/build-escalated.txt",
+      "executorSha256": "e3058b8ed5957fb4e35d94c7b83e32e32a56a8a3ed788aa14c6ee634551ca73e",
+      "integratedSha256": "e3058b8ed5957fb4e35d94c7b83e32e32a56a8a3ed788aa14c6ee634551ca73e",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/build-sandbox.txt",
+      "executorSha256": "8fea67464a1f1be4a8644580db357fb0fdaf7f57d280bd04add336953d0ea05b",
+      "integratedSha256": "8fea67464a1f1be4a8644580db357fb0fdaf7f57d280bd04add336953d0ea05b",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/capture.json",
+      "executorSha256": "d96303f23179c3016ccc2535fce59fd42cbb3d9ca06828dd7eb9397f1ba4f4db",
+      "integratedSha256": "d96303f23179c3016ccc2535fce59fd42cbb3d9ca06828dd7eb9397f1ba4f4db",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/capture.txt",
+      "executorSha256": "af6ee326ef4f4b02e7067c3033a1681f7d4bcb50b1266d4acf5be30d757ab1f3",
+      "integratedSha256": "af6ee326ef4f4b02e7067c3033a1681f7d4bcb50b1266d4acf5be30d757ab1f3",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/common.mjs",
+      "executorSha256": "ebdb7b7513a5a43202abfd32cb4c8a7f063623d6ad93815eb5ff8242c9f78071",
+      "integratedSha256": "ebdb7b7513a5a43202abfd32cb4c8a7f063623d6ad93815eb5ff8242c9f78071",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/01-large-project-default-off-measure.json",
+      "executorSha256": "3e68743974105bc9e06fd2bca9f48978946d8ffd808d6754a092822730c2f8f9",
+      "integratedSha256": "3e68743974105bc9e06fd2bca9f48978946d8ffd808d6754a092822730c2f8f9",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/02-large-project-default-populate-measure.json",
+      "executorSha256": "199acbab73946922a4439fb42916e47ade8de0a9f0aa24b916405f1e859a6b3c",
+      "integratedSha256": "199acbab73946922a4439fb42916e47ade8de0a9f0aa24b916405f1e859a6b3c",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/03-large-project-default-populate-seed.json",
+      "executorSha256": "026072418eb8f781476580f88182dc419918e45c22be78c7a5b2a8697afe8633",
+      "integratedSha256": "026072418eb8f781476580f88182dc419918e45c22be78c7a5b2a8697afe8633",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/04-large-project-default-restart-measure.json",
+      "executorSha256": "0978b6a6d5630a34af822e75ad5e34583b2d265d6922a615e726f627b12a43bd",
+      "integratedSha256": "0978b6a6d5630a34af822e75ad5e34583b2d265d6922a615e726f627b12a43bd",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/05-large-project-default-off-edited-oracle.json",
+      "executorSha256": "4d516b413de55cc58a8c8b78d49a4d2e886a1134ccef5654ccecfe2f9fbc7f54",
+      "integratedSha256": "4d516b413de55cc58a8c8b78d49a4d2e886a1134ccef5654ccecfe2f9fbc7f54",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/06-large-project-projectService-off-measure.json",
+      "executorSha256": "f5ea0ec43ba9f228ee0c48d044d21c668bb3ab5da62e94c0993de83026042b94",
+      "integratedSha256": "f5ea0ec43ba9f228ee0c48d044d21c668bb3ab5da62e94c0993de83026042b94",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/07-large-project-projectService-populate-measure.json",
+      "executorSha256": "b77c0e3a4f6e8d7bed49e086a374877a5fa5472cd576bcfbe49795feaf0f6a86",
+      "integratedSha256": "b77c0e3a4f6e8d7bed49e086a374877a5fa5472cd576bcfbe49795feaf0f6a86",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/08-large-project-projectService-populate-seed.json",
+      "executorSha256": "f5e48e0fa807d7f16608323a11cbb64fa5bd4463bd4cef6387ebbb37067445f4",
+      "integratedSha256": "f5e48e0fa807d7f16608323a11cbb64fa5bd4463bd4cef6387ebbb37067445f4",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/09-large-project-projectService-restart-measure.json",
+      "executorSha256": "a2fe1fef16d53e75b97fdd2c907fc2a9ae91c5857133595c186c57567c2cfcad",
+      "integratedSha256": "a2fe1fef16d53e75b97fdd2c907fc2a9ae91c5857133595c186c57567c2cfcad",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/10-large-project-projectService-off-edited-oracle.json",
+      "executorSha256": "f3ab1ff533d17e5170ef9d046124016e4988661b0011786081ec679042160496",
+      "integratedSha256": "f3ab1ff533d17e5170ef9d046124016e4988661b0011786081ec679042160496",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/12-react-typing-default-off-measure.json",
+      "executorSha256": "258b2c4ad9b099800e0546883d90d8534b83241aff6a21881d4011c8b8bab7b9",
+      "integratedSha256": "258b2c4ad9b099800e0546883d90d8534b83241aff6a21881d4011c8b8bab7b9",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/14-react-typing-default-populate-measure.json",
+      "executorSha256": "a66cfbb7198db8339bc7baa98bc2e1274c0b46619bad7faecf95b3742db9580e",
+      "integratedSha256": "a66cfbb7198db8339bc7baa98bc2e1274c0b46619bad7faecf95b3742db9580e",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/16-react-typing-default-populate-seed.json",
+      "executorSha256": "1b4bf715fd31da34fc9e68471acdd246fa8bd3d8d60f92e91f14439ebe10a068",
+      "integratedSha256": "1b4bf715fd31da34fc9e68471acdd246fa8bd3d8d60f92e91f14439ebe10a068",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/17-react-typing-default-restart-measure.json",
+      "executorSha256": "a6b9f86a40cd3d36af881ad0624bf4bdbce645a20c7adaee2784e623ef4039e5",
+      "integratedSha256": "a6b9f86a40cd3d36af881ad0624bf4bdbce645a20c7adaee2784e623ef4039e5",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/18-react-typing-default-off-edited-oracle.json",
+      "executorSha256": "4a4b432ea29874a059ac9e5e255ffab5bf2fc0c7b7992f7ef38f0a9b9c021f1d",
+      "integratedSha256": "4a4b432ea29874a059ac9e5e255ffab5bf2fc0c7b7992f7ef38f0a9b9c021f1d",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/20-react-typing-projectService-off-measure.json",
+      "executorSha256": "2859dd7519e98e2c119dc1921829d3c98ca37e235b66ed4d525afd977025b449",
+      "integratedSha256": "2859dd7519e98e2c119dc1921829d3c98ca37e235b66ed4d525afd977025b449",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/22-react-typing-projectService-populate-measure.json",
+      "executorSha256": "2849780efd0e7d5f7bd6453b7f97303c95a3dc091f6c805a473943faee7dd2f2",
+      "integratedSha256": "2849780efd0e7d5f7bd6453b7f97303c95a3dc091f6c805a473943faee7dd2f2",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/24-react-typing-projectService-populate-seed.json",
+      "executorSha256": "64fe4fab269e088992314475975261ce088221785f70205f92ac68b86fed661a",
+      "integratedSha256": "64fe4fab269e088992314475975261ce088221785f70205f92ac68b86fed661a",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/25-react-typing-projectService-restart-measure.json",
+      "executorSha256": "89fa37101f23c89be0072a0d8ea32bc6270effd3fe9e0c9b39e976a13ce30dd2",
+      "integratedSha256": "89fa37101f23c89be0072a0d8ea32bc6270effd3fe9e0c9b39e976a13ce30dd2",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls/26-react-typing-projectService-off-edited-oracle.json",
+      "executorSha256": "3c62add08a12cc767f3c73f51bbc806884b5b354a36e80c28004a6b735639eba",
+      "integratedSha256": "3c62add08a12cc767f3c73f51bbc806884b5b354a36e80c28004a6b735639eba",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/01-large-project-default-off-measure.json",
+      "executorSha256": "116a66147d1ec46f384bdca6c6dadb2479cfa830f7edd8c6291e38d5367905d9",
+      "integratedSha256": "116a66147d1ec46f384bdca6c6dadb2479cfa830f7edd8c6291e38d5367905d9",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/02-large-project-default-populate-measure.json",
+      "executorSha256": "c1fadc730c5b916015642ac0c557a73a622b55f25b0fd8134872c57e389c51a0",
+      "integratedSha256": "c1fadc730c5b916015642ac0c557a73a622b55f25b0fd8134872c57e389c51a0",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/03-large-project-default-populate-seed.json",
+      "executorSha256": "9b81efe8054541a26a41f577a6be82ad7e6628626d6555d9d650a852816213b8",
+      "integratedSha256": "9b81efe8054541a26a41f577a6be82ad7e6628626d6555d9d650a852816213b8",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/04-large-project-default-restart-measure.json",
+      "executorSha256": "1f8612bfb4b08722a061303f74aff6d91939a29dd87bd96c7ff987788f8163cf",
+      "integratedSha256": "1f8612bfb4b08722a061303f74aff6d91939a29dd87bd96c7ff987788f8163cf",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/05-large-project-default-off-edited-oracle.json",
+      "executorSha256": "f51de2752d2786c86ae6ada38acc4267f6172647c30a8afaff8d5857e6d2716f",
+      "integratedSha256": "f51de2752d2786c86ae6ada38acc4267f6172647c30a8afaff8d5857e6d2716f",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/06-large-project-projectService-off-measure.json",
+      "executorSha256": "dace4c5f5006b520cc9e1539625294b780b35392ee90707bd375d813e927c1c7",
+      "integratedSha256": "dace4c5f5006b520cc9e1539625294b780b35392ee90707bd375d813e927c1c7",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/07-large-project-projectService-populate-measure.json",
+      "executorSha256": "5a88840244090f21e6c76d3573ada05e22f595b836b703e9be8c3f1b8a86c977",
+      "integratedSha256": "5a88840244090f21e6c76d3573ada05e22f595b836b703e9be8c3f1b8a86c977",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/08-large-project-projectService-populate-seed.json",
+      "executorSha256": "08ef113171321c2ff27c00ee825fb331f993f950229f4b62fecb4a0e3133cdd2",
+      "integratedSha256": "08ef113171321c2ff27c00ee825fb331f993f950229f4b62fecb4a0e3133cdd2",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/09-large-project-projectService-restart-measure.json",
+      "executorSha256": "0c113c9d23e5cea35621fb52924baeff53f0b30690e3203eae0afd5cdd59c888",
+      "integratedSha256": "0c113c9d23e5cea35621fb52924baeff53f0b30690e3203eae0afd5cdd59c888",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/10-large-project-projectService-off-edited-oracle.json",
+      "executorSha256": "a6a3b8cc3862aff2be2241b9dc9a8ca0ba7ec9f615d90c5f0fc34d40755f137f",
+      "integratedSha256": "a6a3b8cc3862aff2be2241b9dc9a8ca0ba7ec9f615d90c5f0fc34d40755f137f",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/12-react-typing-default-off-measure.json",
+      "executorSha256": "d523d3a141e686220ceeb08ef655301c844c91456f62b1944af27e38f7a42977",
+      "integratedSha256": "d523d3a141e686220ceeb08ef655301c844c91456f62b1944af27e38f7a42977",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/14-react-typing-default-populate-measure.json",
+      "executorSha256": "246cb8dccbcae9fd1cfebba67750762adbd602803e4707cf6b5626790653175d",
+      "integratedSha256": "246cb8dccbcae9fd1cfebba67750762adbd602803e4707cf6b5626790653175d",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/16-react-typing-default-populate-seed.json",
+      "executorSha256": "1f508eec222eb585308611a32544762656760495637282cb69bbf25cc23631f8",
+      "integratedSha256": "1f508eec222eb585308611a32544762656760495637282cb69bbf25cc23631f8",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/17-react-typing-default-restart-measure.json",
+      "executorSha256": "30a7f74e511ba9fca01abe792ac0b21583aa95dbe823483509c358aa8abe3a21",
+      "integratedSha256": "30a7f74e511ba9fca01abe792ac0b21583aa95dbe823483509c358aa8abe3a21",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/18-react-typing-default-off-edited-oracle.json",
+      "executorSha256": "00586f7b275278b6e4bd943d7dfe3ad4bdef7d03eb9b579e0902b6ff5e474731",
+      "integratedSha256": "00586f7b275278b6e4bd943d7dfe3ad4bdef7d03eb9b579e0902b6ff5e474731",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/20-react-typing-projectService-off-measure.json",
+      "executorSha256": "2b7ca70dfcb9c078dc718eaaaefad47f75b294140f93434e226f95e91a77e59b",
+      "integratedSha256": "2b7ca70dfcb9c078dc718eaaaefad47f75b294140f93434e226f95e91a77e59b",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/22-react-typing-projectService-populate-measure.json",
+      "executorSha256": "7e77f326370610b9b4e30e4062c10d629cc9ef12aaf22eb41bd8b453d294869e",
+      "integratedSha256": "7e77f326370610b9b4e30e4062c10d629cc9ef12aaf22eb41bd8b453d294869e",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/24-react-typing-projectService-populate-seed.json",
+      "executorSha256": "a48c0ed2cae4812b2e46d6173795df5cf694685d1379f67c88ffd691e1844e83",
+      "integratedSha256": "a48c0ed2cae4812b2e46d6173795df5cf694685d1379f67c88ffd691e1844e83",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/25-react-typing-projectService-restart-measure.json",
+      "executorSha256": "0013f50b8db5ff5e44c0f62fe62a33d10753f0f0c55b0b638d2966ffd198e838",
+      "integratedSha256": "0013f50b8db5ff5e44c0f62fe62a33d10753f0f0c55b0b638d2966ffd198e838",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-os-temp/26-react-typing-projectService-off-edited-oracle.json",
+      "executorSha256": "dd95365f201dc52d3fbf9d0f0dbebdb1717f89526ac26de162a9ba49ff7b6f32",
+      "integratedSha256": "dd95365f201dc52d3fbf9d0f0dbebdb1717f89526ac26de162a9ba49ff7b6f32",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-results-worktree-topology.json",
+      "executorSha256": "2127ce15e2c863f01aefe3534c82000787facb7765a66c3a9abcba0f7c954c9e",
+      "integratedSha256": "2127ce15e2c863f01aefe3534c82000787facb7765a66c3a9abcba0f7c954c9e",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-results.json",
+      "executorSha256": "b4ab0d17b71b018dd78f3eb16d3f2ea151f7a0d275a2f4457a6700c7de50d776",
+      "integratedSha256": "b4ab0d17b71b018dd78f3eb16d3f2ea151f7a0d275a2f4457a6700c7de50d776",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls-worktree-topology.txt",
+      "executorSha256": "ff4858b7e4cb6a2b627eec05b1ec1f2abeca09520e4e17c82998f84e8815f84d",
+      "integratedSha256": "ff4858b7e4cb6a2b627eec05b1ec1f2abeca09520e4e17c82998f84e8815f84d",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls.mjs",
+      "executorSha256": "7e1e46774631bbfb15804d5a488f0237c777a4d2e358dcb463accca0b52ca89b",
+      "integratedSha256": "7e1e46774631bbfb15804d5a488f0237c777a4d2e358dcb463accca0b52ca89b",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/controls.txt",
+      "executorSha256": "ff4858b7e4cb6a2b627eec05b1ec1f2abeca09520e4e17c82998f84e8815f84d",
+      "integratedSha256": "ff4858b7e4cb6a2b627eec05b1ec1f2abeca09520e4e17c82998f84e8815f84d",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/executor-final-checks.json",
+      "executorSha256": "098195c63617504ede6ae440d0606c508f66c771025fc3ef994c2ee18e736f33",
+      "integratedSha256": "098195c63617504ede6ae440d0606c508f66c771025fc3ef994c2ee18e736f33",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/freeze-before-dirty-check.txt",
+      "executorSha256": "3ae566ccab3890df325a00c0b2612876b8a4d8a4b2edadd39654a618b2413d86",
+      "integratedSha256": "3ae566ccab3890df325a00c0b2612876b8a4d8a4b2edadd39654a618b2413d86",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/freeze.mjs",
+      "executorSha256": "2b18784efc626abbfaa40fd06f8936affe1888db906eddd143707b071fc681d8",
+      "integratedSha256": "2b18784efc626abbfaa40fd06f8936affe1888db906eddd143707b071fc681d8",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/freeze.txt",
+      "executorSha256": "3ae566ccab3890df325a00c0b2612876b8a4d8a4b2edadd39654a618b2413d86",
+      "integratedSha256": "3ae566ccab3890df325a00c0b2612876b8a4d8a4b2edadd39654a618b2413d86",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/frozen-identity-before-dirty-check.json",
+      "executorSha256": "02417d54e391be1b21d74c7507dc1d3b4cc545f2e0ead671f0604dcb8956ac59",
+      "integratedSha256": "02417d54e391be1b21d74c7507dc1d3b4cc545f2e0ead671f0604dcb8956ac59",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/frozen-identity.json",
+      "executorSha256": "87d9aa257bd1ad2fcd3b100a971cf83d2e3ac25125c75c32f9c3a9173987aeb3",
+      "integratedSha256": "87d9aa257bd1ad2fcd3b100a971cf83d2e3ac25125c75c32f9c3a9173987aeb3",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/independent-statistics.json",
+      "executorSha256": "d9d6a52abd63689a90e2c9ec1df52749e103014c2ece1b6cf9f9be38b6471af2",
+      "integratedSha256": "d9d6a52abd63689a90e2c9ec1df52749e103014c2ece1b6cf9f9be38b6471af2",
+      "action": "identical existing root file"
+    },
+    {
+      "path": "plans/035-evidence/initial-summary.json",
+      "executorSha256": "5e95210f979bc09aed5bafd4e62481841231204cbdcb6344475a013f378356db",
+      "integratedSha256": "5e95210f979bc09aed5bafd4e62481841231204cbdcb6344475a013f378356db",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/pre-timing-readiness.json",
+      "executorSha256": "97cca105fd557aebe5f8f6805406a4f4c67cf682db7fa89acbacde82bb70a49f",
+      "integratedSha256": "97cca105fd557aebe5f8f6805406a4f4c67cf682db7fa89acbacde82bb70a49f",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/reused-runtime-proof.json",
+      "executorSha256": "8796bde726973b555679577405c9897b9aadad748b9ea4926574a3b8bde9e446",
+      "integratedSha256": "8796bde726973b555679577405c9897b9aadad748b9ea4926574a3b8bde9e446",
+      "action": "identical existing root file"
+    },
+    {
+      "path": "plans/035-evidence/root-readiness.json",
+      "executorSha256": "1f9fb422e426d4fe4d1a0ac9af8b1038d0cadc0dd39d9e4b467c0678a7de9778",
+      "integratedSha256": "1f9fb422e426d4fe4d1a0ac9af8b1038d0cadc0dd39d9e4b467c0678a7de9778",
+      "action": "identical existing root file"
+    },
+    {
+      "path": "plans/035-evidence/run-matrix.mjs",
+      "executorSha256": "6cf67ed546a3c03648e7d4668c448b6398f1e19a8cc684861368a250d36759e5",
+      "integratedSha256": "6cf67ed546a3c03648e7d4668c448b6398f1e19a8cc684861368a250d36759e5",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/setup/common.mjs.worktree-topology.txt",
+      "executorSha256": "c19c0437aaa5ef25bab6200b3541ccd38f5d89abe3a23bd3d18a211fef3090c5",
+      "integratedSha256": "c19c0437aaa5ef25bab6200b3541ccd38f5d89abe3a23bd3d18a211fef3090c5",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/setup/controls.mjs.worktree-topology.txt",
+      "executorSha256": "aaf358a9249c1043ba573d0126c3705b49c4b8837252a48d26264fa1077206e8",
+      "integratedSha256": "aaf358a9249c1043ba573d0126c3705b49c4b8837252a48d26264fa1077206e8",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/setup/final-whitespace-command-note.json",
+      "executorSha256": "3601e036c8d8cb91734604a9e55d304337906c01821f813f5f510a59df93759f",
+      "integratedSha256": "3601e036c8d8cb91734604a9e55d304337906c01821f813f5f510a59df93759f",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/setup/freeze.mjs.worktree-topology.txt",
+      "executorSha256": "8108db2972662e22f5b5056b38f813d1c56f75de3937410c558970a586314f99",
+      "integratedSha256": "8108db2972662e22f5b5056b38f813d1c56f75de3937410c558970a586314f99",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/setup/topology-correction.json",
+      "executorSha256": "b22d00470bcad44bab1122dac98d25f4f424647296155750245f70e14f4d5da9",
+      "integratedSha256": "b22d00470bcad44bab1122dac98d25f4f424647296155750245f70e14f4d5da9",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/setup-note.txt",
+      "executorSha256": "a3164bae4b2d76eedd2cefcedacde4895222f5b775783a4c5619298e8f8539f7",
+      "integratedSha256": "a3164bae4b2d76eedd2cefcedacde4895222f5b775783a4c5619298e8f8539f7",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/summarize.mjs",
+      "executorSha256": "eaccdd8d2e433f96b8e4e66186327908227676beaf0428ccc062d0ce7c7c699e",
+      "integratedSha256": "eaccdd8d2e433f96b8e4e66186327908227676beaf0428ccc062d0ce7c7c699e",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/summary.json",
+      "executorSha256": "5e95210f979bc09aed5bafd4e62481841231204cbdcb6344475a013f378356db",
+      "integratedSha256": "5e95210f979bc09aed5bafd4e62481841231204cbdcb6344475a013f378356db",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-off-01.json",
+      "executorSha256": "e519e115f2dd2da331ecfd6037a6ed2d5a2e9b95b7c4cf91a4a1f0902854b32b",
+      "integratedSha256": "e519e115f2dd2da331ecfd6037a6ed2d5a2e9b95b7c4cf91a4a1f0902854b32b",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-off-02.json",
+      "executorSha256": "a01559409a546c466909de6270c0fce67fe575c26e2fdb7ead59205eb2e48aa9",
+      "integratedSha256": "a01559409a546c466909de6270c0fce67fe575c26e2fdb7ead59205eb2e48aa9",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-off-03.json",
+      "executorSha256": "65d1cac1bd8edf7f35ae2a96ea6b18049570096d27a956e5f4043af8c858e35d",
+      "integratedSha256": "65d1cac1bd8edf7f35ae2a96ea6b18049570096d27a956e5f4043af8c858e35d",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-off-04.json",
+      "executorSha256": "9d414fee3432a73a47b8b635483050b9d8023d0f2d10e3858554a6294237035e",
+      "integratedSha256": "9d414fee3432a73a47b8b635483050b9d8023d0f2d10e3858554a6294237035e",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-off-05.json",
+      "executorSha256": "927606ac1eee81def7a9ff5d3864b435edac507f7dafd54e5fc4c0c9a7ee1f34",
+      "integratedSha256": "927606ac1eee81def7a9ff5d3864b435edac507f7dafd54e5fc4c0c9a7ee1f34",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-populate-01.json",
+      "executorSha256": "613711216e371845427957fb279763c231648ca61c2b34636f3ce91f76cfe539",
+      "integratedSha256": "613711216e371845427957fb279763c231648ca61c2b34636f3ce91f76cfe539",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-populate-02.json",
+      "executorSha256": "090b8fcf3fc49a7578eb7ab25c839fc0e9dc424b4b5318f6450d21d9c83e98ce",
+      "integratedSha256": "090b8fcf3fc49a7578eb7ab25c839fc0e9dc424b4b5318f6450d21d9c83e98ce",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-populate-03.json",
+      "executorSha256": "d86bf937b3de013cbbbdfae3610965daa2ce5543ebfe6451b9cc3b720635a435",
+      "integratedSha256": "d86bf937b3de013cbbbdfae3610965daa2ce5543ebfe6451b9cc3b720635a435",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-populate-04.json",
+      "executorSha256": "557632622e6f209362ca1e162ca9c24bf6d7bbd6a528c2b319190d7f423909a7",
+      "integratedSha256": "557632622e6f209362ca1e162ca9c24bf6d7bbd6a528c2b319190d7f423909a7",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-populate-05.json",
+      "executorSha256": "86d32399b36450617c90bb741b521a664f9a37dfceca3258adbb45b202b4a108",
+      "integratedSha256": "86d32399b36450617c90bb741b521a664f9a37dfceca3258adbb45b202b4a108",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-restart-01.json",
+      "executorSha256": "f7d942e26da846cbd7bc80737b9f06176774570bad37fbea2517246cb3494a57",
+      "integratedSha256": "f7d942e26da846cbd7bc80737b9f06176774570bad37fbea2517246cb3494a57",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-restart-02.json",
+      "executorSha256": "52ce3554fec4fab6d2bb159dca2929a959997dd209a955705b915274de3e1c53",
+      "integratedSha256": "52ce3554fec4fab6d2bb159dca2929a959997dd209a955705b915274de3e1c53",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-restart-03.json",
+      "executorSha256": "16942437aafe0776a2484c5ef28eb92850a98d165e755566b39bcabfe4f321be",
+      "integratedSha256": "16942437aafe0776a2484c5ef28eb92850a98d165e755566b39bcabfe4f321be",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-restart-04.json",
+      "executorSha256": "a328ff2e645064beeba2b607461a54943f4b9303e1fc952b0d3e1ddf2faa44ef",
+      "integratedSha256": "a328ff2e645064beeba2b607461a54943f4b9303e1fc952b0d3e1ddf2faa44ef",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-default-restart-05.json",
+      "executorSha256": "a4d17480ca63b20a87d98425ad9c6d8da5ee1326e58bd28c8837ac85d1c1bb4f",
+      "integratedSha256": "a4d17480ca63b20a87d98425ad9c6d8da5ee1326e58bd28c8837ac85d1c1bb4f",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-off-01.json",
+      "executorSha256": "5ae72c0de4c15edd8e152ec75d6b3caa786274a8924f560a5de0a7b22038f69c",
+      "integratedSha256": "5ae72c0de4c15edd8e152ec75d6b3caa786274a8924f560a5de0a7b22038f69c",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-off-02.json",
+      "executorSha256": "cbbaa7bbea663437aa53b906e5211f3db4be27619a1f192d509534424ef756c8",
+      "integratedSha256": "cbbaa7bbea663437aa53b906e5211f3db4be27619a1f192d509534424ef756c8",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-off-03.json",
+      "executorSha256": "454ba40883ad7533fe97c0a2379283a87465983918a61ab8b1469f643c6bd3cb",
+      "integratedSha256": "454ba40883ad7533fe97c0a2379283a87465983918a61ab8b1469f643c6bd3cb",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-off-04.json",
+      "executorSha256": "a70de7b6679eae789a0d4c0768f866d93a68990444b6188997b03ecd497b2b40",
+      "integratedSha256": "a70de7b6679eae789a0d4c0768f866d93a68990444b6188997b03ecd497b2b40",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-off-05.json",
+      "executorSha256": "b1204211fa248e3f879608b23ebf0613f63be4c63713b27f74602248cb091d40",
+      "integratedSha256": "b1204211fa248e3f879608b23ebf0613f63be4c63713b27f74602248cb091d40",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-populate-01.json",
+      "executorSha256": "ef6972daf7d1503ed773dc7bc7b63fa61a98fa72b5543a9b723f373b77d7c2c0",
+      "integratedSha256": "ef6972daf7d1503ed773dc7bc7b63fa61a98fa72b5543a9b723f373b77d7c2c0",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-populate-02.json",
+      "executorSha256": "4f7e009b555d27c2986f1bc021e7a6c0bce5d924677f4476096f29c5a67094f8",
+      "integratedSha256": "4f7e009b555d27c2986f1bc021e7a6c0bce5d924677f4476096f29c5a67094f8",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-populate-03.json",
+      "executorSha256": "5a98fe227c02f92d7c9cf534f55f8b9bd75aa67dec2f357726dd7957f570b7da",
+      "integratedSha256": "5a98fe227c02f92d7c9cf534f55f8b9bd75aa67dec2f357726dd7957f570b7da",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-populate-04.json",
+      "executorSha256": "c6cdb41a78f80f7d087f0a6fb94ec7e18647c0f43cb5a46e46def1e4bb368dfa",
+      "integratedSha256": "c6cdb41a78f80f7d087f0a6fb94ec7e18647c0f43cb5a46e46def1e4bb368dfa",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-populate-05.json",
+      "executorSha256": "9e4dc1781b076d4d8d470ddad608bc1605d7295927dd558d867c7dc23f733bf8",
+      "integratedSha256": "9e4dc1781b076d4d8d470ddad608bc1605d7295927dd558d867c7dc23f733bf8",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-restart-01.json",
+      "executorSha256": "f746c79e342e6bc4cf336c0c03226ee965cd759a0dc57c0f20f2ae7353e15be5",
+      "integratedSha256": "f746c79e342e6bc4cf336c0c03226ee965cd759a0dc57c0f20f2ae7353e15be5",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-restart-02.json",
+      "executorSha256": "d197a1cdd23f9531a39f34cd7a6b2b8d71b308714137e35d7eb703f12dabd4d4",
+      "integratedSha256": "d197a1cdd23f9531a39f34cd7a6b2b8d71b308714137e35d7eb703f12dabd4d4",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-restart-03.json",
+      "executorSha256": "f96d833213f7b4845383571687686e1ccba745248dc9610c656168e59e6d48bd",
+      "integratedSha256": "f96d833213f7b4845383571687686e1ccba745248dc9610c656168e59e6d48bd",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-restart-04.json",
+      "executorSha256": "043593beaf971bf1164cbe5cffa0b9e1bdd9675498c1ba2aa4efb51ccd0caba1",
+      "integratedSha256": "043593beaf971bf1164cbe5cffa0b9e1bdd9675498c1ba2aa4efb51ccd0caba1",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/large-project-projectService-restart-05.json",
+      "executorSha256": "b0ed0ceaba38cf8a354a36f0ef814098413c2fa975e494a1567ee2c4fd1b3c0b",
+      "integratedSha256": "b0ed0ceaba38cf8a354a36f0ef814098413c2fa975e494a1567ee2c4fd1b3c0b",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-off-01.json",
+      "executorSha256": "674236d50cfc72c2473a92f8c399bae5d2793513f891ff2dde17cec1353f028d",
+      "integratedSha256": "674236d50cfc72c2473a92f8c399bae5d2793513f891ff2dde17cec1353f028d",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-off-02.json",
+      "executorSha256": "37039c25bbb62bbcd29ed98ff1339f86e753dc10139560b76e2d89895ac02a52",
+      "integratedSha256": "37039c25bbb62bbcd29ed98ff1339f86e753dc10139560b76e2d89895ac02a52",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-off-03.json",
+      "executorSha256": "6570547dd191c84354846a3a038308b58dfbcdda22094d612d694c0a3c9e5ca2",
+      "integratedSha256": "6570547dd191c84354846a3a038308b58dfbcdda22094d612d694c0a3c9e5ca2",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-off-04.json",
+      "executorSha256": "e95909175e60aa3c562e80233758520a303c158bddfcd4cabef3177673dfeb53",
+      "integratedSha256": "e95909175e60aa3c562e80233758520a303c158bddfcd4cabef3177673dfeb53",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-off-05.json",
+      "executorSha256": "7bd80ac3729b382d6a4b155cee89d837e5295d5e1301b6269fa5d8e2d67eeb8d",
+      "integratedSha256": "7bd80ac3729b382d6a4b155cee89d837e5295d5e1301b6269fa5d8e2d67eeb8d",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-populate-01.json",
+      "executorSha256": "fe15a1b03d5410cab324a8be6eadf39df4e2cf5b7a654b7f3829c1adc5ec4f45",
+      "integratedSha256": "fe15a1b03d5410cab324a8be6eadf39df4e2cf5b7a654b7f3829c1adc5ec4f45",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-populate-02.json",
+      "executorSha256": "27c23c1c39e05293680591891f0795ce3d54b89f0eb695914aa537385bff8006",
+      "integratedSha256": "27c23c1c39e05293680591891f0795ce3d54b89f0eb695914aa537385bff8006",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-populate-03.json",
+      "executorSha256": "08f7571723fca89311947bd4fc64e1456d11658dccff72b0f97baaa13b739dc4",
+      "integratedSha256": "08f7571723fca89311947bd4fc64e1456d11658dccff72b0f97baaa13b739dc4",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-populate-04.json",
+      "executorSha256": "e293d003c6e26456772522b09ed880cd17e574ee028f15c5554bb91f545f7817",
+      "integratedSha256": "e293d003c6e26456772522b09ed880cd17e574ee028f15c5554bb91f545f7817",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-populate-05.json",
+      "executorSha256": "c3f034d472b2fc468425f6c4f745ad29ec8c1b945fd1bf13c08e7f678eba190b",
+      "integratedSha256": "c3f034d472b2fc468425f6c4f745ad29ec8c1b945fd1bf13c08e7f678eba190b",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-restart-01.json",
+      "executorSha256": "a4f8eb82f921505887bed67dda670f3cbffaef216c740fcdb064d26d3317d04f",
+      "integratedSha256": "a4f8eb82f921505887bed67dda670f3cbffaef216c740fcdb064d26d3317d04f",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-restart-02.json",
+      "executorSha256": "3bf9b8a2d72d6f33f77666ba33f6c0172d7e990888abe5ab33d392a8cfe87827",
+      "integratedSha256": "3bf9b8a2d72d6f33f77666ba33f6c0172d7e990888abe5ab33d392a8cfe87827",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-restart-03.json",
+      "executorSha256": "706d77f6a67e2b587dde6c6a87f16f0c6f65fcf606e6cf7bd7b970ca955c9543",
+      "integratedSha256": "706d77f6a67e2b587dde6c6a87f16f0c6f65fcf606e6cf7bd7b970ca955c9543",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-restart-04.json",
+      "executorSha256": "fe1c5b5018c19ee8482f10df56de4e4fb631428d4887cdb8ad9803ec6fb5d6f9",
+      "integratedSha256": "fe1c5b5018c19ee8482f10df56de4e4fb631428d4887cdb8ad9803ec6fb5d6f9",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-default-restart-05.json",
+      "executorSha256": "574ec895c524de880015dde7962f1712ce68825c1213513680a412064c3bbe57",
+      "integratedSha256": "574ec895c524de880015dde7962f1712ce68825c1213513680a412064c3bbe57",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-off-01.json",
+      "executorSha256": "52d2e76545808e4dcf153450213dc837ee741fcc9ac2b3f5e85c681691d9623d",
+      "integratedSha256": "52d2e76545808e4dcf153450213dc837ee741fcc9ac2b3f5e85c681691d9623d",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-off-02.json",
+      "executorSha256": "1dba7b49db23bdac1c6ce596347a47a7f132f81008589cde4e6930cc51d4ab09",
+      "integratedSha256": "1dba7b49db23bdac1c6ce596347a47a7f132f81008589cde4e6930cc51d4ab09",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-off-03.json",
+      "executorSha256": "9b2b492c2ab0865dc6879f65fee0d7f3d5bef03eed481f595dfae9b4e3215180",
+      "integratedSha256": "9b2b492c2ab0865dc6879f65fee0d7f3d5bef03eed481f595dfae9b4e3215180",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-off-04.json",
+      "executorSha256": "7eccf9512cbbec14da8b0264ce11bdbfcd3ac7cc267ad55ce83c5a6921f164aa",
+      "integratedSha256": "7eccf9512cbbec14da8b0264ce11bdbfcd3ac7cc267ad55ce83c5a6921f164aa",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-off-05.json",
+      "executorSha256": "fde4698cc844f7cdfe41d3cbd71fbdb1d81afe2ab341192f9e16ff8db6d24382",
+      "integratedSha256": "fde4698cc844f7cdfe41d3cbd71fbdb1d81afe2ab341192f9e16ff8db6d24382",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-populate-01.json",
+      "executorSha256": "1097061fd9bd73d0c6f7da7ebd9ce9a05018b13e02701da5071cc97de7e03d01",
+      "integratedSha256": "1097061fd9bd73d0c6f7da7ebd9ce9a05018b13e02701da5071cc97de7e03d01",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-populate-02.json",
+      "executorSha256": "c9a169088a27a9c7b7ab41ed908468ebcedb882d72d15822cb8ef60296acdb76",
+      "integratedSha256": "c9a169088a27a9c7b7ab41ed908468ebcedb882d72d15822cb8ef60296acdb76",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-populate-03.json",
+      "executorSha256": "5d79d9717b047ccbc233ce1aea75d800a876c34b9002760e27dc568775840904",
+      "integratedSha256": "5d79d9717b047ccbc233ce1aea75d800a876c34b9002760e27dc568775840904",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-populate-04.json",
+      "executorSha256": "88ec26fd0ae0ad4756d2bf7ed9d49b05872a3c2201b9f41cf9d246652496f2e9",
+      "integratedSha256": "88ec26fd0ae0ad4756d2bf7ed9d49b05872a3c2201b9f41cf9d246652496f2e9",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-populate-05.json",
+      "executorSha256": "cb9ae56ff0bc22df5221210c8a311adfd33845465bcbd6c1ebaf93cbafaf60d5",
+      "integratedSha256": "cb9ae56ff0bc22df5221210c8a311adfd33845465bcbd6c1ebaf93cbafaf60d5",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-restart-01.json",
+      "executorSha256": "cdce70f87e1fd42d384ff514a24920470d181eb6e6501596c7eb192475084fd1",
+      "integratedSha256": "cdce70f87e1fd42d384ff514a24920470d181eb6e6501596c7eb192475084fd1",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-restart-02.json",
+      "executorSha256": "27d2dcd842c2b1203c45c56f6e14e52bd1f0af60d8753570c875e32b084a6e25",
+      "integratedSha256": "27d2dcd842c2b1203c45c56f6e14e52bd1f0af60d8753570c875e32b084a6e25",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-restart-03.json",
+      "executorSha256": "c2a249f7fd01334072f4837ec759fab07dbc615df2800d2639c6cb0e77f725d7",
+      "integratedSha256": "c2a249f7fd01334072f4837ec759fab07dbc615df2800d2639c6cb0e77f725d7",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-restart-04.json",
+      "executorSha256": "ee503bf79844c7769dbedbba395c0f5e0ded28b787590d9e9ce4f0fb630b84ec",
+      "integratedSha256": "ee503bf79844c7769dbedbba395c0f5e0ded28b787590d9e9ce4f0fb630b84ec",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/timings/react-typing-projectService-restart-05.json",
+      "executorSha256": "dbf0017aa94bda6c7cec5a43de22aa1b03d637e2a4d3131bc894dbe4e45983c3",
+      "integratedSha256": "dbf0017aa94bda6c7cec5a43de22aa1b03d637e2a4d3131bc894dbe4e45983c3",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/verification.json",
+      "executorSha256": "b7af698e288d1af3276ba7206598cb8985101078130ea51af46fba6d410c9a26",
+      "integratedSha256": "b7af698e288d1af3276ba7206598cb8985101078130ea51af46fba6d410c9a26",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/verification.txt",
+      "executorSha256": "affeb01930334d8694eaa7adbc30816f1bfa321dd525ea7063bddee9e294147b",
+      "integratedSha256": "affeb01930334d8694eaa7adbc30816f1bfa321dd525ea7063bddee9e294147b",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-evidence/verify-evidence.mjs",
+      "executorSha256": "fa7792cd20ca69a4f284af5190115d9b0da97e61dd6b7065c317a4f1883338e8",
+      "integratedSha256": "fa7792cd20ca69a4f284af5190115d9b0da97e61dd6b7065c317a4f1883338e8",
+      "action": "copied byte-exact"
+    },
+    {
+      "path": "plans/035-persistent-cache-measurement.md",
+      "executorSha256": "db44730c3c5f0d5253139d9ca6d37ea1ff368178365f546a68649f065017552a",
+      "integratedSha256": "db44730c3c5f0d5253139d9ca6d37ea1ff368178365f546a68649f065017552a",
+      "action": "copied byte-exact"
+    }
+  ],
+  "note": "Byte-copy audit before root status-only update to the measurement report; raw evidence is unchanged. Executor inventory describes original delivery."
+}

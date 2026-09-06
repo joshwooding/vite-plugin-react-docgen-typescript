@@ -1,0 +1,4 @@
+large-project/default: true hits, full metadata oracle, affected identities and restoration PASS
+large-project/projectService: true hits, full metadata oracle, affected identities and restoration PASS
+react-typing/default: true hits, full metadata oracle, affected identities and restoration PASS
+react-typing/projectService: true hits, full metadata oracle, affected identities and restoration PASS

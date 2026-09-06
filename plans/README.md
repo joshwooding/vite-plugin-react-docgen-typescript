@@ -30,6 +30,12 @@ general benchmark framework is not the default solution.
 
 ## Recommended order
 
+The selected [Plan 035](035-recheck-optimized-persistence.md) is complete: 60
+current-artifact measurements, genuine-hit/full-metadata controls and independent
+statistics verification pass. Its SIMPLIFY_OR_DEPRECATE result supports the
+compatible notice proposed in 026 on the two tested fixtures. No deprecation or
+runtime change is implemented. See [035 verification](035-verification.md).
+
 The user selected follow-up [Plan 034](034-document-explicit-external-type-watches.md).
 Its documentation and tests are reviewed and integrated at unsigned local source
 commit **653e203**: 29 focused tests, eight native boundary executions and 40
@@ -71,6 +77,7 @@ agreement and a reproduced shared-type freshness failure.
 | [032](032-profile-optimized-salt.md) | Profile the optimized Salt workload | P2 | S | LOW: evidence only | 029 | DONE — four CPU profiles, eight full metadata checks and independent audit pass; led to completed Plan 033 |
 | [033](033-reuse-backend-canonical-dependencies.md) | Reuse canonical dependency output within the backend | P2 | M | MED | 029, 032 | DONE at unsigned source commit 09039b9 — 343 tests, ten matrix rows and 24 samples pass; 53–55% Salt cold/edit benefit; external review clean; main source/build verified |
 | [034](034-document-explicit-external-type-watches.md) | Document and verify explicit external type directory watches | P2 | M | LOW: runtime unchanged | 023, 033 | DONE at unsigned source commit 653e203 - 29 tests, eight native rows/40 mutations; external review clean; runtime unchanged |
+| [035](035-recheck-optimized-persistence.md) | Recheck disk persistence on the optimized runtime | P3 | M | LOW: evidence only | 024, 026, 033, 034 | DONE - 60 samples, true-hit/full-metadata controls and independent audit; SIMPLIFY_OR_DEPRECATE, no product change |
 
 The earlier implementation and integration sequence is complete and should not be repeated.
 The user selected backlog items 1–4; all four are complete with the stated limits.
@@ -136,8 +143,12 @@ Plan 024 measured the corrected persistent-cache path: 60 process samples on
 5f448ec support SIMPLIFY_OR_DEPRECATE. Larger-fixture restarts were 20.6–21.7%
 slower; React-fixture restarts saved 10.4–11.7%, below the predefined threshold.
 Restart HMR was 23.4–68.4% slower across the four comparisons. See
-[024 verification](024-verification.md). Keep disk persistence disabled by default
-and prepare a compatible simplification/deprecation proposal before removing it.
+[024 verification](024-verification.md) for that historical artifact.
+The post-033 recheck in [035](035-verification.md) also returns
+SIMPLIFY_OR_DEPRECATE: larger-fixture restarts were 35.0–36.2% slower; React-fixture
+startup saved 6.1–6.4%; restart HMR was 19.5–107.7% slower. These are bounded
+Windows fixture results. Keep disk persistence disabled by default; the compatible
+notice in [026](026-deprecate-filesystem-cache.md) is prepared, with no removal yet.
 Do not add shared fingerprint caches or weaken freshness checks on this evidence.
 
 Deferred rather than silently removed:

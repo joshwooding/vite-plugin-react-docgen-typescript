@@ -1,0 +1,848 @@
+{
+  "schemaVersion": 1,
+  "evaluatedIdentity": {
+    "buildSha256": "3a61a22a4aa55cf339f79dedd66c429140ba6d6da1d421dea28c8f57cd0e3e88",
+    "sourceSha256": "0180d4d65884e267f209017838ede6c4e1eb7118ddcb0ac978f45674c98403ff",
+    "benchmarkSha256": "98dcc2e368f784dd67572bd80223913534deb864fa541e287390e635b0c1a0c7",
+    "gitHead": "ec7455ac7bf3986610b7f79291dd1acae644beba",
+    "pluginVersion": "0.8.0",
+    "dependencies": {
+      "typescript": "6.0.3",
+      "react-docgen-typescript": "2.2.2",
+      "react": "18.3.1",
+      "@types/react": "18.2.25",
+      "vite": "8.1.5"
+    }
+  },
+  "rows": [
+    {
+      "scenario": "large-project",
+      "mode": "default",
+      "cache": "off",
+      "count": 5,
+      "cold": {
+        "median": 1168.5748999999998,
+        "mad": 8.107100000000173
+      },
+      "warm": {
+        "median": 8.102600000000166,
+        "mad": 0.2998000000002321
+      },
+      "hmr": {
+        "median": 556.7294999999999,
+        "mad": 11.113100000000031
+      },
+      "session": {
+        "median": 1734.8747,
+        "mad": 9.244699999999966
+      },
+      "samples": [
+        "timings/large-project-default-off-01.json",
+        "timings/large-project-default-off-02.json",
+        "timings/large-project-default-off-03.json",
+        "timings/large-project-default-off-04.json",
+        "timings/large-project-default-off-05.json"
+      ],
+      "fileCount": 16,
+      "affectedModuleCount": 9,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        0
+      ]
+    },
+    {
+      "scenario": "large-project",
+      "mode": "default",
+      "cache": "populate",
+      "count": 5,
+      "cold": {
+        "median": 1490.3015,
+        "mad": 24.462800000000243
+      },
+      "warm": {
+        "median": 8.055899999999838,
+        "mad": 0.40300000000002
+      },
+      "hmr": {
+        "median": 782.4492000000002,
+        "mad": 7.249399999999923
+      },
+      "session": {
+        "median": 2276.5193,
+        "mad": 29.870800000000145
+      },
+      "samples": [
+        "timings/large-project-default-populate-01.json",
+        "timings/large-project-default-populate-02.json",
+        "timings/large-project-default-populate-03.json",
+        "timings/large-project-default-populate-04.json",
+        "timings/large-project-default-populate-05.json"
+      ],
+      "fileCount": 16,
+      "affectedModuleCount": 9,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        16
+      ]
+    },
+    {
+      "scenario": "large-project",
+      "mode": "default",
+      "cache": "restart",
+      "count": 5,
+      "cold": {
+        "median": 1591.7703999999999,
+        "mad": 51.86389999999983
+      },
+      "warm": {
+        "median": 8.171699999999873,
+        "mad": 0.13999999999987267
+      },
+      "hmr": {
+        "median": 917.8095999999996,
+        "mad": 10.022699999999986
+      },
+      "session": {
+        "median": 2531.0730999999996,
+        "mad": 55.871200000000954
+      },
+      "samples": [
+        "timings/large-project-default-restart-01.json",
+        "timings/large-project-default-restart-02.json",
+        "timings/large-project-default-restart-03.json",
+        "timings/large-project-default-restart-04.json",
+        "timings/large-project-default-restart-05.json"
+      ],
+      "fileCount": 16,
+      "affectedModuleCount": 9,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        16
+      ],
+      "finalEntries": [
+        16
+      ]
+    },
+    {
+      "scenario": "large-project",
+      "mode": "projectService",
+      "cache": "off",
+      "count": 5,
+      "cold": {
+        "median": 1272.2501000000002,
+        "mad": 24.605199999999968
+      },
+      "warm": {
+        "median": 13.2333000000001,
+        "mad": 0.5139999999998963
+      },
+      "hmr": {
+        "median": 304.2137,
+        "mad": 11.91090000000031
+      },
+      "session": {
+        "median": 1598.1457,
+        "mad": 36.90189999999984
+      },
+      "samples": [
+        "timings/large-project-projectService-off-01.json",
+        "timings/large-project-projectService-off-02.json",
+        "timings/large-project-projectService-off-03.json",
+        "timings/large-project-projectService-off-04.json",
+        "timings/large-project-projectService-off-05.json"
+      ],
+      "fileCount": 16,
+      "affectedModuleCount": 9,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        0
+      ]
+    },
+    {
+      "scenario": "large-project",
+      "mode": "projectService",
+      "cache": "populate",
+      "count": 5,
+      "cold": {
+        "median": 1567.0685,
+        "mad": 22.23739999999998
+      },
+      "warm": {
+        "median": 14.330500000000029,
+        "mad": 1.245300000000043
+      },
+      "hmr": {
+        "median": 511.6327000000001,
+        "mad": 9.075800000000072
+      },
+      "session": {
+        "median": 2080.2965000000004,
+        "mad": 24.584900000000744
+      },
+      "samples": [
+        "timings/large-project-projectService-populate-01.json",
+        "timings/large-project-projectService-populate-02.json",
+        "timings/large-project-projectService-populate-03.json",
+        "timings/large-project-projectService-populate-04.json",
+        "timings/large-project-projectService-populate-05.json"
+      ],
+      "fileCount": 16,
+      "affectedModuleCount": 9,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        16
+      ]
+    },
+    {
+      "scenario": "large-project",
+      "mode": "projectService",
+      "cache": "restart",
+      "count": 5,
+      "cold": {
+        "median": 1717.9485999999997,
+        "mad": 24.681699999999182
+      },
+      "warm": {
+        "median": 14.303299999999581,
+        "mad": 1.0255999999994856
+      },
+      "hmr": {
+        "median": 631.7735999999995,
+        "mad": 50.370399999999336
+      },
+      "session": {
+        "median": 2364.9824000000003,
+        "mad": 128.44190000000071
+      },
+      "samples": [
+        "timings/large-project-projectService-restart-01.json",
+        "timings/large-project-projectService-restart-02.json",
+        "timings/large-project-projectService-restart-03.json",
+        "timings/large-project-projectService-restart-04.json",
+        "timings/large-project-projectService-restart-05.json"
+      ],
+      "fileCount": 16,
+      "affectedModuleCount": 9,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        16
+      ],
+      "finalEntries": [
+        16
+      ]
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "default",
+      "cache": "off",
+      "count": 5,
+      "cold": {
+        "median": 1251.8843000000002,
+        "mad": 52.17329999999993
+      },
+      "warm": {
+        "median": 1.7010000000000218,
+        "mad": 0.09140000000024884
+      },
+      "hmr": {
+        "median": 542.8160000000003,
+        "mad": 16.51819999999998
+      },
+      "session": {
+        "median": 1798.1747,
+        "mad": 49.91710000000012
+      },
+      "samples": [
+        "timings/react-typing-default-off-01.json",
+        "timings/react-typing-default-off-02.json",
+        "timings/react-typing-default-off-03.json",
+        "timings/react-typing-default-off-04.json",
+        "timings/react-typing-default-off-05.json"
+      ],
+      "fileCount": 3,
+      "affectedModuleCount": 2,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        0
+      ]
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "default",
+      "cache": "populate",
+      "count": 5,
+      "cold": {
+        "median": 1270.5915,
+        "mad": 6.388800000000174
+      },
+      "warm": {
+        "median": 2.0045000000000073,
+        "mad": 0.274199999999837
+      },
+      "hmr": {
+        "median": 606.4448999999995,
+        "mad": 9.064800000000105
+      },
+      "session": {
+        "median": 1971.7550000000006,
+        "mad": 22.8765999999996
+      },
+      "samples": [
+        "timings/react-typing-default-populate-01.json",
+        "timings/react-typing-default-populate-02.json",
+        "timings/react-typing-default-populate-03.json",
+        "timings/react-typing-default-populate-04.json",
+        "timings/react-typing-default-populate-05.json"
+      ],
+      "fileCount": 3,
+      "affectedModuleCount": 2,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        3
+      ]
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "default",
+      "cache": "restart",
+      "count": 5,
+      "cold": {
+        "median": 1172.2087000000001,
+        "mad": 54.137600000000475
+      },
+      "warm": {
+        "median": 2.160899999999856,
+        "mad": 0.21230000000014115
+      },
+      "hmr": {
+        "median": 648.9341999999997,
+        "mad": 38.23940000000084
+      },
+      "session": {
+        "median": 1802.6388000000002,
+        "mad": 39.489100000000235
+      },
+      "samples": [
+        "timings/react-typing-default-restart-01.json",
+        "timings/react-typing-default-restart-02.json",
+        "timings/react-typing-default-restart-03.json",
+        "timings/react-typing-default-restart-04.json",
+        "timings/react-typing-default-restart-05.json"
+      ],
+      "fileCount": 3,
+      "affectedModuleCount": 2,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        3
+      ],
+      "finalEntries": [
+        3
+      ]
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "projectService",
+      "cache": "off",
+      "count": 5,
+      "cold": {
+        "median": 1301.1835,
+        "mad": 31.024599999999737
+      },
+      "warm": {
+        "median": 2.7208999999998014,
+        "mad": 0.2966000000005806
+      },
+      "hmr": {
+        "median": 155.4341999999997,
+        "mad": 12.207000000000335
+      },
+      "session": {
+        "median": 1474.5403999999999,
+        "mad": 26.965000000000146
+      },
+      "samples": [
+        "timings/react-typing-projectService-off-01.json",
+        "timings/react-typing-projectService-off-02.json",
+        "timings/react-typing-projectService-off-03.json",
+        "timings/react-typing-projectService-off-04.json",
+        "timings/react-typing-projectService-off-05.json"
+      ],
+      "fileCount": 3,
+      "affectedModuleCount": 2,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        0
+      ]
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "projectService",
+      "cache": "populate",
+      "count": 5,
+      "cold": {
+        "median": 1339.7377000000001,
+        "mad": 30.756600000000617
+      },
+      "warm": {
+        "median": 2.4187000000001717,
+        "mad": 0.12590000000000146
+      },
+      "hmr": {
+        "median": 183.92230000000018,
+        "mad": 1.9865999999997257
+      },
+      "session": {
+        "median": 1537.1039,
+        "mad": 37.4372000000003
+      },
+      "samples": [
+        "timings/react-typing-projectService-populate-01.json",
+        "timings/react-typing-projectService-populate-02.json",
+        "timings/react-typing-projectService-populate-03.json",
+        "timings/react-typing-projectService-populate-04.json",
+        "timings/react-typing-projectService-populate-05.json"
+      ],
+      "fileCount": 3,
+      "affectedModuleCount": 2,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        0
+      ],
+      "finalEntries": [
+        3
+      ]
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "projectService",
+      "cache": "restart",
+      "count": 5,
+      "cold": {
+        "median": 1221.7028,
+        "mad": 9.294199999999819
+      },
+      "warm": {
+        "median": 2.612799999999879,
+        "mad": 0.05349999999998545
+      },
+      "hmr": {
+        "median": 252.1849000000002,
+        "mad": 7.918399999999565
+      },
+      "session": {
+        "median": 1468.8055000000004,
+        "mad": 17.561199999999644
+      },
+      "samples": [
+        "timings/react-typing-projectService-restart-01.json",
+        "timings/react-typing-projectService-restart-02.json",
+        "timings/react-typing-projectService-restart-03.json",
+        "timings/react-typing-projectService-restart-04.json",
+        "timings/react-typing-projectService-restart-05.json"
+      ],
+      "fileCount": 3,
+      "affectedModuleCount": 2,
+      "invalidatedModuleCount": 0,
+      "initialEntries": [
+        3
+      ],
+      "finalEntries": [
+        3
+      ]
+    }
+  ],
+  "initialRows": [
+    {
+      "scenario": "large-project",
+      "mode": "default",
+      "cache": "off",
+      "count": 5,
+      "cold": {
+        "median": 1168.5748999999998,
+        "mad": 8.107100000000173
+      },
+      "warm": {
+        "median": 8.102600000000166,
+        "mad": 0.2998000000002321
+      },
+      "hmr": {
+        "median": 556.7294999999999,
+        "mad": 11.113100000000031
+      },
+      "session": {
+        "median": 1734.8747,
+        "mad": 9.244699999999966
+      }
+    },
+    {
+      "scenario": "large-project",
+      "mode": "default",
+      "cache": "populate",
+      "count": 5,
+      "cold": {
+        "median": 1490.3015,
+        "mad": 24.462800000000243
+      },
+      "warm": {
+        "median": 8.055899999999838,
+        "mad": 0.40300000000002
+      },
+      "hmr": {
+        "median": 782.4492000000002,
+        "mad": 7.249399999999923
+      },
+      "session": {
+        "median": 2276.5193,
+        "mad": 29.870800000000145
+      }
+    },
+    {
+      "scenario": "large-project",
+      "mode": "default",
+      "cache": "restart",
+      "count": 5,
+      "cold": {
+        "median": 1591.7703999999999,
+        "mad": 51.86389999999983
+      },
+      "warm": {
+        "median": 8.171699999999873,
+        "mad": 0.13999999999987267
+      },
+      "hmr": {
+        "median": 917.8095999999996,
+        "mad": 10.022699999999986
+      },
+      "session": {
+        "median": 2531.0730999999996,
+        "mad": 55.871200000000954
+      }
+    },
+    {
+      "scenario": "large-project",
+      "mode": "projectService",
+      "cache": "off",
+      "count": 5,
+      "cold": {
+        "median": 1272.2501000000002,
+        "mad": 24.605199999999968
+      },
+      "warm": {
+        "median": 13.2333000000001,
+        "mad": 0.5139999999998963
+      },
+      "hmr": {
+        "median": 304.2137,
+        "mad": 11.91090000000031
+      },
+      "session": {
+        "median": 1598.1457,
+        "mad": 36.90189999999984
+      }
+    },
+    {
+      "scenario": "large-project",
+      "mode": "projectService",
+      "cache": "populate",
+      "count": 5,
+      "cold": {
+        "median": 1567.0685,
+        "mad": 22.23739999999998
+      },
+      "warm": {
+        "median": 14.330500000000029,
+        "mad": 1.245300000000043
+      },
+      "hmr": {
+        "median": 511.6327000000001,
+        "mad": 9.075800000000072
+      },
+      "session": {
+        "median": 2080.2965000000004,
+        "mad": 24.584900000000744
+      }
+    },
+    {
+      "scenario": "large-project",
+      "mode": "projectService",
+      "cache": "restart",
+      "count": 5,
+      "cold": {
+        "median": 1717.9485999999997,
+        "mad": 24.681699999999182
+      },
+      "warm": {
+        "median": 14.303299999999581,
+        "mad": 1.0255999999994856
+      },
+      "hmr": {
+        "median": 631.7735999999995,
+        "mad": 50.370399999999336
+      },
+      "session": {
+        "median": 2364.9824000000003,
+        "mad": 128.44190000000071
+      }
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "default",
+      "cache": "off",
+      "count": 5,
+      "cold": {
+        "median": 1251.8843000000002,
+        "mad": 52.17329999999993
+      },
+      "warm": {
+        "median": 1.7010000000000218,
+        "mad": 0.09140000000024884
+      },
+      "hmr": {
+        "median": 542.8160000000003,
+        "mad": 16.51819999999998
+      },
+      "session": {
+        "median": 1798.1747,
+        "mad": 49.91710000000012
+      }
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "default",
+      "cache": "populate",
+      "count": 5,
+      "cold": {
+        "median": 1270.5915,
+        "mad": 6.388800000000174
+      },
+      "warm": {
+        "median": 2.0045000000000073,
+        "mad": 0.274199999999837
+      },
+      "hmr": {
+        "median": 606.4448999999995,
+        "mad": 9.064800000000105
+      },
+      "session": {
+        "median": 1971.7550000000006,
+        "mad": 22.8765999999996
+      }
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "default",
+      "cache": "restart",
+      "count": 5,
+      "cold": {
+        "median": 1172.2087000000001,
+        "mad": 54.137600000000475
+      },
+      "warm": {
+        "median": 2.160899999999856,
+        "mad": 0.21230000000014115
+      },
+      "hmr": {
+        "median": 648.9341999999997,
+        "mad": 38.23940000000084
+      },
+      "session": {
+        "median": 1802.6388000000002,
+        "mad": 39.489100000000235
+      }
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "projectService",
+      "cache": "off",
+      "count": 5,
+      "cold": {
+        "median": 1301.1835,
+        "mad": 31.024599999999737
+      },
+      "warm": {
+        "median": 2.7208999999998014,
+        "mad": 0.2966000000005806
+      },
+      "hmr": {
+        "median": 155.4341999999997,
+        "mad": 12.207000000000335
+      },
+      "session": {
+        "median": 1474.5403999999999,
+        "mad": 26.965000000000146
+      }
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "projectService",
+      "cache": "populate",
+      "count": 5,
+      "cold": {
+        "median": 1339.7377000000001,
+        "mad": 30.756600000000617
+      },
+      "warm": {
+        "median": 2.4187000000001717,
+        "mad": 0.12590000000000146
+      },
+      "hmr": {
+        "median": 183.92230000000018,
+        "mad": 1.9865999999997257
+      },
+      "session": {
+        "median": 1537.1039,
+        "mad": 37.4372000000003
+      }
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "projectService",
+      "cache": "restart",
+      "count": 5,
+      "cold": {
+        "median": 1221.7028,
+        "mad": 9.294199999999819
+      },
+      "warm": {
+        "median": 2.612799999999879,
+        "mad": 0.05349999999998545
+      },
+      "hmr": {
+        "median": 252.1849000000002,
+        "mad": 7.918399999999565
+      },
+      "session": {
+        "median": 1468.8055000000004,
+        "mad": 17.561199999999644
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "scenario": "large-project",
+      "mode": "default",
+      "coldSavingMs": -423.19550000000004,
+      "coldSavingPercent": -36.214666257165035,
+      "benefitThreshold": false,
+      "hmr": [
+        {
+          "cache": "populate",
+          "deltaMs": 225.71970000000033,
+          "deltaPercent": 40.54387274250787,
+          "materialRegression": true
+        },
+        {
+          "cache": "restart",
+          "deltaMs": 361.0800999999997,
+          "deltaPercent": 64.85736789589912,
+          "materialRegression": true
+        }
+      ],
+      "eligibleWithinGroup": false,
+      "populationSessionOverheadMs": 541.6445999999999,
+      "restartSessionSavingMs": -796.1983999999995,
+      "projectedReuseSessionsToBreakEven": "NO_DEMONSTRATED_BREAK_EVEN"
+    },
+    {
+      "scenario": "large-project",
+      "mode": "projectService",
+      "coldSavingMs": -445.6984999999995,
+      "coldSavingPercent": -35.032302217936504,
+      "benefitThreshold": false,
+      "hmr": [
+        {
+          "cache": "populate",
+          "deltaMs": 207.4190000000001,
+          "deltaPercent": 68.18200495243971,
+          "materialRegression": true
+        },
+        {
+          "cache": "restart",
+          "deltaMs": 327.5598999999995,
+          "deltaPercent": 107.67427633929685,
+          "materialRegression": true
+        }
+      ],
+      "eligibleWithinGroup": false,
+      "populationSessionOverheadMs": 482.15080000000034,
+      "restartSessionSavingMs": -766.8367000000003,
+      "projectedReuseSessionsToBreakEven": "NO_DEMONSTRATED_BREAK_EVEN"
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "default",
+      "coldSavingMs": 79.67560000000003,
+      "coldSavingPercent": 6.364453967511216,
+      "benefitThreshold": false,
+      "hmr": [
+        {
+          "cache": "populate",
+          "deltaMs": 63.62889999999925,
+          "deltaPercent": 11.72200156222352,
+          "materialRegression": true
+        },
+        {
+          "cache": "restart",
+          "deltaMs": 106.11819999999943,
+          "deltaPercent": 19.549571125390443,
+          "materialRegression": true
+        }
+      ],
+      "eligibleWithinGroup": false,
+      "populationSessionOverheadMs": 173.58030000000053,
+      "restartSessionSavingMs": -4.464100000000144,
+      "projectedReuseSessionsToBreakEven": "NO_DEMONSTRATED_BREAK_EVEN"
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "projectService",
+      "coldSavingMs": 79.48070000000007,
+      "coldSavingPercent": 6.108339062092323,
+      "benefitThreshold": false,
+      "hmr": [
+        {
+          "cache": "populate",
+          "deltaMs": 28.488100000000486,
+          "deltaPercent": 18.328077089855736,
+          "materialRegression": true
+        },
+        {
+          "cache": "restart",
+          "deltaMs": 96.7507000000005,
+          "deltaPercent": 62.245438905981246,
+          "materialRegression": true
+        }
+      ],
+      "eligibleWithinGroup": false,
+      "populationSessionOverheadMs": 62.563500000000204,
+      "restartSessionSavingMs": 5.73489999999947,
+      "projectedReuseSessionsToBreakEven": 11
+    }
+  ],
+  "initialNoisyGroups": [],
+  "noisyGroups": [],
+  "zeroDenominatorGroups": [],
+  "verdict": "SIMPLIFY_OR_DEPRECATE",
+  "scope": "Two scale1 fixtures on Windows/Node24, stable modes, direct-plugin HMR. No Salt, cold OS cache, Vite/browser latency, cross-platform, storage or retained-memory claims."
+}

@@ -1,0 +1,99 @@
+{
+  "status": "PASS",
+  "verifiedAt": "2026-09-06T11:05:22.732134+00:00",
+  "reviewedScripts": {
+    "common.mjs": "ebdb7b7513a5a43202abfd32cb4c8a7f063623d6ad93815eb5ff8242c9f78071",
+    "controls.mjs": "7e1e46774631bbfb15804d5a488f0237c777a4d2e358dcb463accca0b52ca89b",
+    "freeze.mjs": "2b18784efc626abbfaa40fd06f8936affe1888db906eddd143707b071fc681d8",
+    "run-matrix.mjs": "6cf67ed546a3c03648e7d4668c448b6398f1e19a8cc684861368a250d36759e5",
+    "summarize.mjs": "eaccdd8d2e433f96b8e4e66186327908227676beaf0428ccc062d0ce7c7c699e",
+    "verify-evidence.mjs": "fa7792cd20ca69a4f284af5190115d9b0da97e61dd6b7065c317a4f1883338e8"
+  },
+  "frozenIdentitySha256": "87d9aa257bd1ad2fcd3b100a971cf83d2e3ac25125c75c32f9c3a9173987aeb3",
+  "controlsSha256": "b4ab0d17b71b018dd78f3eb16d3f2ea151f7a0d275a2f4457a6700c7de50d776",
+  "groups": [
+    {
+      "scenario": "large-project",
+      "mode": "default",
+      "firstExtractions": [
+        32,
+        32,
+        0
+      ],
+      "affected": [
+        "src/components/actions/ActionButton.tsx",
+        "src/components/composites/FilterToolbar.tsx",
+        "src/components/composites/NotificationPreferences.tsx",
+        "src/features/reference/AlertCenter.tsx",
+        "src/features/reference/BillingReview.tsx",
+        "src/features/reference/ExecutiveSummary.tsx",
+        "src/features/reference/OperationsSnapshot.tsx",
+        "src/features/reference/ReferencePage.tsx",
+        "src/features/reference/WorkspaceRoster.tsx"
+      ],
+      "invalidated": [],
+      "fullMetadataParity": true,
+      "trueRestartHits": true
+    },
+    {
+      "scenario": "large-project",
+      "mode": "projectService",
+      "firstExtractions": [
+        32,
+        32,
+        0
+      ],
+      "affected": [
+        "src/components/actions/ActionButton.tsx",
+        "src/components/composites/FilterToolbar.tsx",
+        "src/components/composites/NotificationPreferences.tsx",
+        "src/features/reference/AlertCenter.tsx",
+        "src/features/reference/BillingReview.tsx",
+        "src/features/reference/ExecutiveSummary.tsx",
+        "src/features/reference/OperationsSnapshot.tsx",
+        "src/features/reference/ReferencePage.tsx",
+        "src/features/reference/WorkspaceRoster.tsx"
+      ],
+      "invalidated": [],
+      "fullMetadataParity": true,
+      "trueRestartHits": true
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "default",
+      "firstExtractions": [
+        6,
+        6,
+        0
+      ],
+      "affected": [
+        "src/components/Button.tsx",
+        "src/components/ButtonWrapper.tsx"
+      ],
+      "invalidated": [],
+      "fullMetadataParity": true,
+      "trueRestartHits": true
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "projectService",
+      "firstExtractions": [
+        6,
+        6,
+        0
+      ],
+      "affected": [
+        "src/components/Button.tsx",
+        "src/components/ButtonWrapper.tsx"
+      ],
+      "invalidated": [],
+      "fullMetadataParity": true,
+      "trueRestartHits": true
+    }
+  ],
+  "controlChildren": 26,
+  "measuredSamplesSoFar": 0,
+  "timingBudget": "60 initial measured processes; exactly one prescribed variance extension per noisy group, maximum120.",
+  "scope": "Root read all six scripts, checked protocol/threshold/order/negative validators and independently audited raw control outputs, complete metadata, actual hits, affected identities, process lifetimes, exact input/dependency/Node hashes. Old worktree-topology control run is preserved setup evidence, excluded from valid controls/timings.",
+  "readiness": "READY: root permits sequential capture now; no heavy root work will run concurrently."
+}

@@ -1,0 +1,386 @@
+{
+  "status": "PASS",
+  "action": "measure",
+  "scenario": "react-typing",
+  "mode": "projectService",
+  "cache": "populate",
+  "processId": 4484,
+  "workspaceRoot": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan035\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\035\\controls\\react-typing-projectService\\react-typing",
+  "closed": 1,
+  "initialEntryCount": 0,
+  "finalEntryCount": 3,
+  "observation": {
+    "first": {
+      "src/components/Button.tsx": [
+        {
+          "displayName": "Button",
+          "description": "Native button with shared action styling.",
+          "props": {
+            "disabled": {
+              "name": "disabled",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            },
+            "intent": {
+              "name": "intent",
+              "description": "Visual emphasis shared by button consumers.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "raw": "\"primary\" | \"quiet\"",
+                "value": [
+                  {
+                    "value": "\"primary\""
+                  },
+                  {
+                    "value": "\"quiet\""
+                  }
+                ]
+              },
+              "defaultValue": {
+                "value": "primary"
+              }
+            }
+          }
+        }
+      ],
+      "src/components/ButtonWrapper.tsx": [
+        {
+          "displayName": "ButtonWrapper",
+          "description": "Wrapper importing its native and shared props from Button.",
+          "props": {
+            "disabled": {
+              "name": "disabled",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            },
+            "intent": {
+              "name": "intent",
+              "description": "Visual emphasis shared by button consumers.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "raw": "\"primary\" | \"quiet\"",
+                "value": [
+                  {
+                    "value": "\"primary\""
+                  },
+                  {
+                    "value": "\"quiet\""
+                  }
+                ]
+              },
+              "defaultValue": null
+            },
+            "label": {
+              "name": "label",
+              "description": "Accessible name for the wrapped action.",
+              "required": true,
+              "type": {
+                "name": "string"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      ],
+      "src/components/IconButton.tsx": [
+        {
+          "displayName": "IconButton",
+          "description": "Second consumer of the imported action union and native button props.",
+          "props": {
+            "disabled": {
+              "name": "disabled",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            },
+            "intent": {
+              "name": "intent",
+              "description": "Visual emphasis shared by button consumers.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "raw": "\"primary\" | \"quiet\"",
+                "value": [
+                  {
+                    "value": "\"primary\""
+                  },
+                  {
+                    "value": "\"quiet\""
+                  }
+                ]
+              },
+              "defaultValue": {
+                "value": "quiet"
+              }
+            },
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "string"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      ]
+    },
+    "warm": {
+      "src/components/Button.tsx": [
+        {
+          "displayName": "Button",
+          "description": "Native button with shared action styling.",
+          "props": {
+            "disabled": {
+              "name": "disabled",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            },
+            "intent": {
+              "name": "intent",
+              "description": "Visual emphasis shared by button consumers.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "raw": "\"primary\" | \"quiet\"",
+                "value": [
+                  {
+                    "value": "\"primary\""
+                  },
+                  {
+                    "value": "\"quiet\""
+                  }
+                ]
+              },
+              "defaultValue": {
+                "value": "primary"
+              }
+            }
+          }
+        }
+      ],
+      "src/components/ButtonWrapper.tsx": [
+        {
+          "displayName": "ButtonWrapper",
+          "description": "Wrapper importing its native and shared props from Button.",
+          "props": {
+            "disabled": {
+              "name": "disabled",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            },
+            "intent": {
+              "name": "intent",
+              "description": "Visual emphasis shared by button consumers.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "raw": "\"primary\" | \"quiet\"",
+                "value": [
+                  {
+                    "value": "\"primary\""
+                  },
+                  {
+                    "value": "\"quiet\""
+                  }
+                ]
+              },
+              "defaultValue": null
+            },
+            "label": {
+              "name": "label",
+              "description": "Accessible name for the wrapped action.",
+              "required": true,
+              "type": {
+                "name": "string"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      ],
+      "src/components/IconButton.tsx": [
+        {
+          "displayName": "IconButton",
+          "description": "Second consumer of the imported action union and native button props.",
+          "props": {
+            "disabled": {
+              "name": "disabled",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            },
+            "intent": {
+              "name": "intent",
+              "description": "Visual emphasis shared by button consumers.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "raw": "\"primary\" | \"quiet\"",
+                "value": [
+                  {
+                    "value": "\"primary\""
+                  },
+                  {
+                    "value": "\"quiet\""
+                  }
+                ]
+              },
+              "defaultValue": {
+                "value": "quiet"
+              }
+            },
+            "label": {
+              "name": "label",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "string"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      ]
+    },
+    "edit": {
+      "src/components/Button.tsx": [
+        {
+          "displayName": "Button",
+          "description": "Updated native button with shared action styling.",
+          "props": {
+            "disabled": {
+              "name": "disabled",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            },
+            "intent": {
+              "name": "intent",
+              "description": "Visual emphasis shared by button consumers.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "raw": "\"primary\" | \"quiet\"",
+                "value": [
+                  {
+                    "value": "\"primary\""
+                  },
+                  {
+                    "value": "\"quiet\""
+                  }
+                ]
+              },
+              "defaultValue": {
+                "value": "primary"
+              }
+            }
+          }
+        }
+      ],
+      "src/components/ButtonWrapper.tsx": [
+        {
+          "displayName": "ButtonWrapper",
+          "description": "Wrapper importing its native and shared props from Button.",
+          "props": {
+            "disabled": {
+              "name": "disabled",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            },
+            "intent": {
+              "name": "intent",
+              "description": "Visual emphasis shared by button consumers.",
+              "required": false,
+              "type": {
+                "name": "enum",
+                "raw": "\"primary\" | \"quiet\"",
+                "value": [
+                  {
+                    "value": "\"primary\""
+                  },
+                  {
+                    "value": "\"quiet\""
+                  }
+                ]
+              },
+              "defaultValue": null
+            },
+            "label": {
+              "name": "label",
+              "description": "Accessible name for the wrapped action.",
+              "required": true,
+              "type": {
+                "name": "string"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      ]
+    },
+    "affected": [
+      "src/components/Button.tsx",
+      "src/components/ButtonWrapper.tsx"
+    ],
+    "invalidated": [],
+    "transformed": [
+      "src/components/Button.tsx",
+      "src/components/ButtonWrapper.tsx"
+    ],
+    "batchExtractions": {
+      "first": 6,
+      "warm": 6,
+      "total": 10
+    }
+  },
+  "measurement": {
+    "cache": "populate",
+    "mode": "projectService",
+    "processFirstMeasuredInstance": true,
+    "componentHmr": {
+      "affectedModuleCount": 2,
+      "invalidatedModuleCount": 0,
+      "status": "updated",
+      "totalCycleMs": 129.79950000000008
+    },
+    "coldBatchMs": 957.8521000000001,
+    "configResolvedMs": 5.52170000000001,
+    "fileCount": 3,
+    "firstBatchMs": 952.3304,
+    "warmBatchMs": 1.7352000000000771,
+    "sessionTotalMs": 1093.5478
+  }
+}

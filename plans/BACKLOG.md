@@ -34,6 +34,12 @@ no external-review findings. See [034 verification](034-verification.md). This
 adds no package option or automatic parent watches and does not close the general
 Plan 023 discovery gap.
 
+The selected [Plan 035](035-recheck-optimized-persistence.md) is complete: 60
+measurements on the unchanged optimized runtime return SIMPLIFY_OR_DEPRECATE.
+True persisted hits, full metadata freshness, equal affected work and independent
+statistics pass. See [035 verification](035-verification.md). The option remains
+supported; no deprecation, removal or default change was implemented.
+
 ## Prioritized list
 
 | # | Work | Status | Completion target |
@@ -49,6 +55,7 @@ Plan 023 discovery gap.
 | 9 | Profile the optimized Salt workload | DONE: Plan 032; four profiles and independent audit | Backend output pass removed in completed 033; smaller candidates deferred and watcher checks retained as detailed below |
 | 10 | Reuse the backend's canonical dependency output | DONE: Plan 033 at unsigned source commit 09039b9 | Canonical/lifecycle proof, 343 tests, ten matrix rows and 24 samples pass; 53–55% Salt cold/edit benefit. External review clean; main source/build and committed bytes verified |
 | 11 | Document explicit external type directory watching | DONE: Plan 034 at unsigned source commit 653e203 | Existing Vite configuration, 29 tests, eight native rows/40 mutations and clean external review; automatic discovery remains open |
+| 12 | Recheck disk persistence after the runtime optimizations | DONE: Plan 035; 60 samples and independent audit | No group meets the retention rule; current-artifact evidence gate for 026 is satisfied on the tested fixtures; no product change |
 
 ## Scope and evidence
 
@@ -96,13 +103,16 @@ A decision to remove the option has not yet been implemented or announced.
 The requested [compatible proposal](026-deprecate-filesystem-cache.md) is prepared.
 It retains working configurations during a documented release window and separates
 later removal from the current task.
-Before using present performance to decide retention/removal, freeze the final
-post-033-decision artifact and perform the proposal's evidence-freshness gate
-with the existing corrected off/populate/restart benchmark and correctness
-controls. Keep the old report unchanged. A compatible notice may instead cite
-024 explicitly as historical evidence for a maintenance-policy choice; it must
-not present those ratios as current. Stage A's docs/JSDoc/patch Changeset and
-packed-declaration checks are already specified. Stage B requires an actual
+Plan 035 completed the proposal's current-artifact evidence gate using the unchanged
+off/populate/restart benchmark and stronger hit/freshness/affected-work controls.
+Neither of the two fixtures in either stable mode meets the retention rule:
+restart cold is 35.0–36.2% slower for large-project and only 6.1–6.4% faster for
+react-typing; restart HMR is 19.5–107.7% slower. These Windows fixture results do
+not establish Salt-specific or universal benefit from removal. Plan 024 remains
+unchanged. Repeat the evidence gate only if relevant runtime/workload inputs change
+before relying on a new current-performance claim. Stage A's docs/JSDoc/patch
+Changeset and packed-declaration checks are prepared as the next proposed step.
+Stage B requires an actual
 published compatible notice release, a separately chosen breaking release and
 review of consumer reliance; neither deprecation nor removal has shipped here.
 
@@ -209,8 +219,8 @@ upstream issue submission or production integration is implied by this plan.
 - Automatic backend-default changes, unsupported peer-range expansion, or removal
   of compatibility/lifecycle tests to make the code shorter.
 - Repeating completed experiments without changed inputs or a new decision;
-  the explicitly gated current-artifact persistence revalidation is separate
-  from Plan 024's preserved historical result.
+  Plan 035 has completed the current-artifact persistence revalidation and
+  preserves Plan 024's historical result separately.
 
 This is the current record for the completed selected work, including Plan 033, not a
 new whole-repository audit. Plan025's release matrix, Plan023's watcher probes and
