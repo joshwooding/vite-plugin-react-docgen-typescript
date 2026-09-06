@@ -1,5 +1,0 @@
-{
-  "exitCode": 1,
-  "error": "ERR_UNSUPPORTED_ESM_URL_SCHEME: absolute D: paths in static ESM imports must use file:/// URLs on Windows",
-  "correction": "Changed only the two verifier imports to file:/// URLs. No product code or built artifact changed."
-}

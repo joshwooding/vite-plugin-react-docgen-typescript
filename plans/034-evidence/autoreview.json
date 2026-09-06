@@ -1,6 +1,0 @@
-{
-  "findings": [],
-  "overall_correctness": "patch is correct",
-  "overall_explanation": "The documented opt-in watcher recipe is consistent with the unchanged plugin behavior and clearly preserves the automatic-discovery limitation. The added tests exercise both stable modes with and without genuine absent-seeded persistent-cache hits, require native watcher events and targeted HMR delivery, compare complete semantic metadata against fresh cache-disabled extraction, verify unaffected components, and cover shutdown. No concrete correctness, security, regression, or material test-coverage defect was found in the two-file change.",
-  "overall_confidence": 0.98
-}

@@ -1,1 +1,0 @@
-{"workload":"shallow","variant":"candidate","mode":"projectService","observed":[{"configFilePath":"C:/Users/Joshu/AppData/Local/Temp/rdt029-react/tsconfig.json","paths":null,"rootFileCount":4,"programFileCount":61,"resolution":{"react":"D:/OSS/vite-plugin-react-docgen-typescript/node_modules/@types/react/index.d.ts"},"errors":[]}],"props":[["disabled","intent"]]}
