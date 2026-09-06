@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "commit": "653e203e3df0e8d923caa085d50ea150113e4f4b",
+  "parent": "4e78cf3bebcae3896b53ef4ae154d6cdca95b274",
+  "branch": "codex/simplify-changesets-publish",
+  "unsigned": true,
+  "commitCommand": [
+    "git",
+    "-c",
+    "commit.gpgsign=false",
+    "commit",
+    "-m",
+    "Document explicit external type directory watching"
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "committedBlobSha256": "66c9e6987cb277d9f8edd91324a83b7e2fedc39e3f734d60c89ab9128bc1fe01",
+      "reviewedWorkingCopySha256": "e1564034deb3953e1c01c1f41e1094649be4c3738427e0481b89370fb673234d",
+      "match": "Exact Git content; README checkout CRLF normalized to LF by existing configuration."
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts",
+      "committedBlobSha256": "a73db0803e38176a71faba59be5bbb2f97c7e6bd5fc7a5ddf51f683fb3b63b63",
+      "reviewedWorkingCopySha256": "a73db0803e38176a71faba59be5bbb2f97c7e6bd5fc7a5ddf51f683fb3b63b63",
+      "match": "Exact Git content; README checkout CRLF normalized to LF by existing configuration."
+    }
+  ],
+  "signingConfigurationUnchanged": true,
+  "configuration": {
+    "commit.gpgsign": "file:C:/Users/Joshu/.gitconfig\ttrue",
+    "gpg.program": "file:C:/Users/Joshu/.gitconfig\tC:\\Users\\Joshu\\.gpg-1password",
+    "core.autocrlf": "file:C:/Users/Joshu/.gitconfig\ttrue"
+  },
+  "verifiedAt": "2026-09-06T10:26:37.115974+00:00",
+  "pushOrRelease": false
+}

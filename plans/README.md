@@ -30,6 +30,13 @@ general benchmark framework is not the default solution.
 
 ## Recommended order
 
+The user selected follow-up [Plan 034](034-document-explicit-external-type-watches.md).
+Its documentation and tests are reviewed and integrated at unsigned local source
+commit **653e203**: 29 focused tests, eight native boundary executions and 40
+mutation checks pass. External review returned no findings. The two-file change
+uses Vite's existing API; automatic discovery remains limited and runtime source
+is unchanged. See [034 verification](034-verification.md).
+
 Current remaining work is tracked in [BACKLOG.md](BACKLOG.md). Plans 017–022/024
 are integrated, together with the reviewed 023 decision and 025/028 release checks.
 Plan026 is the completed deprecation proposal; implementation remains a later step.
@@ -63,6 +70,7 @@ agreement and a reproduced shared-type freshness failure.
 | [031](031-storybook-experimental-docgen.md) | Test Storybook's experimental docgen server | P3 | S | LOW: evidence only | 030 | DONE — Storybook 10.6.0; cold metadata and ArgTypes agree; bulk extraction measured; shared-type freshness fails in live-server check |
 | [032](032-profile-optimized-salt.md) | Profile the optimized Salt workload | P2 | S | LOW: evidence only | 029 | DONE — four CPU profiles, eight full metadata checks and independent audit pass; led to completed Plan 033 |
 | [033](033-reuse-backend-canonical-dependencies.md) | Reuse canonical dependency output within the backend | P2 | M | MED | 029, 032 | DONE at unsigned source commit 09039b9 — 343 tests, ten matrix rows and 24 samples pass; 53–55% Salt cold/edit benefit; external review clean; main source/build verified |
+| [034](034-document-explicit-external-type-watches.md) | Document and verify explicit external type directory watches | P2 | M | LOW: runtime unchanged | 023, 033 | DONE at unsigned source commit 653e203 - 29 tests, eight native rows/40 mutations; external review clean; runtime unchanged |
 
 The earlier implementation and integration sequence is complete and should not be repeated.
 The user selected backlog items 1–4; all four are complete with the stated limits.

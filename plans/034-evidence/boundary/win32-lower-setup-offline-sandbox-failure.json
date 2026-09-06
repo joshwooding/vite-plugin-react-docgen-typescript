@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-09-06T09:48:33.577Z",
+  "completedAt": "2026-09-06T09:48:33.583Z",
+  "directory": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\034\\boundary\\windows-lower",
+  "versions": {
+    "node": "20.19.5",
+    "vite": "3.2.11",
+    "typescript": "4.3.5"
+  },
+  "command": [
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan025\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\025\\runtime-windows\\node-v20.19.5-win-x64\\node.exe",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan025\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\025\\runtime-windows\\node-v20.19.5-win-x64\\node_modules\\npm\\bin\\npm-cli.js",
+    "install",
+    "--ignore-scripts",
+    "--no-audit",
+    "--no-fund",
+    "--save-exact",
+    "--offline",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\033\\candidate.tgz",
+    "vite@3.2.11",
+    "typescript@4.3.5",
+    "react-docgen-typescript@2.2.2",
+    "glob@13.0.6"
+  ],
+  "archiveSha256": "a7aa4620b18c2eebfffbeab4cb623d94f91b4f0371b684b37eacd52ee901dfbe",
+  "scriptSha256": "9163c0c9f3fc7eda5b10369d10079195e9413b7c1b2bc9c4095fe0b3a8b035d1",
+  "exitCode": null,
+  "error": "spawnSync D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan025\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\025\\runtime-windows\\node-v20.19.5-win-x64\\node.exe EPERM",
+  "stdout": null,
+  "stderr": null
+}

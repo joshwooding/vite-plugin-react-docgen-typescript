@@ -1,0 +1,24 @@
+{
+  "command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--exec",
+    "/var/tmp/vite-rdt-plan025/node-v20.19.5-linux-x64/bin/node",
+    "/mnt/d/OSS/vite-plugin-react-docgen-typescript/plans/034-evidence/boundary/native-probe.mjs",
+    "row",
+    "/var/tmp/vite-rdt-plan034-boundary/linux-lower",
+    "project-service",
+    "/mnt/d/OSS/vite-plugin-react-docgen-typescript/plans/034-evidence/boundary/rows-import-entry-corrected/linux-lower-project-service.json"
+  ],
+  "exitCode": 0,
+  "stdout": "{\"output\":\"/mnt/d/OSS/vite-plugin-react-docgen-typescript/plans/034-evidence/boundary/rows-import-entry-corrected/linux-lower-project-service.json\",\"status\":\"PASS\",\"checkpoints\":5,\"close\":{\"closed\":true,\"watchedDirectories\":0,\"postCloseEvents\":0,\"postClosePayloads\":0}}\n",
+  "stderr": "",
+  "error": null,
+  "startedAt": "2026-09-06T09:56:41.875925+00:00",
+  "completedAt": "2026-09-06T09:57:01.337831+00:00",
+  "probeSha256": "74b528a732cd25486080a95e18a7a3a9ad10d31dd3a1f3e3830aa3700bdb2823",
+  "launcherSha256": "8bfd4881a140c9afc8e36fbf5263e42bde32ebb86f2fda95bfeecc12739f59a0",
+  "resultFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\plans\\034-evidence\\boundary\\rows-import-entry-corrected\\linux-lower-project-service.json",
+  "status": "PASS"
+}

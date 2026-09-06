@@ -1,0 +1,688 @@
+{
+  "status": "PASS",
+  "node": "v24.10.0",
+  "versions": {
+    "vite": "8.1.5",
+    "typescript": "6.0.3",
+    "react-docgen-typescript": "2.2.2"
+  },
+  "scriptSha256": "3ef51b5b4f7bc9c1e9822d7daa52659cc0c1f5c0238ea6089a1917ee2a3d29e3",
+  "distSha256": "0039755d18125248d78268a266405aded347fa1dfbd8034f2e08e9b5363bb1cb",
+  "rows": [
+    {
+      "kind": "depth",
+      "mode": "legacy",
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "nativeControl": true,
+      "effectiveWatchSettings": {
+        "depth": 0
+      },
+      "watched": {
+        ".": [
+          "app",
+          "shared-types"
+        ],
+        "app": [
+          "control.js",
+          "src",
+          "tsconfig.json"
+        ],
+        "shared-types": [
+          "owned"
+        ],
+        "app/src": [
+          "Component.tsx",
+          "Other.tsx",
+          "Second.tsx"
+        ],
+        "shared-types/owned": []
+      },
+      "excludedDepthEvents": [],
+      "watchedAfterClose": {},
+      "postCloseEvents": 0,
+      "status": "PASS"
+    },
+    {
+      "kind": "near-consecutive",
+      "mode": "legacy",
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "nativeControl": true,
+      "effectiveWatchSettings": {},
+      "watched": {
+        ".": [
+          "app",
+          "shared-types"
+        ],
+        "shared-types": [
+          "owned"
+        ],
+        "app": [
+          "src",
+          "tsconfig.json"
+        ],
+        "app/src": [
+          "Component.tsx",
+          "Other.tsx",
+          "Second.tsx",
+          "control.js"
+        ],
+        "shared-types/owned": [
+          "deep"
+        ],
+        "shared-types/owned/deep": [
+          "noise.txt"
+        ]
+      },
+      "creation": {
+        "events": [
+          {
+            "event": "add",
+            "file": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt034-constraints-1GIHl3/shared-types/other.ts"
+          },
+          {
+            "event": "add",
+            "file": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt034-constraints-1GIHl3/shared-types/types.d.ts"
+          }
+        ],
+        "payloads": [
+          {
+            "type": "update",
+            "updates": [
+              {
+                "type": "js-update",
+                "timestamp": 1788688194521,
+                "path": "/src/Second.tsx",
+                "acceptedPath": "/src/Second.tsx",
+                "explicitImportRequired": false,
+                "isWithinCircularImport": false
+              }
+            ]
+          },
+          {
+            "type": "update",
+            "updates": [
+              {
+                "type": "js-update",
+                "timestamp": 1788688194522,
+                "path": "/src/Component.tsx",
+                "acceptedPath": "/src/Component.tsx",
+                "explicitImportRequired": false,
+                "isWithinCircularImport": false
+              }
+            ]
+          }
+        ],
+        "delivered": [
+          "/src/Second.tsx",
+          "/src/Component.tsx"
+        ],
+        "metadata": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {
+              "amount": {
+                "name": "amount",
+                "description": "",
+                "required": false,
+                "type": {
+                  "name": "number | undefined"
+                },
+                "defaultValue": {
+                  "value": "7"
+                }
+              },
+              "label": {
+                "name": "label",
+                "description": "Created together.",
+                "required": true,
+                "type": {
+                  "name": "number"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {
+              "amount": {
+                "name": "amount",
+                "description": "",
+                "required": false,
+                "type": {
+                  "name": "number | undefined"
+                },
+                "defaultValue": {
+                  "value": "7"
+                }
+              },
+              "label": {
+                "name": "label",
+                "description": "Created together.",
+                "required": true,
+                "type": {
+                  "name": "number"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        },
+        "oracle": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {
+              "amount": {
+                "name": "amount",
+                "description": "",
+                "required": false,
+                "type": {
+                  "name": "number | undefined"
+                },
+                "defaultValue": {
+                  "value": "7"
+                }
+              },
+              "label": {
+                "name": "label",
+                "description": "Created together.",
+                "required": true,
+                "type": {
+                  "name": "number"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {
+              "amount": {
+                "name": "amount",
+                "description": "",
+                "required": false,
+                "type": {
+                  "name": "number | undefined"
+                },
+                "defaultValue": {
+                  "value": "7"
+                }
+              },
+              "label": {
+                "name": "label",
+                "description": "Created together.",
+                "required": true,
+                "type": {
+                  "name": "number"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        }
+      },
+      "watchedAfterClose": {},
+      "postCloseEvents": 0,
+      "status": "PASS"
+    },
+    {
+      "kind": "offline-delete",
+      "mode": "legacy",
+      "seed": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {
+            "amount": {
+              "name": "amount",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "number | undefined"
+              },
+              "defaultValue": {
+                "value": "7"
+              }
+            },
+            "label": {
+              "name": "label",
+              "description": "Before offline deletion.",
+              "required": true,
+              "type": {
+                "name": "string"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {
+            "amount": {
+              "name": "amount",
+              "description": "",
+              "required": false,
+              "type": {
+                "name": "number | undefined"
+              },
+              "defaultValue": {
+                "value": "7"
+              }
+            },
+            "label": {
+              "name": "label",
+              "description": "Before offline deletion.",
+              "required": true,
+              "type": {
+                "name": "string"
+              },
+              "defaultValue": null
+            }
+          }
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "nativeControl": true,
+      "effectiveWatchSettings": {},
+      "watched": {
+        ".": [
+          "app",
+          "shared-types"
+        ],
+        "shared-types": [
+          "owned"
+        ],
+        "app": [
+          ".cache",
+          "src",
+          "tsconfig.json"
+        ],
+        "app/src": [
+          "Component.tsx",
+          "Other.tsx",
+          "Second.tsx",
+          "control.js"
+        ],
+        "app/.cache": [
+          "897923fd1b6548c6df03c48f9f20cba523ed604b34febece841e60f277276746"
+        ],
+        "shared-types/owned": [
+          "deep"
+        ],
+        "app/.cache/897923fd1b6548c6df03c48f9f20cba523ed604b34febece841e60f277276746": [
+          "7d342de54e5a4c77bf1f3ee7ace242e0d0c53ffb0907c2df37abb464e020f2bf.json",
+          "ad833ad89d8e262fbdac5cbccbd1c5eb3c391d48bcf1a23ecd9673c95e41fae2.json",
+          "ebce36f673dc591d956f49c8262016500eec8c0a23c308e95645feed66b1e47c.json"
+        ],
+        "shared-types/owned/deep": [
+          "noise.txt"
+        ]
+      },
+      "creation": {
+        "events": [
+          {
+            "event": "add",
+            "file": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt034-constraints-a55Qm2/shared-types/other.ts"
+          },
+          {
+            "event": "add",
+            "file": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt034-constraints-a55Qm2/shared-types/types.d.ts"
+          },
+          {
+            "event": "unlink",
+            "file": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt034-constraints-a55Qm2/app/.cache/897923fd1b6548c6df03c48f9f20cba523ed604b34febece841e60f277276746/ebce36f673dc591d956f49c8262016500eec8c0a23c308e95645feed66b1e47c.json"
+          },
+          {
+            "event": "unlink",
+            "file": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt034-constraints-a55Qm2/app/.cache/897923fd1b6548c6df03c48f9f20cba523ed604b34febece841e60f277276746/ad833ad89d8e262fbdac5cbccbd1c5eb3c391d48bcf1a23ecd9673c95e41fae2.json"
+          },
+          {
+            "event": "add",
+            "file": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt034-constraints-a55Qm2/app/.cache/897923fd1b6548c6df03c48f9f20cba523ed604b34febece841e60f277276746/ad833ad89d8e262fbdac5cbccbd1c5eb3c391d48bcf1a23ecd9673c95e41fae2.json"
+          },
+          {
+            "event": "add",
+            "file": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt034-constraints-a55Qm2/app/.cache/897923fd1b6548c6df03c48f9f20cba523ed604b34febece841e60f277276746/ebce36f673dc591d956f49c8262016500eec8c0a23c308e95645feed66b1e47c.json"
+          }
+        ],
+        "payloads": [
+          {
+            "type": "update",
+            "updates": [
+              {
+                "type": "js-update",
+                "timestamp": 1788688198322,
+                "path": "/src/Second.tsx",
+                "acceptedPath": "/src/Second.tsx",
+                "explicitImportRequired": false,
+                "isWithinCircularImport": false
+              }
+            ]
+          },
+          {
+            "type": "update",
+            "updates": [
+              {
+                "type": "js-update",
+                "timestamp": 1788688198323,
+                "path": "/src/Component.tsx",
+                "acceptedPath": "/src/Component.tsx",
+                "explicitImportRequired": false,
+                "isWithinCircularImport": false
+              }
+            ]
+          }
+        ],
+        "delivered": [
+          "/src/Second.tsx",
+          "/src/Component.tsx"
+        ],
+        "metadata": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {
+              "amount": {
+                "name": "amount",
+                "description": "",
+                "required": false,
+                "type": {
+                  "name": "number | undefined"
+                },
+                "defaultValue": {
+                  "value": "7"
+                }
+              },
+              "label": {
+                "name": "label",
+                "description": "Created together.",
+                "required": true,
+                "type": {
+                  "name": "number"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {
+              "amount": {
+                "name": "amount",
+                "description": "",
+                "required": false,
+                "type": {
+                  "name": "number | undefined"
+                },
+                "defaultValue": {
+                  "value": "7"
+                }
+              },
+              "label": {
+                "name": "label",
+                "description": "Created together.",
+                "required": true,
+                "type": {
+                  "name": "number"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        },
+        "oracle": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {
+              "amount": {
+                "name": "amount",
+                "description": "",
+                "required": false,
+                "type": {
+                  "name": "number | undefined"
+                },
+                "defaultValue": {
+                  "value": "7"
+                }
+              },
+              "label": {
+                "name": "label",
+                "description": "Created together.",
+                "required": true,
+                "type": {
+                  "name": "number"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {
+              "amount": {
+                "name": "amount",
+                "description": "",
+                "required": false,
+                "type": {
+                  "name": "number | undefined"
+                },
+                "defaultValue": {
+                  "value": "7"
+                }
+              },
+              "label": {
+                "name": "label",
+                "description": "Created together.",
+                "required": true,
+                "type": {
+                  "name": "number"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        }
+      },
+      "watchedAfterClose": {},
+      "postCloseEvents": 0,
+      "status": "PASS"
+    },
+    {
+      "kind": "missing-directory",
+      "error": {
+        "message": "ENOENT: no such file or directory, stat 'C:\\Users\\Joshu\\AppData\\Local\\Temp\\vite-rdt034-constraints-HtaACQ\\missing-directory'",
+        "code": "ENOENT",
+        "path": "C:\\Users\\Joshu\\AppData\\Local\\Temp\\vite-rdt034-constraints-HtaACQ\\missing-directory"
+      },
+      "observation": {
+        "configCalls": 1,
+        "configureCalls": 0
+      },
+      "resourcesBefore": [],
+      "resourcesAfter": [],
+      "buildObservation": {
+        "configCalls": 0,
+        "configureCalls": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "kind": "regular-file",
+      "error": {
+        "message": "externalTypesDirectory must be an existing directory"
+      },
+      "observation": {
+        "configCalls": 1,
+        "configureCalls": 0
+      },
+      "resourcesBefore": [],
+      "resourcesAfter": [],
+      "buildObservation": {
+        "configCalls": 0,
+        "configureCalls": 0
+      },
+      "status": "PASS"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+First build command did not execute: evidence directory was created relative to package cwd rather than repository root, so output redirection failed. Empty accidental directories removed after exact absolute-path check. Corrected invocation follows.
