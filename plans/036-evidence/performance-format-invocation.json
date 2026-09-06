@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "command": [
+    "C:/nvm4w/nodejs/node.exe",
+    "D:/OSS/vite-plugin-react-docgen-typescript/node_modules/@biomejs/biome/bin/biome",
+    "format",
+    ".",
+    "--write",
+    "--colors=off"
+  ],
+  "cwd": ".",
+  "startedAt": "2026-09-06T13:55:31.746652+00:00",
+  "CI": "true",
+  "pid": 42072,
+  "exitCode": 0,
+  "durationSeconds": 0.625,
+  "finishedAt": "2026-09-06T13:55:32.368524+00:00",
+  "logSha256": "547c877297aa0620eaf45d3b544016d129842507b12b985e64df94001def7bbf"
+}

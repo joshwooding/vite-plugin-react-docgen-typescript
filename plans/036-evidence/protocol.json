@@ -1,0 +1,104 @@
+{
+  "status": "FROZEN_BEFORE_RUNS",
+  "createdAt": "2026-09-06T12:58:24.499358+00:00",
+  "trunk": "c3767eeb910d1602e966905da626141b90046d22",
+  "performance": "ea077567e23ccde17e8742c2a9f1559ffabe91c0",
+  "artifacts": {
+    "trunk": {
+      "sourceCommit": "c3767eeb910d1602e966905da626141b90046d22",
+      "root": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\trunk\\vite-plugin-react-docgen-typescript",
+      "entry": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\trunk\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+      "archive": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\036\\trunk.tgz",
+      "archiveSha256": "be1e6da0cc821140551c05b66f36445ea7b58b47a3c57f73b3f499a84181f9e8",
+      "members": {
+        "package/CHANGELOG.md": "7c3dbb1fcab0b9b4a85f9f5620b0ebe1aedd143782f599e019c7904aa142def3",
+        "package/dist/chunks/fileSelection.mjs": "49d944c7dd814dbbb9b1a9290f13334bfd1bccf94f02a2e96c813b0b16ce1826",
+        "package/dist/chunks/typescript.mjs": "566dede0c2d983ce2e3ad455f497af0e6a4e436b515177c3b05a6e2f569d78d3",
+        "package/dist/index.d.mts": "e43fdc3aba416e95d34bc1cac76942c574f9345f62bd04910983180c3826977b",
+        "package/dist/index.d.ts": "e43fdc3aba416e95d34bc1cac76942c574f9345f62bd04910983180c3826977b",
+        "package/dist/index.mjs": "15e8aa50bbcd424cc931bb9c5943974c1e235f59770b1abe77ce0852e48e6f84",
+        "package/package.json": "4ab72b0d26b8fc09d8053c03316189209d060e9679e4c01661482466f3ceea78"
+      }
+    },
+    "performance": {
+      "sourceCommit": "ea077567e23ccde17e8742c2a9f1559ffabe91c0",
+      "root": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript",
+      "entry": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+      "archive": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\036\\performance.tgz",
+      "archiveSha256": "bafdf7336bbc99bac7f5f7234b9f15ac00136d65338fcf0ec34d3f11df7d35a6",
+      "members": {
+        "package/CHANGELOG.md": "7c3dbb1fcab0b9b4a85f9f5620b0ebe1aedd143782f599e019c7904aa142def3",
+        "package/dist/chunks/fileSelection.mjs": "49d944c7dd814dbbb9b1a9290f13334bfd1bccf94f02a2e96c813b0b16ce1826",
+        "package/dist/chunks/typescript.mjs": "566dede0c2d983ce2e3ad455f497af0e6a4e436b515177c3b05a6e2f569d78d3",
+        "package/dist/index.d.mts": "eeb385979ce10f43d7d958e51988349f6fbf5dd247a537dce20da560f1486387",
+        "package/dist/index.d.ts": "eeb385979ce10f43d7d958e51988349f6fbf5dd247a537dce20da560f1486387",
+        "package/dist/index.mjs": "0039755d18125248d78268a266405aded347fa1dfbd8034f2e08e9b5363bb1cb",
+        "package/package.json": "4ab72b0d26b8fc09d8053c03316189209d060e9679e4c01661482466f3ceea78"
+      }
+    }
+  },
+  "harness": {
+    "sourcePr": 87,
+    "sourceCommit": "841a9ad002ae851e7c975302ada385f9911c8cd9",
+    "path": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\scripts\\benchmark-backends.mjs",
+    "sha256": "f5dcde4895b27f948d2158acba86199b0abbec1f2f3f5aed0b60ed9b92a60bd0",
+    "memorySamplerSha256": "9c2d443dbd026f996616dcc4daf76eae5d7b5cebf05c02186af8b6f52187329a",
+    "modified": false
+  },
+  "node": {
+    "path": "C:/nvm4w/nodejs/node.exe",
+    "sha256": "93d6b1a22733fb035b19649041c0574b1a890df75ebce9d5e6e1bbe35d12b4a8",
+    "version": "v24.10.0"
+  },
+  "smoke": {
+    "components": 10,
+    "projects": 2,
+    "edits": 2,
+    "iterations": 1,
+    "processes": 4,
+    "purpose": "Fixture, exact normalized output parity and lifecycle smoke; timings excluded from final comparison."
+  },
+  "measurement": {
+    "components": 188,
+    "projects": 7,
+    "editsPerProcess": 10,
+    "iterationsPerLane": 4,
+    "modes": [
+      "default",
+      "projectService"
+    ],
+    "variants": [
+      "trunk",
+      "performance"
+    ],
+    "measuredChildProcesses": 16,
+    "order": "Harness rotates four lanes by one position each round; every lane occupies every position once.",
+    "diskPersistence": false,
+    "nodeProcesses": "Fresh awaited child per lane and round",
+    "workloads": "Existing generated shared-type fan-out workload; no new Salt/native/Storybook timing."
+  },
+  "analysis": {
+    "samples": "Four independent processes per variant/mode; ten correlated edits per process.",
+    "primaryMetrics": [
+      "cold.totalMs",
+      "per-process median(editSamplesMs)"
+    ],
+    "statistics": "Median and MAD of process-level metrics, plus paired deltas by round. No p-values. Existing harness aggregate p50/p95 remains diagnostic.",
+    "benefitRule": "Describe consistent improvement only when every paired direction favors the candidate and both variants have MAD <=20% median; mixed directions or higher variability are INCONCLUSIVE.",
+    "extension": false,
+    "failedOrReplacedSuccessfulSamples": false,
+    "memory": "Existing harness memory diagnostics only; not a separate retention or release gate."
+  },
+  "parity": "Existing harness requires expected revision description after cold/every edit and all components affected. Audit complete normalized final metadata from every retained child, not only the first representative lane. Timing success does not hide any trunk-only correctness defect.",
+  "limits": [
+    "Windows direct-plugin generated workload",
+    "includes plugin module load/config/first transforms in cold, source write/read/hook/transforms/decode in edits",
+    "OS caches may be warm",
+    "memory sampling overhead is present for both variants",
+    "no browser latency or total Salt speedup claim"
+  ],
+  "keepTemp": true,
+  "noConcurrentHeavyWork": true,
+  "pushAuthorized": true,
+  "mergeOrPublishAuthorized": false
+}
