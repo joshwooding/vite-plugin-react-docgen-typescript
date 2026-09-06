@@ -1,7 +1,0 @@
-Review the existing experimental TS7 feature after restacking it onto the reviewed performance and correctness work. Stable defaults remain unchanged. Native mode targets function components (including forwardRef and default exports); broader component syntax support is outside this restack.
-
-The complete PR diff exceeds this helper's patch limit, so it is divided into two complete commits: all package/runtime files and tests, then benchmark/CI/docs/manifests. No file is truncated or omitted. This is an isolated review copy with the exact normalized candidate blobs; its synthetic commits are not the release history.
-
-Check current cache validation, config and external-type watches, physical path freshness, prepared-analysis revision handling, and native backend contracts. The old native global realpath cache is deliberately absent; fresh physical resolution is preserved from the performance base. Benchmark changes retain cache lifecycle checks, count complete HMR transforms and awaited close, add the native reanalysis phase, and reject older schema/timing profiles. Native persistent cache reads fall back to analysis because that backend does not expose prepareCacheValidation.
-
-This review is source-aware. Full local tests and built-artifact checks follow independently. Report concrete in-scope defects; do not broaden the experimental native feature or redesign stable cache/watcher contracts.

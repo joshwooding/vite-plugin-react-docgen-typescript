@@ -1,9 +1,0 @@
-{
-  "sourcePath": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\ts7-native-stacked\\scripts\\benchmark-backends.mjs",
-  "sourceSha256": "f5dcde4895b27f948d2158acba86199b0abbec1f2f3f5aed0b60ed9b92a60bd0",
-  "librarySha256": "79abbe278dbbf308dadb949ce6e51819dd1c60414116fa50c1e824356b3461dc",
-  "changes": [
-    "Pin original repository root.",
-    "Replace CLI entrypoint with exports of unchanged runner/helper functions."
-  ]
-}

@@ -1,6 +1,0 @@
-{
-  "findings": [],
-  "overall_correctness": "patch is correct",
-  "overall_explanation": "No actionable defects were found in the tooling, CI, documentation, benchmark accounting, runtime compatibility coverage, or manifest changes introduced by this commit.",
-  "overall_confidence": 0.9
-}

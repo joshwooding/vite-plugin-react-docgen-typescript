@@ -1,9 +1,0 @@
-{
-  "status": "PASS",
-  "sourceFiles": 3,
-  "distFiles": 5,
-  "candidateArchiveSha256": "a7aa4620b18c2eebfffbeab4cb623d94f91b4f0371b684b37eacd52ee901dfbe",
-  "baselineArchiveSha256": "6dd49e628729c4314c5f32a46533d5b62ecb27231433914757eb323e38d61ce8",
-  "sourceRoot": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan033\\vite-plugin-react-docgen-typescript",
-  "adaptation": "029 runners change evidence destinations; compat-common imports packed candidate and records candidate source tree, using existing root dependencies."
-}

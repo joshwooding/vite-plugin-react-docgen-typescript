@@ -1,4 +1,0 @@
-Direct-plugin scenario: large-project (16 files), cache: off, iterations: 1
-default        setup 15.6ms  first 2092.5ms  cold 2108.1ms  warm 11.1ms  hmr 1035.2ms  affected 9  invalidated 0  session 3161.1ms
-watch          setup 11.5ms  first 1317.2ms  cold 1328.6ms  warm 17.7ms  hmr 814.5ms  affected 9  invalidated 0  session 2168.2ms
-projectService setup 7.7ms  first 1252.7ms  cold 1260.3ms  warm 29.7ms  hmr 489.3ms  affected 9  invalidated 0  session 1790.6ms

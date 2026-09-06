@@ -1,6 +1,0 @@
-{
-  "findings": [],
-  "overall_correctness": "patch is correct",
-  "overall_explanation": "The removed normalization passes are redundant: every caller supplies a normalized entry path, ambient and direct dependencies are admitted only through exact membership in the canonically populated tracked-file set, and the collector already returns a newly allocated, deduplicated, sorted array. The success, parser-error, and cache-validation paths therefore preserve canonical identity, graph breadth, ownership, and ordering. The added tests and changeset introduce no actionable defects.",
-  "overall_confidence": 0.98
-}

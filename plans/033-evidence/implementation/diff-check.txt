@@ -1,1 +1,0 @@
-warning: in the working copy of 'packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts', LF will be replaced by CRLF the next time Git touches it

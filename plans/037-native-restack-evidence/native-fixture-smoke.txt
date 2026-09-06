@@ -1,8 +1,0 @@
-Direct-plugin scenario: large-design-system (24 files), cache: off, iterations: 1
-projectService setup 10.4ms  first 1554.5ms  cold 1564.9ms  cache 25.5ms  reanalyze 176.9ms  hmr 328.6ms  affected 21  invalidated 0  session 2105.8ms
-native         setup 3.0ms  first 866.1ms  cold 869.1ms  cache 17.6ms  reanalyze 416.5ms  hmr 96.3ms  affected 1  invalidated 0  session 1404.7ms
-  firstBatch       275 requests  server 102.9ms  transport 37.4ms  round-trip 140.3ms
-  memoryCacheBatch 0 requests  server 0.0ms  transport 0.0ms  round-trip 0.0ms
-  reanalysisBatch  171 requests  server 5.9ms  transport 21.0ms  round-trip 26.9ms
-  componentHmr     15 requests  server 2.6ms  transport 1.9ms  round-trip 4.5ms
-Wrote benchmark output to D:\OSS\vite-plugin-react-docgen-typescript\.yarn\.codex-worktrees\plan036\native\vite-plugin-react-docgen-typescript\plans\037-native-restack-evidence\native-fixture-smoke.json

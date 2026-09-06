@@ -1,3 +1,0 @@
-autoreview clean: no accepted/actionable findings reported
-overall: patch is correct (0.94)
-The change correctly traverses AST children in source order, stops at the first matching object-literal defaultProps assignment, and unwraps the relevant transparent TypeScript expression wrappers before extracting property initializers. The focused regression tests cover asserted, satisfies, parenthesized/non-null, and nested assignment forms. No actionable defect was found in the submitted correction.

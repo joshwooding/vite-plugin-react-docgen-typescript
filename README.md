@@ -61,7 +61,7 @@ In-memory transform caching and TypeScript program reuse continue. Existing
 boolean and object configurations, including custom cache directories, still
 work during deprecation; the default remains `false`.
 
-The [60-run performance recheck](plans/035-persistent-cache-measurement.md) found
+A 60-run performance recheck found
 insufficient startup benefit and slower edit processing in the two tested Windows
 fixtures across both stable modes. Those results support simplifying disk
 persistence; they do not establish a speedup for every consumer.
