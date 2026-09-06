@@ -40,6 +40,61 @@ Persistent cache hits avoid repeat docgen extraction, but startup still loads Ty
 
 During development, the plugin registers existing external type dependencies with Vite's watcher. External type files that are absent at startup may not trigger a refresh when first created; restart the server to pick them up. This limitation also applies when the persistent cache is disabled.
 
+### Watching a known external type directory
+
+For an existing external directory that you own, you can opt into watching newly
+created type files through Vite's shared watcher. Add this small local plugin to
+`vite.config.ts` alongside docgen:
+
+```ts
+import { statSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { defineConfig, normalizePath } from "vite";
+import reactDocgenTypescript from "@joshwooding/vite-plugin-react-docgen-typescript";
+
+const externalTypesDirectory = fileURLToPath(
+  new URL("../shared-types/", import.meta.url),
+);
+
+export default defineConfig({
+  plugins: [
+    reactDocgenTypescript(),
+    {
+      name: "watch-external-types",
+      apply: "serve",
+      config() {
+        if (!statSync(externalTypesDirectory).isDirectory()) {
+          throw new Error("externalTypesDirectory must be an existing directory");
+        }
+      },
+      configureServer(server) {
+        server.watcher.add(normalizePath(externalTypesDirectory));
+      },
+    },
+  ],
+});
+```
+
+The path is relative to the configuration file, not `process.cwd()`. Create the
+chosen directory before starting the server. A missing path or regular file
+fails development configuration before the watcher starts; this validation does
+not run for production builds. Keep the directory small: its contents are watched
+recursively, subject to existing depth limits and symlink settings. Avoid choosing
+a repository or filesystem root.
+
+Your watcher settings still apply. `server.watch: null` disables this workaround,
+and ignored directories or files remain ignored, including Vite's default
+`node_modules` exclusion. If those settings are intentional, restart to pick up
+new types. Changing `server.fs.allow` is unnecessary; it controls file serving,
+not watcher registration. Vite owns the shared watcher's shutdown, so the local
+plugin needs no custom cleanup hook.
+
+Registration is asynchronous. This example covers changes after the directory
+watch is established; it does not guarantee writes during registration or removal
+and recreation of the directory itself. If the directory was absent, create it
+and restart. Consumers without this explicit configuration retain the initially
+missing external-file limitation described above.
+
 ### Runtime selection and migration
 
 Omitting `docgenMode` still uses the existing `"legacy"` builder. This release
