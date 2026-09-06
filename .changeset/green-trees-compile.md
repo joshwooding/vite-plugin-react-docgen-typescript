@@ -7,9 +7,15 @@ Add an experimental `docgenMode: "native"` backend for TypeScript 7.1's
 support. Native requests are batched and project/path state is reused across
 transforms. TypeScript 7.0 remains unsupported.
 
-In the CI benchmark covering 188 components and shared fan-out edits, the
-optimized ProjectService backend reduced median edit time by 90% on Linux and
-94% on Windows compared with the previous implementation. The native backend
-then reduced median edit time by a further 58% on Linux and 49% on Windows,
-reduced cold analysis time by 51% and 40%, and used about 37% less retained
-memory after cold analysis. Results vary by project and environment.
+In the [6 September 2026 CI run](https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34040796932),
+the 188-component fixture used seven projects, ten shared-type edits and two
+fresh processes per backend. Compared with ProjectService in that run, native
+reduced total cold time by 48% on Linux and 26% on Windows, and edit p50 by 31%
+and 11%, respectively. Post-edit retained RSS, including the native engine
+process, was 13% and 14% lower. Both platforms produced exact metadata agreement
+for all 188 components.
+
+Results depend on the workload: in the separate 24-file fixture, native's full
+session was 29% shorter on Linux but 35% longer on Windows. Cache-bypassed
+reanalysis was about four times slower on native on both platforms. These CI
+measurements are diagnostic and do not establish a speedup for every project.
