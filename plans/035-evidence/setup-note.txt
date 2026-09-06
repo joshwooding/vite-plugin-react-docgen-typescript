@@ -1,0 +1,1 @@
+Initial build command redirection failed before process launch because evidence directory creation used the package cwd. Exact owned empty directories and own .gitattributes removed nonrecursively; no build ran. Corrected directory only.

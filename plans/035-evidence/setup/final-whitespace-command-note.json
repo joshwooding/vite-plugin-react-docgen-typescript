@@ -1,0 +1,8 @@
+{
+  "classification": "VERIFICATION_COMMAND_EXPECTATION",
+  "message": "Initial final audit assumed git --no-index --check returns0 for an untracked new-file diff. It returns1 even without whitespace diagnostics. A direct check confirmed this; final audit uses expected1 and requires empty stdout/stderr, with per-command core.autocrlf=false to avoid unrelated EOL advice. No persistent Git config or file bytes changed.",
+  "originalFile": "common.mjs",
+  "originalExitCode": 1,
+  "originalStdout": "",
+  "originalStderr": "warning: LF will be replaced by CRLF the next time Git touches it"
+}

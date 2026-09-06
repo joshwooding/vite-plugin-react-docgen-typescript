@@ -1,0 +1,107 @@
+{
+  "status": "PASS",
+  "method": "Independent Python statistics from every raw sample; no Node summarizer import.",
+  "samples": 60,
+  "rows": 12,
+  "extendedGroups": [],
+  "noisyGroups": [],
+  "verdict": "SIMPLIFY_OR_DEPRECATE",
+  "comparisons": [
+    {
+      "scenario": "large-project",
+      "mode": "default",
+      "coldSavingMs": -423.19550000000004,
+      "coldSavingPercent": -36.214666257165035,
+      "benefitThreshold": false,
+      "hmr": [
+        {
+          "cache": "populate",
+          "deltaMs": 225.71970000000033,
+          "deltaPercent": 40.54387274250787,
+          "materialRegression": true
+        },
+        {
+          "cache": "restart",
+          "deltaMs": 361.0800999999997,
+          "deltaPercent": 64.85736789589912,
+          "materialRegression": true
+        }
+      ],
+      "populationSessionOverheadMs": 541.6445999999999,
+      "restartSessionSavingMs": -796.1983999999995,
+      "projectedReuseSessionsToBreakEven": "NO_DEMONSTRATED_BREAK_EVEN"
+    },
+    {
+      "scenario": "large-project",
+      "mode": "projectService",
+      "coldSavingMs": -445.6984999999995,
+      "coldSavingPercent": -35.032302217936504,
+      "benefitThreshold": false,
+      "hmr": [
+        {
+          "cache": "populate",
+          "deltaMs": 207.4190000000001,
+          "deltaPercent": 68.18200495243971,
+          "materialRegression": true
+        },
+        {
+          "cache": "restart",
+          "deltaMs": 327.5598999999995,
+          "deltaPercent": 107.67427633929685,
+          "materialRegression": true
+        }
+      ],
+      "populationSessionOverheadMs": 482.15080000000034,
+      "restartSessionSavingMs": -766.8367000000003,
+      "projectedReuseSessionsToBreakEven": "NO_DEMONSTRATED_BREAK_EVEN"
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "default",
+      "coldSavingMs": 79.67560000000003,
+      "coldSavingPercent": 6.364453967511216,
+      "benefitThreshold": false,
+      "hmr": [
+        {
+          "cache": "populate",
+          "deltaMs": 63.62889999999925,
+          "deltaPercent": 11.72200156222352,
+          "materialRegression": true
+        },
+        {
+          "cache": "restart",
+          "deltaMs": 106.11819999999943,
+          "deltaPercent": 19.549571125390443,
+          "materialRegression": true
+        }
+      ],
+      "populationSessionOverheadMs": 173.58030000000053,
+      "restartSessionSavingMs": -4.464100000000144,
+      "projectedReuseSessionsToBreakEven": "NO_DEMONSTRATED_BREAK_EVEN"
+    },
+    {
+      "scenario": "react-typing",
+      "mode": "projectService",
+      "coldSavingMs": 79.48070000000007,
+      "coldSavingPercent": 6.108339062092323,
+      "benefitThreshold": false,
+      "hmr": [
+        {
+          "cache": "populate",
+          "deltaMs": 28.488100000000486,
+          "deltaPercent": 18.328077089855736,
+          "materialRegression": true
+        },
+        {
+          "cache": "restart",
+          "deltaMs": 96.7507000000005,
+          "deltaPercent": 62.245438905981246,
+          "materialRegression": true
+        }
+      ],
+      "populationSessionOverheadMs": 62.563500000000204,
+      "restartSessionSavingMs": 5.73489999999947,
+      "projectedReuseSessionsToBreakEven": 11
+    }
+  ]
+}

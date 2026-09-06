@@ -1,0 +1,7 @@
+{
+  "classification": "INVALID_CONTROL_TOPOLOGY",
+  "reason": "All four original controls passed but their worktree ancestry could inherit installed types differently from the actual OS-temp benchmark. Root required fresh OS-temp controls; no measured samples existed. Original outputs/scripts/fixtures retained.",
+  "originalResults": "controls-results-worktree-topology.json",
+  "originalOutputs": "controls/",
+  "correctedOutputs": "controls-os-temp/"
+}

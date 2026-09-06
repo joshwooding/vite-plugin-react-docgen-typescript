@@ -1,0 +1,146 @@
+import assert from 'node:assert/strict';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { prepareIteration, measureModeIteration, warmMode } from '../../scripts/benchmark-playground.mjs';
+import { cacheCount, directory, dist, filesUnder, fingerprint, harness, harnessTreeHash, hash, identity, json, launch, metadata, observeExtractions, raw, readJson, repo, require, save, writeJson } from './common.mjs';
+const script=fileURLToPath(import.meta.url);
+const scenarios={
+  'large-project':{ changed:'src/components/actions/ActionButton.tsx',marker:'Action trigger used across feature entry points.',updated:'Updated action trigger used across feature entry points.',count:16 },
+  'react-typing':{ changed:'src/components/Button.tsx',marker:'Native button with shared action styling.',updated:'Updated native button with shared action styling.',count:3 }
+};
+function makeWorkspace(scenario,mode) {
+  const selected=scenarios[scenario];
+  const temporaryRoot=mkdtempSync(path.join(tmpdir(),'vite-rdt-plan035-control-'));
+  const root=path.join(temporaryRoot,scenario);
+  cpSync(path.join(repo,'benchmarks/fixtures',scenario),root,{recursive:true,filter:source=>path.basename(source)!=='node_modules'});
+  // The harness's scale1 large-project constructor creates this empty directory.
+  if(scenario==='large-project') mkdirSync(path.join(root,'src/features/generated'),{recursive:true});
+  if(scenario==='react-typing') symlinkSync(path.dirname(path.dirname(require.resolve('react/package.json'))),path.join(root,'node_modules'),process.platform==='win32'?'junction':'dir');
+  const files=filesUnder(path.join(root,'src')).filter(file=>file.endsWith('.tsx')&&!file.endsWith('.stories.tsx'));
+  assert.equal(files.length,selected.count);
+  return { root,temporaryRoot,cacheDirectory:path.join(temporaryRoot,'persistent-cache'),files,fileCount:files.length,changedFile:path.join(root,selected.changed),markerText:selected.marker,updatedMarkerText:selected.updated,tsconfigPath:path.join(root,'tsconfig.json'),scenario,label:scenario };
+}
+const fileId=(workspace,file)=>path.relative(workspace.root,path.resolve((typeof file==='string'?file:file.file??file.id??file.url).split(/[?#]/)[0])).replaceAll('\\','/');
+const unique=values=>[...new Set(values)].sort();
+async function child(input) {
+  const {workspace,mode,cache,action,output}=input;
+  const getExtractions=observeExtractions();
+  const {default:realPlugin}=await import(pathToFileURL(dist).href);
+  let calls=0,closed=0;
+  const observation={first:{},warm:{},edit:{},affected:[],invalidated:[],transformed:[],batchExtractions:{}};
+  const relativeFiles=workspace.files.map(file=>fileId(workspace,file));
+  function wrapped(options) {
+    const plugin=realPlugin(options);
+    const transform=plugin.transform;
+    plugin.transform=async function(source,file) {
+      const result=await transform.call(this,source,file);
+      const stage=action==='measure'?(calls<workspace.fileCount?'first':calls<2*workspace.fileCount?'warm':'edit'):'first';
+      calls++;
+      observation[stage][fileId(workspace,file)]=metadata(result);
+      if(stage==='edit') observation.transformed.push(fileId(workspace,file));
+      if(calls===workspace.fileCount) observation.batchExtractions.first=getExtractions();
+      if(calls===workspace.fileCount*2) observation.batchExtractions.warm=getExtractions();
+      return result;
+    };
+    const hot=plugin.handleHotUpdate;
+    plugin.handleHotUpdate=async function(context) {
+      const invalidate=context.server.moduleGraph.invalidateModule;
+      context.server.moduleGraph.invalidateModule=function(module,...rest) {
+        observation.invalidated.push(fileId(workspace,module));
+        return invalidate.call(this,module,...rest);
+      };
+      const result=await hot?.call(this,context);
+      observation.affected=unique((result===undefined?context.modules:result).map(module=>fileId(workspace,module)));
+      return result;
+    };
+    const close=plugin.closeBundle;
+    plugin.closeBundle=async function(...args) { const result=await close?.apply(this,args); closed++; return result; };
+    return plugin;
+  }
+  const initialEntryCount=cacheCount(workspace.cacheDirectory);
+  let measurement=null;
+  if(action==='measure') measurement=await measureModeIteration(wrapped,mode,workspace,{cache,processFirstMeasuredInstance:true});
+  else await warmMode(wrapped,mode,workspace,cache);
+  assert.equal(closed,1,'One awaited plugin close');
+  assert.deepEqual(Object.keys(observation.first).sort(),relativeFiles);
+  observation.invalidated=unique(observation.invalidated); observation.transformed=unique(observation.transformed);
+  observation.batchExtractions.total=getExtractions();
+  const result={status:'PASS',action,scenario:workspace.scenario,mode,cache,processId:process.pid,workspaceRoot:workspace.root,closed,initialEntryCount,finalEntryCount:cacheCount(workspace.cacheDirectory),observation,measurement};
+  writeJson(output,result,true);
+}
+async function main() {
+  assert.ok(!existsSync(path.join(directory,'controls-results.json')),'Controls exist');
+  const frozen=readJson('frozen-identity.json');
+  assert.deepEqual(fingerprint(),frozen.inputs);
+  const result={status:'RUNNING',startedAt:new Date().toISOString(),before:fingerprint(),after:null,groups:[],children:[],failures:[],scripts:{'controls.mjs':hash(readFileSync(script)),'common.mjs':hash(readFileSync(path.join(directory,'common.mjs')))}};
+  save('controls-results.json',result,true);
+  let serial=0;
+  async function observed(workspace,mode,cache,action) {
+    const name=String(++serial).padStart(2,'0')+'-'+workspace.scenario+'-'+mode+'-'+cache+'-'+action;
+    const output=path.join(directory,'controls-os-temp',name+'.json');
+    const input=path.join(raw,'control-os-temp-inputs',name+'.json');
+    writeJson(input,{workspace,mode,cache,action,output},true);
+    const record={kind:action,name,output:path.relative(directory,output).replaceAll('\\','/')}; result.children.push(record);
+    await launch([script,'--child',input],record);
+    const data=json(output); assert.equal(data.processId,record.childPid); assert.equal(record.stderr,'');
+    record.sha256=hash(readFileSync(output)); record.status='PASS';
+    return data;
+  }
+  async function validate(workspace,mode) {
+    const input=path.join(raw,'control-os-temp-inputs',String(++serial)+'-validate.json'); writeJson(input,{workspace,mode},true);
+    const record={kind:'harness-compiler-validation',name:String(serial)}; result.children.push(record);
+    await launch([harness,'--internal-validate',input],record);
+    assert.equal(record.stderr,''); const data=JSON.parse(record.stdout); assert.equal(data.processId,record.childPid); assert.equal(data.fixtureValidation.compilerDiagnostics,0); record.status='PASS'; return data;
+  }
+  try {
+    for(const scenario of Object.keys(scenarios)) for(const mode of ['default','projectService']) {
+      const workspace=makeWorkspace(scenario,mode);
+      const original=readFileSync(workspace.changedFile,'utf8');
+      const sourceHash=harnessTreeHash(path.join(workspace.root,'src'));
+      assert.equal(sourceHash,frozen.scenarios[scenario].sourceSha256);
+      const group={scenario,mode,workspaceRoot:workspace.root,files:workspace.files.map(file=>fileId(workspace,file)),sourceSha256:sourceHash,states:[],seed:null,oracle:null}; result.groups.push(group);
+      for(const cache of ['off','populate','restart']) {
+        const lifecycle=await prepareIteration(workspace,mode,cache,async(current,selected,action='seed')=>{
+          if(action==='validate') return validate(current,selected);
+          if(scenario==='react-typing') await validate(current,selected);
+          const seed=await observed(current,selected,'populate','seed'); group.seed=seed;
+          assert.ok(seed.observation.batchExtractions.first>0); assert.equal(seed.initialEntryCount,0); assert.ok(seed.finalEntryCount>0);
+          return {processId:seed.processId};
+        });
+        const row=await observed(workspace,mode,cache,'measure'); row.lifecycle=lifecycle;
+        assert.equal(row.initialEntryCount>0,cache==='restart'); assert.equal(row.finalEntryCount>0,cache!=='off');
+        assert.equal(row.observation.batchExtractions.first===0,cache==='restart','True persisted first-batch hit');
+        assert.equal(row.observation.batchExtractions.warm,row.observation.batchExtractions.first,'Warm batch has no extractions');
+        assert.deepEqual(row.observation.first,row.observation.warm);
+        assert.notDeepEqual(row.observation.edit[fileId(workspace,workspace.changedFile)],row.observation.first[fileId(workspace,workspace.changedFile)],'Effective metadata edit');
+        assert.equal(readFileSync(workspace.changedFile,'utf8'),original,'Harness restored source');
+        assert.equal(harnessTreeHash(path.join(workspace.root,'src')),sourceHash);
+        assert.equal(row.measurement.componentHmr.affectedModuleCount,row.observation.transformed.length);
+        assert.equal(row.measurement.componentHmr.invalidatedModuleCount,row.observation.invalidated.length);
+        const baseline=group.states[0];
+        if(baseline) for(const field of ['first','warm','edit','affected','invalidated','transformed']) assert.deepEqual(row.observation[field],baseline.observation[field],field+' equal across cache states');
+        group.states.push(row);
+        save('controls-results.json',result);
+      }
+      const edited=original.replace(workspace.markerText,workspace.updatedMarkerText); assert.notEqual(edited,original);
+      try {
+        writeFileSync(workspace.changedFile,edited);
+        group.oracle=await observed(workspace,mode,'off','edited-oracle');
+        assert.ok(group.oracle.observation.batchExtractions.first>0);
+        for(const row of group.states) {
+          const composed={...row.observation.first,...row.observation.edit};
+          assert.deepEqual(composed,group.oracle.observation.first,'Full edited metadata matches independent fresh cache-disabled extraction');
+          for(const file of group.files) if(file!==fileId(workspace,workspace.changedFile)) assert.deepEqual(group.oracle.observation.first[file],row.observation.first[file],'Untouched component metadata stays identical');
+        }
+      } finally { writeFileSync(workspace.changedFile,original); }
+      assert.equal(harnessTreeHash(path.join(workspace.root,'src')),sourceHash);
+      group.status='PASS'; save('controls-results.json',result);
+      console.log(`${scenario}/${mode}: true hits, full metadata oracle, affected identities and restoration PASS`);
+    }
+    let finish=-Infinity; for(const child of result.children) { assert.ok(Date.parse(child.startedAt)>=finish); finish=Date.parse(child.finishedAt); }
+    result.after=fingerprint(); assert.deepEqual(result.after,result.before); result.status='PASS'; result.finishedAt=new Date().toISOString(); save('controls-results.json',result);
+  } catch(error) { result.status='FAILED'; result.failures.push({message:String(error),stack:error.stack});save('controls-results.json',result);throw error; }
+}
+if(process.argv[2]==='--child') await child(json(process.argv[3])); else await main();

@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { base, dist, hash, identity, json, repo, run, save } from './common.mjs';
+const actual=await identity();
+const accepted=json(path.join(repo,'plans/033-evidence/compatibility/artifact.json'));
+const build=Object.fromEntries(Object.keys(accepted.distFiles).map(file=>[file,hash(readFileSync(path.join(path.dirname(dist),file)))]));
+assert.deepEqual(build,accepted.distFiles);
+const drift=await run('git',['diff','--stat',base+'..HEAD','--','scripts/benchmark-playground.mjs','packages/vite-plugin-react-docgen-typescript/src','benchmarks/fixtures','package.json','yarn.lock'],{cwd:repo,windowsHide:true});
+assert.equal(drift.stdout.trim(),'');
+const runtimeDiff=await run('git',['diff','--name-only','09039b9f32bab728b2418b24e74636f93703b998..HEAD','--','packages/vite-plugin-react-docgen-typescript/src'],{cwd:repo,windowsHide:true});
+assert.deepEqual(runtimeDiff.stdout.trim().split(/\r?\n/).filter(Boolean),['packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts']);
+save('frozen-identity.json',{...actual,buildFiles:build,acceptedArchiveSha256:accepted.archiveSha256,entryDrift:drift.stdout,runtimeDiffSince033:runtimeDiff.stdout.trim(),lineEndings:'Exact current checkout byte hashes frozen; Git diff confirms only Plan034 test changes since033 runtime. No historical raw source-tree hash comparison across test additions or CRLF/LF checkout differences.',createdAt:new Date().toISOString()},true);
+console.log(JSON.stringify({status:'PASS',node:actual.nodeVersion,dependencies:actual.harnessIdentity.dependencies,typescript6Alias:actual.typescript6Alias,buildFiles:build}));

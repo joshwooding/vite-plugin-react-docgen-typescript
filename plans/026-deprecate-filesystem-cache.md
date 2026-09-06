@@ -3,7 +3,8 @@
 Status: PREPARED — backlog item 3's requested proposal is complete; no deprecation
 has been implemented or published. Priority P3; effort S for stage A, M for stage B;
 risk MED because this is a public option. Planned at d6553de853530680b0d959120e3b0f9eeeaf8d33,
-2026-09-05. Depends on Plan 022's retained correctness fixes and Plan 024's evidence.
+2026-09-05. Depends on Plan 022's retained correctness fixes, Plan 024's historical
+evidence and the completed Plan 035 current-artifact recheck. Updated 2026-09-06.
 
 ## Decision and limits
 
@@ -28,6 +29,17 @@ and external review is clean. The change is integrated at user-authorized unsign
 local source commit `09039b9`.
 The historical percentages are not measurements of either optimized artifact.
 
+Plan 035 now measures the unchanged post-033 runtime at base `ec7455a`, with all
+five distribution files identical to the accepted033 artifact. All 60 measurements
+and genuine-hit/full-metadata controls pass. No tested group meets the original
+retention rule: large-project restart cold is 35.0–36.2% slower; react-typing saves
+6.1–6.4%, below both benefit thresholds. Restart HMR is 19.5–107.7% slower; every
+population and restart edit comparison exceeds the material-regression limits.
+The result is SIMPLIFY_OR_DEPRECATE on these two Windows scale1 fixtures and stable
+modes. It supplies current-artifact support for the compatible notice, without a
+Salt-specific or universal removal claim. See [035 verification](035-verification.md)
+and the [measurement report](035-persistent-cache-measurement.md).
+
 Current validation deliberately initializes TypeScript and checks current project
 membership before accepting a disk hit. That cost protects against new declarations,
 augmentations and offline changes. Do not revive backend-free acceptance or replace
@@ -35,12 +47,12 @@ content hashes with mtime/size checks to improve benchmark numbers.
 
 ## Evidence freshness before a new retention decision
 
-A compatible stage A notice can cite Plan 024 explicitly as historical, bounded
-evidence and state the maintenance-policy reason for deprecation. It must not
-claim that the current implementation misses the retention threshold, that Salt
-has a measured persistence regression, or that removing the option always helps.
-Plan 033 is accepted and locally integrated. If the deprecation decision depends
-on present performance, satisfy this gate before relying on new numbers:
+This gate is COMPLETE in Plan 035 for the unchanged post-033 runtime and the two
+declared fixtures. A compatible stage A notice may cite those bounded results;
+Plan 024 must remain labeled historical. Neither report measures Salt persistence
+or proves that removing the option always helps. Do not rerun the completed matrix
+on identical inputs just to implement documentation. If relevant runtime/workload
+inputs change before relying on a new current-performance claim, repeat this gate:
 
 1. Freeze the actual final integrated source, package artifact, compiler, existing
    corrected benchmark and workload identities. Use the artifact that is being
@@ -59,10 +71,11 @@ on present performance, satisfy this gate before relying on new numbers:
    This targeted revalidation is justified by changed runtime paths; it does not
    require repeating completed TS7, Storybook or watcher-policy experiments.
 
-This gate is required before applying a current performance-based removal
-rationale. If removal is instead a maintenance-policy decision, record that
-choice explicitly and review consumer reliance; do not substitute old timings
-for current evidence. Neither route bypasses the published-release gates below.
+The completed gate supports the present performance rationale within its stated
+scope. A later removal decision must check for relevant drift and review consumer
+reliance or new evidence. If removal is instead a maintenance-policy decision,
+record that choice explicitly; do not substitute historical timings for current
+evidence. Neither route bypasses the published-release gates below.
 
 ## Current contract and owner boundary
 
@@ -107,7 +120,10 @@ necessary type/export documentation changes; no production behavior or IO change
 4. Prefer JSDoc and release documentation over adding runtime warning state or
    another public switch. No new warnings are necessary to complete this stage.
 5. Verify the emitted declarations preserve the public shape and show deprecation
-   comments; review the packed README/types and confirm the default remains off.
+   comments; inspect packed declarations and the release-note path, review the
+   repository README separately, and confirm the default remains off. Plan 034
+   established that the root README is absent from the current archive and is not
+   generated into the package; adding README packaging is outside this notice.
 
 Done: users can follow a precise migration path, existing configurations still
 work, docs/types/release note agree, and no persisted-hit freshness checks change.
@@ -118,8 +134,9 @@ Do not label this stage shipped before an actual release occurs.
 Entry gates: record the actual version and publication evidence for at least one
 compatible release carrying stage A; the maintainer selects a breaking release;
 review any new consumer evidence or reported reliance. A local notice commit is
-not a published release. Record the maintenance-policy decision or complete the
-evidence-freshness gate before relying on current performance to justify removal.
+not a published release. Record the maintenance-policy decision or confirm the
+Plan 035 evidence still applies, repeating the freshness gate only after relevant
+input changes, before relying on current performance to justify removal.
 If retention is reconsidered, use a concrete workload and correctness-preserving,
 predeclared measurement rather than a new cache subsystem.
 
