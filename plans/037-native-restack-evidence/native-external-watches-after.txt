@@ -1,0 +1,9 @@
+
+ RUN  v4.1.0 D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan036/native/vite-plugin-react-docgen-typescript
+
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  15:04:27
+   Duration  38.91s (transform 268ms, setup 0ms, import 502ms, tests 38.23s, environment 0ms)
+

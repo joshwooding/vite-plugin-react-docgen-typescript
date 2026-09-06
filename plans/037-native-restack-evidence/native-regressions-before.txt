@@ -1,0 +1,115 @@
+
+ RUN  v4.1.0 D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan036/native/vite-plugin-react-docgen-typescript
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts (21 tests | 3 failed | 16 skipped) 2079ms
+     × honors shouldSortUnions=true 211ms
+     × refreshes cached props after a package declaration edit (linked=false) 261ms
+     × refreshes cached props after a package declaration edit (linked=true) 204ms
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/runtimeMode.test.ts (19 tests | 1 failed | 18 skipped) 3259ms
+     × keeps callbacks strict and mode-specific for package consumers 3256ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > honors shouldSortUnions=true
+AssertionError: expected [ { value: '"z"' }, { value: '"a"' } ] to deeply equal [ { value: '"a"' }, { value: '"z"' } ]
+
+- Expected
++ Received
+
+  [
+    {
+-     "value": "\"a\"",
++     "value": "\"z\"",
+    },
+    {
+-     "value": "\"z\"",
++     "value": "\"a\"",
+    },
+  ]
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts:119:59
+    117|       expect(result.status).toBe("ok");
+    118|       if (result.status !== "ok") return;
+    119|       expect(result.components[0]?.props.tone.type.value).toEqual(
+       |                                                           ^
+    120|         (shouldSortUnions ? ['"a"', '"z"'] : ['"z"', '"a"']).map((valu…
+    121|       );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > refreshes cached props after a package declaration edit (linked=false)
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > refreshes cached props after a package declaration edit (linked=true)
+AssertionError: expected [ Array(1) ] to include 'C:\Users\Joshu\AppData\Local\Temp\vit…'
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts:155:36
+    153|       if (initial?.status !== "ok") return;
+    154|       expect(initial.components[0]?.props.value.type.name).toBe("strin…
+    155|       expect(initial.dependencies).toContain(normalizeBoundaryPath(dec…
+       |                                    ^
+    156|       expect(initial.project.docgenFiles).toEqual([normalizeBoundaryPa…
+    157|       expect(context.addWatchFile).toHaveBeenCalledWith(normalizeBound…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/runtimeMode.test.ts > public option types > keeps callbacks strict and mode-specific for package consumers
+AssertionError: expected [ …(5) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "No overload matches this call.
++   Overload 1 of 3, '(publicConfig?: PublicLegacyOptions | undefined): Plugin<any>', gave the following error.
++     Object literal may only specify known properties, and 'shouldSortUnions' does not exist in type 'PublicLegacyOptions'.
++   Overload 2 of 3, '(publicConfig: PublicNativeOptions): Plugin<any>', gave the following error.
++     Object literal may only specify known properties, and 'shouldSortUnions' does not exist in type 'PublicNativeOptions'.
++   Overload 3 of 3, '(publicConfig: PublicDynamicModeOptions): Plugin<any>', gave the following error.
++     Object literal may only specify known properties, and 'shouldSortUnions' does not exist in type 'PublicDynamicModeOptions'.",
++   "No overload matches this call.
++   Overload 1 of 3, '(publicConfig?: PublicLegacyOptions | undefined): Plugin<any>', gave the following error.
++     Object literal may only specify known properties, and 'shouldSortUnions' does not exist in type 'PublicLegacyOptions'.
++   Overload 2 of 3, '(publicConfig: PublicNativeOptions): Plugin<any>', gave the following error.
++     Type '\"legacy\"' is not assignable to type '\"native\"'.
++   Overload 3 of 3, '(publicConfig: PublicDynamicModeOptions): Plugin<any>', gave the following error.
++     Object literal may only specify known properties, and 'shouldSortUnions' does not exist in type 'PublicDynamicModeOptions'.",
++   "No overload matches this call.
++   Overload 1 of 3, '(publicConfig?: PublicLegacyOptions | undefined): Plugin<any>', gave the following error.
++     Object literal may only specify known properties, and 'shouldSortUnions' does not exist in type 'PublicLegacyOptions'.
++   Overload 2 of 3, '(publicConfig: PublicNativeOptions): Plugin<any>', gave the following error.
++     Type '\"project-service\"' is not assignable to type '\"native\"'.
++   Overload 3 of 3, '(publicConfig: PublicDynamicModeOptions): Plugin<any>', gave the following error.
++     Object literal may only specify known properties, and 'shouldSortUnions' does not exist in type 'PublicDynamicModeOptions'.",
++   "No overload matches this call.
++   Overload 1 of 3, '(publicConfig?: PublicLegacyOptions | undefined): Plugin<any>', gave the following error.
++     Type '\"native\"' is not assignable to type '\"legacy\" | \"project-service\" | undefined'.
++   Overload 2 of 3, '(publicConfig: PublicNativeOptions): Plugin<any>', gave the following error.
++     Object literal may only specify known properties, and 'shouldSortUnions' does not exist in type 'PublicNativeOptions'.
++   Overload 3 of 3, '(publicConfig: PublicDynamicModeOptions): Plugin<any>', gave the following error.
++     Object literal may only specify known properties, and 'shouldSortUnions' does not exist in type 'PublicDynamicModeOptions'.",
++   "No overload matches this call.
++   Overload 1 of 3, '(publicConfig?: PublicLegacyOptions | undefined): Plugin<any>', gave the following error.
++     Type 'DocgenMode' is not assignable to type '\"legacy\" | \"project-service\" | undefined'.
++       Type '\"native\"' is not assignable to type '\"legacy\" | \"project-service\" | undefined'.
++   Overload 2 of 3, '(publicConfig: PublicNativeOptions): Plugin<any>', gave the following error.
++     Type 'DocgenMode' is not assignable to type '\"native\"'.
++       Type '\"legacy\"' is not assignable to type '\"native\"'.
++   Overload 3 of 3, '(publicConfig: PublicDynamicModeOptions): Plugin<any>', gave the following error.
++     Object literal may only specify known properties, and 'shouldSortUnions' does not exist in type 'PublicDynamicModeOptions'.",
++ ]
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/runtimeMode.test.ts:146:27
+    144|         );
+    145|
+    146|       expect(diagnostics).toEqual([]);
+       |                           ^
+    147|     } finally {
+    148|       rmSync(root, { force: true, recursive: true });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  4 failed | 2 passed | 34 skipped (40)
+   Start at  14:58:47
+   Duration  4.81s (transform 588ms, setup 0ms, import 1.67s, tests 5.34s, environment 0ms)
+

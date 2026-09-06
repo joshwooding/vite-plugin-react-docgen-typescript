@@ -1,0 +1,279 @@
+{
+  "counterbalanced": true,
+  "schemaVersion": 3,
+  "benchmarkKind": "direct-plugin",
+  "processId": 30432,
+  "cache": "off",
+  "identity": {
+    "buildSha256": "0b5cc57b2bbbc78d44e5fcf58a9a927ea1c09160202192539d57210b475eb0e9",
+    "sourceSha256": "240f93e2b9afd18c398178290a64d695cbec58ef6d150c6694f82ce666d7ce2c",
+    "benchmarkSha256": "156cefbd4e1822079137b56b92573764ed743dc3461008a1ab27358c5f01bb8b",
+    "gitHead": "5b496e9484dc6cc4eca9734ff8a732b063686795",
+    "pluginVersion": "0.8.0",
+    "dependencies": {
+      "typescript": "6.0.3",
+      "react-docgen-typescript": "2.2.2",
+      "react": "18.3.1",
+      "@types/react": "18.2.25",
+      "vite": "8.1.5"
+    }
+  },
+  "parserOptions": {
+    "parser": {
+      "propFilter": "plugin-default"
+    },
+    "tsconfig": {
+      "include": [
+        "src/**/*"
+      ],
+      "compilerOptions": {
+        "target": "ES2020",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "strict": true,
+        "skipLibCheck": true,
+        "noEmit": true,
+        "jsx": "preserve",
+        "baseUrl": ".",
+        "paths": {
+          "@composites/*": [
+            "src/composites/*"
+          ],
+          "@design/*": [
+            "src/*"
+          ],
+          "@feedback/*": [
+            "src/feedback/*"
+          ],
+          "@forms/*": [
+            "src/forms/*"
+          ],
+          "@primitives/*": [
+            "src/primitives/*"
+          ],
+          "@tokens/*": [
+            "src/tokens/*"
+          ]
+        }
+      }
+    }
+  },
+  "timingScope": {
+    "coldBatchMs": "configResolved plus first transform batch; only the first measured instance has a fresh process",
+    "warmBatchMs": "same-instance in-memory reuse",
+    "reanalysisBatchMs": "in-memory cache bypass; may reuse persisted entries when --cache is enabled",
+    "sessionTotalMs": "plugin configuration and construction through first batch, memory-cache batch, memory-cache-bypass batch, HMR, and awaited close; excludes fixture copy/restore, cache clearing, and child-process seeding"
+  },
+  "createdAt": "2026-09-06T14:11:02.630Z",
+  "executionOrder": [
+    [
+      "projectService",
+      "native"
+    ]
+  ],
+  "iterations": 1,
+  "modes": [
+    "projectService",
+    "native"
+  ],
+  "nativeTiming": true,
+  "nodeVersion": "v24.10.0",
+  "platform": "win32",
+  "scenario": {
+    "sourceSha256": "3268f239b54eb097ea8e3f0c9b89f5ee560ce535b53c34e702b844f615454c7e",
+    "fileCount": 24,
+    "label": "large-design-system",
+    "name": "large-design-system",
+    "scale": 1
+  },
+  "results": [
+    {
+      "metrics": {
+        "componentHmr": {
+          "affectedModuleCount": 21,
+          "invalidatedModuleCount": 0,
+          "status": "updated",
+          "totalCycleMs": 328.5742
+        },
+        "coldBatchMs": 1564.9054999999998,
+        "configResolvedMs": 10.398600000000044,
+        "fileCount": 24,
+        "firstBatchMs": 1554.5068999999999,
+        "memoryCacheBatchMs": 25.505099999999857,
+        "reanalysisBatchMs": 176.88970000000018,
+        "sessionTotalMs": 2105.8293,
+        "warmBatchMs": 25.505099999999857
+      },
+      "mode": "projectService",
+      "runs": [
+        {
+          "cache": "off",
+          "mode": "projectService",
+          "processFirstMeasuredInstance": true,
+          "componentHmr": {
+            "affectedModuleCount": 21,
+            "invalidatedModuleCount": 0,
+            "status": "updated",
+            "totalCycleMs": 328.5742
+          },
+          "coldBatchMs": 1564.9054999999998,
+          "configResolvedMs": 10.398600000000044,
+          "fileCount": 24,
+          "firstBatchMs": 1554.5068999999999,
+          "memoryCacheBatchMs": 25.505099999999857,
+          "reanalysisBatchMs": 176.88970000000018,
+          "warmBatchMs": 25.505099999999857,
+          "sessionTotalMs": 2105.8293,
+          "cacheLifecycle": {
+            "initialEntryCount": 0,
+            "seedProcessId": null,
+            "validation": null,
+            "finalEntryCount": 0
+          },
+          "iteration": 0,
+          "order": 0
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "componentHmr": {
+          "affectedModuleCount": 1,
+          "invalidatedModuleCount": 0,
+          "status": "updated",
+          "totalCycleMs": 96.26700000000028
+        },
+        "coldBatchMs": 869.0662000000002,
+        "configResolvedMs": 3.007100000000264,
+        "fileCount": 24,
+        "firstBatchMs": 866.0591,
+        "memoryCacheBatchMs": 17.568500000000313,
+        "reanalysisBatchMs": 416.47789999999986,
+        "sessionTotalMs": 1404.6751,
+        "warmBatchMs": 17.568500000000313,
+        "nativeTiming": {
+          "firstBatch": {
+            "bytesReceived": 411702,
+            "bytesSent": 219734,
+            "nodesFetched": 4153,
+            "nodesMaterialized": 485,
+            "requestCount": 275,
+            "roundTripMs": 140.27759999999762,
+            "serverTimeMs": 102.86080000000004,
+            "sourceFilesFetched": 25,
+            "transportOverheadMs": 37.41679999999758
+          },
+          "memoryCacheBatch": {
+            "bytesReceived": 0,
+            "bytesSent": 0,
+            "nodesFetched": 0,
+            "nodesMaterialized": 0,
+            "requestCount": 0,
+            "roundTripMs": 0,
+            "serverTimeMs": 0,
+            "sourceFilesFetched": 0,
+            "transportOverheadMs": 0
+          },
+          "reanalysisBatch": {
+            "bytesReceived": 109402,
+            "bytesSent": 158986,
+            "nodesFetched": 0,
+            "nodesMaterialized": 0,
+            "requestCount": 171,
+            "roundTripMs": 26.936100000003535,
+            "serverTimeMs": 5.9220999999999995,
+            "sourceFilesFetched": 0,
+            "transportOverheadMs": 21.014000000003534
+          },
+          "componentHmr": {
+            "bytesReceived": 44179,
+            "bytesSent": 10738,
+            "nodesFetched": 137,
+            "nodesMaterialized": 30,
+            "requestCount": 15,
+            "roundTripMs": 4.532000000000153,
+            "serverTimeMs": 2.6221,
+            "sourceFilesFetched": 1,
+            "transportOverheadMs": 1.9099000000001527
+          }
+        }
+      },
+      "mode": "native",
+      "runs": [
+        {
+          "cache": "off",
+          "mode": "native",
+          "processFirstMeasuredInstance": false,
+          "componentHmr": {
+            "affectedModuleCount": 1,
+            "invalidatedModuleCount": 0,
+            "status": "updated",
+            "totalCycleMs": 96.26700000000028
+          },
+          "coldBatchMs": 869.0662000000002,
+          "configResolvedMs": 3.007100000000264,
+          "fileCount": 24,
+          "firstBatchMs": 866.0591,
+          "memoryCacheBatchMs": 17.568500000000313,
+          "nativeTiming": {
+            "firstBatch": {
+              "bytesReceived": 411702,
+              "bytesSent": 219734,
+              "nodesFetched": 4153,
+              "nodesMaterialized": 485,
+              "requestCount": 275,
+              "roundTripMs": 140.27759999999762,
+              "serverTimeMs": 102.86080000000004,
+              "sourceFilesFetched": 25,
+              "transportOverheadMs": 37.41679999999758
+            },
+            "memoryCacheBatch": {
+              "bytesReceived": 0,
+              "bytesSent": 0,
+              "nodesFetched": 0,
+              "nodesMaterialized": 0,
+              "requestCount": 0,
+              "roundTripMs": 0,
+              "serverTimeMs": 0,
+              "sourceFilesFetched": 0,
+              "transportOverheadMs": 0
+            },
+            "reanalysisBatch": {
+              "bytesReceived": 109402,
+              "bytesSent": 158986,
+              "nodesFetched": 0,
+              "nodesMaterialized": 0,
+              "requestCount": 171,
+              "roundTripMs": 26.936100000003535,
+              "serverTimeMs": 5.9220999999999995,
+              "sourceFilesFetched": 0,
+              "transportOverheadMs": 21.014000000003534
+            },
+            "componentHmr": {
+              "bytesReceived": 44179,
+              "bytesSent": 10738,
+              "nodesFetched": 137,
+              "nodesMaterialized": 30,
+              "requestCount": 15,
+              "roundTripMs": 4.532000000000153,
+              "serverTimeMs": 2.6221,
+              "sourceFilesFetched": 1,
+              "transportOverheadMs": 1.9099000000001527
+            }
+          },
+          "reanalysisBatchMs": 416.47789999999986,
+          "warmBatchMs": 17.568500000000313,
+          "sessionTotalMs": 1404.6751,
+          "cacheLifecycle": {
+            "initialEntryCount": 0,
+            "seedProcessId": null,
+            "validation": null,
+            "finalEntryCount": 0
+          },
+          "iteration": 0,
+          "order": 1
+        }
+      ]
+    }
+  ]
+}

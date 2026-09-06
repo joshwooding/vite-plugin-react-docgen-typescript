@@ -1,0 +1,12 @@
+{
+  "firstAttempt": "constraints-results.json",
+  "status": "INVALID_CONTROL_SETUP",
+  "passedRows": [
+    "ignored",
+    "disabled",
+    "scope"
+  ],
+  "failedRow": "depth",
+  "reason": "The root/src control exceeds depth:0. The watcher preserved the configured limit; the fixture did not provide an effective native control. No product failure is inferred. Root authorized moving only this row control directly to Vite root; unchanged watcher depth settings and nested external exclusion remain asserted.",
+  "remainingAttempt": "constraints-remaining-results.json"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "FAILED",
+  "command": [
+    "C:/nvm4w/nodejs/node.exe",
+    "node_modules/vitest/vitest.mjs",
+    "run",
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/runtimeMode.test.ts",
+    "--pool=threads",
+    "--maxWorkers=2"
+  ],
+  "cwd": ".",
+  "startedAt": "2026-09-06T13:59:39.111410+00:00",
+  "CI": "true",
+  "pid": 63336,
+  "exitCode": 1,
+  "durationSeconds": 9.282000000000153,
+  "finishedAt": "2026-09-06T13:59:48.392440+00:00",
+  "logSha256": "b320e5bd0ab87c48c532b7e9e3b70e3fadaca9457d02f1d8fe80b5ea640dabbc"
+}

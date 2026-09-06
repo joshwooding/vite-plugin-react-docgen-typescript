@@ -1,0 +1,16 @@
+{
+  "versions": {
+    "typescript": "5.0.4",
+    "vite": "5.4.21",
+    "react-docgen-typescript": "2.4.0",
+    "glob": "13.0.6",
+    "@joshwooding/vite-plugin-react-docgen-typescript": "0.8.0"
+  },
+  "distFiles": {
+    "chunks/fileSelection.mjs": "49d944c7dd814dbbb9b1a9290f13334bfd1bccf94f02a2e96c813b0b16ce1826",
+    "chunks/typescript.mjs": "566dede0c2d983ce2e3ad455f497af0e6a4e436b515177c3b05a6e2f569d78d3",
+    "index.d.mts": "e43fdc3aba416e95d34bc1cac76942c574f9345f62bd04910983180c3826977b",
+    "index.d.ts": "e43fdc3aba416e95d34bc1cac76942c574f9345f62bd04910983180c3826977b",
+    "index.mjs": "8446e4c027f8f3506117209a857d6d55f30687db40a627351f4ab4f7f9390f5f"
+  }
+}

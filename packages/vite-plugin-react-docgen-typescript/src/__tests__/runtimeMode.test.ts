@@ -75,6 +75,12 @@ describe("public option types", () => {
 
 declare const mode: DocgenMode;
 
+reactDocgenTypescript({ shouldSortUnions: true });
+reactDocgenTypescript({ docgenMode: "legacy", shouldSortUnions: true });
+reactDocgenTypescript({ docgenMode: "project-service", shouldSortUnions: true });
+reactDocgenTypescript({ docgenMode: "native", shouldSortUnions: true });
+reactDocgenTypescript({ docgenMode: mode, shouldSortUnions: true });
+
 reactDocgenTypescript({ docgenMode: mode });
 
 reactDocgenTypescript({

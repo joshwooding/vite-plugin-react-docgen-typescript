@@ -401,7 +401,9 @@ if (import.meta.hot) import.meta.hot.accept();
           server: {
             fs: { allow: [fixture.commonRoot] },
             middlewareMode: true,
-            watch: null,
+            // Events are emitted below; older Vite versions do not disable native
+            // watching for null, so ignore all paths to prevent duplicate events.
+            watch: { ignored: () => true },
           },
         }),
         `${testLabel} server creation`,
@@ -657,6 +659,11 @@ if (import.meta.hot) import.meta.hot.accept();
         mode: runtimeMode,
         topology,
       };
+    } catch (error) {
+      console.error(
+        `ORIGINAL_TOPOLOGY_ERROR ${testLabel}: ${error.stack ?? error}`,
+      );
+      throw error;
     } finally {
       activeCapture = undefined;
       if (server) {

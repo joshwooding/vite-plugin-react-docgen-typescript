@@ -1,0 +1,109 @@
+{
+  "rowIndex": 8,
+  "requested": {
+    "os": "windows-latest",
+    "node": "20.19.5",
+    "typescript": "4.3.5",
+    "vite": "3.2.11",
+    "modes": [
+      "default",
+      "legacy",
+      "project-service",
+      "experimental-watch"
+    ],
+    "purpose": "Windows lower families and watcher teardown"
+  },
+  "startedAt": "2026-09-06T00:47:52.096Z",
+  "completedAt": "2026-09-06T00:48:17.324Z",
+  "command": [
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan025\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\025\\runtime-windows\\node-v20.19.5-win-x64\\node.exe",
+    "--import",
+    "file:///D:/OSS/vite-plugin-react-docgen-typescript/plans/033-evidence/compat-observe-install.mjs",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\scripts\\verify-runtime-compatibility.mjs",
+    "--package",
+    "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/candidate.tgz",
+    "--typescript",
+    "4.3.5",
+    "--vite",
+    "3.2.11",
+    "--modes",
+    "default,legacy,project-service,experimental-watch"
+  ],
+  "actual": {
+    "node": "20.19.5",
+    "platform": "win32",
+    "arch": "x64",
+    "release": "10.0.26340",
+    "osVersion": "Windows 11 Pro",
+    "linuxRelease": null
+  },
+  "archiveSha256": "a7aa4620b18c2eebfffbeab4cb623d94f91b4f0371b684b37eacd52ee901dfbe",
+  "verifierSha256": "94dd0637db2d5e34501559060798252ee7175dd163871515f470f7181b3be55a",
+  "exitCode": 0,
+  "error": null,
+  "status": "PASS",
+  "report": {
+    "package": "candidate.tgz",
+    "result": {
+      "results": [
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "default",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "default",
+          "topology": "project-reference"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "legacy",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "legacy",
+          "topology": "project-reference"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "project-service",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "project-service",
+          "topology": "project-reference"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "experimental-watch",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "experimental-watch",
+          "topology": "project-reference"
+        }
+      ],
+      "watcherHandles": 0
+    },
+    "modes": [
+      "default",
+      "legacy",
+      "project-service",
+      "experimental-watch"
+    ],
+    "typescript": "4.3.5",
+    "vite": "3.2.11"
+  }
+}

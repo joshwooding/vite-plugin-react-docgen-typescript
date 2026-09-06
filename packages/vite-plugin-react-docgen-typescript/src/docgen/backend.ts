@@ -5,6 +5,7 @@ export interface BackendDescriptor {
   readonly id: string;
 }
 
+/** Path arrays contain canonical physical paths, sorted and deduplicated. */
 export interface BackendProjectState {
   readonly configFiles: readonly string[];
   readonly docgenFiles: readonly string[];
@@ -25,6 +26,7 @@ export interface BackendFileSelection {
   matchesDocgenFile(fileName: string): boolean;
 }
 
+/** Dependency arrays contain canonical physical paths, including missing candidates. */
 interface AnalyzeResultBase {
   readonly dependencies: readonly string[];
   readonly project: BackendProjectState;
@@ -104,6 +106,15 @@ export interface DocgenBackend {
   ): Promise<readonly AnalyzeResult[]>;
   dispose(): Promise<void>;
   initialize(): Promise<BackendProjectState>;
+  /** Return canonical dependency paths and complete membership without extracting docgen. */
+  prepareCacheValidation?(input: {
+    fileName: string;
+    revision: number;
+    source: string;
+  }): Promise<
+    | { dependencies: readonly string[]; project: BackendProjectState }
+    | undefined
+  >;
   recordCacheHit(input: {
     cache: "memory" | "persistent";
     fileName: string;

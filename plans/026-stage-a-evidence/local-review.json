@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "base": "f6cfcdbad522b600c0729365e7dc5ac72e62f86d",
+  "review": "Local scoped source, migration prose, release contract and independent generated-artifact inspection. Only documentation/JSDoc changes; nontrivial-code autoreview condition does not apply.",
+  "sourceFileSha256": {
+    "README.md": "85fd7fe10312cb125cefd5da4828999c0a26990955f60805f39b636529a1046a",
+    "packages/vite-plugin-react-docgen-typescript/src/utils/options.ts": "670eeb1ec272481c4a43ebceb110d86436fa8f20f5cfde6fe2c4f6986a31b117",
+    ".changeset/deprecate-filesystem-cache.md": "7a1f68dfb7fae160e60e01b1930ef0cd70f126886cb20ba8748249ea89603ea7"
+  },
+  "runtimeJavaScriptUnchanged": true,
+  "publicTypeShapeUnchanged": true,
+  "existingBooleanObjectConfigurationsRetained": true,
+  "noNewRootTypeExports": true,
+  "patchChangesetParsed": true,
+  "laterRemovalRequiresPublishedNoticeAndSeparateBreakingRelease": true,
+  "whitespaceChecks": [
+    "README.md",
+    "packages/vite-plugin-react-docgen-typescript/src/utils/options.ts",
+    ".changeset/deprecate-filesystem-cache.md"
+  ],
+  "focusedTests": {
+    "passed": 3,
+    "skipped": 58,
+    "note": "Name-filtered existing index tests, covering true, disabled object and custom directory restart reuse. Vitest rewrote the snapshot line endings only; logical content unchanged and original CRLF restored."
+  },
+  "typecheckExitCode": 0,
+  "buildFinalExitCode": 0,
+  "packExitCode": 0,
+  "biomeFinalExitCode": 0,
+  "externalUpload": false
+}

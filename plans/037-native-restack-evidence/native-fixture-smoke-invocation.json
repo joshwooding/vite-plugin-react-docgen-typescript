@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "command": [
+    "C:/nvm4w/nodejs/node.exe",
+    "scripts/benchmark-playground.mjs",
+    "--scenario",
+    "large-design-system",
+    "--iterations",
+    "1",
+    "--modes",
+    "projectService,native",
+    "--native-timing",
+    "--output",
+    "plans/037-native-restack-evidence/native-fixture-smoke.json"
+  ],
+  "cwd": ".",
+  "startedAt": "2026-09-06T14:10:58.517886+00:00",
+  "CI": "true",
+  "pid": 30432,
+  "exitCode": 0,
+  "durationSeconds": 4.203000000000429,
+  "finishedAt": "2026-09-06T14:11:02.707020+00:00",
+  "logSha256": "0f7e9e77bf4737204d0d376272bfd4613f55c8f8df94825f89c7293419634645"
+}

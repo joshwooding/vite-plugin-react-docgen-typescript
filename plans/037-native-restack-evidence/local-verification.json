@@ -1,0 +1,37 @@
+{
+  "status": "LOCAL_VALIDATION_PASS_REVIEW_PENDING",
+  "performanceBaseCommit": "b196f305800586eecd45d12f3af7cef00a7b83cc",
+  "nativeOriginalCommit": "5b496e9484dc6cc4eca9734ff8a732b063686795",
+  "nativeRuntimeVersion": "7.1.0-dev.20260903.1",
+  "packageSha256": "62015145609647cc5b4464e0ea1bad4c882790aa8d5013df9ddae535a80fa838",
+  "packageMembers": {
+    "package/CHANGELOG.md": "7c3dbb1fcab0b9b4a85f9f5620b0ebe1aedd143782f599e019c7904aa142def3",
+    "package/dist/chunks/fileSelection.mjs": "22683158d55c967dc6cc06e26ff77a40839e577ced91a016118f479078b479a3",
+    "package/dist/chunks/typescript.mjs": "566dede0c2d983ce2e3ad455f497af0e6a4e436b515177c3b05a6e2f569d78d3",
+    "package/dist/index.d.mts": "0993e6a49decc12985875953bb5a25c7eb220989c7103638142f73155bfa1a87",
+    "package/dist/index.d.ts": "0993e6a49decc12985875953bb5a25c7eb220989c7103638142f73155bfa1a87",
+    "package/dist/index.mjs": "4c3c4ab4ed624624b2b63d27e5190c6cdddb67f71c781a9fd0c3f6fae66f2933",
+    "package/dist/shared/vite-plugin-react-docgen-typescript.DHy9QH5I.mjs": "fec72ffaf7969567a1cd154abd77bab0ae22df65baeb919c71a54cf6510f7a71",
+    "package/package.json": "1a0d61f4ecbaa3be97461ec55c3314da324c2ebda1e51a7d99cd42d04bc1e95c"
+  },
+  "reviewedRuntimeBlobsUnchanged": true,
+  "passedChecks": [
+    "native-typecheck",
+    "native-biome",
+    "native-build",
+    "native-pack",
+    "native-external-watches-after",
+    "native-packed-ts71",
+    "native-packed-ts6",
+    "native-backend-smoke",
+    "native-fixture-smoke"
+  ],
+  "tests": {
+    "fullRun": "373/377 passed; four inherited test-wrapper assumptions failed on filtered Vite hooks.",
+    "focusedAfterTestWrapperFix": "All 12 external-watch tests passed. No runtime source changed after the full run.",
+    "newRegressions": "Public shouldSortUnions typing, lexical sorting, and direct/linked package declaration cache invalidation reproduced before the fixes; all pass in the full run."
+  },
+  "benchmarks": "Two smoke validations only. Timings were concurrent with other checks and are not claimed as performance evidence.",
+  "review": "Tooling review passed and is unchanged. Follow-up runtime review is pending.",
+  "remoteCI": "Performance base #89 all green. Restacked #86 not pushed yet."
+}

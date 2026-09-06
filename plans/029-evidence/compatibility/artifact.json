@@ -1,0 +1,88 @@
+{
+  "createdAt": "2026-09-05T18:39:31.365Z",
+  "baseCommit": "2fd034af84b135122c0bd8e313480b95e48fae82",
+  "archive": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan029\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\029\\candidate.tgz",
+  "archiveSha256": "6dd49e628729c4314c5f32a46533d5b62ecb27231433914757eb323e38d61ce8",
+  "verifierSha256": "94dd0637db2d5e34501559060798252ee7175dd163871515f470f7181b3be55a",
+  "matrixSha256": "71da3a44d433455f44cab7e3ef448f315f2da39ad8f7b7955a55685913228e41",
+  "lockfileSha256": "782c9e80e0789b79ecf721c60b38587fabf1d26eccb636e87471469fd530d9c4",
+  "sourceFreeze": [
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/plugin.ts",
+      "sha256": "e591dd4206ec32152cde3dd82728618f5f23edcd688cb0a194124d83683579d3"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/backend.ts",
+      "sha256": "75ae4b7046a463751c2805e5b351e0fcab0caaff051591e22e6e60abf2d2fbb4"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts",
+      "sha256": "0cb5fb28710620ca553d11ac83b770a877353db573dff97362bd3218e204cf0d"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/persistentCacheFreshness.test.ts",
+      "sha256": "a16ae12ebe4ac818c6a5cc42fa90cef96c4d443b2ae4fd95f18fde9a23d7d141"
+    },
+    {
+      "path": ".changeset/reuse-canonical-dependency-paths.md",
+      "sha256": "b7a89dc3303419c0eaac8743a1346697c3002d9f45824e81ed1426069b2b89e5"
+    }
+  ],
+  "distFiles": {
+    "chunks/fileSelection.mjs": "49d944c7dd814dbbb9b1a9290f13334bfd1bccf94f02a2e96c813b0b16ce1826",
+    "chunks/typescript.mjs": "566dede0c2d983ce2e3ad455f497af0e6a4e436b515177c3b05a6e2f569d78d3",
+    "index.d.mts": "e43fdc3aba416e95d34bc1cac76942c574f9345f62bd04910983180c3826977b",
+    "index.d.ts": "e43fdc3aba416e95d34bc1cac76942c574f9345f62bd04910983180c3826977b",
+    "index.mjs": "921ba5e5038dfc0f8d2c6e32e6e0f61cd5be7891293f442411e318ace6b04263"
+  },
+  "sourceFiles": {
+    "__tests__/__fixtures__/AliasedImport.tsx": "b396999ae6c1b3ebbd2a1d2df92456895a0f2c1ad8ec47385f159070c423f44f",
+    "__tests__/__fixtures__/AliasedImport.types.ts": "638cd885b4f20e33a01ea5b1bd0938c09eef44b9d01c5f73ad54c3e4fa8cf2e0",
+    "__tests__/__fixtures__/AmbientDeclaration.tsx": "7e631bee01c046e78cd6c00882b8e913d24305293495f3d3525c4c69b499a813",
+    "__tests__/__fixtures__/AmbientDeclaration.types.d.ts": "5e2878c0389699b8f77add3d5ed53c0cb2ffbdc52ceb2094c1b64b14dddbc878",
+    "__tests__/__fixtures__/DefaultExport.tsx": "f55672378d37e48070e68d3c042efa3cc27edefcded4685a0141cb1ca685e154",
+    "__tests__/__fixtures__/DefaultExportWithDisplayName.tsx": "0e96642560b52e0cd761674fd4c8eb28138c1ff05174ee003950170339efd870",
+    "__tests__/__fixtures__/DefaultPropValue.tsx": "50afba18794661d79b6be4155aa40ad94fc5c0111e749725c7b660f4527aff19",
+    "__tests__/__fixtures__/ForwardRefDefaultExport.tsx": "48be3df48cbd1ae9969cd3e1a332a94f35949863b8008534ab109204a8d64482",
+    "__tests__/__fixtures__/HyphenatedPropName.tsx": "2323b85e864f70125432a5711287715a433b40bfebce615732986bd5548eb021",
+    "__tests__/__fixtures__/MultilineDescription.tsx": "220a25e6070fccdf2687d0aea761dc4490495642e3c3ac55a9477817222e8321",
+    "__tests__/__fixtures__/MultilinePropDescription.tsx": "4a197bcf81b4a92fef8ba1f90da9b2517ecc5d3593eebcc1f003a91d35d7ad51",
+    "__tests__/__fixtures__/MultiProps.tsx": "d2ca1d8cbbd68f200e11ba06f666698a7c944f79a7c3805e1b681e0cf56044a1",
+    "__tests__/__fixtures__/RichMetadata.tsx": "c839f431dc48c960774b3d8bb690cc4cb229b46728a661d1d23c775dbd989b45",
+    "__tests__/__fixtures__/Simple.tsx": "065b46cf59eef92d0710d22d8d52baa3385fff62121a331bc7cd956f909154b3",
+    "__tests__/__fixtures__/SimpleWithDisplayName.tsx": "d555bc5d0991567d9c5bac92838a35ea8b6ccea9e9ffde0102abc3dd400dbb0f",
+    "__tests__/__fixtures__/TextOnlyComponent.tsx": "c1515ad26da5a792ee85e04101ed2ae735bcbe3778d1573196392ffccd7cffd2",
+    "__tests__/__snapshots__/index.test.ts.snap": "a1e238b6574761b2608338f34954c5fee1957e61241b058858b3cf936527353a",
+    "__tests__/backendContract.test.ts": "bc3448ac9b1b3c7bb2b4462976cbb7667dd5c92235fe139dc0db85fd6be20c90",
+    "__tests__/backendParity.test.ts": "b229de20ee2836f2b521dc165ae0fa058b494b1060920de3975ffd2ae0c1bdca",
+    "__tests__/externalTypeWatch.test.ts": "d30cc002a988e8d41b2cc7c84bdcd21208c38038cbc9f54575f6a1d19513bb66",
+    "__tests__/generate.test.ts": "c28d540c1f53621b2194ecce7ad21a021cc1897b0d7213cb977c2217d4865c47",
+    "__tests__/index.test.ts": "e60b20fd2ff17e7c8383b6a18594bb5e20ab0dc546136ceac968665d821857a4",
+    "__tests__/persistentCacheFreshness.test.ts": "a16ae12ebe4ac818c6a5cc42fa90cef96c4d443b2ae4fd95f18fde9a23d7d141",
+    "__tests__/projectSelection.test.ts": "c64a879aa07a7b77eb0218dbbab85b0425ad241e402619cd4199368094c7db88",
+    "__tests__/runtimeMode.test.ts": "b468760762090f8492a8661283f20e444f660ab3418d334c616665402dba2232",
+    "__tests__/runtimeTarget.test.ts": "39a206702c2a730747078b4e950d60bbe530e96277ad2fb3ea15cab0af456ab1",
+    "__tests__/support/backendParityCorpus.ts": "90192420599002daf0a4e628cf2b11906ce497245a388ce468c4fc4fb4401ea6",
+    "__tests__/support/importedTypeHmrContract.ts": "03be7664b94dd5d3d46d2ec519b5cc48132c6a3937d268ca30718445ee8b8f5e",
+    "__tests__/support/legacyHmrExpectations.ts": "d1bdf4ddb91b2806c26fa31f66b657d9ce4f0234f9e5cc938d30fc7ffaeca464",
+    "__tests__/tsconfig.test.json": "defe5e2f7599aace987e726b89e7b7bc4032e31c30fd6ffc957a39ee7dfe60d2",
+    "__tests__/typescriptCompatibility.test.ts": "9b5c12685a4b64a85a4047edcd029d37fc7752d52927da0e2338846c04a54cf6",
+    "__tests__/viteHmr.contract.test.ts": "fa0ea1257f6902c513dcd7be90c82d228b65fda197430455fb533141f8115fa9",
+    "docgen/backend.ts": "75ae4b7046a463751c2805e5b351e0fcab0caaff051591e22e6e60abf2d2fbb4",
+    "docgen/legacyBackend.ts": "0cb5fb28710620ca553d11ac83b770a877353db573dff97362bd3218e204cf0d",
+    "docgen/pathIdentity.ts": "42ab3a1b543702c0be008dcf54b085a0d63229e64d39dccdee3023e878f6e151",
+    "docgen/runtimeTarget.ts": "be47dd006b91c3c57b5306f9817651af64ab1351175e09ce2a7da6c4d3b88c90",
+    "docgen/types.ts": "f6d1461e4b78f181a49eb699b98b57b10e21f4919d45b3cf960546839fe5cd1a",
+    "index.ts": "90a6182f37d6b5ca11afb90ce2b6225818f7f358482a297ebf19d4d408306325",
+    "plugin.ts": "e591dd4206ec32152cde3dd82728618f5f23edcd688cb0a194124d83683579d3",
+    "utils/cache.ts": "2b7cc6fcce06a61330e0c15fe640bd45e53e14fe89dcc19a2c6fb2878a5bd148",
+    "utils/fileSelection.ts": "bcb327da67de4a0be9149db5aa7f1d2a5e7c985ac6cbd1805732fae390965361",
+    "utils/filter.ts": "0d3b6a3c469fb1387ac7f4bf7c70b13be82c3eb8697ae4440687cd3adb79cdc0",
+    "utils/generate.ts": "57a6910057a466aece4675a8c58485563b4bc9faca0f36985b3d22f2d4937071",
+    "utils/options.ts": "3b5b574c35823d7d68ad690b5d10ad5dc7e9ff37e85cd5ed4695c12047f41035",
+    "utils/runtimeTarget.ts": "24dec6f9cf549fb2cca7d5ef5dfc9ff6f4134e8d3dbb09108002c00fac0f0c04",
+    "utils/typescript.ts": "504f77bfba394991369c6cde3149f042d56b94e4ffca69c198603ad4a2c7a1b3",
+    "utils/typescriptCompatibility.ts": "bdb7cf8149da374339eb32002a3f0282f0745c236ef8ca3f314f2277cf60d10d"
+  },
+  "scope": "Exact candidate archive. Row observer validates every installed distribution byte and actual TS/Vite dependency versions."
+}

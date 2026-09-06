@@ -1,0 +1,10 @@
+➤ YN0000: CHANGELOG.md
+➤ YN0000: dist/chunks/fileSelection.mjs
+➤ YN0000: dist/chunks/typescript.mjs
+➤ YN0000: dist/index.d.mts
+➤ YN0000: dist/index.d.ts
+➤ YN0000: dist/index.mjs
+➤ YN0000: dist/shared/vite-plugin-react-docgen-typescript.DgM33YsF.mjs
+➤ YN0000: package.json
+➤ YN0000: Package archive generated in D:\OSS\vite-plugin-react-docgen-typescript\.yarn\simplification-evidence\036\native-v4.tgz
+➤ YN0000: Done in 0s 40ms

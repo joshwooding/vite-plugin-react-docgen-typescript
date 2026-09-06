@@ -506,6 +506,7 @@ const getDocgenType = ({
   const literalValues = unionTypes.map((member) =>
     formatLiteralType(member, sync),
   );
+  // RDT's enum option also extracts unions made entirely of literal values.
   const shouldExtractUnion =
     (config.shouldExtractValuesFromUnion ||
       config.shouldExtractLiteralValuesFromEnum) &&
@@ -538,6 +539,10 @@ const getDocgenType = ({
     !isRequired && config.shouldRemoveUndefinedFromOptional
       ? values.filter((value) => value !== "undefined")
       : values;
+
+  if (config.shouldSortUnions) {
+    filteredValues.sort((a, b) => a.localeCompare(b));
+  }
 
   return {
     name: "enum",
@@ -642,25 +647,43 @@ const getAssignedString = (
   return match?.[2];
 };
 
-const getObjectDefaults = (source: string, target: string) => {
-  const defaults = new Map<string, string>();
-  const match = new RegExp(
-    `${escapeRegExp(target)}\\.defaultProps\\s*=\\s*\\{([\\s\\S]*?)\\}`,
-    "m",
-  ).exec(source);
-  if (!match?.[1]) return defaults;
-
-  for (const property of match[1].split(",")) {
-    const separator = property.indexOf(":");
-    if (separator === -1) continue;
-    const name = property
-      .slice(0, separator)
-      .trim()
-      .replace(/^['"]|['"]$/g, "");
-    const value = property.slice(separator + 1).trim();
-    if (name && value) defaults.set(name, value);
-  }
-  return defaults;
+const getObjectDefaults = (
+  sourceFile: NativeSourceFile,
+  target: string,
+  ast: NativeAstModule,
+) => {
+  const visit = (node: NativeNode): Map<string, string> | undefined => {
+    if (
+      ast.isBinaryExpression(node) &&
+      node.operatorToken.kind === ast.SyntaxKind.EqualsToken &&
+      ast.isPropertyAccessExpression(node.left) &&
+      node.left.expression.getText() === target &&
+      node.left.name.getText() === "defaultProps"
+    ) {
+      let expression = node.right;
+      while (
+        ast.isAsExpression(expression) ||
+        ast.isSatisfiesExpression(expression) ||
+        ast.isParenthesizedExpression(expression) ||
+        ast.isTypeAssertion(expression) ||
+        ast.isNonNullExpression(expression)
+      )
+        expression = expression.expression;
+      if (ast.isObjectLiteralExpression(expression)) {
+        const defaults = new Map<string, string>();
+        for (const property of expression.properties) {
+          if (!ast.isPropertyAssignment(property)) continue;
+          defaults.set(
+            property.name.getText().replace(/^['"]|['"]$/g, ""),
+            property.initializer.getText(),
+          );
+        }
+        return defaults;
+      }
+    }
+    return node.forEachChild(visit);
+  };
+  return visit(sourceFile) ?? new Map<string, string>();
 };
 
 const shouldIncludeProp = (
@@ -844,6 +867,7 @@ const extractNativeComponents = function* ({
     addSymbolDependencies(componentSymbol, dependencies, trackedFiles);
 
     const componentTags = tagsToRecord(componentTagInfo);
+    // Legacy naming callbacks receive the resolved symbol, including aliases.
     const resolvedDisplayName = config.componentNameResolver?.(
       {
         getEscapedName: () => componentSymbol.escapedName,
@@ -861,7 +885,7 @@ const extractNativeComponents = function* ({
         ? getDefaultComponentName(sourceFile.fileName)
         : componentSymbol.name);
     const bindingDefaults = getBindingDefaults(declaration, ast);
-    const objectDefaults = getObjectDefaults(sourceFile.text, targetExpression);
+    const objectDefaults = getObjectDefaults(sourceFile, targetExpression, ast);
     const props: Record<string, DocgenProp> = {};
     const parameters = yield* signature.getParameters.gen();
 
@@ -1045,7 +1069,10 @@ const createNativeBackend = async (
   const configFiles = new Set<string>();
   const docgenFiles = new Set<string>();
   const trackedFiles = new Set<string>();
-  const sourceFileClassifications = new Map<string, boolean>();
+  const sourceFileClassifications = new Map<
+    string,
+    "defaultLibrary" | "externalLibrary" | "project"
+  >();
   const projectByFile = new Map<string, NativeProject>();
   let cachedProjectState: BackendProjectState = {
     configFiles: [],
@@ -1112,14 +1139,11 @@ const createNativeBackend = async (
         if (!projectByFile.has(normalizedFile)) {
           projectByFile.set(normalizedFile, project);
         }
-        if (NODE_MODULES_SEGMENT_PATTERN.test(normalizedFile)) {
-          sourceFileClassifications.set(normalizedFile, false);
-          continue;
-        }
         const existingClassification =
           sourceFileClassifications.get(normalizedFile);
         if (existingClassification !== undefined) {
-          if (existingClassification) trackedFiles.add(normalizedFile);
+          if (existingClassification !== "defaultLibrary")
+            trackedFiles.add(normalizedFile);
           continue;
         }
         unclassifiedFiles.push({ normalizedFile, projectFile });
@@ -1134,12 +1158,15 @@ const createNativeBackend = async (
             )
           : [];
       for (const [index, { normalizedFile }] of unclassifiedFiles.entries()) {
-        const isTracked = !(
-          metadata[index]?.isDefaultLibrary ||
-          metadata[index]?.isFromExternalLibrary
-        );
-        sourceFileClassifications.set(normalizedFile, isTracked);
-        if (isTracked) trackedFiles.add(normalizedFile);
+        const classification = metadata[index]?.isDefaultLibrary
+          ? "defaultLibrary"
+          : metadata[index]?.isFromExternalLibrary ||
+              NODE_MODULES_SEGMENT_PATTERN.test(normalizedFile)
+            ? "externalLibrary"
+            : "project";
+        sourceFileClassifications.set(normalizedFile, classification);
+        if (classification !== "defaultLibrary")
+          trackedFiles.add(normalizedFile);
       }
     }
 
@@ -1150,7 +1177,13 @@ const createNativeBackend = async (
     }
 
     for (const fileName of trackedFiles) {
-      if (selection.matchesDocgenFile(fileName)) docgenFiles.add(fileName);
+      // Imported declarations participate in invalidation without becoming
+      // component extraction targets themselves.
+      if (
+        sourceFileClassifications.get(fileName) === "project" &&
+        selection.matchesDocgenFile(fileName)
+      )
+        docgenFiles.add(fileName);
     }
     refreshCachedProjectState();
   };
@@ -1247,10 +1280,23 @@ const createNativeBackend = async (
     candidates.find((project) => project.program.getSourceFile(fileName)) ??
     candidates[0];
 
+  const getNonLibraryProjectFiles = function* (project: NativeProject) {
+    const files = yield* project.program.getSourceFileNames.gen();
+    const metadata = yield* sync.all(
+      ...files.map((file) => project.program.getSourceFileMetadata.gen(file)),
+    );
+    return new Set(
+      files
+        .filter((_, index) => !metadata[index]?.isDefaultLibrary)
+        .map(normalizeBoundaryPath),
+    );
+  };
+
   const analyzeWithProject = function* (
     project: NativeProject,
     fileName: string,
     knownSourceFile?: NativeSourceFile,
+    analysisTrackedFiles: ReadonlySet<string> = trackedFiles,
   ) {
     const sourceFile =
       knownSourceFile ?? (yield* project.program.getSourceFile.gen(fileName));
@@ -1266,7 +1312,7 @@ const createNativeBackend = async (
       project,
       sourceFile,
       sync,
-      trackedFiles,
+      trackedFiles: analysisTrackedFiles,
     });
   };
 
@@ -1304,18 +1350,53 @@ const createNativeBackend = async (
             result = yield* analyzeWithProject(
               temporaryProject,
               normalizedFile,
+              undefined,
+              yield* getNonLibraryProjectFiles(temporaryProject),
             );
           } as never,
         );
+      } else if (standaloneProgram && sourceFile?.text !== source) {
+        // TS7's temporary-snapshot API accepts configured snapshots only.
+        // Keep standalone overrides isolated from the persistent program and
+        // other generators in the same analysis batch.
+        const sourceApi = new sync.API({
+          cwd: rootDir,
+          fs: {
+            readFile: (file) =>
+              normalizeBoundaryPath(file) === normalizedFile
+                ? source
+                : undefined,
+          },
+        });
+        try {
+          const sourceProgram = sourceApi.createProgram(rootFiles, {
+            compilerOptions: standaloneProgram.getCompilerOptions(),
+          });
+          try {
+            const sourceProject = sourceProgram.getProject();
+            [result] = sourceApi.batch(
+              (function* () {
+                return yield* analyzeWithProject(
+                  sourceProject,
+                  normalizedFile,
+                  undefined,
+                  yield* getNonLibraryProjectFiles(sourceProject),
+                );
+              })(),
+            );
+          } finally {
+            sourceProgram.dispose();
+          }
+        } finally {
+          sourceApi.close();
+        }
       } else {
         result = yield* analyzeWithProject(project, normalizedFile, sourceFile);
       }
 
       if (!result)
         throw new Error("TypeScript native analysis did not complete");
-      const dependencies = normalizeBoundaryPaths(result.dependencies).filter(
-        (dependency) => trackedFiles.has(dependency),
-      );
+      const dependencies = normalizeBoundaryPaths(result.dependencies);
       return {
         components: result.components,
         dependencies,

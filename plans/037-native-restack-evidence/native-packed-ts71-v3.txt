@@ -1,0 +1,1 @@
+{"package":"native-v3.tgz","result":{"results":[{"dynamicMembershipEvents":3,"edits":2,"mode":"native","topology":"same-project"},{"dynamicMembershipEvents":3,"edits":2,"mode":"native","topology":"project-reference"}],"watcherHandles":0},"modes":["native"],"typescript":"7.1.0-dev.20260903.1","vite":"8.1.5"}

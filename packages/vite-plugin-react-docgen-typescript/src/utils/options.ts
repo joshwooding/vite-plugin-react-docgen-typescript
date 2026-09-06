@@ -39,6 +39,11 @@ interface TypescriptOptions {
   compilerOptions?: CompilerOptions;
 }
 
+/**
+ * Options for the persistent file-system cache.
+ *
+ * @deprecated Remove `fileSystemCache` from configuration, or set it to `false`.
+ */
 export interface FileSystemCacheOptions {
   /**
    * Enable the persistent file-system cache.
@@ -58,6 +63,7 @@ export interface FileSystemCacheOptions {
 export type DocgenMode = "legacy" | "native" | "project-service";
 
 export type DocGenOptions = ParserOptions & {
+  shouldSortUnions?: boolean;
   /**
    * An array of string globs to exclude from docgen. Patterns resolve from the
    * configured Vite root. An explicit `exclude: []` disables the built-in
@@ -74,7 +80,14 @@ export type DocGenOptions = ParserOptions & {
    */
   // Default: ["**/*.tsx"]
   include?: string[];
-  /** Persistent transform cache stored on disk. */
+  /**
+   * Persistent transform cache stored on disk.
+   *
+   * In-memory caching and TypeScript program reuse continue when disabled.
+   *
+   * @default false
+   * @deprecated Remove `fileSystemCache` from configuration, or set it to `false`.
+   */
   fileSystemCache?: boolean | FileSystemCacheOptions;
   /**
    * Select the TypeScript project runtime used by docgen.
@@ -223,6 +236,7 @@ interface PublicOptionsBase extends LoaderOptions {
   shouldIncludeExpression?: boolean;
   shouldIncludePropTagMap?: boolean;
   shouldRemoveUndefinedFromOptional?: boolean;
+  shouldSortUnions?: boolean;
   skipChildrenPropWithoutDoc?: boolean;
   tsconfigPath?: string;
 }

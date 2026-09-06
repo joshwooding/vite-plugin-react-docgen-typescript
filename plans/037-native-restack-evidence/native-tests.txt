@@ -1,0 +1,45 @@
+
+ RUN  v4.1.0 D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan036/native/vite-plugin-react-docgen-typescript
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts (12 tests | 4 failed) 22686ms
+     × refreshes two missing imports with absent-seeded cache false 29ms
+     × refreshes two missing imports with absent-seeded cache true 23ms
+     × refreshes two missing imports with absent-seeded cache false 22ms
+     × refreshes two missing imports with absent-seeded cache true 22ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts > explicit startup external directory in legacy > refreshes two missing imports with absent-seeded cache false
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts > explicit startup external directory in project-service > refreshes two missing imports with absent-seeded cache false
+Error: Expected callable docgen transform
+ ❯ start packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts:358:15
+    356|       const transformHook = plugin.transform;
+    357|       if (typeof transformHook !== "function")
+    358|         throw new Error("Expected callable docgen transform");
+       |               ^
+    359|       let configured = !watch;
+    360|       plugin.transform = async function (...args) {
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts:432:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts > explicit startup external directory in legacy > refreshes two missing imports with absent-seeded cache true
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts > explicit startup external directory in project-service > refreshes two missing imports with absent-seeded cache true
+Error: Expected callable docgen transform
+ ❯ start packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts:358:15
+    356|       const transformHook = plugin.transform;
+    357|       if (typeof transformHook !== "function")
+    358|         throw new Error("Expected callable docgen transform");
+       |               ^
+    359|       let configured = !watch;
+    360|       plugin.transform = async function (...args) {
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts:424:24
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+
+ Test Files  1 failed | 14 passed (15)
+      Tests  4 failed | 373 passed (377)
+   Start at  15:00:17
+   Duration  178.04s (transform 1.55s, setup 0ms, import 9.16s, tests 314.95s, environment 3ms)
+

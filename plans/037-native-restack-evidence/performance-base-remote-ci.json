@@ -1,0 +1,97 @@
+{
+  "status": "PASS",
+  "head": "b196f305800586eecd45d12f3af7cef00a7b83cc",
+  "pr": 89,
+  "checks": [
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101500283901",
+      "name": "Publish release",
+      "state": "SKIPPED"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101500283917",
+      "name": "Create release pull request",
+      "state": "SKIPPED"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101500283470",
+      "name": "Select release mode",
+      "state": "SKIPPED"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499930944",
+      "name": "windows-latest / Node 20.19.5 / TypeScript 4.3.5 / Vite 3.2.11",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499930931",
+      "name": "ubuntu-latest / Node 20.19.5 / TypeScript 6.0.3 / Vite 3.2.11",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499930901",
+      "name": "ubuntu-latest / Node 20.19.5 / TypeScript 5.9.3 / Vite 7.2.4",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499930902",
+      "name": "windows-latest / Node 24 / TypeScript 6.0.3 / Vite 8.1.5",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499930895",
+      "name": "ubuntu-latest / Node 20.19.5 / TypeScript 5.4.5 / Vite 6.1.0",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499930883",
+      "name": "ubuntu-latest / Node 20.19.5 / TypeScript 5.0.4 / Vite 5.4.21",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499930889",
+      "name": "ubuntu-latest / Node 24 / TypeScript 6.0.3 / Vite 8.1.5",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499930937",
+      "name": "ubuntu-latest / Node 20.19.5 / TypeScript 4.3.5 / Vite 8.1.5",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499930892",
+      "name": "ubuntu-latest / Node 20.19.5 / TypeScript 4.9.5 / Vite 4.5.14",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499930908",
+      "name": "ubuntu-latest / Node 20.19.5 / TypeScript 4.3.5 / Vite 3.2.11",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499874163",
+      "name": "Backend benchmark (windows-latest)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499874258",
+      "name": "Backend benchmark (ubuntu-latest)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499874294",
+      "name": "runtime-compatibility-matrix",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499874225",
+      "name": "lint",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/joshwooding/vite-plugin-react-docgen-typescript/actions/runs/34038138393/job/101499874229",
+      "name": "Build packed runtime artifact",
+      "state": "SUCCESS"
+    }
+  ]
+}

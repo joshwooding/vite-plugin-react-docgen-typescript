@@ -1,0 +1,4 @@
+default/fresh: PASS, external events=1, control events=1
+default/validated-persistent: PASS, external events=1, control events=1
+projectService/fresh: PASS, external events=1, control events=1
+projectService/validated-persistent: PASS, external events=1, control events=1

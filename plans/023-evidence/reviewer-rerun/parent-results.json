@@ -1,0 +1,5699 @@
+{
+  "policy": "parent",
+  "identity": {
+    "evaluatedSha": "d6553de853530680b0d959120e3b0f9eeeaf8d33",
+    "lockfileSha256": "782c9e80e0789b79ecf721c60b38587fabf1d26eccb636e87471469fd530d9c4",
+    "sourceSha256": "23f3abe342593bb0f520806defe64ecf5e5b102f0ef0710aa51feb358ab0e7db",
+    "buildSha256": "8446e4c027f8f3506117209a857d6d55f30687db40a627351f4ab4f7f9390f5f",
+    "benchmarkSha256": "6a7330f4a949277a5d1eae2ca5b540a4939056d35c6d4e10b2eb58ce5f9203bc",
+    "node": "v24.10.0",
+    "os": {
+      "platform": "win32",
+      "release": "10.0.26340",
+      "arch": "x64"
+    },
+    "versions": {
+      "typescript": "6.0.3",
+      "typescript6": "6.0.2",
+      "vite": "8.1.5",
+      "react-docgen-typescript": "2.2.2",
+      "react": "18.3.1",
+      "@types/react": "18.2.25"
+    }
+  },
+  "rows": [
+    {
+      "policy": "parent",
+      "mode": "default",
+      "cacheState": "off",
+      "parentKind": "shared-directory",
+      "prototypeOnly": true,
+      "checkpoints": [
+        {
+          "phase": "create-Component",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 46644,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {}
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617742127,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "create-Second",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 35400,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617744422,
+                  "path": "/src/Second.tsx",
+                  "acceptedPath": "/src/Second.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Second.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "delete",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 15940,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {}
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617746818,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "recreate",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 1592,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617748799,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "edit",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "string"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 42748,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "string"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617751088,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        }
+      ],
+      "initialExtractions": 3,
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "beforeWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src"
+        ],
+        "entryCount": 7,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ]
+        }
+      },
+      "afterWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "shared",
+          "shared/unrelated",
+          "shared/unrelated/package-1",
+          "shared/unrelated/package-0",
+          "shared/unrelated/package-10",
+          "shared/unrelated/package-2",
+          "shared/unrelated/package-3",
+          "shared/unrelated/package-11",
+          "shared/unrelated/package-6",
+          "shared/unrelated/package-5",
+          "shared/unrelated/package-9",
+          "shared/unrelated/package-4",
+          "shared/unrelated/package-7",
+          "shared/unrelated/package-8",
+          "shared/unrelated/package-0/nested",
+          "shared/unrelated/package-10/nested",
+          "shared/unrelated/package-1/nested",
+          "shared/unrelated/package-2/nested",
+          "shared/unrelated/package-3/nested",
+          "shared/unrelated/package-6/nested",
+          "shared/unrelated/package-11/nested",
+          "shared/unrelated/package-5/nested",
+          "shared/unrelated/package-9/nested",
+          "shared/unrelated/package-4/nested",
+          "shared/unrelated/package-7/nested",
+          "shared/unrelated/package-8/nested"
+        ],
+        "entryCount": 129,
+        "entries": {
+          ".": [
+            "app",
+            "shared"
+          ],
+          "app": [
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "shared": [
+            "unrelated"
+          ],
+          "shared/unrelated": [
+            "package-0",
+            "package-1",
+            "package-10",
+            "package-11",
+            "package-2",
+            "package-3",
+            "package-4",
+            "package-5",
+            "package-6",
+            "package-7",
+            "package-8",
+            "package-9"
+          ],
+          "shared/unrelated/package-1": [
+            "nested"
+          ],
+          "shared/unrelated/package-0": [
+            "nested"
+          ],
+          "shared/unrelated/package-10": [
+            "nested"
+          ],
+          "shared/unrelated/package-2": [
+            "nested"
+          ],
+          "shared/unrelated/package-3": [
+            "nested"
+          ],
+          "shared/unrelated/package-11": [
+            "nested"
+          ],
+          "shared/unrelated/package-6": [
+            "nested"
+          ],
+          "shared/unrelated/package-5": [
+            "nested"
+          ],
+          "shared/unrelated/package-9": [
+            "nested"
+          ],
+          "shared/unrelated/package-4": [
+            "nested"
+          ],
+          "shared/unrelated/package-7": [
+            "nested"
+          ],
+          "shared/unrelated/package-8": [
+            "nested"
+          ],
+          "shared/unrelated/package-0/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-10/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-1/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-2/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-3/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-6/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-11/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-5/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-9/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-4/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-7/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-8/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ]
+        }
+      },
+      "addedDirectories": [
+        "shared",
+        "shared/unrelated",
+        "shared/unrelated/package-1",
+        "shared/unrelated/package-0",
+        "shared/unrelated/package-10",
+        "shared/unrelated/package-2",
+        "shared/unrelated/package-3",
+        "shared/unrelated/package-11",
+        "shared/unrelated/package-6",
+        "shared/unrelated/package-5",
+        "shared/unrelated/package-9",
+        "shared/unrelated/package-4",
+        "shared/unrelated/package-7",
+        "shared/unrelated/package-8",
+        "shared/unrelated/package-0/nested",
+        "shared/unrelated/package-10/nested",
+        "shared/unrelated/package-1/nested",
+        "shared/unrelated/package-2/nested",
+        "shared/unrelated/package-3/nested",
+        "shared/unrelated/package-6/nested",
+        "shared/unrelated/package-11/nested",
+        "shared/unrelated/package-5/nested",
+        "shared/unrelated/package-9/nested",
+        "shared/unrelated/package-4/nested",
+        "shared/unrelated/package-7/nested",
+        "shared/unrelated/package-8/nested"
+      ],
+      "addedEntries": 122,
+      "unrelated": {
+        "receivedEvent": true,
+        "payloads": []
+      },
+      "status": "PASS",
+      "closed": true,
+      "watchedDirectoriesAfterClose": 0,
+      "postCloseEvents": 0
+    },
+    {
+      "policy": "parent",
+      "mode": "default",
+      "cacheState": "seed-absent",
+      "parentKind": "shared-directory",
+      "prototypeOnly": true,
+      "checkpoints": [
+        {
+          "phase": "create-Component",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 34416,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {}
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617756101,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "create-Second",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 31376,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617758486,
+                  "path": "/src/Second.tsx",
+                  "acceptedPath": "/src/Second.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Second.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "delete",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 34728,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {}
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617760701,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "recreate",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 41856,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617762601,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "edit",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "string"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 36328,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "string"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617764885,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        }
+      ],
+      "seed": {
+        "processId": 41436,
+        "docs": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {}
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {}
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        },
+        "extractions": 3
+      },
+      "initialExtractions": 0,
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "beforeWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/0dc99d4e7ea04bb145b8e0962e3d7fac4c098b98eef5e0a6452421682988f004"
+        ],
+        "entryCount": 12,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "0dc99d4e7ea04bb145b8e0962e3d7fac4c098b98eef5e0a6452421682988f004"
+          ],
+          "app/.cache/0dc99d4e7ea04bb145b8e0962e3d7fac4c098b98eef5e0a6452421682988f004": [
+            "5fe0d2f5c45952075aef93a790d37e41b418c6fdacd63d6327d9f454e42fa49f.json",
+            "c3a3ca2a78faa080d0acc430ccf2813c16eefc3779d191fe715a1eef24271320.json",
+            "f335ba5510265592574b41a59c792346c283661fbdab0cede904c1843989ebcc.json"
+          ]
+        }
+      },
+      "afterWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/0dc99d4e7ea04bb145b8e0962e3d7fac4c098b98eef5e0a6452421682988f004",
+          "shared",
+          "shared/unrelated",
+          "shared/unrelated/package-0",
+          "shared/unrelated/package-1",
+          "shared/unrelated/package-10",
+          "shared/unrelated/package-3",
+          "shared/unrelated/package-11",
+          "shared/unrelated/package-4",
+          "shared/unrelated/package-2",
+          "shared/unrelated/package-5",
+          "shared/unrelated/package-8",
+          "shared/unrelated/package-6",
+          "shared/unrelated/package-9",
+          "shared/unrelated/package-7",
+          "shared/unrelated/package-0/nested",
+          "shared/unrelated/package-10/nested",
+          "shared/unrelated/package-1/nested",
+          "shared/unrelated/package-11/nested",
+          "shared/unrelated/package-3/nested",
+          "shared/unrelated/package-4/nested",
+          "shared/unrelated/package-2/nested",
+          "shared/unrelated/package-5/nested",
+          "shared/unrelated/package-8/nested",
+          "shared/unrelated/package-6/nested",
+          "shared/unrelated/package-7/nested",
+          "shared/unrelated/package-9/nested"
+        ],
+        "entryCount": 134,
+        "entries": {
+          ".": [
+            "app",
+            "shared"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "0dc99d4e7ea04bb145b8e0962e3d7fac4c098b98eef5e0a6452421682988f004"
+          ],
+          "app/.cache/0dc99d4e7ea04bb145b8e0962e3d7fac4c098b98eef5e0a6452421682988f004": [
+            "5fe0d2f5c45952075aef93a790d37e41b418c6fdacd63d6327d9f454e42fa49f.json",
+            "c3a3ca2a78faa080d0acc430ccf2813c16eefc3779d191fe715a1eef24271320.json",
+            "f335ba5510265592574b41a59c792346c283661fbdab0cede904c1843989ebcc.json"
+          ],
+          "shared": [
+            "unrelated"
+          ],
+          "shared/unrelated": [
+            "package-0",
+            "package-1",
+            "package-10",
+            "package-11",
+            "package-2",
+            "package-3",
+            "package-4",
+            "package-5",
+            "package-6",
+            "package-7",
+            "package-8",
+            "package-9"
+          ],
+          "shared/unrelated/package-0": [
+            "nested"
+          ],
+          "shared/unrelated/package-1": [
+            "nested"
+          ],
+          "shared/unrelated/package-10": [
+            "nested"
+          ],
+          "shared/unrelated/package-3": [
+            "nested"
+          ],
+          "shared/unrelated/package-11": [
+            "nested"
+          ],
+          "shared/unrelated/package-4": [
+            "nested"
+          ],
+          "shared/unrelated/package-2": [
+            "nested"
+          ],
+          "shared/unrelated/package-5": [
+            "nested"
+          ],
+          "shared/unrelated/package-8": [
+            "nested"
+          ],
+          "shared/unrelated/package-6": [
+            "nested"
+          ],
+          "shared/unrelated/package-9": [
+            "nested"
+          ],
+          "shared/unrelated/package-7": [
+            "nested"
+          ],
+          "shared/unrelated/package-0/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-10/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-1/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-11/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-3/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-4/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-2/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-5/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-8/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-6/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-7/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-9/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ]
+        }
+      },
+      "addedDirectories": [
+        "shared",
+        "shared/unrelated",
+        "shared/unrelated/package-0",
+        "shared/unrelated/package-1",
+        "shared/unrelated/package-10",
+        "shared/unrelated/package-3",
+        "shared/unrelated/package-11",
+        "shared/unrelated/package-4",
+        "shared/unrelated/package-2",
+        "shared/unrelated/package-5",
+        "shared/unrelated/package-8",
+        "shared/unrelated/package-6",
+        "shared/unrelated/package-9",
+        "shared/unrelated/package-7",
+        "shared/unrelated/package-0/nested",
+        "shared/unrelated/package-10/nested",
+        "shared/unrelated/package-1/nested",
+        "shared/unrelated/package-11/nested",
+        "shared/unrelated/package-3/nested",
+        "shared/unrelated/package-4/nested",
+        "shared/unrelated/package-2/nested",
+        "shared/unrelated/package-5/nested",
+        "shared/unrelated/package-8/nested",
+        "shared/unrelated/package-6/nested",
+        "shared/unrelated/package-7/nested",
+        "shared/unrelated/package-9/nested"
+      ],
+      "addedEntries": 122,
+      "unrelated": {
+        "receivedEvent": true,
+        "payloads": []
+      },
+      "status": "PASS",
+      "closed": true,
+      "watchedDirectoriesAfterClose": 0,
+      "postCloseEvents": 0
+    },
+    {
+      "policy": "parent",
+      "mode": "default",
+      "cacheState": "offline-delete",
+      "parentKind": "repository",
+      "prototypeOnly": true,
+      "checkpoints": [
+        {
+          "phase": "create-Component",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 22236,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {}
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617770332,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "create-Second",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 10312,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617772485,
+                  "path": "/src/Second.tsx",
+                  "acceptedPath": "/src/Second.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Second.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "delete",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 46508,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {}
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617774742,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "recreate",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 9472,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617776621,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "edit",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "string"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 31300,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "string"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617778925,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        }
+      ],
+      "seed": {
+        "processId": 42448,
+        "docs": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {
+              "label": {
+                "name": "label",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "string"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {
+              "label": {
+                "name": "label",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "string"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        },
+        "extractions": 3
+      },
+      "initialExtractions": 3,
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "beforeWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/4a97eef4dfb0058d515bbc20d29a7f2270b7c9f00419895c8876580f8848178f"
+        ],
+        "entryCount": 12,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "4a97eef4dfb0058d515bbc20d29a7f2270b7c9f00419895c8876580f8848178f"
+          ],
+          "app/.cache/4a97eef4dfb0058d515bbc20d29a7f2270b7c9f00419895c8876580f8848178f": [
+            "3b48cc70613d29d466b73be4041a88fe6d17e374b543634736bb3ee1ae6d5840.json",
+            "dc599504d85bc81ea9a103ee297150a541effb0e46cd62783999392782d00115.json",
+            "f010296adeeadf051495574da29ad46648785d4df186d9c2a4101759af56db80.json"
+          ]
+        }
+      },
+      "afterWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/4a97eef4dfb0058d515bbc20d29a7f2270b7c9f00419895c8876580f8848178f",
+          "unrelated",
+          "unrelated/package-0",
+          "unrelated/package-1",
+          "unrelated/package-10",
+          "unrelated/package-11",
+          "unrelated/package-2",
+          "unrelated/package-6",
+          "unrelated/package-5",
+          "unrelated/package-3",
+          "unrelated/package-7",
+          "unrelated/package-8",
+          "unrelated/package-4",
+          "unrelated/package-9",
+          "unrelated/package-0/nested",
+          "unrelated/package-10/nested",
+          "unrelated/package-2/nested",
+          "unrelated/package-1/nested",
+          "unrelated/package-6/nested",
+          "unrelated/package-11/nested",
+          "unrelated/package-5/nested",
+          "unrelated/package-3/nested",
+          "unrelated/package-7/nested",
+          "unrelated/package-4/nested",
+          "unrelated/package-8/nested",
+          "unrelated/package-9/nested"
+        ],
+        "entryCount": 133,
+        "entries": {
+          ".": [
+            "app",
+            "unrelated"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "4a97eef4dfb0058d515bbc20d29a7f2270b7c9f00419895c8876580f8848178f"
+          ],
+          "app/.cache/4a97eef4dfb0058d515bbc20d29a7f2270b7c9f00419895c8876580f8848178f": [
+            "3b48cc70613d29d466b73be4041a88fe6d17e374b543634736bb3ee1ae6d5840.json",
+            "dc599504d85bc81ea9a103ee297150a541effb0e46cd62783999392782d00115.json",
+            "f010296adeeadf051495574da29ad46648785d4df186d9c2a4101759af56db80.json"
+          ],
+          "unrelated": [
+            "package-0",
+            "package-1",
+            "package-10",
+            "package-11",
+            "package-2",
+            "package-3",
+            "package-4",
+            "package-5",
+            "package-6",
+            "package-7",
+            "package-8",
+            "package-9"
+          ],
+          "unrelated/package-0": [
+            "nested"
+          ],
+          "unrelated/package-1": [
+            "nested"
+          ],
+          "unrelated/package-10": [
+            "nested"
+          ],
+          "unrelated/package-11": [
+            "nested"
+          ],
+          "unrelated/package-2": [
+            "nested"
+          ],
+          "unrelated/package-6": [
+            "nested"
+          ],
+          "unrelated/package-5": [
+            "nested"
+          ],
+          "unrelated/package-3": [
+            "nested"
+          ],
+          "unrelated/package-7": [
+            "nested"
+          ],
+          "unrelated/package-8": [
+            "nested"
+          ],
+          "unrelated/package-4": [
+            "nested"
+          ],
+          "unrelated/package-9": [
+            "nested"
+          ],
+          "unrelated/package-0/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-10/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-2/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-1/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-6/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-11/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-5/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-3/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-7/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-4/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-8/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-9/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ]
+        }
+      },
+      "addedDirectories": [
+        "unrelated",
+        "unrelated/package-0",
+        "unrelated/package-1",
+        "unrelated/package-10",
+        "unrelated/package-11",
+        "unrelated/package-2",
+        "unrelated/package-6",
+        "unrelated/package-5",
+        "unrelated/package-3",
+        "unrelated/package-7",
+        "unrelated/package-8",
+        "unrelated/package-4",
+        "unrelated/package-9",
+        "unrelated/package-0/nested",
+        "unrelated/package-10/nested",
+        "unrelated/package-2/nested",
+        "unrelated/package-1/nested",
+        "unrelated/package-6/nested",
+        "unrelated/package-11/nested",
+        "unrelated/package-5/nested",
+        "unrelated/package-3/nested",
+        "unrelated/package-7/nested",
+        "unrelated/package-4/nested",
+        "unrelated/package-8/nested",
+        "unrelated/package-9/nested"
+      ],
+      "addedEntries": 121,
+      "unrelated": {
+        "receivedEvent": true,
+        "payloads": []
+      },
+      "status": "PASS",
+      "closed": true,
+      "watchedDirectoriesAfterClose": 0,
+      "postCloseEvents": 0
+    },
+    {
+      "policy": "parent",
+      "mode": "projectService",
+      "cacheState": "off",
+      "parentKind": "shared-directory",
+      "prototypeOnly": true,
+      "checkpoints": [
+        {
+          "phase": "create-Component",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 32204,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {}
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617782408,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "create-Second",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 5200,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617784877,
+                  "path": "/src/Second.tsx",
+                  "acceptedPath": "/src/Second.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Second.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "delete",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 30644,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {}
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617787474,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "recreate",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 25932,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617789683,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "edit",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "string"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 23248,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "string"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617792059,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        }
+      ],
+      "initialExtractions": 3,
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "beforeWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src"
+        ],
+        "entryCount": 7,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ]
+        }
+      },
+      "afterWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "shared",
+          "shared/unrelated",
+          "shared/unrelated/package-10",
+          "shared/unrelated/package-0",
+          "shared/unrelated/package-1",
+          "shared/unrelated/package-5",
+          "shared/unrelated/package-11",
+          "shared/unrelated/package-7",
+          "shared/unrelated/package-2",
+          "shared/unrelated/package-3",
+          "shared/unrelated/package-4",
+          "shared/unrelated/package-6",
+          "shared/unrelated/package-9",
+          "shared/unrelated/package-8",
+          "shared/unrelated/package-10/nested",
+          "shared/unrelated/package-1/nested",
+          "shared/unrelated/package-0/nested",
+          "shared/unrelated/package-5/nested",
+          "shared/unrelated/package-11/nested",
+          "shared/unrelated/package-7/nested",
+          "shared/unrelated/package-2/nested",
+          "shared/unrelated/package-3/nested",
+          "shared/unrelated/package-9/nested",
+          "shared/unrelated/package-4/nested",
+          "shared/unrelated/package-6/nested",
+          "shared/unrelated/package-8/nested"
+        ],
+        "entryCount": 129,
+        "entries": {
+          ".": [
+            "app",
+            "shared"
+          ],
+          "app": [
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "shared": [
+            "unrelated"
+          ],
+          "shared/unrelated": [
+            "package-0",
+            "package-1",
+            "package-10",
+            "package-11",
+            "package-2",
+            "package-3",
+            "package-4",
+            "package-5",
+            "package-6",
+            "package-7",
+            "package-8",
+            "package-9"
+          ],
+          "shared/unrelated/package-10": [
+            "nested"
+          ],
+          "shared/unrelated/package-0": [
+            "nested"
+          ],
+          "shared/unrelated/package-1": [
+            "nested"
+          ],
+          "shared/unrelated/package-5": [
+            "nested"
+          ],
+          "shared/unrelated/package-11": [
+            "nested"
+          ],
+          "shared/unrelated/package-7": [
+            "nested"
+          ],
+          "shared/unrelated/package-2": [
+            "nested"
+          ],
+          "shared/unrelated/package-3": [
+            "nested"
+          ],
+          "shared/unrelated/package-4": [
+            "nested"
+          ],
+          "shared/unrelated/package-6": [
+            "nested"
+          ],
+          "shared/unrelated/package-9": [
+            "nested"
+          ],
+          "shared/unrelated/package-8": [
+            "nested"
+          ],
+          "shared/unrelated/package-10/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-1/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-0/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-5/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-11/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-7/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-2/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-3/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-9/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-4/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-6/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-8/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ]
+        }
+      },
+      "addedDirectories": [
+        "shared",
+        "shared/unrelated",
+        "shared/unrelated/package-10",
+        "shared/unrelated/package-0",
+        "shared/unrelated/package-1",
+        "shared/unrelated/package-5",
+        "shared/unrelated/package-11",
+        "shared/unrelated/package-7",
+        "shared/unrelated/package-2",
+        "shared/unrelated/package-3",
+        "shared/unrelated/package-4",
+        "shared/unrelated/package-6",
+        "shared/unrelated/package-9",
+        "shared/unrelated/package-8",
+        "shared/unrelated/package-10/nested",
+        "shared/unrelated/package-1/nested",
+        "shared/unrelated/package-0/nested",
+        "shared/unrelated/package-5/nested",
+        "shared/unrelated/package-11/nested",
+        "shared/unrelated/package-7/nested",
+        "shared/unrelated/package-2/nested",
+        "shared/unrelated/package-3/nested",
+        "shared/unrelated/package-9/nested",
+        "shared/unrelated/package-4/nested",
+        "shared/unrelated/package-6/nested",
+        "shared/unrelated/package-8/nested"
+      ],
+      "addedEntries": 122,
+      "unrelated": {
+        "receivedEvent": true,
+        "payloads": []
+      },
+      "status": "PASS",
+      "closed": true,
+      "watchedDirectoriesAfterClose": 0,
+      "postCloseEvents": 0
+    },
+    {
+      "policy": "parent",
+      "mode": "projectService",
+      "cacheState": "seed-absent",
+      "parentKind": "shared-directory",
+      "prototypeOnly": true,
+      "checkpoints": [
+        {
+          "phase": "create-Component",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 30260,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {}
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617797138,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "create-Second",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 42080,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617799842,
+                  "path": "/src/Second.tsx",
+                  "acceptedPath": "/src/Second.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Second.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "delete",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 24832,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {}
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617802662,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "recreate",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 43520,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617805571,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "edit",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "string"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 42448,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "string"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617808423,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        }
+      ],
+      "seed": {
+        "processId": 38756,
+        "docs": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {}
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {}
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        },
+        "extractions": 3
+      },
+      "initialExtractions": 0,
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "beforeWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/14382092cc41b5b09c595e6b2ecd0c95c7ed54b5f1555c61db04b70b10f019e0"
+        ],
+        "entryCount": 12,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "14382092cc41b5b09c595e6b2ecd0c95c7ed54b5f1555c61db04b70b10f019e0"
+          ],
+          "app/.cache/14382092cc41b5b09c595e6b2ecd0c95c7ed54b5f1555c61db04b70b10f019e0": [
+            "0ae4c47500062a308ae86c351e0cb94c00140574e48a5f748e9e2b6962ae8d79.json",
+            "2343101fd6b461a57a3b6a1b0f008a58889e902f3444fce28c926c262609d9a8.json",
+            "43a059b51f996284adfe37907d205493efce1a500f9e56d0970daf5bd4f1bd94.json"
+          ]
+        }
+      },
+      "afterWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/14382092cc41b5b09c595e6b2ecd0c95c7ed54b5f1555c61db04b70b10f019e0",
+          "shared",
+          "shared/unrelated",
+          "shared/unrelated/package-0",
+          "shared/unrelated/package-1",
+          "shared/unrelated/package-10",
+          "shared/unrelated/package-11",
+          "shared/unrelated/package-4",
+          "shared/unrelated/package-3",
+          "shared/unrelated/package-2",
+          "shared/unrelated/package-8",
+          "shared/unrelated/package-5",
+          "shared/unrelated/package-6",
+          "shared/unrelated/package-9",
+          "shared/unrelated/package-7",
+          "shared/unrelated/package-10/nested",
+          "shared/unrelated/package-1/nested",
+          "shared/unrelated/package-11/nested",
+          "shared/unrelated/package-3/nested",
+          "shared/unrelated/package-0/nested",
+          "shared/unrelated/package-4/nested",
+          "shared/unrelated/package-2/nested",
+          "shared/unrelated/package-7/nested",
+          "shared/unrelated/package-6/nested",
+          "shared/unrelated/package-8/nested",
+          "shared/unrelated/package-5/nested",
+          "shared/unrelated/package-9/nested"
+        ],
+        "entryCount": 134,
+        "entries": {
+          ".": [
+            "app",
+            "shared"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "14382092cc41b5b09c595e6b2ecd0c95c7ed54b5f1555c61db04b70b10f019e0"
+          ],
+          "app/.cache/14382092cc41b5b09c595e6b2ecd0c95c7ed54b5f1555c61db04b70b10f019e0": [
+            "0ae4c47500062a308ae86c351e0cb94c00140574e48a5f748e9e2b6962ae8d79.json",
+            "2343101fd6b461a57a3b6a1b0f008a58889e902f3444fce28c926c262609d9a8.json",
+            "43a059b51f996284adfe37907d205493efce1a500f9e56d0970daf5bd4f1bd94.json"
+          ],
+          "shared": [
+            "unrelated"
+          ],
+          "shared/unrelated": [
+            "package-0",
+            "package-1",
+            "package-10",
+            "package-11",
+            "package-2",
+            "package-3",
+            "package-4",
+            "package-5",
+            "package-6",
+            "package-7",
+            "package-8",
+            "package-9"
+          ],
+          "shared/unrelated/package-0": [
+            "nested"
+          ],
+          "shared/unrelated/package-1": [
+            "nested"
+          ],
+          "shared/unrelated/package-10": [
+            "nested"
+          ],
+          "shared/unrelated/package-11": [
+            "nested"
+          ],
+          "shared/unrelated/package-4": [
+            "nested"
+          ],
+          "shared/unrelated/package-3": [
+            "nested"
+          ],
+          "shared/unrelated/package-2": [
+            "nested"
+          ],
+          "shared/unrelated/package-8": [
+            "nested"
+          ],
+          "shared/unrelated/package-5": [
+            "nested"
+          ],
+          "shared/unrelated/package-6": [
+            "nested"
+          ],
+          "shared/unrelated/package-9": [
+            "nested"
+          ],
+          "shared/unrelated/package-7": [
+            "nested"
+          ],
+          "shared/unrelated/package-10/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-1/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-11/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-3/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-0/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-4/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-2/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-7/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-6/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-8/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-5/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "shared/unrelated/package-9/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ]
+        }
+      },
+      "addedDirectories": [
+        "shared",
+        "shared/unrelated",
+        "shared/unrelated/package-0",
+        "shared/unrelated/package-1",
+        "shared/unrelated/package-10",
+        "shared/unrelated/package-11",
+        "shared/unrelated/package-4",
+        "shared/unrelated/package-3",
+        "shared/unrelated/package-2",
+        "shared/unrelated/package-8",
+        "shared/unrelated/package-5",
+        "shared/unrelated/package-6",
+        "shared/unrelated/package-9",
+        "shared/unrelated/package-7",
+        "shared/unrelated/package-10/nested",
+        "shared/unrelated/package-1/nested",
+        "shared/unrelated/package-11/nested",
+        "shared/unrelated/package-3/nested",
+        "shared/unrelated/package-0/nested",
+        "shared/unrelated/package-4/nested",
+        "shared/unrelated/package-2/nested",
+        "shared/unrelated/package-7/nested",
+        "shared/unrelated/package-6/nested",
+        "shared/unrelated/package-8/nested",
+        "shared/unrelated/package-5/nested",
+        "shared/unrelated/package-9/nested"
+      ],
+      "addedEntries": 122,
+      "unrelated": {
+        "receivedEvent": true,
+        "payloads": []
+      },
+      "status": "PASS",
+      "closed": true,
+      "watchedDirectoriesAfterClose": 0,
+      "postCloseEvents": 0
+    },
+    {
+      "policy": "parent",
+      "mode": "projectService",
+      "cacheState": "offline-delete",
+      "parentKind": "repository",
+      "prototypeOnly": true,
+      "checkpoints": [
+        {
+          "phase": "create-Component",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {}
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 47032,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {}
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617813956,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "create-Second",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 43860,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617816422,
+                  "path": "/src/Second.tsx",
+                  "acceptedPath": "/src/Second.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Second.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "delete",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {}
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 33776,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {}
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617818954,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "recreate",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 1592,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617821048,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        },
+        {
+          "phase": "edit",
+          "receivedEvent": true,
+          "fresh": true,
+          "metadata": {
+            "Component": {
+              "displayName": "Component",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "string"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Second": {
+              "displayName": "Second",
+              "description": "",
+              "props": {
+                "label": {
+                  "name": "label",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "number"
+                  },
+                  "defaultValue": null
+                }
+              }
+            },
+            "Other": {
+              "displayName": "Other",
+              "description": "",
+              "props": {
+                "unaffected": {
+                  "name": "unaffected",
+                  "description": "",
+                  "required": true,
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "defaultValue": null
+                }
+              }
+            }
+          },
+          "oracle": {
+            "processId": 43480,
+            "docs": {
+              "Component": {
+                "displayName": "Component",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "string"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Second": {
+                "displayName": "Second",
+                "description": "",
+                "props": {
+                  "label": {
+                    "name": "label",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "number"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              },
+              "Other": {
+                "displayName": "Other",
+                "description": "",
+                "props": {
+                  "unaffected": {
+                    "name": "unaffected",
+                    "description": "",
+                    "required": true,
+                    "type": {
+                      "name": "boolean"
+                    },
+                    "defaultValue": null
+                  }
+                }
+              }
+            },
+            "extractions": 3
+          },
+          "payloads": [
+            {
+              "type": "update",
+              "updates": [
+                {
+                  "type": "js-update",
+                  "timestamp": 1788617823502,
+                  "path": "/src/Component.tsx",
+                  "acceptedPath": "/src/Component.tsx",
+                  "explicitImportRequired": false,
+                  "isWithinCircularImport": false
+                }
+              ]
+            }
+          ],
+          "status": "PASS",
+          "deliveredPaths": [
+            "/src/Component.tsx"
+          ],
+          "fullReloads": 0,
+          "unrelatedDelivery": false,
+          "deliveredExpected": true
+        }
+      ],
+      "seed": {
+        "processId": 10976,
+        "docs": {
+          "Component": {
+            "displayName": "Component",
+            "description": "",
+            "props": {
+              "label": {
+                "name": "label",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "string"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Second": {
+            "displayName": "Second",
+            "description": "",
+            "props": {
+              "label": {
+                "name": "label",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "string"
+                },
+                "defaultValue": null
+              }
+            }
+          },
+          "Other": {
+            "displayName": "Other",
+            "description": "",
+            "props": {
+              "unaffected": {
+                "name": "unaffected",
+                "description": "",
+                "required": true,
+                "type": {
+                  "name": "boolean"
+                },
+                "defaultValue": null
+              }
+            }
+          }
+        },
+        "extractions": 3
+      },
+      "initialExtractions": 3,
+      "initial": {
+        "Component": {
+          "displayName": "Component",
+          "description": "",
+          "props": {}
+        },
+        "Second": {
+          "displayName": "Second",
+          "description": "",
+          "props": {}
+        },
+        "Other": {
+          "displayName": "Other",
+          "description": "",
+          "props": {
+            "unaffected": {
+              "name": "unaffected",
+              "description": "",
+              "required": true,
+              "type": {
+                "name": "boolean"
+              },
+              "defaultValue": null
+            }
+          }
+        }
+      },
+      "beforeWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/a978a3f112d7cc56318453bae6b2aa8ed16f8ce93e7fe87a5547a1b6ef098674"
+        ],
+        "entryCount": 12,
+        "entries": {
+          ".": [
+            "app"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "a978a3f112d7cc56318453bae6b2aa8ed16f8ce93e7fe87a5547a1b6ef098674"
+          ],
+          "app/.cache/a978a3f112d7cc56318453bae6b2aa8ed16f8ce93e7fe87a5547a1b6ef098674": [
+            "022e3fcab52a653bb7bb6124cf5ea8dc9e9b416f07f2893c55a27fde1f4ab87e.json",
+            "59a5905c5c9c89e1cf60cbb32231025e58d90067c4a0108c3bd42ed095b70c29.json",
+            "fbb3ba8e8d33b68dc2a142a11879864f89e34aa9ed8c69b61b98495dcd99029a.json"
+          ]
+        }
+      },
+      "afterWatch": {
+        "directories": [
+          ".",
+          "app",
+          "app/src",
+          "app/.cache",
+          "app/.cache/a978a3f112d7cc56318453bae6b2aa8ed16f8ce93e7fe87a5547a1b6ef098674",
+          "unrelated",
+          "unrelated/package-0",
+          "unrelated/package-1",
+          "unrelated/package-11",
+          "unrelated/package-10",
+          "unrelated/package-6",
+          "unrelated/package-2",
+          "unrelated/package-7",
+          "unrelated/package-4",
+          "unrelated/package-3",
+          "unrelated/package-5",
+          "unrelated/package-9",
+          "unrelated/package-8",
+          "unrelated/package-11/nested",
+          "unrelated/package-1/nested",
+          "unrelated/package-0/nested",
+          "unrelated/package-6/nested",
+          "unrelated/package-10/nested",
+          "unrelated/package-2/nested",
+          "unrelated/package-4/nested",
+          "unrelated/package-7/nested",
+          "unrelated/package-9/nested",
+          "unrelated/package-3/nested",
+          "unrelated/package-8/nested",
+          "unrelated/package-5/nested"
+        ],
+        "entryCount": 133,
+        "entries": {
+          ".": [
+            "app",
+            "unrelated"
+          ],
+          "app": [
+            ".cache",
+            "src",
+            "tsconfig.json"
+          ],
+          "app/src": [
+            "Component.tsx",
+            "Other.tsx",
+            "Second.tsx",
+            "control.js"
+          ],
+          "app/.cache": [
+            "a978a3f112d7cc56318453bae6b2aa8ed16f8ce93e7fe87a5547a1b6ef098674"
+          ],
+          "app/.cache/a978a3f112d7cc56318453bae6b2aa8ed16f8ce93e7fe87a5547a1b6ef098674": [
+            "022e3fcab52a653bb7bb6124cf5ea8dc9e9b416f07f2893c55a27fde1f4ab87e.json",
+            "59a5905c5c9c89e1cf60cbb32231025e58d90067c4a0108c3bd42ed095b70c29.json",
+            "fbb3ba8e8d33b68dc2a142a11879864f89e34aa9ed8c69b61b98495dcd99029a.json"
+          ],
+          "unrelated": [
+            "package-0",
+            "package-1",
+            "package-10",
+            "package-11",
+            "package-2",
+            "package-3",
+            "package-4",
+            "package-5",
+            "package-6",
+            "package-7",
+            "package-8",
+            "package-9"
+          ],
+          "unrelated/package-0": [
+            "nested"
+          ],
+          "unrelated/package-1": [
+            "nested"
+          ],
+          "unrelated/package-11": [
+            "nested"
+          ],
+          "unrelated/package-10": [
+            "nested"
+          ],
+          "unrelated/package-6": [
+            "nested"
+          ],
+          "unrelated/package-2": [
+            "nested"
+          ],
+          "unrelated/package-7": [
+            "nested"
+          ],
+          "unrelated/package-4": [
+            "nested"
+          ],
+          "unrelated/package-3": [
+            "nested"
+          ],
+          "unrelated/package-5": [
+            "nested"
+          ],
+          "unrelated/package-9": [
+            "nested"
+          ],
+          "unrelated/package-8": [
+            "nested"
+          ],
+          "unrelated/package-11/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-1/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-0/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-6/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-10/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-2/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-4/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-7/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-9/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-3/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-8/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ],
+          "unrelated/package-5/nested": [
+            "file-0.txt",
+            "file-1.txt",
+            "file-2.txt",
+            "file-3.txt",
+            "file-4.txt",
+            "file-5.txt",
+            "file-6.txt",
+            "file-7.txt"
+          ]
+        }
+      },
+      "addedDirectories": [
+        "unrelated",
+        "unrelated/package-0",
+        "unrelated/package-1",
+        "unrelated/package-11",
+        "unrelated/package-10",
+        "unrelated/package-6",
+        "unrelated/package-2",
+        "unrelated/package-7",
+        "unrelated/package-4",
+        "unrelated/package-3",
+        "unrelated/package-5",
+        "unrelated/package-9",
+        "unrelated/package-8",
+        "unrelated/package-11/nested",
+        "unrelated/package-1/nested",
+        "unrelated/package-0/nested",
+        "unrelated/package-6/nested",
+        "unrelated/package-10/nested",
+        "unrelated/package-2/nested",
+        "unrelated/package-4/nested",
+        "unrelated/package-7/nested",
+        "unrelated/package-9/nested",
+        "unrelated/package-3/nested",
+        "unrelated/package-8/nested",
+        "unrelated/package-5/nested"
+      ],
+      "addedEntries": 121,
+      "unrelated": {
+        "receivedEvent": true,
+        "payloads": []
+      },
+      "status": "PASS",
+      "closed": true,
+      "watchedDirectoriesAfterClose": 0,
+      "postCloseEvents": 0
+    }
+  ],
+  "verdict": "PASS"
+}

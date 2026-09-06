@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 2,
+  "benchmarkKind": "direct-plugin",
+  "processId": 45060,
+  "cache": "populate",
+  "identity": {
+    "buildSha256": "abdf0b0cfdc30b9916700d30b1c884dc6e525ab1205744bea8bf5702bded80e6",
+    "sourceSha256": "de949667cf8d4bae96a0cc42a6c68742cb7a99fccc099b9cb931f0bcaf1aeb86",
+    "benchmarkSha256": "6a7330f4a949277a5d1eae2ca5b540a4939056d35c6d4e10b2eb58ce5f9203bc",
+    "gitHead": "5f448ec8d596854eace55f59faa669193d187310",
+    "pluginVersion": "0.8.0",
+    "dependencies": {
+      "typescript": "6.0.3",
+      "react-docgen-typescript": "2.2.2",
+      "react": "18.3.1",
+      "@types/react": "18.2.25",
+      "vite": "8.1.5"
+    }
+  },
+  "parserOptions": {
+    "parser": {
+      "propFilter": "plugin-default"
+    },
+    "tsconfig": {
+      "include": [
+        "src/**/*"
+      ],
+      "compilerOptions": {
+        "target": "ES2020",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "strict": true,
+        "skipLibCheck": true,
+        "noEmit": true,
+        "jsx": "preserve",
+        "baseUrl": ".",
+        "paths": {
+          "@bench/*": [
+            "src/*"
+          ],
+          "@components/*": [
+            "src/components/*"
+          ],
+          "@features/*": [
+            "src/features/*"
+          ],
+          "@shared/*": [
+            "src/shared/*"
+          ]
+        }
+      }
+    }
+  },
+  "timingScope": {
+    "coldBatchMs": "configResolved plus first transform batch; only the first measured instance has a fresh process",
+    "warmBatchMs": "same-instance in-memory reuse",
+    "sessionTotalMs": "plugin configuration and construction through first batch, warm batch, HMR, and awaited close; excludes fixture copy/restore, cache clearing, and child-process seeding"
+  },
+  "createdAt": "2026-09-05T12:51:52.645Z",
+  "iterations": 1,
+  "modes": [
+    "default"
+  ],
+  "nodeVersion": "v24.10.0",
+  "platform": "win32",
+  "scenario": {
+    "sourceSha256": "c3e8381fc63fcfab58623b367a89a2191c4577d30c86387344e3eb0fcc023b8a",
+    "fileCount": 16,
+    "label": "large-project",
+    "name": "large-project",
+    "scale": 1
+  },
+  "results": [
+    {
+      "metrics": {
+        "componentHmr": {
+          "affectedModuleCount": 9,
+          "invalidatedModuleCount": 0,
+          "status": "updated",
+          "totalCycleMs": 1249.4524999999999
+        },
+        "coldBatchMs": 2118.4046999999996,
+        "configResolvedMs": 12.887499999999989,
+        "fileCount": 16,
+        "firstBatchMs": 2105.5172,
+        "sessionTotalMs": 3378.2448,
+        "warmBatchMs": 7.380499999999756
+      },
+      "mode": "default",
+      "runs": [
+        {
+          "cache": "populate",
+          "mode": "default",
+          "processFirstMeasuredInstance": true,
+          "componentHmr": {
+            "affectedModuleCount": 9,
+            "invalidatedModuleCount": 0,
+            "status": "updated",
+            "totalCycleMs": 1249.4524999999999
+          },
+          "coldBatchMs": 2118.4046999999996,
+          "configResolvedMs": 12.887499999999989,
+          "fileCount": 16,
+          "firstBatchMs": 2105.5172,
+          "warmBatchMs": 7.380499999999756,
+          "sessionTotalMs": 3378.2448,
+          "cacheLifecycle": {
+            "initialEntryCount": 0,
+            "seedProcessId": null,
+            "validation": null,
+            "finalEntryCount": 16
+          }
+        }
+      ]
+    }
+  ]
+}

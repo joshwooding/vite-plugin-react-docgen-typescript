@@ -1,0 +1,132 @@
+{
+  "status": "PASS",
+  "verifiedAt": "2026-09-06T10:52:55.341370+00:00",
+  "currentBase": "ec7455ac7bf3986610b7f79291dd1acae644beba",
+  "runtimeGitDriftSince033": [],
+  "runtimeFiles": [
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/backend.ts",
+      "sha256": "75ae4b7046a463751c2805e5b351e0fcab0caaff051591e22e6e60abf2d2fbb4"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts",
+      "sha256": "41d8f13dfcef813144179db2a91d9e0c1705841ab6eb9e0f3e9c494072fe8332"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/pathIdentity.ts",
+      "sha256": "dddb9a53ddafb42fc1013ea3dae4a776fd2fa867e9e2bf91a60cea4dcdd1c9bc"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/runtimeTarget.ts",
+      "sha256": "6fcac61578dde20d20bbfc837e606d7bc51f8dfcf9dc9776da7d01c7b9c729f9"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/types.ts",
+      "sha256": "20b616717d217d42ee4785ad5eb98c29c1f8f16e0db5440dde34a74f906e36b1"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/index.ts",
+      "sha256": "197ce7d2cb38fb230fe6d0fb81bf39d39c362dcb531f949f1cba85d92958787d"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/plugin.ts",
+      "sha256": "e591dd4206ec32152cde3dd82728618f5f23edcd688cb0a194124d83683579d3"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/cache.ts",
+      "sha256": "2b7cc6fcce06a61330e0c15fe640bd45e53e14fe89dcc19a2c6fb2878a5bd148"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/fileSelection.ts",
+      "sha256": "0e6cec01c19b68204a3051ea8ec9b470b9a74c2e53773009256fa2def874130a"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/filter.ts",
+      "sha256": "acc17dba1c4c425f2d29ed8be2781fd253bfc63e4b998e36207466fcd572a854"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/generate.ts",
+      "sha256": "d7acf7d906483ae7b6d16caad64275483cdcef57d50f772fabe1dad6645ad961"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/options.ts",
+      "sha256": "69907c32bcc761395f3d1c82b13deff9346691593bd3582298027a8fbd55ba8a"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/runtimeTarget.ts",
+      "sha256": "a1b444fbbe194727f920997e24506fad8bd70f14734c9d5abaf1e06c8c7be0f2"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/typescript.ts",
+      "sha256": "6f8ed018850c6e011661566b6b2e6deea990f362624425afc2fa8e8056673357"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/typescriptCompatibility.ts",
+      "sha256": "93097080749bf524f952374d989a1cd8eb20f3c9e928214460a1b1c1730afcd8"
+    }
+  ],
+  "archiveSha256": "a7aa4620b18c2eebfffbeab4cb623d94f91b4f0371b684b37eacd52ee901dfbe",
+  "distFiles": {
+    "chunks/fileSelection.mjs": "49d944c7dd814dbbb9b1a9290f13334bfd1bccf94f02a2e96c813b0b16ce1826",
+    "chunks/typescript.mjs": "566dede0c2d983ce2e3ad455f497af0e6a4e436b515177c3b05a6e2f569d78d3",
+    "index.d.mts": "e43fdc3aba416e95d34bc1cac76942c574f9345f62bd04910983180c3826977b",
+    "index.d.ts": "e43fdc3aba416e95d34bc1cac76942c574f9345f62bd04910983180c3826977b",
+    "index.mjs": "0039755d18125248d78268a266405aded347fa1dfbd8034f2e08e9b5363bb1cb"
+  },
+  "reusedCorrectness": [
+    {
+      "path": "plans/033-evidence/compatibility/restart-results.json",
+      "sha256": "175bc6b27c9ba3fcea14edaca4b12e5dec51f77a3721f1255b3e1706fb47281e",
+      "passedRows": 26,
+      "identity": {
+        "evaluatedSha": "eb7a7650a3541d08630ed60d4e684f495123d343",
+        "lockfileSha256": "782c9e80e0789b79ecf721c60b38587fabf1d26eccb636e87471469fd530d9c4",
+        "sourceSha256": "3d9f666aef6c9a0760bf62d8aa52326042ebedb5123103232ba35b64317cdb5a",
+        "buildSha256": "0039755d18125248d78268a266405aded347fa1dfbd8034f2e08e9b5363bb1cb",
+        "benchmarkSha256": "6a7330f4a949277a5d1eae2ca5b540a4939056d35c6d4e10b2eb58ce5f9203bc",
+        "node": "v24.10.0",
+        "os": {
+          "platform": "win32",
+          "release": "10.0.26340",
+          "arch": "x64"
+        },
+        "versions": {
+          "typescript": "6.0.3",
+          "typescript6": "6.0.2",
+          "vite": "8.1.5",
+          "react-docgen-typescript": "2.2.2",
+          "react": "18.3.1",
+          "@types/react": "18.2.25"
+        }
+      }
+    },
+    {
+      "path": "plans/033-evidence/compatibility/watcher-results.json",
+      "sha256": "906f3018c8bf2ce6a3ee7db037ae3481d710da875373077206ff4da22ece8f41",
+      "passedRows": 4,
+      "identity": {
+        "evaluatedSha": "eb7a7650a3541d08630ed60d4e684f495123d343",
+        "lockfileSha256": "782c9e80e0789b79ecf721c60b38587fabf1d26eccb636e87471469fd530d9c4",
+        "sourceSha256": "3d9f666aef6c9a0760bf62d8aa52326042ebedb5123103232ba35b64317cdb5a",
+        "buildSha256": "0039755d18125248d78268a266405aded347fa1dfbd8034f2e08e9b5363bb1cb",
+        "benchmarkSha256": "6a7330f4a949277a5d1eae2ca5b540a4939056d35c6d4e10b2eb58ce5f9203bc",
+        "node": "v24.10.0",
+        "os": {
+          "platform": "win32",
+          "release": "10.0.26340",
+          "arch": "x64"
+        },
+        "versions": {
+          "typescript": "6.0.3",
+          "typescript6": "6.0.2",
+          "vite": "8.1.5",
+          "react-docgen-typescript": "2.2.2",
+          "react": "18.3.1",
+          "@types/react": "18.2.25"
+        }
+      }
+    }
+  ],
+  "native034Rows": 8,
+  "scope": "Existing full restart and native evidence applies to the exact unchanged runtime/archive. No restart/native/full-suite checks were rerun;035 adds fresh selected-workload hit/semantic/affected-identity controls before timing."
+}

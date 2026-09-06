@@ -1,0 +1,83 @@
+{
+  "verifiedAt": "2026-09-06T00:18:00.516653+00:00",
+  "profileCount": 4,
+  "processCount": 2,
+  "metadataChecks": 8,
+  "restoredWorkloadIdentity": true,
+  "exactCurrentArtifact": true,
+  "nonOverlappingProcesses": true,
+  "summaryRecomputedIndependently": true,
+  "summarySha256": "137782e5484026445b1a18b029f62a012176882b856a0520ef3dbe583b3c059c",
+  "auditScriptSha256": "501ea40fb65a7b75ecb2ef7426b7517803e88d8e9546eaa3900b7ae95dc70a52",
+  "negativeDeltaPolicy": "Primary summary retains every signed V8 timeDelta unchanged. Separately recomputed owner shares with negative values set to zero to quantify sensitivity; no profile or sample replaced.",
+  "rows": [
+    {
+      "mode": "default",
+      "phase": "cold",
+      "samples": 43414,
+      "weightedSampleMs": 69200.181,
+      "backendAnalysisRealpathPercent": 47.902368925884744,
+      "watchFilesNativeExistsPercent": 24.796995834447312,
+      "rawSha256": "27d029ce3629cb5d56de3efba1af21940fc53dbf950975dadd4bcad60e64ed4c",
+      "negativeDeltaSensitivity": {
+        "count": 6,
+        "sumMs": -0.107,
+        "absolutePercent": 0.0001546238730213726,
+        "zeroClampedMaximumOwnershipShiftPercentagePoints": 0.00014444823447856692,
+        "topTwoOwnersUnchanged": true
+      },
+      "profileEndGapMs": 0.182
+    },
+    {
+      "mode": "default",
+      "phase": "shared",
+      "samples": 41756,
+      "weightedSampleMs": 69390.911,
+      "backendAnalysisRealpathPercent": 48.58976559624646,
+      "watchFilesNativeExistsPercent": 24.60896643942317,
+      "rawSha256": "8178337a2c9da5b9f688a272789654e0e91cba665e39ac9f858a1933f45a594e",
+      "negativeDeltaSensitivity": {
+        "count": 0,
+        "sumMs": 0.0,
+        "absolutePercent": 0.0,
+        "zeroClampedMaximumOwnershipShiftPercentagePoints": 0.0,
+        "topTwoOwnersUnchanged": true
+      },
+      "profileEndGapMs": 0.195
+    },
+    {
+      "mode": "projectService",
+      "phase": "cold",
+      "samples": 45784,
+      "weightedSampleMs": 73098.734,
+      "backendAnalysisRealpathPercent": 46.915191445039255,
+      "watchFilesNativeExistsPercent": 24.002403379516807,
+      "rawSha256": "1d7c0313975ba0f762872e707d3723fa9b9ae24592fa7501c10e6a2b47a82a7d",
+      "negativeDeltaSensitivity": {
+        "count": 8,
+        "sumMs": -0.158,
+        "absolutePercent": 0.00021614601423876917,
+        "zeroClampedMaximumOwnershipShiftPercentagePoints": 0.00019949855366974134,
+        "topTwoOwnersUnchanged": true
+      },
+      "profileEndGapMs": 0.186
+    },
+    {
+      "mode": "projectService",
+      "phase": "shared",
+      "samples": 40167,
+      "weightedSampleMs": 66790.225,
+      "backendAnalysisRealpathPercent": 49.68612248274354,
+      "watchFilesNativeExistsPercent": 25.25615088136026,
+      "rawSha256": "00686fa50170151744128ed93d4a279c2a84c40ef22ab5ddd7c9008b865cbd52",
+      "negativeDeltaSensitivity": {
+        "count": 0,
+        "sumMs": 0.0,
+        "absolutePercent": 0.0,
+        "zeroClampedMaximumOwnershipShiftPercentagePoints": 0.0,
+        "topTwoOwnersUnchanged": true
+      },
+      "profileEndGapMs": 0.247
+    }
+  ]
+}

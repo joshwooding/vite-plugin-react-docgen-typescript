@@ -1,0 +1,42 @@
+{
+  "path": "packages/core/tsconfig.json",
+  "upstreamGitBlob": "48533da594bf26b449edd7cafe99278fd90f0c04",
+  "upstreamGitContentSha256": "9ae47db5c3a25af987e2e5b38539fe98c678c49b11b93ac1ec855f9d9f543e1a",
+  "adaptedContentSha256": "f64535b421daaa1161a70a045c5e7ac0446888212bcfe28b8a4e6070d59693e7",
+  "original": {
+    "extends": "../../tsconfig.base.json",
+    "include": [
+      "src/**/*"
+    ],
+    "exclude": [
+      "**/__tests__/*"
+    ]
+  },
+  "adapted": {
+    "extends": "../../tsconfig.base.json",
+    "include": [
+      "src/**/*"
+    ],
+    "exclude": [
+      "**/__tests__/*"
+    ],
+    "compilerOptions": {
+      "paths": {
+        "@salt-ds/core": [
+          "./src/index.ts"
+        ],
+        "@salt-ds/icons": [
+          "../icons/src/index.ts"
+        ],
+        "@salt-ds/styles": [
+          "../styles/src/index.ts"
+        ],
+        "@salt-ds/window": [
+          "../window/src/index.ts"
+        ]
+      }
+    }
+  },
+  "onlyAddedCompilerPaths": true,
+  "rationale": "Resolve pinned workspace source without fabricated or absent built declarations; both modes select this same core config."
+}

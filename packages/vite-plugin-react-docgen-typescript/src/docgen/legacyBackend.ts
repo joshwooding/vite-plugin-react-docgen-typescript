@@ -4,9 +4,12 @@ import type { FileParser } from "react-docgen-typescript";
 import type {
   CompilerOptions,
   ModuleResolutionCache,
+  Node,
   Program,
   ProjectReference,
   SemanticDiagnosticsBuilderProgram,
+  SourceFile,
+  StringLiteralLike,
   System,
   TypeReferenceDirectiveResolutionCache,
   WatchOptions,
@@ -41,6 +44,13 @@ import type {
 type Filepath = string;
 type CloseWatch = () => void;
 type DependencyCache = Map<Filepath, readonly string[]>;
+type ProgramDependencyCache = {
+  direct: DependencyCache;
+  moduleResolution: ModuleResolutionCache;
+  sharedAmbient: readonly string[];
+  typeReferenceResolution: TypeReferenceDirectiveResolutionCache;
+  unresolved: DependencyCache;
+};
 type ProjectServiceProject = tss.server.Project;
 type ProjectServiceOpenFileState = {
   source: string;
@@ -451,33 +461,184 @@ const startWatch = async (
   });
 };
 
-const getProgramDependencyCache = (
-  cacheByProgram: WeakMap<Program, DependencyCache>,
+const isSharedAmbientSourceFile = (
+  sourceFile: SourceFile,
   program: Program,
+  typescriptModule: typeof import("typescript"),
+) => {
+  if (!typescriptModule.isExternalModule(sourceFile)) {
+    if (sourceFile.flags & typescriptModule.NodeFlags.JavaScriptFile) {
+      const checker = program.getTypeChecker();
+      // isExternalModule excludes CommonJS. This optional current public API
+      // also exists at runtime in 4.3; without it, retain the input conservatively.
+      if (
+        typeof checker.resolveName === "function" &&
+        checker
+          .resolveName(
+            "exports",
+            sourceFile,
+            typescriptModule.SymbolFlags.ValueModule,
+            true,
+          )
+          ?.declarations?.includes(sourceFile)
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
+  return sourceFile.statements.some(
+    (statement) =>
+      typescriptModule.isNamespaceExportDeclaration(statement) ||
+      (typescriptModule.isModuleDeclaration(statement) &&
+        ((statement.flags & typescriptModule.NodeFlags.GlobalAugmentation) !==
+          0 ||
+          typescriptModule.isStringLiteral(statement.name))),
+  );
+};
+
+const getProgramDependencyCache = (
+  cacheByProgram: WeakMap<Program, ProgramDependencyCache>,
+  program: Program,
+  typescriptModule: typeof import("typescript"),
 ) => {
   let dependencyCache = cacheByProgram.get(program);
 
   if (!dependencyCache) {
-    dependencyCache = new Map<Filepath, readonly string[]>();
+    const canonicalFileName = typescriptModule.sys.useCaseSensitiveFileNames
+      ? (fileName: string) => fileName
+      : (fileName: string) => fileName.toLowerCase();
+    dependencyCache = {
+      direct: new Map(),
+      moduleResolution: typescriptModule.createModuleResolutionCache(
+        program.getCurrentDirectory(),
+        canonicalFileName,
+        program.getCompilerOptions(),
+      ),
+      sharedAmbient: program
+        .getSourceFiles()
+        .filter(
+          (sourceFile) =>
+            !program.isSourceFileDefaultLibrary(sourceFile) &&
+            isSharedAmbientSourceFile(sourceFile, program, typescriptModule),
+        )
+        .map((sourceFile) => path.resolve(sourceFile.fileName)),
+      typeReferenceResolution:
+        typescriptModule.createTypeReferenceDirectiveResolutionCache(
+          program.getCurrentDirectory(),
+          canonicalFileName,
+          program.getCompilerOptions(),
+        ),
+      unresolved: new Map(),
+    };
     cacheByProgram.set(program, dependencyCache);
   }
 
   return dependencyCache;
 };
 
+const collectModuleSpecifiers = (
+  sourceFile: SourceFile,
+  typescriptModule: typeof import("typescript"),
+) => {
+  const specifiers: StringLiteralLike[] = [];
+  const add = (node: Node | undefined) => {
+    if (node && typescriptModule.isStringLiteralLike(node))
+      specifiers.push(node);
+  };
+  const visit = (node: Node) => {
+    if (
+      typescriptModule.isImportDeclaration(node) ||
+      typescriptModule.isExportDeclaration(node)
+    ) {
+      add(node.moduleSpecifier);
+    } else if (
+      typescriptModule.isImportEqualsDeclaration(node) &&
+      typescriptModule.isExternalModuleReference(node.moduleReference)
+    ) {
+      add(node.moduleReference.expression);
+    } else if (
+      typescriptModule.isImportTypeNode(node) &&
+      typescriptModule.isLiteralTypeNode(node.argument)
+    ) {
+      add(node.argument.literal);
+    } else if (
+      typescriptModule.isModuleDeclaration(node) &&
+      typescriptModule.isExternalModule(sourceFile)
+    ) {
+      add(node.name);
+    } else if (typescriptModule.isCallExpression(node)) {
+      if (
+        node.expression.kind === typescriptModule.SyntaxKind.ImportKeyword ||
+        (typescriptModule.isIdentifier(node.expression) &&
+          node.expression.text === "require")
+      ) {
+        add(node.arguments[0]);
+      } else if (
+        typescriptModule.isIdentifier(node.expression) &&
+        node.expression.text === "define"
+      ) {
+        const dependencyArray =
+          node.arguments[
+            node.arguments[0] &&
+            typescriptModule.isStringLiteralLike(node.arguments[0])
+              ? 1
+              : 0
+          ];
+        if (
+          dependencyArray &&
+          typescriptModule.isArrayLiteralExpression(dependencyArray)
+        ) {
+          for (const dependency of dependencyArray.elements) add(dependency);
+        }
+      }
+    }
+    typescriptModule.forEachChild(node, visit);
+  };
+  visit(sourceFile);
+  return specifiers;
+};
+
+const getImportResolutionMode = (
+  program: Program,
+  sourceFile: SourceFile,
+  specifier: StringLiteralLike,
+  typescriptModule: typeof import("typescript"),
+) => {
+  if (typeof program.getModeForUsageLocation === "function") {
+    return program.getModeForUsageLocation(sourceFile, specifier);
+  }
+  // Older supported compilers may expose only the module-level helper, or
+  // predate conditional import/require resolution entirely.
+  return typeof typescriptModule.getModeForUsageLocation === "function"
+    ? typescriptModule.getModeForUsageLocation(
+        sourceFile,
+        specifier,
+        program.getCompilerOptions(),
+      )
+    : undefined;
+};
+
+const getResolvedModuleFiles = (
+  program: Program,
+  specifier: StringLiteralLike,
+) =>
+  program
+    .getTypeChecker()
+    .getSymbolAtLocation(specifier)
+    ?.declarations?.map(
+      (declaration) => declaration.getSourceFile().fileName,
+    ) ?? [];
+
 const collectDirectTrackedFileDependencies = (
   currentFileName: string,
-  compilerOptions: CompilerOptions,
-  directDependencyCache: DependencyCache,
-  moduleResolutionCache: ModuleResolutionCache | undefined,
+  dependencyCache: ProgramDependencyCache,
   program: Program,
   trackedFiles: ReadonlySet<string>,
-  typeReferenceResolutionCache:
-    | TypeReferenceDirectiveResolutionCache
-    | undefined,
   typescriptModule: typeof import("typescript"),
 ) => {
   const currentFile = path.resolve(currentFileName);
+  const directDependencyCache = dependencyCache.direct;
   const cachedDependencies = directDependencyCache.get(currentFile);
 
   if (cachedDependencies) {
@@ -492,17 +653,29 @@ const collectDirectTrackedFileDependencies = (
     return missingFileDependencies;
   }
 
-  const { importedFiles, referencedFiles, typeReferenceDirectives } =
-    typescriptModule.preProcessFile(sourceFile.text, true, true);
+  const compilerOptions = program.getCompilerOptions();
+  const { referencedFiles, typeReferenceDirectives } = sourceFile;
   const referencedDependencyFiles = new Set<string>();
 
-  for (const importedFile of importedFiles) {
+  for (const specifier of collectModuleSpecifiers(
+    sourceFile,
+    typescriptModule,
+  )) {
+    const resolvedFiles = getResolvedModuleFiles(program, specifier);
+    if (resolvedFiles.length > 0) {
+      for (const resolvedFile of resolvedFiles) {
+        referencedDependencyFiles.add(path.resolve(resolvedFile));
+      }
+      continue;
+    }
     const resolvedModule = typescriptModule.resolveModuleName(
-      importedFile.fileName,
+      specifier.text,
       currentFile,
       compilerOptions,
       typescriptModule.sys,
-      moduleResolutionCache,
+      dependencyCache.moduleResolution,
+      undefined,
+      getImportResolutionMode(program, sourceFile, specifier, typescriptModule),
     ).resolvedModule;
 
     if (resolvedModule?.resolvedFileName) {
@@ -526,7 +699,8 @@ const collectDirectTrackedFileDependencies = (
         compilerOptions,
         typescriptModule.sys,
         undefined,
-        typeReferenceResolutionCache,
+        dependencyCache.typeReferenceResolution,
+        typeReferenceDirective.resolutionMode ?? sourceFile.impliedNodeFormat,
       ).resolvedTypeReferenceDirective;
 
     if (resolvedTypeReference?.resolvedFileName) {
@@ -544,85 +718,65 @@ const collectDirectTrackedFileDependencies = (
   return directDependencies;
 };
 
+// Callers normalize the entry; ambient seeds and direct edges must match the
+// canonical membership maintained by syncFiles. The sorted result is a fresh
+// array, so consumers can reuse it without normalizing the whole graph again.
 const collectTrackedFileDependencies = (
   entryFileName: string,
-  compilerOptions: CompilerOptions,
-  dependencyClosureCacheByProgram: WeakMap<Program, DependencyCache>,
-  directDependencyCacheByProgram: WeakMap<Program, DependencyCache>,
-  moduleResolutionCache: ModuleResolutionCache | undefined,
+  cacheByProgram: WeakMap<Program, ProgramDependencyCache>,
   program: Program,
   trackedFiles: ReadonlySet<string>,
-  typeReferenceResolutionCache:
-    | TypeReferenceDirectiveResolutionCache
-    | undefined,
   typescriptModule: typeof import("typescript"),
 ) => {
-  const directDependencyCache = getProgramDependencyCache(
-    directDependencyCacheByProgram,
+  const dependencyCache = getProgramDependencyCache(
+    cacheByProgram,
     program,
+    typescriptModule,
   );
-  const dependencyClosureCache = getProgramDependencyCache(
-    dependencyClosureCacheByProgram,
-    program,
-  );
-  const pendingFiles = new Set<string>();
+  const pendingFiles = [
+    path.resolve(entryFileName),
+    ...dependencyCache.sharedAmbient.filter((fileName) =>
+      trackedFiles.has(fileName),
+    ),
+  ];
+  const dependencyFiles = new Set<string>();
 
-  const visit = (currentFileName: string): readonly string[] => {
-    const currentFile = path.resolve(currentFileName);
-    const cachedDependencies = dependencyClosureCache.get(currentFile);
-
-    if (cachedDependencies) {
-      return cachedDependencies;
+  while (pendingFiles.length > 0) {
+    const currentFile = pendingFiles.pop();
+    if (currentFile === undefined || dependencyFiles.has(currentFile)) {
+      continue;
     }
 
-    if (pendingFiles.has(currentFile)) {
-      return [currentFile];
-    }
-
-    pendingFiles.add(currentFile);
-
-    const dependencyFiles = new Set<string>([currentFile]);
+    dependencyFiles.add(currentFile);
     const directDependencies = collectDirectTrackedFileDependencies(
       currentFile,
-      compilerOptions,
-      directDependencyCache,
-      moduleResolutionCache,
+      dependencyCache,
       program,
       trackedFiles,
-      typeReferenceResolutionCache,
       typescriptModule,
     );
 
     for (const directDependency of directDependencies) {
-      dependencyFiles.add(directDependency);
-
-      for (const transitiveDependency of visit(directDependency)) {
-        dependencyFiles.add(transitiveDependency);
-      }
+      pendingFiles.push(directDependency);
     }
+  }
 
-    pendingFiles.delete(currentFile);
-
-    const resolvedDependencies = [...dependencyFiles].sort();
-    dependencyClosureCache.set(currentFile, resolvedDependencies);
-    return resolvedDependencies;
-  };
-
-  return visit(entryFileName);
+  return [...dependencyFiles].sort();
 };
 
 const collectUnresolvedModuleDependencies = (
   dependencyFiles: readonly string[],
-  compilerOptions: CompilerOptions,
-  directUnresolvedDependencyCacheByProgram: WeakMap<Program, DependencyCache>,
-  moduleResolutionCache: ModuleResolutionCache | undefined,
+  cacheByProgram: WeakMap<Program, ProgramDependencyCache>,
   program: Program,
   typescriptModule: typeof import("typescript"),
 ) => {
-  const directUnresolvedDependencyCache = getProgramDependencyCache(
-    directUnresolvedDependencyCacheByProgram,
+  const dependencyCache = getProgramDependencyCache(
+    cacheByProgram,
     program,
+    typescriptModule,
   );
+  const directUnresolvedDependencyCache = dependencyCache.unresolved;
+  const compilerOptions = program.getCompilerOptions();
   const unresolvedDependencies = new Set<string>();
 
   for (const dependencyFile of dependencyFiles) {
@@ -642,18 +796,25 @@ const collectUnresolvedModuleDependencies = (
       directUnresolvedDependencyCache.set(resolvedDependencyFile, []);
       continue;
     }
-    const { importedFiles } = typescriptModule.preProcessFile(
-      sourceFile.text,
-      true,
-      true,
-    );
-    for (const importedFile of importedFiles) {
+    for (const specifier of collectModuleSpecifiers(
+      sourceFile,
+      typescriptModule,
+    )) {
+      if (getResolvedModuleFiles(program, specifier).length > 0) continue;
+      const resolutionMode = getImportResolutionMode(
+        program,
+        sourceFile,
+        specifier,
+        typescriptModule,
+      );
       const cachedResolution = typescriptModule.resolveModuleName(
-        importedFile.fileName,
+        specifier.text,
         sourceFile.fileName,
         compilerOptions,
         typescriptModule.sys,
-        moduleResolutionCache,
+        dependencyCache.moduleResolution,
+        undefined,
+        resolutionMode,
       );
       if (cachedResolution.resolvedModule) continue;
       const failedCandidates = new Set<string>();
@@ -662,11 +823,13 @@ const collectUnresolvedModuleDependencies = (
         (fileName) => failedCandidates.add(fileName),
       );
       const resolution = typescriptModule.resolveModuleName(
-        importedFile.fileName,
+        specifier.text,
         sourceFile.fileName,
         compilerOptions,
         resolutionHost,
         undefined,
+        undefined,
+        resolutionMode,
       );
       if (resolution.resolvedModule) continue;
       for (const failedCandidate of failedCandidates) {
@@ -837,18 +1000,9 @@ const createLegacyBackend = async (
   let initializationPromise: Promise<void> | null = null;
   let tsProgram: Program | undefined;
   let reusableTsBuilderProgram: SemanticDiagnosticsBuilderProgram | undefined;
-  let moduleResolutionCache: ModuleResolutionCache | undefined;
-  let typeReferenceResolutionCache:
-    | TypeReferenceDirectiveResolutionCache
-    | undefined;
   let typescriptModule: typeof import("typescript") | null = null;
   let docGenParser: FileParser | undefined;
-  let dependencyClosureCacheByProgram = new WeakMap<Program, DependencyCache>();
-  let directDependencyCacheByProgram = new WeakMap<Program, DependencyCache>();
-  let directUnresolvedDependencyCacheByProgram = new WeakMap<
-    Program,
-    DependencyCache
-  >();
+  let dependencyCacheByProgram = new WeakMap<Program, ProgramDependencyCache>();
   const projectConfigFiles = new Set<string>();
   const projectDocgenFiles = new Set<string>();
   const projectTrackedFiles = new Set<string>();
@@ -877,12 +1031,7 @@ const createLegacyBackend = async (
     | undefined;
 
   const clearDependencyAnalysisCache = () => {
-    dependencyClosureCacheByProgram = new WeakMap<Program, DependencyCache>();
-    directDependencyCacheByProgram = new WeakMap<Program, DependencyCache>();
-    directUnresolvedDependencyCacheByProgram = new WeakMap<
-      Program,
-      DependencyCache
-    >();
+    dependencyCacheByProgram = new WeakMap<Program, ProgramDependencyCache>();
   };
 
   const syncFiles = (target: Set<string>, fileNames: Iterable<string>) => {
@@ -891,11 +1040,12 @@ const createLegacyBackend = async (
       target.add(fileName);
   };
 
+  // syncFiles maintains canonical ordering; callers receive independent copies.
   const getProjectState = (): BackendProjectState => ({
-    configFiles: normalizeBoundaryPaths(projectConfigFiles),
-    docgenFiles: normalizeBoundaryPaths(projectDocgenFiles),
+    configFiles: [...projectConfigFiles],
+    docgenFiles: [...projectDocgenFiles],
     generation: projectGeneration,
-    trackedFiles: normalizeBoundaryPaths(projectTrackedFiles),
+    trackedFiles: [...projectTrackedFiles],
   });
 
   const collectProjectConfigFilesFromProgram = (
@@ -1150,8 +1300,6 @@ const createLegacyBackend = async (
     project = undefined;
     docGenParser = undefined;
     clearDependencyAnalysisCache();
-    moduleResolutionCache = undefined;
-    typeReferenceResolutionCache = undefined;
     syncedProjectFilesProgram = undefined;
     projectConfigFiles.clear();
     projectDocgenFiles.clear();
@@ -1199,22 +1347,6 @@ const createLegacyBackend = async (
         project = nextProject;
         docGenParser = nextDocgenParser;
         projectGeneration += 1;
-        moduleResolutionCache =
-          activeTypescriptModule.createModuleResolutionCache(
-            rootDir,
-            activeTypescriptModule.sys.useCaseSensitiveFileNames
-              ? (fileName) => fileName
-              : (fileName) => fileName.toLowerCase(),
-            nextProject.compilerOptions,
-          );
-        typeReferenceResolutionCache =
-          activeTypescriptModule.createTypeReferenceDirectiveResolutionCache(
-            rootDir,
-            activeTypescriptModule.sys.useCaseSensitiveFileNames
-              ? (fileName) => fileName
-              : (fileName) => fileName.toLowerCase(),
-            nextProject.compilerOptions,
-          );
         clearDependencyAnalysisCache();
         syncInitialProjectFiles(nextProject);
       }
@@ -1284,6 +1416,41 @@ const createLegacyBackend = async (
     return getProjectState();
   };
 
+  const prepareCacheValidation: NonNullable<
+    DocgenBackend["prepareCacheValidation"]
+  > = async ({ fileName, revision, source }) => {
+    const validationLifecycle = lifecycleToken;
+    latestRevision = Math.max(latestRevision, revision);
+    while (pendingWatchUpdate) {
+      await pendingWatchUpdate.promise;
+    }
+    await ensureInitialized();
+    if (
+      isObsoleteLifecycle(validationLifecycle) ||
+      revision !== latestRevision ||
+      !project
+    ) {
+      return undefined;
+    }
+    const normalizedFileName = normalizeBoundaryPath(fileName);
+    const program =
+      tsProgram ?? getProjectServiceProgram(normalizedFileName, source);
+    if (!program?.getSourceFile(normalizedFileName) || !typescriptModule) {
+      return undefined;
+    }
+    syncProjectFilesFromProgram(project, program);
+    return {
+      dependencies: collectTrackedFileDependencies(
+        normalizedFileName,
+        dependencyCacheByProgram,
+        program,
+        projectTrackedFiles,
+        typescriptModule,
+      ),
+      project: getProjectState(),
+    };
+  };
+
   const analyze = async ({
     fileName,
     revision,
@@ -1306,13 +1473,9 @@ const createLegacyBackend = async (
       activeProgram && project && typescriptModule
         ? collectTrackedFileDependencies(
             normalizedFileName,
-            project.compilerOptions,
-            dependencyClosureCacheByProgram,
-            directDependencyCacheByProgram,
-            moduleResolutionCache,
+            dependencyCacheByProgram,
             activeProgram,
             projectTrackedFiles,
-            typeReferenceResolutionCache,
             typescriptModule,
           )
         : [];
@@ -1341,14 +1504,12 @@ const createLegacyBackend = async (
       );
       if (activeProgram && project)
         syncProjectFilesFromProgram(project, activeProgram);
-      const dependencies = normalizeBoundaryPaths(collectDependencies());
+      const dependencies = collectDependencies();
       const unresolvedDependencies =
         activeProgram && project && typescriptModule
           ? collectUnresolvedModuleDependencies(
               dependencies,
-              project.compilerOptions,
-              directUnresolvedDependencyCacheByProgram,
-              moduleResolutionCache,
+              dependencyCacheByProgram,
               activeProgram,
               typescriptModule,
             )
@@ -1378,7 +1539,7 @@ const createLegacyBackend = async (
         unresolvedDependencies,
       };
     } catch (error) {
-      const dependencies = normalizeBoundaryPaths(collectDependencies());
+      const dependencies = collectDependencies();
       return {
         dependencies,
         error: toBackendErrorRecord(error),
@@ -1389,9 +1550,7 @@ const createLegacyBackend = async (
           activeProgram && project && typescriptModule
             ? collectUnresolvedModuleDependencies(
                 dependencies,
-                project.compilerOptions,
-                directUnresolvedDependencyCacheByProgram,
-                moduleResolutionCache,
+                dependencyCacheByProgram,
                 activeProgram,
                 typescriptModule,
               )
@@ -1490,7 +1649,7 @@ const createLegacyBackend = async (
       }
       await ensureInitialized();
       const refreshedProject = getProjectState();
-      return projectTrackedFiles.has(changedFile)
+      return projectTrackedFiles.has(changedFile) || affectedFiles.length > 0
         ? {
             project: refreshedProject,
             revision: change.revision,
@@ -1499,7 +1658,8 @@ const createLegacyBackend = async (
         : { revision: change.revision, status: "ignored" };
     }
     const isTracked = project
-      ? projectTrackedFiles.has(changedFile) ||
+      ? affectedFiles.length > 0 ||
+        projectTrackedFiles.has(changedFile) ||
         (!project.tsconfigPath && isPotentialTypescriptFile)
       : isPotentialTypescriptFile;
     if (!isTracked) return { revision: change.revision, status: "ignored" };
@@ -1576,6 +1736,7 @@ const createLegacyBackend = async (
     analyze,
     dispose,
     initialize,
+    prepareCacheValidation,
     recordCacheHit({ fileName }) {
       if (runtimeMode === "projectService") {
         touchProjectServiceOpenFile(normalizeBoundaryPath(fileName));

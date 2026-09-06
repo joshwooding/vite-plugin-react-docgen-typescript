@@ -1,0 +1,159 @@
+{
+  "verifiedAt": "2026-09-05T20:11:51.435Z",
+  "comparisonSha256": "50457d05bc04488c4e0f5767d9ff05c96098f8716b4098745e92a59b09002467",
+  "samplesVerified": 24,
+  "frozenFilesVerified": 13,
+  "archiveVerified": true,
+  "restoredSourcesVerified": true,
+  "artifactsVerified": true,
+  "fullAffectedSetsAndMetadataVerified": true,
+  "oracleParityAndEditChangesVerified": true,
+  "runOrderingAndLogHashesVerified": true,
+  "independentStatisticsVerified": true,
+  "results": [
+    {
+      "workload": "salt",
+      "mode": "default",
+      "phase": "cold",
+      "baselineMs": 174785.5417,
+      "candidateMs": 64640.5944,
+      "reductionPercent": 63.01719594693456,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "salt",
+      "mode": "default",
+      "phase": "component",
+      "baselineMs": 175330.9663,
+      "candidateMs": 64500.274000000005,
+      "reductionPercent": 63.21227484160623,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "salt",
+      "mode": "default",
+      "phase": "shared",
+      "baselineMs": 174882.73449999996,
+      "candidateMs": 63741.481300000014,
+      "reductionPercent": 63.55187292659812,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "salt",
+      "mode": "default",
+      "phase": "session",
+      "baselineMs": 525744.5269999999,
+      "candidateMs": 192324.02920000002,
+      "reductionPercent": 63.41872918821654,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "salt",
+      "mode": "projectService",
+      "phase": "cold",
+      "baselineMs": 179240.303,
+      "candidateMs": 65915.6881,
+      "reductionPercent": 63.22496280314814,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "salt",
+      "mode": "projectService",
+      "phase": "component",
+      "baselineMs": 177421.74670000002,
+      "candidateMs": 61834.0714,
+      "reductionPercent": 65.14853869376319,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "salt",
+      "mode": "projectService",
+      "phase": "shared",
+      "baselineMs": 173383.9398,
+      "candidateMs": 62557.380699999994,
+      "reductionPercent": 63.91973744963892,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "salt",
+      "mode": "projectService",
+      "phase": "session",
+      "baselineMs": 528422.4786,
+      "candidateMs": 193700.9751,
+      "reductionPercent": 63.34353988626856,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "shallow",
+      "mode": "default",
+      "phase": "cold",
+      "baselineMs": 1154.1933,
+      "candidateMs": 1075.8562,
+      "reductionPercent": 6.787173344360946,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "shallow",
+      "mode": "default",
+      "phase": "component",
+      "baselineMs": 485.33119999999985,
+      "candidateMs": 421.68280000000004,
+      "reductionPercent": 13.114425777695692,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "shallow",
+      "mode": "default",
+      "phase": "shared",
+      "baselineMs": 513.9546,
+      "candidateMs": 435.6127999999999,
+      "reductionPercent": 15.242941691737002,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "shallow",
+      "mode": "default",
+      "phase": "session",
+      "baselineMs": 2159.0243,
+      "candidateMs": 1951.9373,
+      "reductionPercent": 9.59169380353894,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "shallow",
+      "mode": "projectService",
+      "phase": "cold",
+      "baselineMs": 1181.7007,
+      "candidateMs": 1136.4180000000001,
+      "reductionPercent": 3.831994006604208,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "shallow",
+      "mode": "projectService",
+      "phase": "component",
+      "baselineMs": 171.96589999999992,
+      "candidateMs": 120.86670000000004,
+      "reductionPercent": 29.71472832695314,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "shallow",
+      "mode": "projectService",
+      "phase": "shared",
+      "baselineMs": 200.78869999999984,
+      "candidateMs": 135.1171999999999,
+      "reductionPercent": 32.70677084915634,
+      "allPairedDeltasPositive": true
+    },
+    {
+      "workload": "shallow",
+      "mode": "projectService",
+      "phase": "session",
+      "baselineMs": 1571.925,
+      "candidateMs": 1391.4313999999997,
+      "reductionPercent": 11.482328991523147,
+      "allPairedDeltasPositive": true
+    }
+  ]
+}

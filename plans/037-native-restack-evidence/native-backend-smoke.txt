@@ -1,0 +1,12 @@
+Running working-tree:projectService (1/1, order 1/2)...
+Running working-tree:native (1/1, order 2/2)...
+Backend benchmark: 10 components across 2 projects; 2 edits x 1 runs
+working-tree/projectService  cold 1507.8ms (extract 1247.0ms)  edits p50 95.0ms p95 112.0ms  cold peak +235MiB  edit peak +0MiB
+                             core cold 1223.2ms/edit p50 72.7ms; adapter cold 2.0ms/edit p50 0.9ms
+                             retained RSS cold 286MiB (benchmark 286MiB + engine children 0MiB); edit 286MiB (benchmark 286MiB + engine children 0MiB)
+working-tree/native          cold 608.0ms (extract 390.9ms)  edits p50 87.2ms p95 92.6ms  cold peak +98MiB  edit peak +5MiB
+                             core cold 367.0ms/edit p50 66.5ms; adapter cold 2.0ms/edit p50 0.8ms
+                             retained RSS cold 148MiB (benchmark 91MiB + engine children 57MiB); edit 153MiB (benchmark 92MiB + engine children 61MiB)
+working-tree:projectService vs working-tree:native: 10/10 exact components, 100.00% field agreement
+Wrote benchmark output to D:\OSS\vite-plugin-react-docgen-typescript\.yarn\.codex-worktrees\plan036\native\vite-plugin-react-docgen-typescript\plans\037-native-restack-evidence\native-backend-smoke.json
+Kept benchmark workspace at D:\OSS\vite-plugin-react-docgen-typescript\.yarn\.codex-worktrees\plan036\native\vite-plugin-react-docgen-typescript\.yarn\benchmark-workspaces\vite-rdt-backends-0YEykG

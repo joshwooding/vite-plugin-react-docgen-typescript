@@ -1,0 +1,8 @@
+{"mode":"default","phase":"cold","event":"profile-started"}
+{"mode":"default","phase":"cold","event":"profile-saved","samples":43414}
+{"workload":"salt","variant":"candidate","mode":"default","label":"post029","completed":"cold","coldBatchMs":69164.3973}
+{"workload":"salt","variant":"candidate","mode":"default","label":"post029","completed":"component","totalCycleMs":66121.22140000001,"affected":215}
+{"mode":"default","phase":"shared","event":"profile-started"}
+{"mode":"default","phase":"shared","event":"profile-saved","samples":41756}
+{"workload":"salt","variant":"candidate","mode":"default","label":"post029","completed":"shared","totalCycleMs":68616.24429999999,"affected":215}
+{"completed":"D:\\OSS\\vite-plugin-react-docgen-typescript\\plans\\032-evidence\\profiles\\salt-default-post029-candidate.json","metrics":{"configResolvedMs":5.6194000000000415,"firstBatchMs":69158.06539999999,"coldBatchMs":69164.3973,"warmBatchMs":48.12039999999979,"closeMs":0.2761000000173226,"harnessElapsedMs":205812.0248,"pluginSessionTotalMs":203950.25950000001}}

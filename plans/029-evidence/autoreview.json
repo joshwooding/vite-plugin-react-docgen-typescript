@@ -1,0 +1,6 @@
+{
+  "findings": [],
+  "overall_correctness": "patch is correct",
+  "overall_explanation": "The change consistently moves canonicalization to the backend-owned producers, preserves canonical normalization for unresolved paths crossing the disk boundary, and uses the validated project snapshot for configuration paths. The affected consumers receive canonical, sorted, deduplicated arrays from all in-scope production paths, while proof and revision validation, dependency tracking, cache behavior, and selective HMR remain intact. No actionable defect was found in the bundled change.",
+  "overall_confidence": 0.97
+}

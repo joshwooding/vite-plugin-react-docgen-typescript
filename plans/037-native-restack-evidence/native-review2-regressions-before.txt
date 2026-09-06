@@ -1,0 +1,209 @@
+
+ RUN  v4.1.0 D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan036/native/vite-plugin-react-docgen-typescript
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts (28 tests | 7 failed | 18 skipped) 2928ms
+     × refreshes cached props after a package declaration edit {"linked":false,"override":true,"standalone":false} 127ms
+     × refreshes cached props after a package declaration edit {"linked":false,"override":true,"standalone":true} 134ms
+     × matches legacy for enum-only extraction of literal unions 985ms
+     × matches legacy for commas and nested expressions in defaultProps 366ms
+     × matches legacy for aliased public component names 320ms
+     × matches legacy for aliased component name resolvers 298ms
+     × analyzes an in-memory source override (standalone=true) 136ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > refreshes cached props after a package declaration edit {"linked":false,"override":true,"standalone":false}
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > refreshes cached props after a package declaration edit {"linked":false,"override":true,"standalone":true}
+AssertionError: expected [ Array(1) ] to include 'C:\Users\Joshu\AppData\Local\Temp\vit…'
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts:208:36
+    206|       if (initial?.status !== "ok") return;
+    207|       expect(initial.components[0]?.props.value.type.name).toBe("strin…
+    208|       expect(initial.dependencies).toContain(
+       |                                    ^
+    209|         normalizeBoundaryPath(declarationPath),
+    210|       );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > matches legacy for enum-only extraction of literal unions
+AssertionError: expected [ { displayName: 'Component', …(1) } ] to deeply equal [ { displayName: 'Component', …(1) } ]
+
+- Expected
++ Received
+
+@@ -4,16 +4,20 @@
+      "props": {
+        "tone": {
+          "declarations": [
+            {
+              "fileName": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-XbKvHi/Component.tsx",
+-             "name": "TypeLiteral",
++             "name": "__type",
+            },
+          ],
+          "defaultValue": null,
+          "description": "",
+          "name": "tone",
++         "parent": {
++           "fileName": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-XbKvHi/Component.tsx",
++           "name": "__type",
++         },
+          "required": true,
+          "tags": {},
+          "type": {
+            "name": "enum",
+            "raw": "\"a\" | \"b\"",
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts:272:93
+    270|         if (expected.status !== "ok" || actual.status !== "ok") return;
+    271|         expect(expected.components).toHaveLength(1);
+    272|         expect(actual.components.map(({ displayName, props }) => ({ di…
+       |                                                                                             ^
+    273|       } finally {
+    274|         await native.dispose();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > matches legacy for commas and nested expressions in defaultProps
+AssertionError: expected [ { displayName: 'Component', …(1) } ] to deeply equal [ { displayName: 'Component', …(1) } ]
+
+- Expected
++ Received
+
+@@ -8,11 +8,11 @@
+              "fileName": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-yrrAOZ/Component.tsx",
+              "name": "Props",
+            },
+          ],
+          "defaultValue": {
+-           "value": "{ nested: [1, 2] }",
++           "value": "{ nested: [1",
+          },
+          "description": "",
+          "name": "config",
+          "parent": {
+            "fileName": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-yrrAOZ/Component.tsx",
+@@ -30,11 +30,11 @@
+              "fileName": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-yrrAOZ/Component.tsx",
+              "name": "Props",
+            },
+          ],
+          "defaultValue": {
+-           "value": "hello, world",
++           "value": "\"hello",
+          },
+          "description": "",
+          "name": "label",
+          "parent": {
+            "fileName": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-yrrAOZ/Component.tsx",
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts:272:93
+    270|         if (expected.status !== "ok" || actual.status !== "ok") return;
+    271|         expect(expected.components).toHaveLength(1);
+    272|         expect(actual.components.map(({ displayName, props }) => ({ di…
+       |                                                                                             ^
+    273|       } finally {
+    274|         await native.dispose();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > matches legacy for aliased public component names
+AssertionError: expected [ { displayName: 'local', …(1) } ] to deeply equal [ { displayName: 'local', …(1) } ]
+
+- Expected
++ Received
+
+@@ -4,16 +4,20 @@
+      "props": {
+        "label": {
+          "declarations": [
+            {
+              "fileName": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-rpYWIL/Component.tsx",
+-             "name": "TypeLiteral",
++             "name": "__type",
+            },
+          ],
+          "defaultValue": null,
+          "description": "",
+          "name": "label",
++         "parent": {
++           "fileName": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-rpYWIL/Component.tsx",
++           "name": "__type",
++         },
+          "required": true,
+          "tags": {},
+          "type": {
+            "name": "string",
+          },
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts:272:93
+    270|         if (expected.status !== "ok" || actual.status !== "ok") return;
+    271|         expect(expected.components).toHaveLength(1);
+    272|         expect(actual.components.map(({ displayName, props }) => ({ di…
+       |                                                                                             ^
+    273|       } finally {
+    274|         await native.dispose();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > matches legacy for aliased component name resolvers
+AssertionError: expected [ { …(2) } ] to deeply equal [ { …(2) } ]
+
+- Expected
++ Received
+
+@@ -4,16 +4,20 @@
+      "props": {
+        "label": {
+          "declarations": [
+            {
+              "fileName": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-WNR0fb/Component.tsx",
+-             "name": "TypeLiteral",
++             "name": "__type",
+            },
+          ],
+          "defaultValue": null,
+          "description": "",
+          "name": "label",
++         "parent": {
++           "fileName": "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-WNR0fb/Component.tsx",
++           "name": "__type",
++         },
+          "required": true,
+          "tags": {},
+          "type": {
+            "name": "string",
+          },
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts:272:93
+    270|         if (expected.status !== "ok" || actual.status !== "ok") return;
+    271|         expect(expected.components).toHaveLength(1);
+    272|         expect(actual.components.map(({ displayName, props }) => ({ di…
+       |                                                                                             ^
+    273|       } finally {
+    274|         await native.dispose();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > analyzes an in-memory source override (standalone=true)
+AssertionError: expected 'string' to be 'number' // Object.is equality
+
+Expected: "number"
+Received: "string"
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts:443:59
+    441|       expect(result.status).toBe("ok");
+    442|       if (result.status !== "ok") return;
+    443|       expect(result.components[0]?.props.value.type.name).toBe("number…
+       |                                                           ^
+    444|       expect(readFileSync(componentPath, "utf-8")).toBe(diskSource);
+    445|       if (!backend.analyzeMany) throw new Error("Expected native batch…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  7 failed | 3 passed | 18 skipped (28)
+   Start at  15:23:23
+   Duration  3.42s (transform 268ms, setup 0ms, import 311ms, tests 2.93s, environment 0ms)
+

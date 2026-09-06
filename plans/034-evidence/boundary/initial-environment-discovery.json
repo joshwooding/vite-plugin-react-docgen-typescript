@@ -1,0 +1,25 @@
+{
+  "scope": "Read-only environment discovery before installing any disposable dependencies",
+  "artifact": {
+    "path": "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/033/candidate.tgz",
+    "sha256": "a7aa4620b18c2eebfffbeab4cb623d94f91b4f0371b684b37eacd52ee901dfbe"
+  },
+  "observations": [
+    {
+      "command": "wsl.exe --exec /bin/sh -c 'ls -d /var/tmp/vite-rdt-plan025/* /tmp/vite-rdt-* 2>/dev/null | head -30'",
+      "sandbox": "default",
+      "result": "Access is denied. Error code: Wsl/Service/CreateInstance/E_ACCESSDENIED"
+    },
+    {
+      "command": "wsl.exe --exec /bin/sh -c 'ls -d /var/tmp/vite-rdt-plan025/* /tmp/vite-rdt-* 2>/dev/null | head -30'",
+      "sandbox": "escalated",
+      "result": "Default distribution failed to mount C:/D:, getpwuid(0) failed, and execvpe(/bin/sh) failed: No such file or directory. Subsequent distribution listing identifies default as docker-desktop-data; Ubuntu is installed."
+    },
+    {
+      "command": "wsl.exe -d Ubuntu --exec /bin/sh -c 'ls -d /var/tmp/vite-rdt-plan025/* /tmp/vite-rdt-* 2>/dev/null | head -30'",
+      "sandbox": "escalated",
+      "result": "Ubuntu exposes /var/tmp/vite-rdt-plan025/node-v20.19.5-linux-x64 and node-v24.10.0-linux-x64. No prior temporary consumer environments remain. Installed-source Windows snapshots contain Vite source only."
+    }
+  ],
+  "resolution": "Recreate four disposable pinned dependency environments under owned Plan034 boundary paths; retain every install result in separate setup reports."
+}

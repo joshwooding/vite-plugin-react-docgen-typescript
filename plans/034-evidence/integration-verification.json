@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "verifiedAt": "2026-09-06T10:25:54.367502+00:00",
+  "base": "4e78cf3bebcae3896b53ef4ae154d6cdca95b274",
+  "sourceFreeze": [
+    {
+      "path": "README.md",
+      "sha256": "e1564034deb3953e1c01c1f41e1094649be4c3738427e0481b89370fb673234d"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts",
+      "sha256": "a73db0803e38176a71faba59be5bbb2f97c7e6bd5fc7a5ddf51f683fb3b63b63"
+    }
+  ],
+  "mainDiffSha256": "db299b91f62ac9d41106dcefeef2ea6682ac0b4489a4a7fc27750c2cc810288e",
+  "mainDiffEqualsReviewedDiff": true,
+  "runtimeFilesUnchanged": 15,
+  "whitespace": "PASS",
+  "tests": "Previously completed final29-case focused run applies to these identical bytes; no runtime or dist change.",
+  "review": "Clean Codex review exit0; no findings."
+}

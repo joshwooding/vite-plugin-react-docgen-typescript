@@ -1,0 +1,146 @@
+{
+  "status": "SCOPE_FROZEN_BEFORE_REVIEW",
+  "request": "Preserve PR86 as TypeScript 7, restack it after PR87 and the reviewed performance PR, verify and push.",
+  "targetPr": 86,
+  "oldHead": "5b496e9484dc6cc4eca9734ff8a732b063686795",
+  "intendedBase": "codex/reviewed-docgen-performance",
+  "baseSourceCommit": "ea077567e23ccde17e8742c2a9f1559ffabe91c0",
+  "ownerBoundary": "Existing plugin/backend selection, experimental TypeScript 7 backend, its benchmark and tests; preserve the reviewed stable runtime fixes.",
+  "originalIntendedBehavior": "Experimental native extraction and batched refresh coexist with stable dependency/cache/config/watcher correctness. No stable default switch or removal of the deprecated disk-cache option.",
+  "files": [
+    {
+      "path": ".changeset/green-trees-compile.md",
+      "added": 15,
+      "removed": 0
+    },
+    {
+      "path": ".github/runtime-compatibility-matrix.json",
+      "added": 8,
+      "removed": 0
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "added": 20,
+      "removed": 9
+    },
+    {
+      "path": "README.md",
+      "added": 45,
+      "removed": 14
+    },
+    {
+      "path": "package.json",
+      "added": 3,
+      "removed": 1
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/package.json",
+      "added": 1,
+      "removed": 1
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/backendContract.test.ts",
+      "added": 493,
+      "removed": 32
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/backendParity.test.ts",
+      "added": 5,
+      "removed": 3
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/index.test.ts",
+      "added": 54,
+      "removed": 28
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts",
+      "added": 731,
+      "removed": 0
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/persistentCacheFreshness.test.ts",
+      "added": 3,
+      "removed": 2
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/projectSelection.test.ts",
+      "added": 18,
+      "removed": 0
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/runtimeMode.test.ts",
+      "added": 94,
+      "removed": 0
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/__tests__/support/pluginHooks.ts",
+      "added": 14,
+      "removed": 0
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/backend.ts",
+      "added": 10,
+      "removed": 5
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts",
+      "added": 6,
+      "removed": 1
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/nativeBackend.ts",
+      "added": 1507,
+      "removed": 0
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/index.ts",
+      "added": 28,
+      "removed": 3
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/plugin.ts",
+      "added": 461,
+      "removed": 149
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/fileSelection.ts",
+      "added": 6,
+      "removed": 3
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/options.ts",
+      "added": 155,
+      "removed": 4
+    },
+    {
+      "path": "scripts/__tests__/benchmark-playground.test.ts",
+      "added": 22,
+      "removed": 9
+    },
+    {
+      "path": "scripts/benchmark-playground.mjs",
+      "added": 166,
+      "removed": 41
+    },
+    {
+      "path": "scripts/verify-runtime-compatibility.mjs",
+      "added": 2,
+      "removed": 0
+    },
+    {
+      "path": "yarn.lock",
+      "added": 83,
+      "removed": 1
+    }
+  ],
+  "nonTestAddedLoc": 2516,
+  "nonTestRemovedLoc": 232,
+  "integrationChoices": [
+    "Keep async current-program persistent validation and current config watch registration.",
+    "Adapt all added direct transform tests to filtered-hook invocation.",
+    "Combine native rotating benchmark order/reanalysis/timing with cache lifecycle, fresh metadata, complete HMR timing and awaited session close. Bump report schema because the session workload changes.",
+    "Keep physical path resolution fresh; do not retain the older TS7 global realpath cache. Add missing-path-to-symlink regression."
+  ],
+  "verification": "PENDING until the independent trunk benchmark completes; no heavy checks concurrent with measurement."
+}

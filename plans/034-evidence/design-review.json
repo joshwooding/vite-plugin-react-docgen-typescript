@@ -1,0 +1,109 @@
+{
+  "verifiedAt": "2026-09-06T09:47:06.094907+00:00",
+  "base": "4e78cf3bebcae3896b53ef4ae154d6cdca95b274",
+  "scope": "Design review and current production identity; fresh native configuration proof pending.",
+  "runtimeFiles": [
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/backend.ts",
+      "sha256": "75ae4b7046a463751c2805e5b351e0fcab0caaff051591e22e6e60abf2d2fbb4"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts",
+      "sha256": "41d8f13dfcef813144179db2a91d9e0c1705841ab6eb9e0f3e9c494072fe8332"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/pathIdentity.ts",
+      "sha256": "dddb9a53ddafb42fc1013ea3dae4a776fd2fa867e9e2bf91a60cea4dcdd1c9bc"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/runtimeTarget.ts",
+      "sha256": "6fcac61578dde20d20bbfc837e606d7bc51f8dfcf9dc9776da7d01c7b9c729f9"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/docgen/types.ts",
+      "sha256": "20b616717d217d42ee4785ad5eb98c29c1f8f16e0db5440dde34a74f906e36b1"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/index.ts",
+      "sha256": "197ce7d2cb38fb230fe6d0fb81bf39d39c362dcb531f949f1cba85d92958787d"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/plugin.ts",
+      "sha256": "e591dd4206ec32152cde3dd82728618f5f23edcd688cb0a194124d83683579d3"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/cache.ts",
+      "sha256": "2b7cc6fcce06a61330e0c15fe640bd45e53e14fe89dcc19a2c6fb2878a5bd148"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/fileSelection.ts",
+      "sha256": "0e6cec01c19b68204a3051ea8ec9b470b9a74c2e53773009256fa2def874130a"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/filter.ts",
+      "sha256": "acc17dba1c4c425f2d29ed8be2781fd253bfc63e4b998e36207466fcd572a854"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/generate.ts",
+      "sha256": "d7acf7d906483ae7b6d16caad64275483cdcef57d50f772fabe1dad6645ad961"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/options.ts",
+      "sha256": "69907c32bcc761395f3d1c82b13deff9346691593bd3582298027a8fbd55ba8a"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/runtimeTarget.ts",
+      "sha256": "a1b444fbbe194727f920997e24506fad8bd70f14734c9d5abaf1e06c8c7be0f2"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/typescript.ts",
+      "sha256": "6f8ed018850c6e011661566b6b2e6deea990f362624425afc2fa8e8056673357"
+    },
+    {
+      "path": "packages/vite-plugin-react-docgen-typescript/src/utils/typescriptCompatibility.ts",
+      "sha256": "93097080749bf524f952374d989a1cd8eb20f3c9e928214460a1b1c1730afcd8"
+    }
+  ],
+  "design": "Consumer-local Vite plugin; config() validates an explicit existing directory before watcher allocation; configureServer() registers that directory; shared watcher settings and ownership retained.",
+  "sourceReferences": {
+    "unresolvedReverseIndex": "src/plugin.ts:186-209",
+    "existingWatchBoundary": "src/plugin.ts:213-224",
+    "unlinkOwnership": "src/plugin.ts:794-820",
+    "oldPostTransformRegistration": "plans/023-evidence/missing-external.mjs:110-125",
+    "oldIncompleteSelectivity": "plans/023-evidence/missing-external.mjs:166-171",
+    "viteAllocatesBeforeConfigureServer": "node_modules/vite/dist/node/chunks/node.js:25798,26020"
+  },
+  "independentDesignReview": "watcher_design_review: supports existing-API recipe; highlighted startup, full affected-set validation, negative-startup cleanup and precise boundary claims. Root moved validation earlier after reading Vite allocation ordering.",
+  "rejectedAlternatives": {
+    "newPluginOption": "Duplicates existing shared Vite API and adds permanent path/lifecycle contract without additional capability.",
+    "automaticParentWatch": "Unbounded inferred recursive scope; prior023 rejection preserved.",
+    "missingExactCandidates": "Already unreliable in two independent023 runs; do not repeat.",
+    "secondWatcherOrPolling": "New subsystem and ownership/cost unnecessary for the explicit-directory workaround."
+  },
+  "testedScopePlanned": {
+    "permanentNewPositiveRows": 4,
+    "nativeBoundaryEnvironments": 4,
+    "nativeBoundaryExecutions": 8,
+    "boundaryModes": [
+      "legacy",
+      "project-service"
+    ],
+    "boundaryCache": false,
+    "edgeCases": "Bounded current environment only"
+  },
+  "externalSourcesChecked": [
+    {
+      "title": "Vite configureServer and config hooks",
+      "url": "https://vite.dev/guide/api-plugin.html#configureserver"
+    },
+    {
+      "title": "Vite shared watcher disabled/ignored behavior",
+      "url": "https://vite.dev/config/server-options.html#server-watch"
+    },
+    {
+      "title": "Chokidar recursive scope and shared settings",
+      "url": "https://github.com/paulmillr/chokidar#api"
+    }
+  ],
+  "unresolved": "Automatic discovery without configured directory remains open. No new upstream issue was filed; current source uses existing dependency versions."
+}

@@ -4,16 +4,18 @@ import {
   readdirSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { createLegacyBackendFactory } from "../docgen/legacyBackend";
 import {
   createNativeBackendFactory,
   type NativeBackendLoaders,
 } from "../docgen/nativeBackend";
+import { normalizeBoundaryPath } from "../docgen/pathIdentity";
 import { createPlugin } from "../plugin";
 import { resolveFileSelection } from "../utils/fileSelection";
 import type {
@@ -101,6 +103,257 @@ const normalizeFixtureValue = (value: unknown, root: string): unknown => {
 };
 
 describe("TypeScript 7 native backend", () => {
+  it.each([
+    undefined,
+    false,
+    true,
+  ])("honors shouldSortUnions=%s", async (shouldSortUnions) => {
+    const source =
+      'interface Props { tone?: "z" | "a"; size: 2 | 10 }\nexport const Component = (_props: Props) => null;';
+    const fixture = createFixture({ "Component.tsx": source });
+    const backend = await createBackend(fixture, {
+      shouldExtractValuesFromUnion: true,
+      shouldRemoveUndefinedFromOptional: true,
+      shouldSortUnions,
+    });
+    try {
+      const result = await backend.analyze({
+        fileName: path.join(fixture.root, "Component.tsx"),
+        revision: 1,
+        source,
+      });
+      expect(result.status).toBe("ok");
+      if (result.status !== "ok") return;
+      expect(result.components[0]?.props.tone.type.value).toEqual(
+        (shouldSortUnions ? ['"a"', '"z"'] : ['"z"', '"a"']).map((value) => ({
+          value,
+        })),
+      );
+      expect(result.components[0]?.props.size.type.value).toEqual(
+        (shouldSortUnions ? ["10", "2"] : ["2", "10"]).map((value) => ({
+          value,
+        })),
+      );
+    } finally {
+      await backend.dispose();
+    }
+  });
+
+  it.each([
+    { linked: false, override: false, standalone: false },
+    { linked: true, override: false, standalone: false },
+    { linked: false, override: true, standalone: false },
+    { linked: false, override: true, standalone: true },
+  ])("refreshes cached props after a package declaration edit %j", async ({
+    linked,
+    override,
+    standalone,
+  }) => {
+    const source =
+      'import type { Props } from "fixture-props";\nexport const Component = (_props: Props) => null;';
+    const diskSource = override
+      ? "export const Component = (_props: { value: string }) => null;"
+      : source;
+    const fixture = createFixture({ "Component.tsx": diskSource });
+    const packagePath = path.join(fixture.root, "node_modules/fixture-props");
+    const declarationRoot = linked
+      ? path.join(fixture.root, "workspace-package")
+      : packagePath;
+    mkdirSync(declarationRoot, { recursive: true });
+    const declarationPath = path.join(declarationRoot, "index.d.ts");
+    writeFileSync(
+      path.join(declarationRoot, "package.json"),
+      JSON.stringify({ name: "fixture-props", types: "index.d.ts" }),
+    );
+    writeFileSync(
+      declarationPath,
+      "export interface Props { /** Original value. */ value: string }",
+    );
+    if (linked) {
+      mkdirSync(path.dirname(packagePath), { recursive: true });
+      symlinkSync(
+        declarationRoot,
+        packagePath,
+        process.platform === "win32" ? "junction" : "dir",
+      );
+    }
+    const analyses: InternalBenchmarkAnalysisEvent[] = [];
+    const config: Options = {
+      ...(standalone
+        ? { compilerOptions: { jsx: 1, module: 99, moduleResolution: 100 } }
+        : {}),
+      docgenMode: "native",
+      tsconfigPath: fixture.tsconfigPath,
+      propFilter: () => true,
+      __benchmark: { onAnalysis: (event) => analyses.push(event) },
+    };
+    const plugin = createPlugin(
+      config,
+      createNativeBackendFactory(config, nativeLoaders),
+    );
+    const context = {
+      addWatchFile: vi.fn(),
+      warn: vi.fn(),
+      environment: { moduleGraph: { getModulesByFile() {} } },
+    };
+    const componentPath = path.join(fixture.root, "Component.tsx");
+    try {
+      if (typeof plugin.configResolved === "function")
+        await plugin.configResolved.call(
+          context as never,
+          { command: "serve", root: fixture.root } as never,
+        );
+      const first = await runTransformHook(
+        plugin,
+        context as never,
+        source,
+        componentPath,
+      );
+      const initial = analyses.at(-1)?.result;
+      expect(initial?.status).toBe("ok");
+      if (initial?.status !== "ok") return;
+      expect(initial.components[0]?.props.value.type.name).toBe("string");
+      expect(initial.dependencies).toContain(
+        normalizeBoundaryPath(declarationPath),
+      );
+      expect(initial.project.docgenFiles).toEqual([
+        normalizeBoundaryPath(componentPath),
+      ]);
+      expect(context.addWatchFile).toHaveBeenCalledWith(
+        normalizeBoundaryPath(declarationPath).replaceAll("\\", "/"),
+      );
+      expect(
+        await runTransformHook(plugin, context as never, source, componentPath),
+      ).toEqual(first);
+      expect(analyses).toHaveLength(1);
+      writeFileSync(
+        declarationPath,
+        "export interface Props { /** Updated value. */ value: number }",
+      );
+      if (typeof plugin.hotUpdate !== "function")
+        throw new Error("Missing hotUpdate");
+      await plugin.hotUpdate.call(
+        context as never,
+        {
+          file: declarationPath,
+          modules: [],
+          timestamp: 1,
+          type: "update",
+        } as never,
+      );
+      expect(
+        await runTransformHook(plugin, context as never, source, componentPath),
+      ).not.toEqual(first);
+      const updated = analyses.at(-1)?.result;
+      expect(analyses).toHaveLength(2);
+      expect(updated?.status).toBe("ok");
+      if (updated?.status !== "ok") return;
+      expect(updated.components[0]?.props.value.type.name).toBe("number");
+      expect(context.warn).not.toHaveBeenCalled();
+      expect(readFileSync(componentPath, "utf-8")).toBe(diskSource);
+    } finally {
+      if (typeof plugin.closeBundle === "function")
+        await plugin.closeBundle.call(context as never);
+    }
+  });
+
+  it.each([
+    'Component.defaultProps = { label: "value" } as Partial<Props>;',
+    'Component.defaultProps = { label: "value" } satisfies Props;',
+    'Component.defaultProps = ({ label: "value" } as const)!;',
+    'if (true) { Component.defaultProps = { label: "value" }; }',
+    'if (true) { Component.defaultProps = { label: "value" } as Partial<Props>; }',
+  ])("retains structured defaultProps syntax %s", async (assignment) => {
+    const source = `interface Props { label: string }\nexport const Component = (_props: Props) => null;\n${assignment}`;
+    const fixture = createFixture({ "Component.tsx": source });
+    const backend = await createBackend(fixture);
+    try {
+      const result = await backend.analyze({
+        fileName: path.join(fixture.root, "Component.tsx"),
+        revision: 1,
+        source,
+      });
+      expect(result.status).toBe("ok");
+      if (result.status !== "ok") return;
+      expect(result.components[0]?.props.label).toMatchObject({
+        defaultValue: { value: "value" },
+        required: false,
+      });
+    } finally {
+      await backend.dispose();
+    }
+  });
+
+  for (const testCase of [
+    {
+      name: "enum-only extraction of literal unions",
+      source:
+        'interface Props { tone: "a" | "b" } export const Component = (_props: Props) => null;',
+      options: { shouldExtractLiteralValuesFromEnum: true },
+    },
+    {
+      name: "commas and nested expressions in defaultProps",
+      source:
+        'interface Props { label: string; config: { nested: number[] } }\nexport const Component = (_props: Props) => null;\nComponent.defaultProps = { label: "hello, world", config: { nested: [1, 2] } };',
+      options: {},
+    },
+    {
+      name: "aliased public component names",
+      source:
+        "interface Props { label: string } const local = (_props: Props) => null;\nexport { local as Button };",
+      options: {},
+    },
+    {
+      name: "aliased component name resolvers",
+      source:
+        "interface Props { label: string } const local = (_props: Props) => null;\nexport { local as Button };",
+      options: {
+        componentNameResolver: (symbol: { getName(): string }) =>
+          `Resolved${symbol.getName()}`,
+      },
+    },
+  ]) {
+    it(`matches legacy for ${testCase.name}`, async () => {
+      const fixture = createFixture({ "Component.tsx": testCase.source });
+      const config: Options = {
+        ...testCase.options,
+        tsconfigPath: fixture.tsconfigPath,
+      };
+      const native = await createBackend(fixture, config);
+      const legacy = await createLegacyBackendFactory(config).create({
+        rootDir: fixture.root,
+        selection: resolveFileSelection(fixture.root, config),
+      });
+      try {
+        const input = {
+          fileName: path.join(fixture.root, "Component.tsx"),
+          revision: 1,
+          source: testCase.source,
+        };
+        const expected = await legacy.analyze(input);
+        const actual = await native.analyze(input);
+        expect(expected.status).toBe("ok");
+        expect(actual.status).toBe("ok");
+        if (expected.status !== "ok" || actual.status !== "ok") return;
+        expect(expected.components).toHaveLength(1);
+        expect(
+          actual.components.map(({ displayName, props }) => ({
+            displayName,
+            props,
+          })),
+        ).toEqual(
+          expected.components.map(({ displayName, props }) => ({
+            displayName,
+            props,
+          })),
+        );
+      } finally {
+        await native.dispose();
+        await legacy.dispose();
+      }
+    });
+  }
+
   for (const corpus of backendParityCorpus) {
     it(`matches legacy output for ${corpus.name}`, async () => {
       const fixture = createFixture(corpus.files);
@@ -248,13 +501,19 @@ export const Component = (_props: Props) => null;
     }
   });
 
-  it("analyzes an in-memory source override through a temporary snapshot", async () => {
+  it.each([
+    false,
+    true,
+  ])("analyzes an in-memory source override (standalone=%s)", async (standalone) => {
     const diskSource = `interface Props { value: string }
 export const Component = (_props: Props) => null;
 `;
     const memorySource = diskSource.replace("value: string", "value: number");
     const fixture = createFixture({ "Component.tsx": diskSource });
-    const backend = await createBackend(fixture);
+    const backend = await createBackend(
+      fixture,
+      standalone ? { compilerOptions: { jsx: 1 } } : {},
+    );
     const componentPath = path.join(fixture.root, "Component.tsx");
     try {
       const result = await backend.analyze({
@@ -266,6 +525,19 @@ export const Component = (_props: Props) => null;
       if (result.status !== "ok") return;
       expect(result.components[0]?.props.value.type.name).toBe("number");
       expect(readFileSync(componentPath, "utf-8")).toBe(diskSource);
+      if (!backend.analyzeMany)
+        throw new Error("Expected native batch analysis");
+      const results = await backend.analyzeMany([
+        { fileName: componentPath, revision: 2, source: memorySource },
+        { fileName: componentPath, revision: 2, source: diskSource },
+      ]);
+      expect(
+        results.map((entry) =>
+          entry.status === "ok"
+            ? entry.components[0]?.props.value.type.name
+            : entry.status,
+        ),
+      ).toEqual(["number", "string"]);
     } finally {
       await backend.dispose();
     }

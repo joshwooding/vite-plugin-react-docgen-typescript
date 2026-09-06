@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "command": [
+    "C:/nvm4w/nodejs/node.exe",
+    "node_modules/@biomejs/biome/bin/biome",
+    "ci",
+    ".",
+    "--colors=off"
+  ],
+  "cwd": ".",
+  "startedAt": "2026-09-06T14:37:55.948247+00:00",
+  "CI": "true",
+  "pid": 47336,
+  "exitCode": 0,
+  "durationSeconds": 0.40599999999994907,
+  "finishedAt": "2026-09-06T14:37:56.361476+00:00",
+  "logSha256": "da69394d61b5e1d43bdaada751fb3376cdeb44207651394befc1709da7dbd9f0"
+}

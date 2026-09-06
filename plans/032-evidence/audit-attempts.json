@@ -1,0 +1,11 @@
+{
+  "attempts": [
+    {
+      "auditScriptSha256": "fd2d7541180a86a9e414995ef768ab78007daa4980fb3e76159cb894d538c366",
+      "exitCode": 1,
+      "failedAssertion": "all timeDeltas >= 0",
+      "finding": "Raw cold profiles contain 6 and 8 negative microsecond deltas totaling -0.107 ms and -0.158 ms. Shared profiles have none. Nonnegative assumption was stricter than the retained raw-profile protocol.",
+      "resolution": "Keep signed raw deltas and original summary. Extend audit with explicit size and zero-clamped ownership sensitivity, preserving all profiles."
+    }
+  ]
+}

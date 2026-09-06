@@ -1,0 +1,6 @@
+{
+  "findings": [],
+  "overall_correctness": "patch is correct",
+  "overall_explanation": "The change correctly accounts for returned and invalidated HMR modules, awaits and propagates teardown failures while restoring fixtures, separates cache lifecycle processes, validates React metadata against installed declarations, and records compatible timing and identity metadata. No actionable defect was found within the requested benchmark-only scope.",
+  "overall_confidence": 0.91
+}

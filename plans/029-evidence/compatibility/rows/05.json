@@ -1,0 +1,95 @@
+{
+  "rowIndex": 4,
+  "requested": {
+    "os": "ubuntu-latest",
+    "node": "20.19.5",
+    "typescript": "5.9.3",
+    "vite": "7.2.4",
+    "modes": [
+      "default",
+      "legacy",
+      "project-service"
+    ],
+    "purpose": "late TypeScript 5 / Vite 7"
+  },
+  "startedAt": "2026-09-05T18:42:22.020Z",
+  "completedAt": "2026-09-05T18:42:33.076Z",
+  "command": [
+    "/var/tmp/vite-rdt-plan025/node-v20.19.5-linux-x64/bin/node",
+    "--import",
+    "file:///mnt/d/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan029/vite-plugin-react-docgen-typescript/plans/029-evidence/compat-observe-install.mjs",
+    "/mnt/d/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan029/vite-plugin-react-docgen-typescript/scripts/verify-runtime-compatibility.mjs",
+    "--package",
+    "/mnt/d/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan029/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/029/candidate.tgz",
+    "--typescript",
+    "5.9.3",
+    "--vite",
+    "7.2.4",
+    "--modes",
+    "default,legacy,project-service"
+  ],
+  "actual": {
+    "node": "20.19.5",
+    "platform": "linux",
+    "arch": "x64",
+    "release": "6.18.40.1-microsoft-standard-WSL2",
+    "osVersion": "#1 SMP PREEMPT_DYNAMIC Fri Jul 31 22:12:15 UTC 2026",
+    "linuxRelease": "PRETTY_NAME=\"Ubuntu 22.04.3 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"22.04\"\nVERSION=\"22.04.3 LTS (Jammy Jellyfish)\"\nVERSION_CODENAME=jammy\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=jammy\n"
+  },
+  "archiveSha256": "6dd49e628729c4314c5f32a46533d5b62ecb27231433914757eb323e38d61ce8",
+  "verifierSha256": "94dd0637db2d5e34501559060798252ee7175dd163871515f470f7181b3be55a",
+  "exitCode": 0,
+  "error": null,
+  "status": "PASS",
+  "report": {
+    "package": "candidate.tgz",
+    "result": {
+      "results": [
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "default",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "default",
+          "topology": "project-reference"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "legacy",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "legacy",
+          "topology": "project-reference"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "project-service",
+          "topology": "same-project"
+        },
+        {
+          "dynamicMembershipEvents": 3,
+          "edits": 2,
+          "mode": "project-service",
+          "topology": "project-reference"
+        }
+      ],
+      "watcherHandles": 0
+    },
+    "modes": [
+      "default",
+      "legacy",
+      "project-service"
+    ],
+    "typescript": "5.9.3",
+    "vite": "7.2.4"
+  }
+}

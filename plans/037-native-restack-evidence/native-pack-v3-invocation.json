@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "command": [
+    "C:/nvm4w/nodejs/node.exe",
+    "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/releases/yarn-4.13.0.cjs",
+    "workspace",
+    "@joshwooding/vite-plugin-react-docgen-typescript",
+    "pack",
+    "--out",
+    "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/036/native-v3.tgz"
+  ],
+  "cwd": ".",
+  "startedAt": "2026-09-06T14:29:58.499000+00:00",
+  "CI": "true",
+  "pid": 55432,
+  "exitCode": 0,
+  "durationSeconds": 0.48399999999946886,
+  "finishedAt": "2026-09-06T14:29:58.980983+00:00",
+  "logSha256": "bbc74f1212a4f48ea2a484ac26d74dd49798ae0ee59c15b8a144e041c5fc9d6b"
+}

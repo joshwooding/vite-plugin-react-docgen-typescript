@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "command": [
+    "C:/nvm4w/nodejs/node.exe",
+    "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan036/native/vite-plugin-react-docgen-typescript/node_modules/typescript6/lib/tsc.js",
+    "--noEmit"
+  ],
+  "cwd": ".",
+  "startedAt": "2026-09-06T14:05:15.715313+00:00",
+  "CI": "true",
+  "pid": 9052,
+  "exitCode": 0,
+  "durationSeconds": 1.889999999999418,
+  "finishedAt": "2026-09-06T14:05:17.603943+00:00",
+  "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

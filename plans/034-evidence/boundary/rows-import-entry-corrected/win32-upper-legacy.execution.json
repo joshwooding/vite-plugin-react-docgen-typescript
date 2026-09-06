@@ -1,0 +1,20 @@
+{
+  "command": [
+    "C:/nvm4w/nodejs/node.exe",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\plans\\034-evidence\\boundary\\native-probe.mjs",
+    "row",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\034\\boundary\\windows-upper",
+    "legacy",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\plans\\034-evidence\\boundary\\rows-import-entry-corrected\\win32-upper-legacy.json"
+  ],
+  "exitCode": 0,
+  "stdout": "{\"output\":\"D:\\\\OSS\\\\vite-plugin-react-docgen-typescript\\\\plans\\\\034-evidence\\\\boundary\\\\rows-import-entry-corrected\\\\win32-upper-legacy.json\",\"status\":\"PASS\",\"checkpoints\":5,\"close\":{\"closed\":true,\"watchedDirectories\":0,\"postCloseEvents\":0,\"postClosePayloads\":0}}\n",
+  "stderr": "",
+  "error": null,
+  "startedAt": "2026-09-06T09:55:50.773873+00:00",
+  "completedAt": "2026-09-06T09:56:05.529599+00:00",
+  "probeSha256": "74b528a732cd25486080a95e18a7a3a9ad10d31dd3a1f3e3830aa3700bdb2823",
+  "launcherSha256": "8bfd4881a140c9afc8e36fbf5263e42bde32ebb86f2fda95bfeecc12739f59a0",
+  "resultFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\plans\\034-evidence\\boundary\\rows-import-entry-corrected\\win32-upper-legacy.json",
+  "status": "PASS"
+}

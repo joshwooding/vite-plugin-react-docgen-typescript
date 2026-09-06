@@ -1,0 +1,801 @@
+{
+  "rule": "Predeclared3pairs/mode/workload; no extension. Salt useful requires cold/shared >=10% and100ms median reduction with3positive paired deltas. Phase inconclusive if MAD>20% or mixed paired direction. Component/session flags >10% AND100ms, warm >10ms. Shallow cold/HMR/session flags >10% AND20ms.",
+  "workloads": {
+    "salt": {
+      "default": {
+        "phases": {
+          "cold": {
+            "baseline": {
+              "samples": [
+                64797.902,
+                65671.51699999999,
+                64556.8833
+              ],
+              "medianMs": 64797.902,
+              "madMs": 241.01870000000054,
+              "madPercent": 0.3719544808719278
+            },
+            "candidate": {
+              "samples": [
+                29967.733799999998,
+                30904.171899999998,
+                29677.9353
+              ],
+              "medianMs": 29967.733799999998,
+              "madMs": 289.79849999999715,
+              "madPercent": 0.9670350849152203
+            },
+            "pairedDeltasMs": [
+              34830.1682,
+              34767.34509999999,
+              34878.948000000004
+            ],
+            "reductionMs": 34830.1682,
+            "reductionPercent": 53.7519998718477,
+            "inconclusive": false,
+            "regressionFlag": false,
+            "usefulSaltPhase": true
+          },
+          "warm": {
+            "baseline": {
+              "samples": [
+                50.34279999999853,
+                47.40580000000773,
+                45.32759999999689
+              ],
+              "medianMs": 47.40580000000773,
+              "madMs": 2.0782000000108383,
+              "madPercent": 4.383851764996054
+            },
+            "candidate": {
+              "samples": [
+                59.878099999998085,
+                51.06819999999789,
+                48.359300000000076
+              ],
+              "medianMs": 51.06819999999789,
+              "madMs": 2.7088999999978114,
+              "madPercent": 5.304475191994086
+            },
+            "pairedDeltasMs": [
+              -9.535299999999552,
+              -3.662399999990157,
+              -3.031700000003184
+            ],
+            "reductionMs": -3.662399999990157,
+            "reductionPercent": -7.725636947355724,
+            "inconclusive": false,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "component": {
+            "baseline": {
+              "samples": [
+                66366.66219999999,
+                63131.85029999999,
+                62577.68650000001
+              ],
+              "medianMs": 63131.85029999999,
+              "madMs": 554.1637999999803,
+              "madPercent": 0.8777879903196506
+            },
+            "candidate": {
+              "samples": [
+                31303.4916,
+                29119.5521,
+                28890.257499999996
+              ],
+              "medianMs": 29119.5521,
+              "madMs": 229.29460000000472,
+              "madPercent": 0.7874248862502412
+            },
+            "pairedDeltasMs": [
+              35063.17059999999,
+              34012.29819999999,
+              33687.42900000002
+            ],
+            "reductionMs": 34012.29819999999,
+            "reductionPercent": 53.875021939599314,
+            "inconclusive": false,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "shared": {
+            "baseline": {
+              "samples": [
+                64428.90229999999,
+                63014.43949999999,
+                62493.58190000002
+              ],
+              "medianMs": 63014.43949999999,
+              "madMs": 520.8575999999739,
+              "madPercent": 0.8265686470161715
+            },
+            "candidate": {
+              "samples": [
+                28445.42459999999,
+                28663.487699999998,
+                28920.06590000001
+              ],
+              "medianMs": 28663.487699999998,
+              "madMs": 218.06310000000667,
+              "madPercent": 0.7607695974834447
+            },
+            "pairedDeltasMs": [
+              35983.477699999996,
+              34350.951799999995,
+              33573.51600000001
+            ],
+            "reductionMs": 34350.951799999995,
+            "reductionPercent": 54.51282606425469,
+            "inconclusive": false,
+            "regressionFlag": false,
+            "usefulSaltPhase": true
+          },
+          "close": {
+            "baseline": {
+              "samples": [
+                0.375,
+                0.3600999999907799,
+                0.2592000000004191
+              ],
+              "medianMs": 0.3600999999907799,
+              "madMs": 0.014900000009220093,
+              "madPercent": 4.137739519467258
+            },
+            "candidate": {
+              "samples": [
+                0.30010000000766013,
+                0.27880000000004657,
+                0.2635000000009313
+              ],
+              "medianMs": 0.27880000000004657,
+              "madMs": 0.015299999999115244,
+              "madPercent": 5.487804877730519
+            },
+            "pairedDeltasMs": [
+              0.07489999999233987,
+              0.08129999999073334,
+              -0.004300000000512227
+            ],
+            "reductionMs": 0.08129999999073334,
+            "reductionPercent": 22.577061925247143,
+            "inconclusive": true,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "session": {
+            "baseline": {
+              "samples": [
+                195644.1843,
+                191865.57269999996,
+                189673.73850000004
+              ],
+              "medianMs": 191865.57269999996,
+              "madMs": 2191.8341999999247,
+              "madPercent": 1.142380141030859
+            },
+            "candidate": {
+              "samples": [
+                89776.8282,
+                88738.5587,
+                87536.88150000002
+              ],
+              "medianMs": 88738.5587,
+              "madMs": 1038.2695000000094,
+              "madPercent": 1.1700319626669906
+            },
+            "pairedDeltasMs": [
+              105867.35609999999,
+              103127.01399999997,
+              102136.85700000002
+            ],
+            "reductionMs": 103127.01399999997,
+            "reductionPercent": 53.74961883404109,
+            "inconclusive": false,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          }
+        },
+        "usefulSaltBenefit": true,
+        "regressionFlags": []
+      },
+      "projectService": {
+        "phases": {
+          "cold": {
+            "baseline": {
+              "samples": [
+                65743.7092,
+                67714.0413,
+                67073.2449
+              ],
+              "medianMs": 67073.2449,
+              "madMs": 640.796399999992,
+              "madPercent": 0.9553681217531075
+            },
+            "candidate": {
+              "samples": [
+                31422.3018,
+                31400.0899,
+                30872.3281
+              ],
+              "medianMs": 31400.0899,
+              "madMs": 22.21190000000206,
+              "madPercent": 0.07073833250395267
+            },
+            "pairedDeltasMs": [
+              34321.4074,
+              36313.9514,
+              36200.916800000006
+            ],
+            "reductionMs": 35673.155000000006,
+            "reductionPercent": 53.18537227949143,
+            "inconclusive": false,
+            "regressionFlag": false,
+            "usefulSaltPhase": true
+          },
+          "warm": {
+            "baseline": {
+              "samples": [
+                76.65760000000591,
+                80.3755999999994,
+                77.6198999999906
+              ],
+              "medianMs": 77.6198999999906,
+              "madMs": 0.9622999999846797,
+              "madPercent": 1.239759391579732
+            },
+            "candidate": {
+              "samples": [
+                76.74690000000192,
+                77.48559999999998,
+                79.11650000000009
+              ],
+              "medianMs": 77.48559999999998,
+              "madMs": 0.7386999999980617,
+              "madPercent": 0.9533384267503406
+            },
+            "pairedDeltasMs": [
+              -0.08929999999600113,
+              2.889999999999418,
+              -1.4966000000094937
+            ],
+            "reductionMs": 0.13429999999061693,
+            "reductionPercent": 0.1730226398006609,
+            "inconclusive": true,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "component": {
+            "baseline": {
+              "samples": [
+                61770.54160000001,
+                61870.8395,
+                62172.42630000001
+              ],
+              "medianMs": 61870.8395,
+              "madMs": 100.29789999999048,
+              "madPercent": 0.16210851640374213
+            },
+            "candidate": {
+              "samples": [
+                27750.047999999995,
+                27542.945099999997,
+                27809.8761
+              ],
+              "medianMs": 27750.047999999995,
+              "madMs": 59.82810000000609,
+              "madPercent": 0.21559638383330398
+            },
+            "pairedDeltasMs": [
+              34020.493600000016,
+              34327.894400000005,
+              34362.550200000005
+            ],
+            "reductionMs": 34120.79150000001,
+            "reductionPercent": 55.14842173751337,
+            "inconclusive": false,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "shared": {
+            "baseline": {
+              "samples": [
+                64750.4777,
+                60934.75199999999,
+                61267.17880000001
+              ],
+              "medianMs": 61267.17880000001,
+              "madMs": 332.42680000001565,
+              "madPercent": 0.5425854536001837
+            },
+            "candidate": {
+              "samples": [
+                28478.711300000003,
+                26298.901099999995,
+                28536.7232
+              ],
+              "medianMs": 28478.711300000003,
+              "madMs": 58.011899999997695,
+              "madPercent": 0.20370268650463016
+            },
+            "pairedDeltasMs": [
+              36271.7664,
+              34635.8509,
+              32730.45560000001
+            ],
+            "reductionMs": 32788.467500000006,
+            "reductionPercent": 53.517181861816034,
+            "inconclusive": false,
+            "regressionFlag": false,
+            "usefulSaltPhase": true
+          },
+          "close": {
+            "baseline": {
+              "samples": [
+                6.293899999989662,
+                7.0086000000010245,
+                6.731499999994412
+              ],
+              "medianMs": 6.731499999994412,
+              "madMs": 0.2771000000066124,
+              "madPercent": 4.116467355074536
+            },
+            "candidate": {
+              "samples": [
+                6.364000000001397,
+                6.447399999990012,
+                6.978299999987939
+              ],
+              "medianMs": 6.447399999990012,
+              "madMs": 0.08339999998861458,
+              "madPercent": 1.2935446845045102
+            },
+            "pairedDeltasMs": [
+              -0.07010000001173466,
+              0.5612000000110129,
+              -0.2467999999935273
+            ],
+            "reductionMs": 0.2841000000044005,
+            "reductionPercent": 4.220456064838986,
+            "inconclusive": true,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "session": {
+            "baseline": {
+              "samples": [
+                192347.68,
+                190607.017,
+                190597.20140000002
+              ],
+              "medianMs": 190607.017,
+              "madMs": 9.81559999997262,
+              "madPercent": 0.0051496530161702385
+            },
+            "candidate": {
+              "samples": [
+                87734.17199999999,
+                85325.86909999998,
+                87305.02219999998
+              ],
+              "medianMs": 87305.02219999998,
+              "madMs": 429.1498000000138,
+              "madPercent": 0.4915522488693828
+            },
+            "pairedDeltasMs": [
+              104613.508,
+              105281.14790000001,
+              103292.17920000004
+            ],
+            "reductionMs": 103301.99480000001,
+            "reductionPercent": 54.1963231080837,
+            "inconclusive": false,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          }
+        },
+        "usefulSaltBenefit": true,
+        "regressionFlags": []
+      }
+    },
+    "shallow": {
+      "default": {
+        "phases": {
+          "cold": {
+            "baseline": {
+              "samples": [
+                1111.2101,
+                1183.5966,
+                1236.3694999999998
+              ],
+              "medianMs": 1183.5966,
+              "madMs": 52.77289999999971,
+              "madPercent": 4.458689725874484
+            },
+            "candidate": {
+              "samples": [
+                1138.7834,
+                1185.8118,
+                1221.2885999999999
+              ],
+              "medianMs": 1185.8118,
+              "madMs": 35.47679999999991,
+              "madPercent": 2.9917732307942893
+            },
+            "pairedDeltasMs": [
+              -27.573300000000017,
+              -2.215199999999868,
+              15.080899999999929
+            ],
+            "reductionMs": -2.215199999999868,
+            "reductionPercent": -0.18715836121866755,
+            "inconclusive": true,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "warm": {
+            "baseline": {
+              "samples": [
+                1.1750999999999294,
+                1.4311999999999898,
+                1.276200000000017
+              ],
+              "medianMs": 1.276200000000017,
+              "madMs": 0.10110000000008768,
+              "madPercent": 7.921955806306717
+            },
+            "candidate": {
+              "samples": [
+                1.2522999999998774,
+                1.237500000000182,
+                1.250099999999975
+              ],
+              "medianMs": 1.250099999999975,
+              "madMs": 0.002199999999902502,
+              "madPercent": 0.17598592111851422
+            },
+            "pairedDeltasMs": [
+              -0.07719999999994798,
+              0.19369999999980791,
+              0.0261000000000422
+            ],
+            "reductionMs": 0.0261000000000422,
+            "reductionPercent": 2.045133991540656,
+            "inconclusive": true,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "component": {
+            "baseline": {
+              "samples": [
+                478.3961999999999,
+                480.6144999999999,
+                530.1707999999999
+              ],
+              "medianMs": 480.6144999999999,
+              "madMs": 2.2182999999999993,
+              "madPercent": 0.46155494684409226
+            },
+            "candidate": {
+              "samples": [
+                500.72090000000003,
+                534.6791000000001,
+                519.2527
+              ],
+              "medianMs": 519.2527,
+              "madMs": 15.426400000000058,
+              "madPercent": 2.9708848889952923
+            },
+            "pairedDeltasMs": [
+              -22.32470000000012,
+              -54.064600000000155,
+              10.918099999999868
+            ],
+            "reductionMs": -38.6382000000001,
+            "reductionPercent": -8.039332978925959,
+            "inconclusive": true,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "shared": {
+            "baseline": {
+              "samples": [
+                445.4386000000002,
+                529.5487000000003,
+                459.84029999999984
+              ],
+              "medianMs": 459.84029999999984,
+              "madMs": 14.401699999999664,
+              "madPercent": 3.1318916589084664
+            },
+            "candidate": {
+              "samples": [
+                590.2986000000003,
+                462.0006999999998,
+                474.13350000000014
+              ],
+              "medianMs": 474.13350000000014,
+              "madMs": 12.132800000000316,
+              "madPercent": 2.558941732655531
+            },
+            "pairedDeltasMs": [
+              -144.86000000000013,
+              67.54800000000046,
+              -14.293200000000297
+            ],
+            "reductionMs": -14.293200000000297,
+            "reductionPercent": -3.108296510766956,
+            "inconclusive": true,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "close": {
+            "baseline": {
+              "samples": [
+                0.4226000000003296,
+                0.25939999999991414,
+                0.24459999999999127
+              ],
+              "medianMs": 0.25939999999991414,
+              "madMs": 0.014799999999922875,
+              "madPercent": 5.705474171136381
+            },
+            "candidate": {
+              "samples": [
+                0.2800000000002001,
+                0.2553000000002612,
+                0.24479999999994106
+              ],
+              "medianMs": 0.2553000000002612,
+              "madMs": 0.010500000000320142,
+              "madPercent": 4.112808460755738
+            },
+            "pairedDeltasMs": [
+              0.1426000000001295,
+              0.004099999999652937,
+              -0.0001999999999497959
+            ],
+            "reductionMs": 0.004099999999652937,
+            "reductionPercent": 1.580570547283845,
+            "inconclusive": true,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "session": {
+            "baseline": {
+              "samples": [
+                2036.6426000000004,
+                2195.4504,
+                2227.9013999999997
+              ],
+              "medianMs": 2195.4504,
+              "madMs": 32.45099999999957,
+              "madPercent": 1.4781021698326486
+            },
+            "candidate": {
+              "samples": [
+                2231.3352000000004,
+                2183.9844000000003,
+                2216.1697
+              ],
+              "medianMs": 2216.1697,
+              "madMs": 15.16550000000052,
+              "madPercent": 0.6843113142464009
+            },
+            "pairedDeltasMs": [
+              -194.69260000000008,
+              11.465999999999894,
+              11.731699999999819
+            ],
+            "reductionMs": -20.71929999999975,
+            "reductionPercent": -0.9437380138489918,
+            "inconclusive": true,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          }
+        },
+        "usefulSaltBenefit": false,
+        "regressionFlags": []
+      },
+      "projectService": {
+        "phases": {
+          "cold": {
+            "baseline": {
+              "samples": [
+                1374.6988999999999,
+                1232.7912000000001,
+                1263.8736000000001
+              ],
+              "medianMs": 1263.8736000000001,
+              "madMs": 31.082400000000007,
+              "madPercent": 2.4592965625676495
+            },
+            "candidate": {
+              "samples": [
+                1482.9472,
+                1293.2247,
+                1255.3130999999998
+              ],
+              "medianMs": 1293.2247,
+              "madMs": 37.911600000000135,
+              "madPercent": 2.931555513902583
+            },
+            "pairedDeltasMs": [
+              -108.2483000000002,
+              -60.43349999999987,
+              8.560500000000275
+            ],
+            "reductionMs": -29.35109999999986,
+            "reductionPercent": -2.32231292749527,
+            "inconclusive": true,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "warm": {
+            "baseline": {
+              "samples": [
+                2.624499999999898,
+                2.3146999999999025,
+                2.5778999999999996
+              ],
+              "medianMs": 2.5778999999999996,
+              "madMs": 0.0465999999998985,
+              "madPercent": 1.807672912056267
+            },
+            "candidate": {
+              "samples": [
+                2.7146999999999935,
+                2.841799999999921,
+                3.115400000000136
+              ],
+              "medianMs": 2.841799999999921,
+              "madMs": 0.1270999999999276,
+              "madPercent": 4.472517418535124
+            },
+            "pairedDeltasMs": [
+              -0.09020000000009532,
+              -0.5271000000000186,
+              -0.5375000000001364
+            ],
+            "reductionMs": -0.2638999999999214,
+            "reductionPercent": -10.23701462430356,
+            "inconclusive": false,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "component": {
+            "baseline": {
+              "samples": [
+                167.28319999999985,
+                142.21050000000014,
+                150.3653999999999
+              ],
+              "medianMs": 150.3653999999999,
+              "madMs": 8.15489999999977,
+              "madPercent": 5.423388625308599
+            },
+            "candidate": {
+              "samples": [
+                143.69650000000001,
+                139.79459999999995,
+                142.41999999999985
+              ],
+              "medianMs": 142.41999999999985,
+              "madMs": 1.2765000000001692,
+              "madPercent": 0.896292655526029
+            },
+            "pairedDeltasMs": [
+              23.586699999999837,
+              2.4159000000001924,
+              7.945400000000063
+            ],
+            "reductionMs": 7.945400000000063,
+            "reductionPercent": 5.2840613598607575,
+            "inconclusive": false,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "shared": {
+            "baseline": {
+              "samples": [
+                165.74109999999996,
+                166.30610000000001,
+                147.62349999999992
+              ],
+              "medianMs": 165.74109999999996,
+              "madMs": 0.5650000000000546,
+              "madPercent": 0.34089311582948023
+            },
+            "candidate": {
+              "samples": [
+                151.0976999999998,
+                152.23069999999984,
+                149.5010000000002
+              ],
+              "medianMs": 151.0976999999998,
+              "madMs": 1.1330000000000382,
+              "madPercent": 0.7498459605937349
+            },
+            "pairedDeltasMs": [
+              14.643400000000156,
+              14.075400000000172,
+              -1.877500000000282
+            ],
+            "reductionMs": 14.643400000000156,
+            "reductionPercent": 8.83510487139289,
+            "inconclusive": true,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "close": {
+            "baseline": {
+              "samples": [
+                1.2998000000000047,
+                1.3462999999999283,
+                1.1628000000000611
+              ],
+              "medianMs": 1.2998000000000047,
+              "madMs": 0.0464999999999236,
+              "madPercent": 3.5774734574491025
+            },
+            "candidate": {
+              "samples": [
+                1.269800000000032,
+                1.401299999999992,
+                1.296100000000024
+              ],
+              "medianMs": 1.296100000000024,
+              "madMs": 0.026299999999991996,
+              "madPercent": 2.0291644163252456
+            },
+            "pairedDeltasMs": [
+              0.029999999999972715,
+              -0.055000000000063665,
+              -0.1332999999999629
+            ],
+            "reductionMs": 0.0036999999999807187,
+            "reductionPercent": 0.284659178333644,
+            "inconclusive": true,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          },
+          "session": {
+            "baseline": {
+              "samples": [
+                1711.6474999999996,
+                1544.9688,
+                1565.6032
+              ],
+              "medianMs": 1565.6032,
+              "madMs": 20.634399999999914,
+              "madPercent": 1.3179840204721038
+            },
+            "candidate": {
+              "samples": [
+                1781.7259,
+                1589.4930999999997,
+                1551.6456
+              ],
+              "medianMs": 1589.4930999999997,
+              "madMs": 37.84749999999963,
+              "madPercent": 2.381105020210508
+            },
+            "pairedDeltasMs": [
+              -70.07840000000033,
+              -44.524299999999585,
+              13.957599999999957
+            ],
+            "reductionMs": -23.88989999999967,
+            "reductionPercent": -1.5259230435911009,
+            "inconclusive": true,
+            "regressionFlag": false,
+            "usefulSaltPhase": false
+          }
+        },
+        "usefulSaltBenefit": false,
+        "regressionFlags": []
+      }
+    }
+  }
+}

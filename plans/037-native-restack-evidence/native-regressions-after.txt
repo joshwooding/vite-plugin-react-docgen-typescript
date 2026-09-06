@@ -1,0 +1,93 @@
+
+ RUN  v4.1.0 D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan036/native/vite-plugin-react-docgen-typescript
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts (21 tests | 2 failed) 7555ms
+     × refreshes cached props after a package declaration edit (linked=false) 250ms
+     × refreshes cached props after a package declaration edit (linked=true) 260ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > refreshes cached props after a package declaration edit (linked=false)
+AssertionError: expected "vi.fn()" to be called with arguments: [ Array(1) ]
+
+Received:
+
+  1st vi.fn() call:
+
+  [
+-   "C:\\Users\\Joshu\\AppData\\Local\\Temp\\vite-rdt-native-7AGY1t\\node_modules\\fixture-props\\index.d.ts",
++   "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-7AGY1t/Component.tsx",
+  ]
+
+  2nd vi.fn() call:
+
+  [
+-   "C:\\Users\\Joshu\\AppData\\Local\\Temp\\vite-rdt-native-7AGY1t\\node_modules\\fixture-props\\index.d.ts",
++   "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-7AGY1t/node_modules/fixture-props/index.d.ts",
+  ]
+
+  3rd vi.fn() call:
+
+  [
+-   "C:\\Users\\Joshu\\AppData\\Local\\Temp\\vite-rdt-native-7AGY1t\\node_modules\\fixture-props\\index.d.ts",
++   "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-7AGY1t/tsconfig.json",
+  ]
+
+
+Number of calls: 3
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts:210:36
+    208|         normalizeBoundaryPath(componentPath),
+    209|       ]);
+    210|       expect(context.addWatchFile).toHaveBeenCalledWith(
+       |                                    ^
+    211|         normalizeBoundaryPath(declarationPath),
+    212|       );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > refreshes cached props after a package declaration edit (linked=true)
+AssertionError: expected "vi.fn()" to be called with arguments: [ Array(1) ]
+
+Received:
+
+  1st vi.fn() call:
+
+  [
+-   "C:\\Users\\Joshu\\AppData\\Local\\Temp\\vite-rdt-native-JMqOf6\\workspace-package\\index.d.ts",
++   "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-JMqOf6/Component.tsx",
+  ]
+
+  2nd vi.fn() call:
+
+  [
+-   "C:\\Users\\Joshu\\AppData\\Local\\Temp\\vite-rdt-native-JMqOf6\\workspace-package\\index.d.ts",
++   "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-JMqOf6/tsconfig.json",
+  ]
+
+  3rd vi.fn() call:
+
+  [
+-   "C:\\Users\\Joshu\\AppData\\Local\\Temp\\vite-rdt-native-JMqOf6\\workspace-package\\index.d.ts",
++   "C:/Users/Joshu/AppData/Local/Temp/vite-rdt-native-JMqOf6/workspace-package/index.d.ts",
+  ]
+
+
+Number of calls: 3
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts:210:36
+    208|         normalizeBoundaryPath(componentPath),
+    209|       ]);
+    210|       expect(context.addWatchFile).toHaveBeenCalledWith(
+       |                                    ^
+    211|         normalizeBoundaryPath(declarationPath),
+    212|       );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 38 passed (40)
+   Start at  14:59:39
+   Duration  8.51s (transform 443ms, setup 0ms, import 1.65s, tests 9.61s, environment 0ms)
+

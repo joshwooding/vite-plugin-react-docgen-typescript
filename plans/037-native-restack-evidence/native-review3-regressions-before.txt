@@ -1,0 +1,48 @@
+
+ RUN  v4.1.0 D:/OSS/vite-plugin-react-docgen-typescript/.yarn/.codex-worktrees/plan036/native/vite-plugin-react-docgen-typescript
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts (33 tests | 5 failed | 28 skipped) 694ms
+     × retains structured defaultProps syntax Component.defaultProps = { label: "value" } as Partial<Props>; 261ms
+     × retains structured defaultProps syntax Component.defaultProps = { label: "value" } satisfies Props; 107ms
+     × retains structured defaultProps syntax Component.defaultProps = ({ label: "value" } as const)!; 106ms
+     × retains structured defaultProps syntax if (true) { Component.defaultProps = { label: "value" }; } 110ms
+     × retains structured defaultProps syntax if (true) { Component.defaultProps = { label: "value" } as Partial<Props>; } 109ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > retains structured defaultProps syntax Component.defaultProps = { label: "value" } as Partial<Props>;
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > retains structured defaultProps syntax Component.defaultProps = { label: "value" } satisfies Props;
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > retains structured defaultProps syntax Component.defaultProps = ({ label: "value" } as const)!;
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > retains structured defaultProps syntax if (true) { Component.defaultProps = { label: "value" }; }
+ FAIL  packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts > TypeScript 7 native backend > retains structured defaultProps syntax if (true) { Component.defaultProps = { label: "value" } as Partial<Props>; }
+AssertionError: expected { declarations: [ { …(2) } ], …(7) } to match object { …(2) }
+(9 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "defaultValue": {
+-     "value": "value",
+-   },
+-   "required": false,
++   "defaultValue": null,
++   "required": true,
+  }
+
+ ❯ packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts:275:49
+    273|       expect(result.status).toBe("ok");
+    274|       if (result.status !== "ok") return;
+    275|       expect(result.components[0]?.props.label).toMatchObject({ defaul…
+       |                                                 ^
+    276|     } finally {
+    277|       await backend.dispose();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 28 skipped (33)
+   Start at  15:35:21
+   Duration  1.18s (transform 155ms, setup 0ms, import 309ms, tests 694ms, environment 0ms)
+

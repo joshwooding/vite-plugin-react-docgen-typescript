@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "command": [
+    "C:/nvm4w/nodejs/node.exe",
+    "scripts/verify-runtime-compatibility.mjs",
+    "--package",
+    "D:/OSS/vite-plugin-react-docgen-typescript/.yarn/simplification-evidence/036/native-v3.tgz",
+    "--typescript",
+    "6.0.3",
+    "--vite",
+    "8.1.5",
+    "--modes",
+    "default,legacy,project-service,experimental-watch,experimental-project-service"
+  ],
+  "cwd": ".",
+  "startedAt": "2026-09-06T14:31:10.306131+00:00",
+  "CI": "true",
+  "pid": 48080,
+  "exitCode": 0,
+  "durationSeconds": 27.64099999999962,
+  "finishedAt": "2026-09-06T14:31:37.951548+00:00",
+  "logSha256": "67a4af96fd7b085a32b3a9d08f640d072ac9be6ae7529b7927db4e60c19ef560"
+}

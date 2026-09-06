@@ -1,0 +1,6 @@
+{
+  "findings": [],
+  "overall_correctness": "patch is correct",
+  "overall_explanation": "The prior UMD omission is resolved by recognizing NamespaceExportDeclaration. The classifier now covers global scripts, declare-global modules, module augmentations, and UMD namespace exports while excluding default libraries and ordinary external/CommonJS modules. Shared ambient roots are cached per Program, filtered through the tracked-file set, and traversed through the existing dependency machinery, preserving imported-type tracking, cache freshness, and per-program isolation. No actionable defect is evident in the supplied bundle.",
+  "overall_confidence": 0.97
+}

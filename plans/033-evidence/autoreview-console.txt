@@ -1,0 +1,23 @@
+WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir "C:\\Users\\Joshu\\AppData\\Local\\Temp\\" (codex_home: AbsolutePathBuf("C:\\Users\\Joshu\\AppData\\Local\\Temp\\autoreview-codex-runtime.j8ie1lp7\\codex-home"))
+autoreview target: local
+branch: detached
+engine: codex
+model: gpt-5.6-sol
+fallback_model: gpt-5.6-terra
+thinking: high
+tools: on
+web_search: on
+bundle: 134986 chars
+codex thread: 01a075dd-b296-7462-89e4-4d69283d3f9c
+codex turn started
+2026-09-06T08:37:46.625807Z ERROR codex_core::tools::router: error=exec_command failed: CreateProcess { message: "Rejected(\"`\\\"C:\\\\\\\\Program Files\\\\\\\\PowerShell\\\\\\\\7\\\\\\\\pwsh.exe\\\" -NoProfile -Command 'git diff -- packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts; git diff --no-index -- NUL .changeset/reuse-backend-canonical-dependencies.md; git diff --no-index -- NUL packages/vite-plugin-react-docgen-typescript/src/__tests__/backendCanonicalDependencies.test.ts'` rejected: blocked by policy\")" }
+2026-09-06T08:37:51.881679Z ERROR codex_core::tools::router: error=exec_command failed: CreateProcess { message: "Rejected(\"`\\\"C:\\\\\\\\Program Files\\\\\\\\PowerShell\\\\\\\\7\\\\\\\\pwsh.exe\\\" -NoProfile -Command 'git diff -- packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts'` rejected: blocked by policy\")" }
+2026-09-06T08:37:51.881679Z ERROR codex_core::tools::router: error=exec_command failed: CreateProcess { message: "Rejected(\"`\\\"C:\\\\\\\\Program Files\\\\\\\\PowerShell\\\\\\\\7\\\\\\\\pwsh.exe\\\" -NoProfile -Command \\\"Get-Content -Raw -LiteralPath '.changeset/reuse-backend-canonical-dependencies.md'\\\"` rejected: blocked by policy\")" }
+2026-09-06T08:37:51.881684Z ERROR codex_core::tools::router: error=exec_command failed: CreateProcess { message: "Rejected(\"`\\\"C:\\\\\\\\Program Files\\\\\\\\PowerShell\\\\\\\\7\\\\\\\\pwsh.exe\\\" -NoProfile -Command 'git status --short'` rejected: blocked by policy\")" }
+2026-09-06T08:37:51.881818Z ERROR codex_core::tools::router: error=exec_command failed: CreateProcess { message: "Rejected(\"`\\\"C:\\\\\\\\Program Files\\\\\\\\PowerShell\\\\\\\\7\\\\\\\\pwsh.exe\\\" -NoProfile -Command \\\"Get-Content -Raw -LiteralPath 'packages/vite-plugin-react-docgen-typescript/src/__tests__/backendCanonicalDependencies.test.ts'\\\"` rejected: blocked by policy\")" }
+2026-09-06T08:37:56.337234Z ERROR codex_core::tools::router: error=exec_command failed: CreateProcess { message: "Rejected(\"`\\\"C:\\\\\\\\Program Files\\\\\\\\PowerShell\\\\\\\\7\\\\\\\\pwsh.exe\\\" -NoProfile -Command \\\"rg -n \\\\\\\"normalizeBoundaryPaths\\\\\\\\(|collectTrackedFileDependencies|dependencies:\\\\\\\" packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts\\\"` rejected: blocked by policy\")" }
+{"findings":[],"overall_correctness":"patch is correct","overall_explanation":"The removed normalization passes are redundant: every caller supplies a normalized entry path, ambient and direct dependencies are admitted only through exact membership in the canonically populated tracked-file set, and the collector already returns a newly allocated, deduplicated, sorted array. The success, parser-error, and cache-validation paths therefore preserve canonical identity, graph breadth, ownership, and ordering. The added tests and changeset introduce no actionable defects.","overall_confidence":0.98}
+codex usage: input_tokens=165186 cached_input_tokens=122880 output_tokens=2050 reasoning_output_tokens=1487
+autoreview clean: no accepted/actionable findings reported
+overall: patch is correct (0.98)
+The removed normalization passes are redundant: every caller supplies a normalized entry path, ambient and direct dependencies are admitted only through exact membership in the canonically populated tracked-file set, and the collector already returns a newly allocated, deduplicated, sorted array. The success, parser-error, and cache-validation paths therefore preserve canonical identity, graph breadth, ownership, and ordering. The added tests and changeset introduce no actionable defects.

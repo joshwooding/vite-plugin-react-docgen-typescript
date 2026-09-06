@@ -1,0 +1,122 @@
+{
+  "status": "PASS",
+  "baseSourceCommit": "b196f305800586eecd45d12f3af7cef00a7b83cc",
+  "fixture": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\simplification-evidence\\036\\native-runtime-review-v2",
+  "baseFixtureCommit": "b18afa4ee1840074dd73c5498a540f8c0424be84",
+  "commit": "27cf811408a11e6cde8b91af85210d1eb9be3eff",
+  "patchBytes": 171825,
+  "files": {
+    "packages/vite-plugin-react-docgen-typescript/package.json": {
+      "gitBlob": "e0da241aff1ca189b0b9e8b1fd2fd3d4b443090e",
+      "sha256": "fce09f2311a72bcf8a15b59fda5bc4feb705deefae3b43ec510f90663b03ae27"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/backendContract.test.ts": {
+      "gitBlob": "e74452ca317c68a01ca823faf8bf3c61b802d697",
+      "sha256": "de3b4bccf8de5287c28f48690b0849437cabf95460fbc70298c759f5d1cd8b97"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/backendParity.test.ts": {
+      "gitBlob": "5ab6511f20fb71559d297a442ee6e881ccfd9929",
+      "sha256": "46ac0597f342cf2e5e82eae98e0160bc97d9b30df5ebd290769a5c08cad38732"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts": {
+      "gitBlob": "293f5c5abecc00d1f2e0b3680772067ccd5405e5",
+      "sha256": "093a3281c9172c7e75324872cadb80ac39d9b665f9b020f83eba64831dd2aec8"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/index.test.ts": {
+      "gitBlob": "18787f3b7c3db0dff43fcfadd620718fd3868074",
+      "sha256": "0197109bf336780160b2417bd466d821e9b2c94a73ed93cdf4d6028bd52ee8e5"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts": {
+      "gitBlob": "b00a4c30aab682240a2eecdd76df3cdd7e0a55c9",
+      "sha256": "5edf6a3eaa0161374975ab3c3cc18544b5238caa5f29e0ad064371bd83d44a74"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/persistentCacheFreshness.test.ts": {
+      "gitBlob": "15a56508f7ce7993d21161d57d05dbd6fab42c2f",
+      "sha256": "10e7fc1c684de6c8ad61cb55fb8fa7ba95a3177e90f2fe068a79032782bcd3fc"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/projectSelection.test.ts": {
+      "gitBlob": "b3463e6ab491344c7dfefde13e35346477d4718f",
+      "sha256": "f9855dbcc1ed51900dd755d9b418d254c818c9b6cc0be6b0f9acd0f4b4975a39"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/runtimeMode.test.ts": {
+      "gitBlob": "01c10cb98791b06ca43e173632e672eec19e4eb5",
+      "sha256": "15ab09d44c7473ed99645b65cc3b7632f423e444e220f37514d5b4dc438075f4"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/support/pluginHooks.ts": {
+      "gitBlob": "46be470473a111de0f1ded5163dbfdb3c4761840",
+      "sha256": "54941fab666e1b2c4852b9d9e9f2ef400b8addc88e8472fb027b17cadb51ec1e"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/docgen/backend.ts": {
+      "gitBlob": "5822fa110d9b4c4ce0259b78ac28da1a3b16c451",
+      "sha256": "345eb1c078455d0bf8ffc892be84eef941129654bc1828756ef5d3e01a906b5b"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts": {
+      "gitBlob": "29a139852c17f5bd4d56606cc168e69433266a17",
+      "sha256": "721c943b55e1e77a71ba72fed1061df38aca1dbbcbea9495bc2f68faf7e83c40"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/docgen/nativeBackend.ts": {
+      "gitBlob": "c2bcbfbb21035bffa11399bb1fce6c89b0aed03a",
+      "sha256": "1e627eacdcdf0e10c39c76a32fecb53267a723e2d32f40020fd01152e7c87bdb"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/docgen/pathIdentity.ts": {
+      "gitBlob": "a245487d15175a8a7ffb39dd5c23122b874841a4",
+      "sha256": "dddb9a53ddafb42fc1013ea3dae4a776fd2fa867e9e2bf91a60cea4dcdd1c9bc"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/docgen/types.ts": {
+      "gitBlob": "6f7b87ec015912cb0d859067ffbae50627fd00d4",
+      "sha256": "20b616717d217d42ee4785ad5eb98c29c1f8f16e0db5440dde34a74f906e36b1"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/index.ts": {
+      "gitBlob": "6bb4cb9b4c6a7a3c51fcacf7c4a7e017b3385bb4",
+      "sha256": "c6bf0a3665ab34a5c9c7f61cc690f52feb4dbabb8299290dc0ee83bc93ddea4c"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/plugin.ts": {
+      "gitBlob": "97a162e8823696800b220a309a833f67981abc49",
+      "sha256": "eecb18ee877a8b554fdec6c1281ad057afec987b2818c16c73bb9609f20d0a43"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/utils/cache.ts": {
+      "gitBlob": "9e415e046852db6ad6ec419565d033bc68214f02",
+      "sha256": "420ce5906502741a6d37de6ca802113803a7ce3e645f3d180cead82dc6a0f5ae"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/utils/fileSelection.ts": {
+      "gitBlob": "b8446e8ce35654c3d1c18bf2bfb641429803d71b",
+      "sha256": "8f91a3939e327ab2cf8a1b5d07140b9967870a7cb0102e5d2fb5fb0642085db7"
+    },
+    "packages/vite-plugin-react-docgen-typescript/src/utils/options.ts": {
+      "gitBlob": "ce04ad59a2039d5e5ea84e7a66900beb57dafe38",
+      "sha256": "8bf46b52e64527d74915891fab5e3cffa0fcb336ccde3aee69fd235cd7addb94"
+    }
+  },
+  "runtimeFiles": [
+    "packages/vite-plugin-react-docgen-typescript/package.json",
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/backendContract.test.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/backendParity.test.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/index.test.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/nativeBackend.test.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/persistentCacheFreshness.test.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/projectSelection.test.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/runtimeMode.test.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/__tests__/support/pluginHooks.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/docgen/backend.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/docgen/legacyBackend.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/docgen/nativeBackend.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/index.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/plugin.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/utils/fileSelection.ts",
+    "packages/vite-plugin-react-docgen-typescript/src/utils/options.ts"
+  ],
+  "unchangedToolingFiles": [
+    ".changeset/green-trees-compile.md",
+    ".github/runtime-compatibility-matrix.json",
+    ".github/workflows/ci.yml",
+    "README.md",
+    "package.json",
+    "scripts/__tests__/benchmark-playground.test.ts",
+    "scripts/benchmark-playground.mjs",
+    "scripts/verify-runtime-compatibility.mjs",
+    "yarn.lock"
+  ],
+  "toolingReview": "review-tooling.json passed; all tooling blobs unchanged, no redundant review.",
+  "reviewFixScope": "Three original P2 findings verified as in-scope: preserve public shouldSortUnions, implement existing RDT sorting in native, track imported package declarations for invalidation without selecting them as components. No new public option beyond compatibility. One test wrapper adapted to the existing filtered transform hook."
+}

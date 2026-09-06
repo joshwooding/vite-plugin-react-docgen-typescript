@@ -1,0 +1,31 @@
+{
+  "round2": [
+    {
+      "finding": "Standalone source overrides",
+      "decision": "IN_SCOPE_FIXED",
+      "proof": "compilerOptions regression reproduced disk string instead of supplied number; isolated native API virtual readFile override now honors input, preserves disk and supports mixed batch inputs."
+    },
+    {
+      "finding": "Temporary imports missing from dependencies",
+      "decision": "IN_SCOPE_FIXED",
+      "proof": "Configured and standalone plugin regressions reproduced absent package dependency; temporary projects now classify their own non-default-library files. Both refresh after package edits."
+    },
+    {
+      "finding": "Enum-only option should not extract literal unions",
+      "decision": "REJECTED_FALSE_POSITIVE",
+      "proof": "RDT 2.4.0 parser source explicitly allows StringLiteral/NumberLiteral/EnumLiteral/Undefined union members. Direct parity test with installed RDT 2.2.2 confirms both return enum for plain literal unions."
+    },
+    {
+      "finding": "defaultProps text splitting",
+      "decision": "IN_SCOPE_FIXED",
+      "proof": "Legacy comparison reproduced truncated comma-containing string and nested object defaults. Native AST property initializers retain complete values."
+    },
+    {
+      "finding": "Aliased public component naming",
+      "decision": "REJECTED_FALSE_POSITIVE",
+      "proof": "Direct legacy/native comparison confirms both use local for the alias and pass local to the naming callback. Preserve current legacy-compatible semantics with explicit parity tests."
+    }
+  ],
+  "validation": "Complete native file 28/28 and package typecheck pass. Prior unrelated suites remain as recorded; rebuild, packed checks and final review follow.",
+  "followUp": "Anonymous inline prop declaration provenance differs between native and legacy (__type/parent versus TypeLiteral). This predates these review fixes and is outside the disputed naming/union semantics; named Props interfaces isolate those regression proofs."
+}
