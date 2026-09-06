@@ -17,7 +17,7 @@
     "benchmark:backends:ci": "yarn build && node ./scripts/benchmark-backends.mjs --iterations 2 --edits 10 --modes default,projectService --require-parity --output .yarn/benchmark-backends.json",
     "benchmark:large-design-system": "yarn benchmark --scenario large-design-system",
     "benchmark:large-project": "yarn benchmark --scenario large-project",
-    "benchmark:playground": "yarn exec unbuild packages/vite-plugin-react-docgen-typescript && node packages/vite-plugin-react-docgen-typescript/scripts/benchmark-playground.mjs",
+    "benchmark:playground": "yarn benchmark --scenario playground",
     "build": "yarn workspace @joshwooding/vite-plugin-react-docgen-typescript build",
     "biome": "biome format . --write",
     "biome:check": "biome check --write --unsafe .",
