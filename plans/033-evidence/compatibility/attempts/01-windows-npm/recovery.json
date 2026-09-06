@@ -1,4 +1,0 @@
-{
-  "reason": "WSL inherited Windows npm on PATH; install attempted a UNC archive path and failed before plugin verification.",
-  "recovery": "Set each WSL row PATH to that existing Linux Node bin plus /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin; preserve failed row without counting it as compatibility or performance evidence."
-}

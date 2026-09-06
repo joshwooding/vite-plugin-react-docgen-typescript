@@ -1,6 +1,0 @@
-packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts(369,13): error TS2345: Argument of type 'string | RolldownMagicString' is not assignable to parameter of type 'string'.
-  Type 'RolldownMagicString' is not assignable to type 'string'.
-packages/vite-plugin-react-docgen-typescript/src/__tests__/externalTypeWatch.test.ts(440,7): error TS2322: Type '(event: string, payload?: any) => void' is not assignable to type '{ (payload: HotPayload): void; <T extends string>(event: T, payload?: InferCustomEventPayload<T> | undefined): void; }'.
-  Types of parameters 'event' and 'payload' are incompatible.
-    Type 'HotPayload' is not assignable to type 'string'.
-      Type 'ConnectedPayload' is not assignable to type 'string'.

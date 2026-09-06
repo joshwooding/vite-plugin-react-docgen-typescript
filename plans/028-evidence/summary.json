@@ -1,9 +1,0 @@
-{
-  "rows": 10,
-  "combinations": 72,
-  "edits": 144,
-  "dynamicMembershipEvents": 216,
-  "archiveSha256": "fc258456dbee71ae641d605216025b6af399261c1a3b2528e2b63c90ec724b21",
-  "verifierSha256": "8241f94751ae0b833d59c26e3a2c33c0b12e63dfe2f5708b68239db4aef155f1",
-  "status": "PASS"
-}

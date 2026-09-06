@@ -1,4 +1,0 @@
-Direct-plugin scenario: large-design-system (24 files), cache: off, iterations: 1
-default        setup 10.1ms  first 2261.4ms  cold 2271.5ms  warm 18.4ms  hmr 1184.0ms  affected 21  invalidated 0  session 3479.4ms
-watch          setup 7.2ms  first 1134.7ms  cold 1141.9ms  warm 19.4ms  hmr 964.2ms  affected 21  invalidated 0  session 2134.3ms
-projectService setup 5.9ms  first 1291.9ms  cold 1297.8ms  warm 51.1ms  hmr 681.0ms  affected 21  invalidated 0  session 2046.0ms
