@@ -717,6 +717,9 @@ const collectDirectTrackedFileDependencies = (
   return directDependencies;
 };
 
+// Callers normalize the entry; ambient seeds and direct edges must match the
+// canonical membership maintained by syncFiles. The sorted result is a fresh
+// array, so consumers can reuse it without normalizing the whole graph again.
 const collectTrackedFileDependencies = (
   entryFileName: string,
   cacheByProgram: WeakMap<Program, ProgramDependencyCache>,
@@ -1436,14 +1439,12 @@ const createLegacyBackend = async (
     }
     syncProjectFilesFromProgram(project, program);
     return {
-      dependencies: normalizeBoundaryPaths(
-        collectTrackedFileDependencies(
-          normalizedFileName,
-          dependencyCacheByProgram,
-          program,
-          projectTrackedFiles,
-          typescriptModule,
-        ),
+      dependencies: collectTrackedFileDependencies(
+        normalizedFileName,
+        dependencyCacheByProgram,
+        program,
+        projectTrackedFiles,
+        typescriptModule,
       ),
       project: getProjectState(),
     };
@@ -1502,7 +1503,7 @@ const createLegacyBackend = async (
       );
       if (activeProgram && project)
         syncProjectFilesFromProgram(project, activeProgram);
-      const dependencies = normalizeBoundaryPaths(collectDependencies());
+      const dependencies = collectDependencies();
       const unresolvedDependencies =
         activeProgram && project && typescriptModule
           ? collectUnresolvedModuleDependencies(
@@ -1537,7 +1538,7 @@ const createLegacyBackend = async (
         unresolvedDependencies,
       };
     } catch (error) {
-      const dependencies = normalizeBoundaryPaths(collectDependencies());
+      const dependencies = collectDependencies();
       return {
         dependencies,
         error: toBackendErrorRecord(error),
