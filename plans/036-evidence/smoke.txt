@@ -1,0 +1,24 @@
+Running trunk:default (1/1, order 1/4)...
+Running trunk:projectService (1/1, order 2/4)...
+Running performance:default (1/1, order 3/4)...
+Running performance:projectService (1/1, order 4/4)...
+Backend benchmark: 10 components across 2 projects; 2 edits x 1 runs
+trunk/default                cold 4697.0ms (extract 1252.7ms)  edits p50 553.3ms p95 608.1ms  cold peak +187MiB  edit peak +128MiB
+                             internal phase timing unavailable for this plugin build
+                             retained RSS cold 234MiB (benchmark 234MiB + engine children 0MiB); edit 362MiB (benchmark 362MiB + engine children 0MiB)
+trunk/projectService         cold 1593.5ms (extract 1382.5ms)  edits p50 340.7ms p95 352.7ms  cold peak +207MiB  edit peak +36MiB
+                             internal phase timing unavailable for this plugin build
+                             retained RSS cold 255MiB (benchmark 255MiB + engine children 0MiB); edit 291MiB (benchmark 291MiB + engine children 0MiB)
+performance/default          cold 1196.4ms (extract 970.8ms)  edits p50 374.0ms p95 437.6ms  cold peak +171MiB  edit peak +136MiB
+                             internal phase timing unavailable for this plugin build
+                             retained RSS cold 218MiB (benchmark 218MiB + engine children 0MiB); edit 344MiB (benchmark 344MiB + engine children 0MiB)
+performance/projectService   cold 1417.9ms (extract 1191.8ms)  edits p50 174.2ms p95 185.5ms  cold peak +243MiB  edit peak +0MiB
+                             internal phase timing unavailable for this plugin build
+                             retained RSS cold 290MiB (benchmark 290MiB + engine children 0MiB); edit 290MiB (benchmark 290MiB + engine children 0MiB)
+trunk:default vs trunk:projectService: 10/10 exact components, 100.00% field agreement
+trunk:default vs performance:default: 10/10 exact components, 100.00% field agreement
+trunk:default vs performance:projectService: 10/10 exact components, 100.00% field agreement
+performance vs trunk (default): cold -74.5%, edits p50 -32.4%, edits p95 -28.0%, retained RSS -5.0%
+performance vs trunk (projectService): cold -11.0%, edits p50 -48.9%, edits p95 -47.4%, retained RSS -0.1%
+Wrote benchmark output to D:\OSS\vite-plugin-react-docgen-typescript\plans\036-evidence\smoke.json
+Kept benchmark workspace at D:\OSS\vite-plugin-react-docgen-typescript\.yarn\.codex-worktrees\plan036\performance\vite-plugin-react-docgen-typescript\.yarn\benchmark-workspaces\vite-rdt-backends-Tp0PX5

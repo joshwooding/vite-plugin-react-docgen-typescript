@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "kind": "measured",
+  "args": [
+    "C:/nvm4w/nodejs/node.exe",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\scripts\\benchmark-backends.mjs",
+    "--plugin-entry",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\trunk\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+    "--label",
+    "trunk",
+    "--compare-plugin-entry",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+    "--compare-label",
+    "performance",
+    "--components",
+    "188",
+    "--projects",
+    "7",
+    "--iterations",
+    "4",
+    "--edits",
+    "10",
+    "--modes",
+    "default,projectService",
+    "--require-parity",
+    "--keep-temp",
+    "--output",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\plans\\036-evidence\\measured.json"
+  ],
+  "cwd": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript",
+  "before": {
+    "status": "PASS",
+    "at": "2026-09-06T13:02:27.323429+00:00"
+  },
+  "protocolSha256": "808469453c87a227bd88e5f9787792480622a963ec9591427c454fe6f05b828c",
+  "environmentSha256": "fcce5a0c145129957c45fbc34bb4a58a22794234eee1cf27b830eb7c37b3eac4",
+  "parentPid": 30644,
+  "exitCode": 0,
+  "finishedAt": "2026-09-06T13:46:34.173646+00:00",
+  "logSha256": "fba8553a86ca31d6c251b8a60a6a58f9c6ca1381837ba9807bf19b840c8efe7c",
+  "reportSha256": "849fb4231da6d81af06fab12a963a15378a8def220964fc5231e1ab6890e857d",
+  "after": {
+    "status": "PASS",
+    "at": "2026-09-06T13:46:34.464585+00:00"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "nodeVersion": "v24.10.0",
+  "nodeExecutable": "C:\\nvm4w\\nodejs\\node.exe",
+  "variants": {
+    "trunk": {
+      "packages": {
+        "typescript": {
+          "version": "6.0.3",
+          "packageFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\typescript\\package.json",
+          "packageSha256": "9332e97c30d3e53ed54910b89207ed657fb444066484df6e5b6965bf130865e9"
+        },
+        "react-docgen-typescript": {
+          "version": "2.2.2",
+          "packageFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\react-docgen-typescript\\package.json",
+          "packageSha256": "c7473b0844b9664387d4ea3b89b2db22fddb2710fff62258a151636067fc333d"
+        },
+        "react": {
+          "version": "18.3.1",
+          "packageFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\react\\package.json",
+          "packageSha256": "d4e68a5c96babb20cad1daafea8b78822eae45b341552cf5418d06a5304fa64c"
+        },
+        "@types/react": {
+          "version": "18.2.25",
+          "packageFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\@types\\react\\package.json",
+          "packageSha256": "76efe17e016af5a06bb1b5c2345dfaea398437fbd956bc2c574f3fd8bc425b1b"
+        },
+        "vite": {
+          "version": "8.1.5",
+          "packageFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\vite\\package.json",
+          "packageSha256": "2f482c846a1c5b9e5883b458b3e54a171a320c2e8d9b924c7383c4baef607b09"
+        },
+        "glob": {
+          "version": "13.0.6",
+          "packageFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\glob\\package.json",
+          "packageSha256": "5a28ef9a1f5252feb47ffe288a6350fe99b18311462e6a9cdacbdd0bb4be6be9"
+        }
+      },
+      "files": {
+        "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\typescript\\lib\\typescript.js": "f18e73018298c43a8b99a830cb0f821aaf28258c0282584f5211d987bf719e46",
+        "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\react-docgen-typescript\\lib\\index.js": "d31a2d0a6380cc8d7ef9eae7d23fc267dad1b8f0f1e32e564c678cc79e971e1a",
+        "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\react-docgen-typescript\\lib\\parser.js": "777a914c70fb81ee2d1659858c00fe141890c96c908301871db7b343f2ab359b"
+      }
+    },
+    "performance": {
+      "packages": {
+        "typescript": {
+          "version": "6.0.3",
+          "packageFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\typescript\\package.json",
+          "packageSha256": "9332e97c30d3e53ed54910b89207ed657fb444066484df6e5b6965bf130865e9"
+        },
+        "react-docgen-typescript": {
+          "version": "2.2.2",
+          "packageFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\react-docgen-typescript\\package.json",
+          "packageSha256": "c7473b0844b9664387d4ea3b89b2db22fddb2710fff62258a151636067fc333d"
+        },
+        "react": {
+          "version": "18.3.1",
+          "packageFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\react\\package.json",
+          "packageSha256": "d4e68a5c96babb20cad1daafea8b78822eae45b341552cf5418d06a5304fa64c"
+        },
+        "@types/react": {
+          "version": "18.2.25",
+          "packageFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\@types\\react\\package.json",
+          "packageSha256": "76efe17e016af5a06bb1b5c2345dfaea398437fbd956bc2c574f3fd8bc425b1b"
+        },
+        "vite": {
+          "version": "8.1.5",
+          "packageFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\vite\\package.json",
+          "packageSha256": "2f482c846a1c5b9e5883b458b3e54a171a320c2e8d9b924c7383c4baef607b09"
+        },
+        "glob": {
+          "version": "13.0.6",
+          "packageFile": "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\glob\\package.json",
+          "packageSha256": "5a28ef9a1f5252feb47ffe288a6350fe99b18311462e6a9cdacbdd0bb4be6be9"
+        }
+      },
+      "files": {
+        "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\typescript\\lib\\typescript.js": "f18e73018298c43a8b99a830cb0f821aaf28258c0282584f5211d987bf719e46",
+        "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\react-docgen-typescript\\lib\\index.js": "d31a2d0a6380cc8d7ef9eae7d23fc267dad1b8f0f1e32e564c678cc79e971e1a",
+        "D:\\OSS\\vite-plugin-react-docgen-typescript\\node_modules\\react-docgen-typescript\\lib\\parser.js": "777a914c70fb81ee2d1659858c00fe141890c96c908301871db7b343f2ab359b"
+      }
+    }
+  }
+}

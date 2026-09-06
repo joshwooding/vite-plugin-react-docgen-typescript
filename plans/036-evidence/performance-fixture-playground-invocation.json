@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "command": [
+    "C:/nvm4w/nodejs/node.exe",
+    "scripts/benchmark-playground.mjs",
+    "--scenario",
+    "playground",
+    "--iterations",
+    "1"
+  ],
+  "cwd": ".",
+  "startedAt": "2026-09-06T14:01:07.454726+00:00",
+  "CI": "true",
+  "pid": 12792,
+  "exitCode": 0,
+  "durationSeconds": 5.609000000000378,
+  "finishedAt": "2026-09-06T14:01:13.060108+00:00",
+  "logSha256": "1bec9f154782cc5f8dfb9b167ada3880a5e7565c6789525d4b644f3d519ac5a5"
+}

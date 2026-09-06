@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "kind": "smoke",
+  "args": [
+    "C:/nvm4w/nodejs/node.exe",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\scripts\\benchmark-backends.mjs",
+    "--plugin-entry",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\trunk\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+    "--label",
+    "trunk",
+    "--compare-plugin-entry",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+    "--compare-label",
+    "performance",
+    "--components",
+    "10",
+    "--projects",
+    "2",
+    "--iterations",
+    "1",
+    "--edits",
+    "2",
+    "--modes",
+    "default,projectService",
+    "--require-parity",
+    "--keep-temp",
+    "--output",
+    "D:\\OSS\\vite-plugin-react-docgen-typescript\\plans\\036-evidence\\smoke.json"
+  ],
+  "cwd": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript",
+  "before": {
+    "status": "PASS",
+    "at": "2026-09-06T13:01:20.958904+00:00"
+  },
+  "protocolSha256": "808469453c87a227bd88e5f9787792480622a963ec9591427c454fe6f05b828c",
+  "environmentSha256": "fcce5a0c145129957c45fbc34bb4a58a22794234eee1cf27b830eb7c37b3eac4",
+  "parentPid": 8936,
+  "exitCode": 0,
+  "finishedAt": "2026-09-06T13:01:46.261786+00:00",
+  "logSha256": "cf4c72f58adf2e5bafc790e1a052a3cde6051111559e2113e78b65a5ff1f03f5",
+  "reportSha256": "68f493f64069f55debd2eec3acad62ef3e8f786bbd5c7cc6210ba81ed0826a3f",
+  "after": {
+    "status": "PASS",
+    "at": "2026-09-06T13:01:46.520206+00:00"
+  }
+}

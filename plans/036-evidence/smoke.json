@@ -1,0 +1,2872 @@
+{
+  "counterbalanced": false,
+  "createdAt": "2026-09-06T13:01:46.242Z",
+  "edits": 2,
+  "executionOrder": [
+    [
+      "trunk:default",
+      "trunk:projectService",
+      "performance:default",
+      "performance:projectService"
+    ]
+  ],
+  "fixture": {
+    "componentCount": 10,
+    "projectCount": 2,
+    "sharedDependencyFanout": 10,
+    "workload": "Cold extraction followed by shared type edits that invalidate every component"
+  },
+  "iterations": 1,
+  "modes": [
+    "default",
+    "projectService"
+  ],
+  "nodeVersion": "v24.10.0",
+  "outputs": {
+    "trunk:default": {
+      "Component000": {
+        "description": "Benchmark component 0.",
+        "displayName": "Component000",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component000.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component001": {
+        "description": "Benchmark component 1.",
+        "displayName": "Component001",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component001.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component002": {
+        "description": "Benchmark component 2.",
+        "displayName": "Component002",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component002.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component003": {
+        "description": "Benchmark component 3.",
+        "displayName": "Component003",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component003.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component004": {
+        "description": "Benchmark component 4.",
+        "displayName": "Component004",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component004.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component005": {
+        "description": "Benchmark component 5.",
+        "displayName": "Component005",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component005.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component006": {
+        "description": "Benchmark component 6.",
+        "displayName": "Component006",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component006.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component007": {
+        "description": "Benchmark component 7.",
+        "displayName": "Component007",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component007.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component008": {
+        "description": "Benchmark component 8.",
+        "displayName": "Component008",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component008.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component009": {
+        "description": "Benchmark component 9.",
+        "displayName": "Component009",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component009.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      }
+    },
+    "trunk:projectService": {
+      "Component000": {
+        "description": "Benchmark component 0.",
+        "displayName": "Component000",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component000.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component001": {
+        "description": "Benchmark component 1.",
+        "displayName": "Component001",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component001.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component002": {
+        "description": "Benchmark component 2.",
+        "displayName": "Component002",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component002.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component003": {
+        "description": "Benchmark component 3.",
+        "displayName": "Component003",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component003.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component004": {
+        "description": "Benchmark component 4.",
+        "displayName": "Component004",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component004.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component005": {
+        "description": "Benchmark component 5.",
+        "displayName": "Component005",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component005.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component006": {
+        "description": "Benchmark component 6.",
+        "displayName": "Component006",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component006.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component007": {
+        "description": "Benchmark component 7.",
+        "displayName": "Component007",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component007.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component008": {
+        "description": "Benchmark component 8.",
+        "displayName": "Component008",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component008.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component009": {
+        "description": "Benchmark component 9.",
+        "displayName": "Component009",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component009.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      }
+    },
+    "performance:default": {
+      "Component000": {
+        "description": "Benchmark component 0.",
+        "displayName": "Component000",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component000.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component001": {
+        "description": "Benchmark component 1.",
+        "displayName": "Component001",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component001.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component002": {
+        "description": "Benchmark component 2.",
+        "displayName": "Component002",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component002.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component003": {
+        "description": "Benchmark component 3.",
+        "displayName": "Component003",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component003.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component004": {
+        "description": "Benchmark component 4.",
+        "displayName": "Component004",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component004.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component005": {
+        "description": "Benchmark component 5.",
+        "displayName": "Component005",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component005.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component006": {
+        "description": "Benchmark component 6.",
+        "displayName": "Component006",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component006.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component007": {
+        "description": "Benchmark component 7.",
+        "displayName": "Component007",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component007.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component008": {
+        "description": "Benchmark component 8.",
+        "displayName": "Component008",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component008.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component009": {
+        "description": "Benchmark component 9.",
+        "displayName": "Component009",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component009.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      }
+    },
+    "performance:projectService": {
+      "Component000": {
+        "description": "Benchmark component 0.",
+        "displayName": "Component000",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component000.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component001": {
+        "description": "Benchmark component 1.",
+        "displayName": "Component001",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component001.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component002": {
+        "description": "Benchmark component 2.",
+        "displayName": "Component002",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component002.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component003": {
+        "description": "Benchmark component 3.",
+        "displayName": "Component003",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component003.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component004": {
+        "description": "Benchmark component 4.",
+        "displayName": "Component004",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component004.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component005": {
+        "description": "Benchmark component 5.",
+        "displayName": "Component005",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component005.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component006": {
+        "description": "Benchmark component 6.",
+        "displayName": "Component006",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component006.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component007": {
+        "description": "Benchmark component 7.",
+        "displayName": "Component007",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component007.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component008": {
+        "description": "Benchmark component 8.",
+        "displayName": "Component008",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component008.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      },
+      "Component009": {
+        "description": "Benchmark component 9.",
+        "displayName": "Component009",
+        "props": {
+          "density": {
+            "defaultValue": null,
+            "description": "Project-local density.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"comfortable\"",
+                "\"compact\""
+              ]
+            }
+          },
+          "label": {
+            "defaultValue": null,
+            "description": "Visible label for Component009.",
+            "required": true,
+            "type": {
+              "name": "string"
+            }
+          },
+          "tone": {
+            "defaultValue": null,
+            "description": "Shared tone revision 002.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"base\"",
+                "\"revision-002\""
+              ]
+            }
+          },
+          "variant": {
+            "defaultValue": null,
+            "description": "Local visual variant.",
+            "required": false,
+            "type": {
+              "name": "enum",
+              "values": [
+                "\"outline\"",
+                "\"solid\""
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "parity": [
+    {
+      "componentCount": 10,
+      "exactComponentMatches": 10,
+      "fieldAgreement": 1,
+      "leftMode": "trunk:default",
+      "mismatchExamples": [],
+      "rightMode": "trunk:projectService",
+      "totalFields": 240
+    },
+    {
+      "componentCount": 10,
+      "exactComponentMatches": 10,
+      "fieldAgreement": 1,
+      "leftMode": "trunk:default",
+      "mismatchExamples": [],
+      "rightMode": "performance:default",
+      "totalFields": 240
+    },
+    {
+      "componentCount": 10,
+      "exactComponentMatches": 10,
+      "fieldAgreement": 1,
+      "leftMode": "trunk:default",
+      "mismatchExamples": [],
+      "rightMode": "performance:projectService",
+      "totalFields": 240
+    }
+  ],
+  "platform": "win32",
+  "schemaVersion": 5,
+  "targetComparisons": [
+    {
+      "baselineLabel": "trunk",
+      "candidateLabel": "performance",
+      "metrics": {
+        "coldRetainedRssBytes": {
+          "absolute": -16687104,
+          "baseline": 245350400,
+          "candidate": 228663296,
+          "percent": -6.801335559265443
+        },
+        "coldTotalMs": {
+          "absolute": -3500.5698999999995,
+          "baseline": 4696.9902999999995,
+          "candidate": 1196.4204,
+          "percent": -74.52793547391401
+        },
+        "editP50Ms": {
+          "absolute": -179.23940000000084,
+          "baseline": 553.2682000000004,
+          "candidate": 374.0287999999996,
+          "percent": -32.39647606712273
+        },
+        "editP95Ms": {
+          "absolute": -170.4964,
+          "baseline": 608.1179000000002,
+          "candidate": 437.6215000000002,
+          "percent": -28.0367343240513
+        },
+        "editRetainedRssBytes": {
+          "absolute": -18837504,
+          "baseline": 379179008,
+          "candidate": 360341504,
+          "percent": -4.967971222710726
+        }
+      },
+      "mode": "default"
+    },
+    {
+      "baselineLabel": "trunk",
+      "candidateLabel": "performance",
+      "metrics": {
+        "coldRetainedRssBytes": {
+          "absolute": 37056512,
+          "baseline": 267026432,
+          "candidate": 304082944,
+          "percent": 13.877469628175238
+        },
+        "coldTotalMs": {
+          "absolute": -175.66629999999986,
+          "baseline": 1593.5324999999998,
+          "candidate": 1417.8662,
+          "percent": -11.023703627004776
+        },
+        "editP50Ms": {
+          "absolute": -166.56299999999965,
+          "baseline": 340.74779999999964,
+          "candidate": 174.1848,
+          "percent": -48.88160686584032
+        },
+        "editP95Ms": {
+          "absolute": -167.26159999999982,
+          "baseline": 352.74779999999964,
+          "candidate": 185.48619999999983,
+          "percent": -47.41676631292952
+        },
+        "editRetainedRssBytes": {
+          "absolute": -376832,
+          "baseline": 304627712,
+          "candidate": 304250880,
+          "percent": -0.1237024686710052
+        }
+      },
+      "mode": "projectService"
+    }
+  ],
+  "targets": [
+    {
+      "label": "trunk",
+      "pluginEntry": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\trunk\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs"
+    },
+    {
+      "label": "performance",
+      "pluginEntry": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs"
+    }
+  ],
+  "measurement": {
+    "adapter": "Vite code generation plus benchmark regex/JSON decoding when the plugin exposes benchmark telemetry; excluded from core",
+    "core": "Backend initialize/update/analyze time when the plugin exposes benchmark telemetry",
+    "heapScope": "benchmark Node process after forced garbage collection",
+    "integration": "Unchanged end-to-end runner wall time, including Vite transforms and output validation",
+    "nativeRequestProfile": "Benchmark-only counts of physical TS7 transport calls and logical API methods, including requests carried by batchRequests",
+    "rssSampleIntervalMs": 5,
+    "rssScope": "benchmark Node process plus engine child processes",
+    "retainedRssBreakdown": "Settled aggregate RSS split between the benchmark Node process and its engine child processes"
+  },
+  "results": [
+    {
+      "metadata": {
+        "engine": "default",
+        "pluginEntry": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\trunk\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+        "targetLabel": "trunk",
+        "typescriptVersion": "6.0.3"
+      },
+      "metrics": {
+        "adapter": null,
+        "cold": {
+          "extractionMs": 1252.6544999999996,
+          "moduleLoadMs": 3435.5966000000003,
+          "setupMs": 8.739199999999983,
+          "totalMs": 4696.9902999999995
+        },
+        "edits": {
+          "count": 2,
+          "editsPerRun": 2,
+          "maxMs": 608.1179000000002,
+          "p50Ms": 553.2682000000004,
+          "p95Ms": 608.1179000000002,
+          "totalPerRunMs": 1161.3861000000006
+        },
+        "core": null,
+        "integration": {
+          "coldMs": 1252.6544999999996,
+          "edits": {
+            "count": 2,
+            "maxMs": 608.1179000000002,
+            "p50Ms": 553.2682000000004,
+            "p95Ms": 608.1179000000002,
+            "totalPerRunMs": 1161.3861000000006
+          }
+        },
+        "memory": {
+          "coldPeakRssBytes": 245350400,
+          "coldPeakRssDeltaBytes": 196206592,
+          "coldRetainedHeapBytes": 96817040,
+          "coldRetainedBenchmarkRssBytes": 245350400,
+          "coldRetainedEngineChildrenRssBytes": 0,
+          "coldRetainedRssBytes": 245350400,
+          "editPeakRssBytes": 379179008,
+          "editPeakRssDeltaBytes": 133828608,
+          "editRetainedHeapDeltaBytes": 1194768,
+          "editRetainedBenchmarkRssBytes": 379179008,
+          "editRetainedEngineChildrenRssBytes": 0,
+          "editRetainedRssBytes": 379179008,
+          "sampledProcessCount": 1
+        },
+        "nativeTiming": null,
+        "nativeRequestProfile": null,
+        "phases": {
+          "coldMs": {},
+          "editP50Ms": {}
+        }
+      },
+      "mode": "default",
+      "runs": [
+        {
+          "cold": {
+            "extractionMs": 1252.6544999999996,
+            "measurement": {
+              "adapter": {
+                "codeGenerationMs": null,
+                "decodeMs": 0.6194000000014057,
+                "totalMs": null
+              },
+              "core": {
+                "phaseMs": {},
+                "totalMs": null
+              },
+              "instrumented": false,
+              "nativeRequestProfile": null,
+              "nativeTiming": null,
+              "phaseEventCount": 0,
+              "integration": {
+                "totalMs": 1252.6544999999996
+              }
+            },
+            "moduleLoadMs": 3435.5966000000003,
+            "setupMs": 8.739199999999983,
+            "totalMs": 4696.9902999999995
+          },
+          "editMeasurements": [
+            {
+              "adapter": {
+                "codeGenerationMs": null,
+                "decodeMs": 0.4278999999996813,
+                "totalMs": null
+              },
+              "core": {
+                "phaseMs": {},
+                "totalMs": null
+              },
+              "instrumented": false,
+              "nativeRequestProfile": null,
+              "nativeTiming": null,
+              "phaseEventCount": 0,
+              "integration": {
+                "totalMs": 608.1179000000002
+              }
+            },
+            {
+              "adapter": {
+                "codeGenerationMs": null,
+                "decodeMs": 0.37079999999696156,
+                "totalMs": null
+              },
+              "core": {
+                "phaseMs": {},
+                "totalMs": null
+              },
+              "instrumented": false,
+              "nativeRequestProfile": null,
+              "nativeTiming": null,
+              "phaseEventCount": 0,
+              "integration": {
+                "totalMs": 553.2682000000004
+              }
+            }
+          ],
+          "editSamplesMs": [
+            608.1179000000002,
+            553.2682000000004
+          ],
+          "memory": {
+            "baseline": {
+              "arrayBuffersBytes": 16631,
+              "benchmarkRssBytes": 49143808,
+              "engineChildrenRssBytes": 0,
+              "externalBytes": 2346405,
+              "heapUsedBytes": 5219608,
+              "rssBytes": 49143808
+            },
+            "cold": {
+              "peakRssBytes": 245350400,
+              "peakRssDeltaBytes": 196206592,
+              "retainedHeapBytes": 96817040,
+              "retainedHeapDeltaBytes": 91597432,
+              "retainedBenchmarkRssBytes": 245350400,
+              "retainedEngineChildrenRssBytes": 0,
+              "retainedRssBytes": 245350400
+            },
+            "disposed": {
+              "arrayBuffersBytes": 44484,
+              "benchmarkRssBytes": 372666368,
+              "engineChildrenRssBytes": 0,
+              "externalBytes": 20884312,
+              "heapUsedBytes": 47097744,
+              "rssBytes": 372666368
+            },
+            "edits": {
+              "peakRssBytes": 379179008,
+              "peakRssDeltaBytes": 133828608,
+              "retainedHeapBytes": 98011808,
+              "retainedHeapDeltaBytes": 1194768,
+              "retainedBenchmarkRssBytes": 379179008,
+              "retainedEngineChildrenRssBytes": 0,
+              "retainedRssBytes": 379179008
+            },
+            "sampledProcessCount": 1
+          },
+          "metadata": {
+            "engine": "default",
+            "pluginEntry": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\trunk\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+            "targetLabel": "trunk",
+            "typescriptVersion": "6.0.3"
+          },
+          "mode": "default",
+          "outputDigest": "881ffe19bdb86dfbba70a46e7fe9b8bf1e3c57a6ed5f0706e7d64016f8e2e485",
+          "targetLabel": "trunk",
+          "iteration": 0,
+          "order": 0
+        }
+      ],
+      "targetLabel": "trunk"
+    },
+    {
+      "metadata": {
+        "engine": "projectService",
+        "pluginEntry": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\trunk\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+        "targetLabel": "trunk",
+        "typescriptVersion": "6.0.3"
+      },
+      "metrics": {
+        "adapter": null,
+        "cold": {
+          "extractionMs": 1382.5132999999998,
+          "moduleLoadMs": 202.8210999999999,
+          "setupMs": 8.198100000000068,
+          "totalMs": 1593.5324999999998
+        },
+        "edits": {
+          "count": 2,
+          "editsPerRun": 2,
+          "maxMs": 352.74779999999964,
+          "p50Ms": 340.74779999999964,
+          "p95Ms": 352.74779999999964,
+          "totalPerRunMs": 693.4955999999993
+        },
+        "core": null,
+        "integration": {
+          "coldMs": 1382.5132999999998,
+          "edits": {
+            "count": 2,
+            "maxMs": 352.74779999999964,
+            "p50Ms": 340.74779999999964,
+            "p95Ms": 352.74779999999964,
+            "totalPerRunMs": 693.4955999999993
+          }
+        },
+        "memory": {
+          "coldPeakRssBytes": 267026432,
+          "coldPeakRssDeltaBytes": 217505792,
+          "coldRetainedHeapBytes": 111663968,
+          "coldRetainedBenchmarkRssBytes": 267026432,
+          "coldRetainedEngineChildrenRssBytes": 0,
+          "coldRetainedRssBytes": 267026432,
+          "editPeakRssBytes": 304627712,
+          "editPeakRssDeltaBytes": 37601280,
+          "editRetainedHeapDeltaBytes": 447048,
+          "editRetainedBenchmarkRssBytes": 304627712,
+          "editRetainedEngineChildrenRssBytes": 0,
+          "editRetainedRssBytes": 304627712,
+          "sampledProcessCount": 1
+        },
+        "nativeTiming": null,
+        "nativeRequestProfile": null,
+        "phases": {
+          "coldMs": {},
+          "editP50Ms": {}
+        }
+      },
+      "mode": "projectService",
+      "runs": [
+        {
+          "cold": {
+            "extractionMs": 1382.5132999999998,
+            "measurement": {
+              "adapter": {
+                "codeGenerationMs": null,
+                "decodeMs": 0.7932999999998174,
+                "totalMs": null
+              },
+              "core": {
+                "phaseMs": {},
+                "totalMs": null
+              },
+              "instrumented": false,
+              "nativeRequestProfile": null,
+              "nativeTiming": null,
+              "phaseEventCount": 0,
+              "integration": {
+                "totalMs": 1382.5132999999998
+              }
+            },
+            "moduleLoadMs": 202.8210999999999,
+            "setupMs": 8.198100000000068,
+            "totalMs": 1593.5324999999998
+          },
+          "editMeasurements": [
+            {
+              "adapter": {
+                "codeGenerationMs": null,
+                "decodeMs": 0.4787999999994099,
+                "totalMs": null
+              },
+              "core": {
+                "phaseMs": {},
+                "totalMs": null
+              },
+              "instrumented": false,
+              "nativeRequestProfile": null,
+              "nativeTiming": null,
+              "phaseEventCount": 0,
+              "integration": {
+                "totalMs": 340.74779999999964
+              }
+            },
+            {
+              "adapter": {
+                "codeGenerationMs": null,
+                "decodeMs": 0.43229999999903157,
+                "totalMs": null
+              },
+              "core": {
+                "phaseMs": {},
+                "totalMs": null
+              },
+              "instrumented": false,
+              "nativeRequestProfile": null,
+              "nativeTiming": null,
+              "phaseEventCount": 0,
+              "integration": {
+                "totalMs": 352.74779999999964
+              }
+            }
+          ],
+          "editSamplesMs": [
+            340.74779999999964,
+            352.74779999999964
+          ],
+          "memory": {
+            "baseline": {
+              "arrayBuffersBytes": 16631,
+              "benchmarkRssBytes": 49520640,
+              "engineChildrenRssBytes": 0,
+              "externalBytes": 2346405,
+              "heapUsedBytes": 5219616,
+              "rssBytes": 49520640
+            },
+            "cold": {
+              "peakRssBytes": 267026432,
+              "peakRssDeltaBytes": 217505792,
+              "retainedHeapBytes": 111663968,
+              "retainedHeapDeltaBytes": 106444352,
+              "retainedBenchmarkRssBytes": 267026432,
+              "retainedEngineChildrenRssBytes": 0,
+              "retainedRssBytes": 267026432
+            },
+            "disposed": {
+              "arrayBuffersBytes": 44484,
+              "benchmarkRssBytes": 297435136,
+              "engineChildrenRssBytes": 0,
+              "externalBytes": 20884312,
+              "heapUsedBytes": 48198560,
+              "rssBytes": 297435136
+            },
+            "edits": {
+              "peakRssBytes": 304627712,
+              "peakRssDeltaBytes": 37601280,
+              "retainedHeapBytes": 112111016,
+              "retainedHeapDeltaBytes": 447048,
+              "retainedBenchmarkRssBytes": 304627712,
+              "retainedEngineChildrenRssBytes": 0,
+              "retainedRssBytes": 304627712
+            },
+            "sampledProcessCount": 1
+          },
+          "metadata": {
+            "engine": "projectService",
+            "pluginEntry": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\trunk\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+            "targetLabel": "trunk",
+            "typescriptVersion": "6.0.3"
+          },
+          "mode": "projectService",
+          "outputDigest": "881ffe19bdb86dfbba70a46e7fe9b8bf1e3c57a6ed5f0706e7d64016f8e2e485",
+          "targetLabel": "trunk",
+          "iteration": 0,
+          "order": 1
+        }
+      ],
+      "targetLabel": "trunk"
+    },
+    {
+      "metadata": {
+        "engine": "default",
+        "pluginEntry": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+        "targetLabel": "performance",
+        "typescriptVersion": "6.0.3"
+      },
+      "metrics": {
+        "adapter": null,
+        "cold": {
+          "extractionMs": 970.7572000000002,
+          "moduleLoadMs": 216.92970000000003,
+          "setupMs": 8.733499999999822,
+          "totalMs": 1196.4204
+        },
+        "edits": {
+          "count": 2,
+          "editsPerRun": 2,
+          "maxMs": 437.6215000000002,
+          "p50Ms": 374.0287999999996,
+          "p95Ms": 437.6215000000002,
+          "totalPerRunMs": 811.6502999999998
+        },
+        "core": null,
+        "integration": {
+          "coldMs": 970.7572000000002,
+          "edits": {
+            "count": 2,
+            "maxMs": 437.6215000000002,
+            "p50Ms": 374.0287999999996,
+            "p95Ms": 437.6215000000002,
+            "totalPerRunMs": 811.6502999999998
+          }
+        },
+        "memory": {
+          "coldPeakRssBytes": 228663296,
+          "coldPeakRssDeltaBytes": 179154944,
+          "coldRetainedHeapBytes": 96674344,
+          "coldRetainedBenchmarkRssBytes": 228663296,
+          "coldRetainedEngineChildrenRssBytes": 0,
+          "coldRetainedRssBytes": 228663296,
+          "editPeakRssBytes": 371789824,
+          "editPeakRssDeltaBytes": 143126528,
+          "editRetainedHeapDeltaBytes": 1251896,
+          "editRetainedBenchmarkRssBytes": 360341504,
+          "editRetainedEngineChildrenRssBytes": 0,
+          "editRetainedRssBytes": 360341504,
+          "sampledProcessCount": 1
+        },
+        "nativeTiming": null,
+        "nativeRequestProfile": null,
+        "phases": {
+          "coldMs": {},
+          "editP50Ms": {}
+        }
+      },
+      "mode": "default",
+      "runs": [
+        {
+          "cold": {
+            "extractionMs": 970.7572000000002,
+            "measurement": {
+              "adapter": {
+                "codeGenerationMs": null,
+                "decodeMs": 0.41990000000032524,
+                "totalMs": null
+              },
+              "core": {
+                "phaseMs": {},
+                "totalMs": null
+              },
+              "instrumented": false,
+              "nativeRequestProfile": null,
+              "nativeTiming": null,
+              "phaseEventCount": 0,
+              "integration": {
+                "totalMs": 970.7572000000002
+              }
+            },
+            "moduleLoadMs": 216.92970000000003,
+            "setupMs": 8.733499999999822,
+            "totalMs": 1196.4204
+          },
+          "editMeasurements": [
+            {
+              "adapter": {
+                "codeGenerationMs": null,
+                "decodeMs": 0.40230000000065047,
+                "totalMs": null
+              },
+              "core": {
+                "phaseMs": {},
+                "totalMs": null
+              },
+              "instrumented": false,
+              "nativeRequestProfile": null,
+              "nativeTiming": null,
+              "phaseEventCount": 0,
+              "integration": {
+                "totalMs": 437.6215000000002
+              }
+            },
+            {
+              "adapter": {
+                "codeGenerationMs": null,
+                "decodeMs": 0.3807000000001608,
+                "totalMs": null
+              },
+              "core": {
+                "phaseMs": {},
+                "totalMs": null
+              },
+              "instrumented": false,
+              "nativeRequestProfile": null,
+              "nativeTiming": null,
+              "phaseEventCount": 0,
+              "integration": {
+                "totalMs": 374.0287999999996
+              }
+            }
+          ],
+          "editSamplesMs": [
+            437.6215000000002,
+            374.0287999999996
+          ],
+          "memory": {
+            "baseline": {
+              "arrayBuffersBytes": 16631,
+              "benchmarkRssBytes": 49508352,
+              "engineChildrenRssBytes": 0,
+              "externalBytes": 2346405,
+              "heapUsedBytes": 5219632,
+              "rssBytes": 49508352
+            },
+            "cold": {
+              "peakRssBytes": 228663296,
+              "peakRssDeltaBytes": 179154944,
+              "retainedHeapBytes": 96674344,
+              "retainedHeapDeltaBytes": 91454712,
+              "retainedBenchmarkRssBytes": 228663296,
+              "retainedEngineChildrenRssBytes": 0,
+              "retainedRssBytes": 228663296
+            },
+            "disposed": {
+              "arrayBuffersBytes": 44484,
+              "benchmarkRssBytes": 353886208,
+              "engineChildrenRssBytes": 0,
+              "externalBytes": 20884312,
+              "heapUsedBytes": 47097984,
+              "rssBytes": 353886208
+            },
+            "edits": {
+              "peakRssBytes": 371789824,
+              "peakRssDeltaBytes": 143126528,
+              "retainedHeapBytes": 97926240,
+              "retainedHeapDeltaBytes": 1251896,
+              "retainedBenchmarkRssBytes": 360341504,
+              "retainedEngineChildrenRssBytes": 0,
+              "retainedRssBytes": 360341504
+            },
+            "sampledProcessCount": 1
+          },
+          "metadata": {
+            "engine": "default",
+            "pluginEntry": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+            "targetLabel": "performance",
+            "typescriptVersion": "6.0.3"
+          },
+          "mode": "default",
+          "outputDigest": "881ffe19bdb86dfbba70a46e7fe9b8bf1e3c57a6ed5f0706e7d64016f8e2e485",
+          "targetLabel": "performance",
+          "iteration": 0,
+          "order": 2
+        }
+      ],
+      "targetLabel": "performance"
+    },
+    {
+      "metadata": {
+        "engine": "projectService",
+        "pluginEntry": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+        "targetLabel": "performance",
+        "typescriptVersion": "6.0.3"
+      },
+      "metrics": {
+        "adapter": null,
+        "cold": {
+          "extractionMs": 1191.7600000000002,
+          "moduleLoadMs": 217.50969999999995,
+          "setupMs": 8.596499999999878,
+          "totalMs": 1417.8662
+        },
+        "edits": {
+          "count": 2,
+          "editsPerRun": 2,
+          "maxMs": 185.48619999999983,
+          "p50Ms": 174.1848,
+          "p95Ms": 185.48619999999983,
+          "totalPerRunMs": 359.6709999999998
+        },
+        "core": null,
+        "integration": {
+          "coldMs": 1191.7600000000002,
+          "edits": {
+            "count": 2,
+            "maxMs": 185.48619999999983,
+            "p50Ms": 174.1848,
+            "p95Ms": 185.48619999999983,
+            "totalPerRunMs": 359.6709999999998
+          }
+        },
+        "memory": {
+          "coldPeakRssBytes": 304082944,
+          "coldPeakRssDeltaBytes": 254464000,
+          "coldRetainedHeapBytes": 111516288,
+          "coldRetainedBenchmarkRssBytes": 304082944,
+          "coldRetainedEngineChildrenRssBytes": 0,
+          "coldRetainedRssBytes": 304082944,
+          "editPeakRssBytes": 304250880,
+          "editPeakRssDeltaBytes": 167936,
+          "editRetainedHeapDeltaBytes": 579544,
+          "editRetainedBenchmarkRssBytes": 304250880,
+          "editRetainedEngineChildrenRssBytes": 0,
+          "editRetainedRssBytes": 304250880,
+          "sampledProcessCount": 1
+        },
+        "nativeTiming": null,
+        "nativeRequestProfile": null,
+        "phases": {
+          "coldMs": {},
+          "editP50Ms": {}
+        }
+      },
+      "mode": "projectService",
+      "runs": [
+        {
+          "cold": {
+            "extractionMs": 1191.7600000000002,
+            "measurement": {
+              "adapter": {
+                "codeGenerationMs": null,
+                "decodeMs": 0.44810000000097716,
+                "totalMs": null
+              },
+              "core": {
+                "phaseMs": {},
+                "totalMs": null
+              },
+              "instrumented": false,
+              "nativeRequestProfile": null,
+              "nativeTiming": null,
+              "phaseEventCount": 0,
+              "integration": {
+                "totalMs": 1191.7600000000002
+              }
+            },
+            "moduleLoadMs": 217.50969999999995,
+            "setupMs": 8.596499999999878,
+            "totalMs": 1417.8662
+          },
+          "editMeasurements": [
+            {
+              "adapter": {
+                "codeGenerationMs": null,
+                "decodeMs": 0.4026000000021668,
+                "totalMs": null
+              },
+              "core": {
+                "phaseMs": {},
+                "totalMs": null
+              },
+              "instrumented": false,
+              "nativeRequestProfile": null,
+              "nativeTiming": null,
+              "phaseEventCount": 0,
+              "integration": {
+                "totalMs": 185.48619999999983
+              }
+            },
+            {
+              "adapter": {
+                "codeGenerationMs": null,
+                "decodeMs": 0.3155000000006112,
+                "totalMs": null
+              },
+              "core": {
+                "phaseMs": {},
+                "totalMs": null
+              },
+              "instrumented": false,
+              "nativeRequestProfile": null,
+              "nativeTiming": null,
+              "phaseEventCount": 0,
+              "integration": {
+                "totalMs": 174.1848
+              }
+            }
+          ],
+          "editSamplesMs": [
+            185.48619999999983,
+            174.1848
+          ],
+          "memory": {
+            "baseline": {
+              "arrayBuffersBytes": 16631,
+              "benchmarkRssBytes": 49618944,
+              "engineChildrenRssBytes": 0,
+              "externalBytes": 2346405,
+              "heapUsedBytes": 5219568,
+              "rssBytes": 49618944
+            },
+            "cold": {
+              "peakRssBytes": 304082944,
+              "peakRssDeltaBytes": 254464000,
+              "retainedHeapBytes": 111516288,
+              "retainedHeapDeltaBytes": 106296720,
+              "retainedBenchmarkRssBytes": 304082944,
+              "retainedEngineChildrenRssBytes": 0,
+              "retainedRssBytes": 304082944
+            },
+            "disposed": {
+              "arrayBuffersBytes": 44484,
+              "benchmarkRssBytes": 297037824,
+              "engineChildrenRssBytes": 0,
+              "externalBytes": 20884312,
+              "heapUsedBytes": 48234544,
+              "rssBytes": 297037824
+            },
+            "edits": {
+              "peakRssBytes": 304250880,
+              "peakRssDeltaBytes": 167936,
+              "retainedHeapBytes": 112095832,
+              "retainedHeapDeltaBytes": 579544,
+              "retainedBenchmarkRssBytes": 304250880,
+              "retainedEngineChildrenRssBytes": 0,
+              "retainedRssBytes": 304250880
+            },
+            "sampledProcessCount": 1
+          },
+          "metadata": {
+            "engine": "projectService",
+            "pluginEntry": "D:\\OSS\\vite-plugin-react-docgen-typescript\\.yarn\\.codex-worktrees\\plan036\\performance\\vite-plugin-react-docgen-typescript\\packages\\vite-plugin-react-docgen-typescript\\dist\\index.mjs",
+            "targetLabel": "performance",
+            "typescriptVersion": "6.0.3"
+          },
+          "mode": "projectService",
+          "outputDigest": "881ffe19bdb86dfbba70a46e7fe9b8bf1e3c57a6ed5f0706e7d64016f8e2e485",
+          "targetLabel": "performance",
+          "iteration": 0,
+          "order": 3
+        }
+      ],
+      "targetLabel": "performance"
+    }
+  ]
+}

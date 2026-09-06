@@ -1,0 +1,12 @@
+{
+  "trunk": "c3767eeb910d1602e966905da626141b90046d22",
+  "reviewedStack": "f0e4b37306cc36c2062d5ccf40f29d73e2828ef8",
+  "benchmarkPr": 87,
+  "benchmarkRef": "codex/backend-ab-benchmark",
+  "benchmarkHead": "841a9ad002ae851e7c975302ada385f9911c8cd9",
+  "nativePr": 86,
+  "nativeRef": "codex/ts7-native-backend",
+  "nativeHead": "5b496e9484dc6cc4eca9734ff8a732b063686795",
+  "userDecision": "Keep #86 for TS7; add performance PR between #87 and #86. Push is authorized; no merge or publish requested.",
+  "fetch": "HTTPS fetch of trunk and both PR refs passed after SSH publickey authentication failed."
+}

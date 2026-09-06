@@ -1,0 +1,4 @@
+Direct-plugin scenario: playground (3 files), cache: off, iterations: 1
+default        setup 15.1ms  first 1934.5ms  cold 1949.6ms  warm 2.8ms  hmr 738.6ms  affected 3  invalidated 0  session 2698.3ms
+watch          setup 6.5ms  first 611.2ms  cold 617.6ms  warm 2.3ms  hmr 431.1ms  affected 3  invalidated 0  session 1057.1ms
+projectService setup 10.3ms  first 580.7ms  cold 591.0ms  warm 3.3ms  hmr 157.7ms  affected 3  invalidated 0  session 758.4ms
