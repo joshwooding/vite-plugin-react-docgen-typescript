@@ -1,6 +1,6 @@
 {
   "name": "@joshwooding/vite-plugin-react-docgen-typescript",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "A vite plugin to inject react typescript docgen information",
   "repository": {
     "type": "git",
