@@ -1,5 +1,12 @@
 # @joshwooding/vite-plugin-react-docgen-typescript
 
+## 0.9.1
+
+### Patch Changes
+
+- dbd0f1e: Support the renamed TypeScript 7.1 native API exports while retaining compatibility with older prereleases.
+- 46c56b6: Replace `glob` with `tinyglobby` to reduce dependency footprint
+
 ## 0.9.0
 
 ### Minor Changes
