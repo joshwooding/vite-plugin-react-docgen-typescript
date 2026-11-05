@@ -28,8 +28,8 @@ import { backendParityCorpus } from "./support/backendParityCorpus";
 import { runTransformHook } from "./support/pluginHooks";
 
 const nativeLoaders: NativeBackendLoaders = {
-  loadAst: () => import("typescript7next/unstable/ast"),
-  loadSync: () => import("typescript7next/unstable/sync"),
+  loadAst: () => import("typescript7next/ast"),
+  loadSync: () => import("typescript7next/sync"),
 };
 
 const temporaryDirectories: string[] = [];
@@ -103,6 +103,42 @@ const normalizeFixtureValue = (value: unknown, root: string): unknown => {
 };
 
 describe("TypeScript 7 native backend", () => {
+  it("loads the installed prerelease through the default native loader", async () => {
+    const source =
+      "export const Component = (_props: { label: string }) => null;";
+    const fixture = createFixture({ "Component.tsx": source });
+    const config: Options = {
+      docgenMode: "native",
+      tsconfigPath: fixture.tsconfigPath,
+    };
+    vi.stubEnv("VITE_RDT_NATIVE_TYPESCRIPT_PACKAGE", "typescript7next");
+    vi.resetModules();
+    try {
+      const { createNativeBackendFactory: createFactory } = await import(
+        "../docgen/nativeBackend"
+      );
+      const backend = await createFactory(config).create({
+        rootDir: fixture.root,
+        selection: resolveFileSelection(fixture.root, config),
+      });
+      try {
+        const result = await backend.analyze({
+          fileName: path.join(fixture.root, "Component.tsx"),
+          revision: 1,
+          source,
+        });
+        expect(result.status).toBe("ok");
+        if (result.status !== "ok") return;
+        expect(result.components[0]?.props.label.type.name).toBe("string");
+      } finally {
+        await backend.dispose();
+      }
+    } finally {
+      vi.unstubAllEnvs();
+      vi.resetModules();
+    }
+  });
+
   it.each([
     undefined,
     false,
@@ -998,6 +1034,6 @@ export const Component = (_props: Props) => null;
         rootDir: fixture.root,
         selection: resolveFileSelection(fixture.root, config),
       }),
-    ).rejects.toThrowError(/typescript\/unstable\/sync.*typescript@next/i);
+    ).rejects.toThrowError(/typescript\/sync.*typescript@next/i);
   });
 });

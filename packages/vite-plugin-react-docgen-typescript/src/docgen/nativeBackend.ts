@@ -5,16 +5,19 @@ import type {
   BindingElement,
   Node as NativeNode,
   SourceFile as NativeSourceFile,
-} from "typescript7next/unstable/ast";
+} from "typescript7next/ast";
 import type {
   API as NativeApi,
   Checker as NativeChecker,
   Program as NativeProgram,
   Project as NativeProject,
+  APIRequestGenerator as NativeRequestGenerator,
   Snapshot as NativeSnapshot,
   Symbol as NativeSymbol,
   Type as NativeType,
-} from "typescript7next/unstable/sync";
+  RawCompilerOptions,
+  SyntheticProjectId,
+} from "typescript7next/sync";
 import { createDependencyVersionFingerprint } from "../utils/cache";
 import { defaultPropFilter } from "../utils/filter";
 import type { Options } from "../utils/options";
@@ -40,8 +43,34 @@ import type {
   DocgenPropType,
 } from "./types";
 
-type NativeSyncModule = typeof import("typescript7next/unstable/sync");
-type NativeAstModule = typeof import("typescript7next/unstable/ast");
+type NativeSyncModule = typeof import("typescript7next/sync");
+type NativeAstModule = typeof import("typescript7next/ast");
+
+interface NativeFileChanges {
+  changed?: string[];
+  created?: string[];
+  deleted?: string[];
+}
+
+// The older prerelease API maintains a session-wide current snapshot.
+type LegacyNativeApi = Omit<NativeApi, "createProgram"> & {
+  updateSnapshot(changes: {
+    openProjects?: readonly string[];
+    closeProjects?: readonly string[];
+    fileChanges?: NativeFileChanges;
+  }): NativeSnapshot;
+  createProgram(
+    rootFiles: readonly string[],
+    options: { compilerOptions: RawCompilerOptions },
+    previousProgram?: NativeProgram,
+    fileChanges?: NativeFileChanges,
+  ): NativeProgram;
+};
+
+type LegacyNativeApiConstructor = new (options: {
+  cwd: string;
+  fs: { readFile(fileName: string): string | undefined };
+}) => LegacyNativeApi;
 
 interface InstrumentableNativeClient {
   apiRequest(method: string, params?: unknown): unknown;
@@ -70,8 +99,6 @@ export interface NativeBackendLoaders {
 
 const NATIVE_TYPESCRIPT_PACKAGE =
   process.env.VITE_RDT_NATIVE_TYPESCRIPT_PACKAGE ?? "typescript";
-const NATIVE_AST_SPECIFIER = `${NATIVE_TYPESCRIPT_PACKAGE}/unstable/ast`;
-const NATIVE_SYNC_SPECIFIER = `${NATIVE_TYPESCRIPT_PACKAGE}/unstable/sync`;
 const TYPESCRIPT_FILE_PATTERN = /\.[cm]?[jt]sx?$/;
 const NODE_MODULES_SEGMENT_PATTERN = /(?:^|[\\/])node_modules(?:[\\/]|$)/i;
 const IDENTIFIER_PATTERN = /^[$A-Z_a-z][$\w]*$/;
@@ -198,12 +225,29 @@ const getDefaultComponentName = (fileName: string) => {
   );
 };
 
+const importNativeModule = async (moduleName: "ast" | "sync") => {
+  try {
+    return await import(`${NATIVE_TYPESCRIPT_PACKAGE}/${moduleName}`);
+  } catch (error) {
+    if (
+      error !== null &&
+      typeof error === "object" &&
+      "code" in error &&
+      error.code === "ERR_PACKAGE_PATH_NOT_EXPORTED"
+    ) {
+      // Older 7.1 prereleases expose the same API under unstable/*.
+      return import(`${NATIVE_TYPESCRIPT_PACKAGE}/unstable/${moduleName}`);
+    }
+    throw error;
+  }
+};
+
 const defaultLoaders: NativeBackendLoaders = {
   async loadAst() {
-    return (await import(NATIVE_AST_SPECIFIER)) as NativeAstModule;
+    return (await importNativeModule("ast")) as NativeAstModule;
   },
   async loadSync() {
-    return (await import(NATIVE_SYNC_SPECIFIER)) as NativeSyncModule;
+    return (await importNativeModule("sync")) as NativeSyncModule;
   },
 };
 
@@ -237,7 +281,9 @@ const assertNativeCapabilities = (sync: NativeSyncModule) => {
     hasApiMethod("runWithTemporaryFileUpdate")
       ? undefined
       : "API.runWithTemporaryFileUpdate()",
-    hasApiMethod("updateSnapshot") ? undefined : "API.updateSnapshot()",
+    hasApiMethod("createSnapshot") || hasApiMethod("updateSnapshot")
+      ? undefined
+      : "API.createSnapshot()",
   ].filter((name): name is string => name !== undefined);
 
   if (missingApiMethods.length > 0) {
@@ -259,7 +305,7 @@ const loadNativeModules = async (loaders: NativeBackendLoaders) => {
   } catch (cause) {
     const error = new Error(
       "Native docgen mode requires TypeScript 7.1's experimental JavaScript API " +
-        'at "typescript/unstable/sync". Install typescript@next or select a non-native docgen mode.',
+        'at "typescript/sync". Install typescript@next or select a non-native docgen mode.',
     );
     error.cause = cause;
     throw error;
@@ -724,7 +770,7 @@ const addTypeDependencies = function* (
   seenTypes: Set<number>,
   sync: NativeSyncModule,
   trackedFiles: ReadonlySet<string>,
-) {
+): NativeRequestGenerator<void> {
   let pendingTypes = [...initialTypes];
 
   while (pendingTypes.length > 0) {
@@ -815,7 +861,7 @@ const extractNativeComponents = function* ({
   sourceFile: NativeSourceFile;
   sync: NativeSyncModule;
   trackedFiles: ReadonlySet<string>;
-}) {
+}): NativeRequestGenerator<NativeExtractionResult> {
   const checker = project.checker;
   const compoundTypesById = new Map<number, readonly NativeType[]>();
   const dependencies = new Set<string>([normalizeBoundaryPath(fileName)]);
@@ -1053,6 +1099,9 @@ const createNativeBackend = async (
   loaders: NativeBackendLoaders,
 ): Promise<DocgenBackend> => {
   const { ast, sync } = await loadNativeModules(loaders);
+  const usesExplicitSnapshots =
+    typeof Object.getOwnPropertyDescriptor(sync.API.prototype, "createSnapshot")
+      ?.get === "function";
   let api: NativeApi | undefined;
   let requestProfiler:
     | ReturnType<typeof createNativeRequestProfiler>
@@ -1095,9 +1144,16 @@ const createNativeBackend = async (
   const disposeProgramState = () => {
     standaloneProgram?.dispose();
     standaloneProgram = undefined;
-    if (snapshot && api && openProjectPaths.length > 0) {
+    if (
+      !usesExplicitSnapshots &&
+      snapshot &&
+      api &&
+      openProjectPaths.length > 0
+    ) {
       const previousSnapshot = snapshot;
-      const closingSnapshot = api.updateSnapshot({
+      const closingSnapshot = (
+        api as unknown as LegacyNativeApi
+      ).updateSnapshot({
         closeProjects: openProjectPaths,
       });
       previousSnapshot.dispose();
@@ -1253,20 +1309,34 @@ const createNativeBackend = async (
 
     if (configPath) {
       openProjectPaths = discoverReferencedConfigs(api, configPath);
-      snapshot = api.updateSnapshot({
-        openProjects: openProjectPaths,
-      });
+      snapshot = usesExplicitSnapshots
+        ? api.createSnapshot({
+            openProjects: openProjectPaths,
+            ensurePrograms: true,
+          })
+        : (api as unknown as LegacyNativeApi).updateSnapshot({
+            openProjects: openProjectPaths,
+          });
       projects = snapshot.getProjects();
     } else {
-      standaloneProgram = api.createProgram(rootFiles, {
-        compilerOptions: {
-          jsx: sync.JsxEmit.React,
-          module: sync.ModuleKind.CommonJS,
-          target: ast.ScriptTarget.Latest,
-          ...(config.compilerOptions as unknown as Record<string, unknown>),
-        },
-      });
-      projects = [standaloneProgram.getProject()];
+      const compilerOptions = {
+        jsx: sync.JsxEmit.React,
+        module: sync.ModuleKind.CommonJS,
+        target: ast.ScriptTarget.Latest,
+        ...(config.compilerOptions as unknown as Record<string, unknown>),
+      };
+      if (usesExplicitSnapshots) {
+        snapshot = api.createSnapshot({
+          createPrograms: [{ rootFiles, compilerOptions }],
+        });
+        projects = snapshot.getProjects();
+      } else {
+        standaloneProgram = (api as unknown as LegacyNativeApi).createProgram(
+          rootFiles,
+          { compilerOptions },
+        );
+        projects = [standaloneProgram.getProject()];
+      }
     }
     generation += 1;
     synchronizeProjectState();
@@ -1280,7 +1350,9 @@ const createNativeBackend = async (
     candidates.find((project) => project.program.getSourceFile(fileName)) ??
     candidates[0];
 
-  const getNonLibraryProjectFiles = function* (project: NativeProject) {
+  const getNonLibraryProjectFiles = function* (
+    project: NativeProject,
+  ): NativeRequestGenerator<Set<string>> {
     const files = yield* project.program.getSourceFileNames.gen();
     const metadata = yield* sync.all(
       ...files.map((file) => project.program.getSourceFileMetadata.gen(file)),
@@ -1297,7 +1369,7 @@ const createNativeBackend = async (
     fileName: string,
     knownSourceFile?: NativeSourceFile,
     analysisTrackedFiles: ReadonlySet<string> = trackedFiles,
-  ) {
+  ): NativeRequestGenerator<NativeExtractionResult> {
     const sourceFile =
       knownSourceFile ?? (yield* project.program.getSourceFile.gen(fileName));
     if (!sourceFile) {
@@ -1320,7 +1392,7 @@ const createNativeBackend = async (
     fileName,
     revision,
     source,
-  }: AnalyzeInput) {
+  }: AnalyzeInput): NativeRequestGenerator<AnalyzeResult> {
     const normalizedFile = normalizeBoundaryPath(fileName);
     try {
       const project = findProject(normalizedFile);
@@ -1359,15 +1431,17 @@ const createNativeBackend = async (
         // TS7's temporary-snapshot API accepts configured snapshots only.
         // Keep standalone overrides isolated from the persistent program and
         // other generators in the same analysis batch.
-        const sourceApi = new sync.API({
+        const sourceApiOptions = {
           cwd: rootDir,
           fs: {
-            readFile: (file) =>
+            readFile: (file: string) =>
               normalizeBoundaryPath(file) === normalizedFile
                 ? source
                 : undefined,
           },
-        });
+        };
+        const LegacyApi = sync.API as unknown as LegacyNativeApiConstructor;
+        const sourceApi = new LegacyApi(sourceApiOptions);
         try {
           const sourceProgram = sourceApi.createProgram(rootFiles, {
             compilerOptions: standaloneProgram.getCompilerOptions(),
@@ -1500,21 +1574,41 @@ const createNativeBackend = async (
     if (!api) return { revision: change.revision, status: "ignored" };
     const fileChanges = {
       [change.kind === "change" ? "changed" : `${change.kind}d`]: [changedFile],
-    } as {
-      changed?: string[];
-      created?: string[];
-      deleted?: string[];
-    };
+    } as NativeFileChanges;
 
     if (snapshot) {
       const previousSnapshot = snapshot;
-      snapshot = api.updateSnapshot({ fileChanges });
+      if (usesExplicitSnapshots) {
+        const standaloneProject = !configPath ? projects[0] : undefined;
+        const nextRootFiles = standaloneProject
+          ? await discoverDocgenFiles(rootDir, selection)
+          : rootFiles;
+        snapshot = previousSnapshot.update({
+          fileNotifications: fileChanges,
+          ensurePrograms: true,
+          reconfigurePrograms: standaloneProject
+            ? [
+                {
+                  id: standaloneProject.id as SyntheticProjectId,
+                  rootFiles: nextRootFiles,
+                  compilerOptions:
+                    standaloneProject.program.getCompilerOptions(),
+                },
+              ]
+            : undefined,
+        });
+        rootFiles = nextRootFiles;
+      } else {
+        snapshot = (api as unknown as LegacyNativeApi).updateSnapshot({
+          fileChanges,
+        });
+      }
       projects = snapshot.getProjects();
       previousSnapshot.dispose();
     } else if (standaloneProgram) {
       const nextRootFiles = await discoverDocgenFiles(rootDir, selection);
       const previousProgram = standaloneProgram;
-      standaloneProgram = api.createProgram(
+      standaloneProgram = (api as unknown as LegacyNativeApi).createProgram(
         nextRootFiles,
         {
           compilerOptions: previousProgram.getCompilerOptions(),
