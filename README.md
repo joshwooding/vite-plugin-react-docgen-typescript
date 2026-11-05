@@ -169,7 +169,7 @@ reactDocgenTypescript({
 });
 ```
 
-Native mode uses TypeScript's `typescript/unstable/sync` API directly and does
+Native mode uses TypeScript's `typescript/sync` API directly and does
 not load `react-docgen-typescript`. It currently targets function components,
 including `forwardRef` and default exports. Because the upstream API is
 unstable, pin the TypeScript prerelease in CI and expect compatibility changes
@@ -206,7 +206,8 @@ longer exports the legacy compiler API from the package root, so those modes
 produce an early compatibility error when TypeScript 7 is installed.
 
 Experimental native mode supports current TypeScript 7.1 prereleases through
-`typescript/unstable/sync`. TypeScript 7.0 is not supported because it lacks the
+`typescript/sync`, with a fallback to `typescript/unstable/sync` for older
+prereleases. TypeScript 7.0 is not supported because it lacks the
 program and temporary-file APIs required by this backend.
 
 If a project needs the TypeScript 7 CLI alongside docgen, expose Microsoft's
