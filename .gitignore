@@ -12,3 +12,6 @@ dist
 
 # IDE
 .idea
+
+# Local planning and verification evidence
+/plans/

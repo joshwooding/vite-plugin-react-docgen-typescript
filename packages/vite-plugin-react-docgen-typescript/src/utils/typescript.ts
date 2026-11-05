@@ -1,36 +1,50 @@
 import { dirname } from "node:path";
-import ts from "typescript";
+import type ts from "typescript";
 
 /** Get the parsed contents of a tsconfig file. */
 
-function formatDiagnostic(diagnostic: ts.Diagnostic): string {
+function formatDiagnostic(
+  typescriptModule: typeof import("typescript"),
+  diagnostic: ts.Diagnostic,
+): string {
   if (typeof diagnostic.messageText === "string") {
     return diagnostic.messageText;
   }
 
-  return ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
+  return typescriptModule.flattenDiagnosticMessageText(
+    diagnostic.messageText,
+    "\n",
+  );
 }
 
-export function getTSConfigFile(tsconfigPath: string): ts.ParsedCommandLine {
+export function getTSConfigFile(
+  typescriptModule: typeof import("typescript"),
+  tsconfigPath: string,
+): ts.ParsedCommandLine {
   const basePath = dirname(tsconfigPath);
-  const configFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
+  const configFile = typescriptModule.readConfigFile(
+    tsconfigPath,
+    typescriptModule.sys.readFile,
+  );
 
   if (configFile.error) {
     throw new Error(
-      `Failed to read tsconfig at "${tsconfigPath}": ${formatDiagnostic(configFile.error)}`,
+      `Failed to read tsconfig at "${tsconfigPath}": ${formatDiagnostic(typescriptModule, configFile.error)}`,
     );
   }
 
-  const parsedConfig = ts.parseJsonConfigFileContent(
+  const parsedConfig = typescriptModule.parseJsonConfigFileContent(
     configFile.config,
-    ts.sys,
+    typescriptModule.sys,
     basePath,
     {},
     tsconfigPath,
   );
 
   if (parsedConfig.errors.length > 0) {
-    const errorText = parsedConfig.errors.map(formatDiagnostic).join("\n");
+    const errorText = parsedConfig.errors
+      .map((diagnostic) => formatDiagnostic(typescriptModule, diagnostic))
+      .join("\n");
 
     throw new Error(
       `Failed to parse tsconfig at "${tsconfigPath}": ${errorText}`,

@@ -1,8 +1,7 @@
 import path from "node:path";
 import type { ComponentDoc } from "react-docgen-typescript";
 import type * as ts from "typescript";
-
-const IDENTIFIER_PATH_PATTERN = /^[$A-Z_a-z][$\w]*(?:\.[$A-Z_a-z][$\w]*)*$/;
+import { isSupportedRuntimeTargetExpression } from "../docgen/runtimeTarget";
 
 type TsModule = typeof import("typescript");
 
@@ -24,8 +23,7 @@ const hasModifier = (node: ts.Node, modifierKind: ts.SyntaxKind): boolean =>
     getNodeModifiers(node)?.some((modifier) => modifier.kind === modifierKind),
   );
 
-const isSupportedTargetExpression = (value: string): boolean =>
-  IDENTIFIER_PATH_PATTERN.test(value);
+export { isSupportedRuntimeTargetExpression } from "../docgen/runtimeTarget";
 
 const getExpressionTargetText = (
   expression: ts.Expression,
@@ -38,7 +36,7 @@ const getExpressionTargetText = (
 
   if (tsModule.isPropertyAccessExpression(expression)) {
     const targetExpression = expression.getText(sourceFile);
-    return isSupportedTargetExpression(targetExpression)
+    return isSupportedRuntimeTargetExpression(targetExpression)
       ? targetExpression
       : null;
   }
@@ -74,11 +72,16 @@ const getDeclarationTarget = (
     );
   }
 
-  if (
-    tsModule.isExportSpecifier(declaration) &&
-    declaration.parent.parent.getSourceFile() === sourceFile
-  ) {
-    return declaration.propertyName?.text ?? declaration.name.text;
+  if (tsModule.isExportSpecifier(declaration)) {
+    const exportDeclaration = declaration.parent.parent;
+
+    if (
+      tsModule.isExportDeclaration(exportDeclaration) &&
+      exportDeclaration.getSourceFile() === sourceFile &&
+      !exportDeclaration.moduleSpecifier
+    ) {
+      return declaration.propertyName?.text ?? declaration.name.text;
+    }
   }
 
   return null;
@@ -118,7 +121,10 @@ const getTargetFromSymbol = (
         tsModule,
       );
 
-      if (targetExpression && isSupportedTargetExpression(targetExpression)) {
+      if (
+        targetExpression &&
+        isSupportedRuntimeTargetExpression(targetExpression)
+      ) {
         return targetExpression;
       }
     }
@@ -270,7 +276,7 @@ const resolveTargetExpression = (
 
   if (
     componentDoc.displayName.includes(".") &&
-    isSupportedTargetExpression(componentDoc.displayName)
+    isSupportedRuntimeTargetExpression(componentDoc.displayName)
   ) {
     return componentDoc.displayName;
   }

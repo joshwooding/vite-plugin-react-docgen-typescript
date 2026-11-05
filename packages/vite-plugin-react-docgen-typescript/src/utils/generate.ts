@@ -3,13 +3,13 @@
  * But refactored to remove deprecated functions.
  **/
 
-import type { ComponentDoc, PropItem } from "react-docgen-typescript";
-import type { ComponentDocWithTarget } from "./runtimeTarget";
+import { isSupportedRuntimeTargetExpression } from "../docgen/runtimeTarget";
+import type { DocgenComponent, DocgenProp } from "../docgen/types";
 
 export interface GeneratorOptions {
   filename: string;
   source: string;
-  componentDocs: ComponentDocWithTarget[];
+  componentDocs: readonly DocgenComponent[];
   setDisplayName: boolean;
   typePropName: string;
 }
@@ -22,23 +22,11 @@ type SerializableDocgenValue =
   | SerializableDocgenValue[]
   | { [key: string]: SerializableDocgenValue };
 
-const IDENTIFIER_PATH_PATTERN = /^[$A-Z_a-z][$\w]*(?:\.[$A-Z_a-z][$\w]*)*$/;
-const LOOSE_EXPRESSION_PATTERN = /^[$A-Z_a-z0-9.-]+$/;
-
 function getTargetExpression(targetExpression: string | null): string | null {
-  if (!targetExpression) {
-    return null;
-  }
-
-  if (IDENTIFIER_PATH_PATTERN.test(targetExpression)) {
-    return targetExpression;
-  }
-
-  if (LOOSE_EXPRESSION_PATTERN.test(targetExpression)) {
-    return targetExpression;
-  }
-
-  return null;
+  return targetExpression &&
+    isSupportedRuntimeTargetExpression(targetExpression)
+    ? targetExpression
+    : null;
 }
 
 function sanitizeDocgenValue(
@@ -90,7 +78,7 @@ function sanitizeDocgenValue(
 }
 
 function createPropDefinition(
-  prop: PropItem,
+  prop: DocgenProp,
   options: GeneratorOptions,
 ): Record<string, unknown> {
   const declarations = sanitizeDocgenValue(prop.declarations);
@@ -112,7 +100,7 @@ function createPropDefinition(
 }
 
 function serializeComponentDoc(
-  componentDoc: ComponentDoc,
+  componentDoc: DocgenComponent,
   options: GeneratorOptions,
 ): string {
   const props = Object.fromEntries(
@@ -140,7 +128,7 @@ function indentBlock(block: string): string {
 }
 
 function createComponentCode(
-  componentDoc: ComponentDocWithTarget,
+  componentDoc: DocgenComponent,
   options: GeneratorOptions,
 ): string {
   const targetExpression = getTargetExpression(componentDoc.targetExpression);

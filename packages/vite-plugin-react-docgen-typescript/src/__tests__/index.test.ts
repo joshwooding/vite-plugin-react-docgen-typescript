@@ -10,6 +10,7 @@ import { tmpdir } from "node:os";
 import { basename, join, resolve } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import reactDocgenTypescript from "../index";
+import { runTransformHook } from "./support/pluginHooks";
 
 const tsconfigPathForTest = resolve(__dirname, "tsconfig.test.json");
 const fixturesPath = resolve(__dirname, "__fixtures__");
@@ -277,6 +278,7 @@ export const ImportedTypeDocgen = (props: ImportedTypeDocgenProps) => (
   );
 
   return {
+    cacheDirectory: join(root, ".docgen-cache"),
     componentCode,
     componentPath,
     root,
@@ -355,7 +357,7 @@ describe("component fixture", () => {
       expect(
         normalizeTransformResultForSnapshot(
           // @ts-expect-error
-          await plugin.transform?.call({}, fixture.code, fixture.id),
+          await runTransformHook(plugin, {}, fixture.code, fixture.id),
         ),
       ).toMatchSnapshot();
     }, 15_000);
@@ -372,7 +374,8 @@ it("generates value info for enums", async () => {
   expect(
     normalizeTransformResultForSnapshot(
       // @ts-expect-error
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         {},
         defaultPropValueFixture?.code,
         defaultPropValueFixture?.id,
@@ -390,7 +393,8 @@ it("preserves rich component and prop metadata in docgen info", async () => {
   await plugin.configResolved?.();
   const result =
     // @ts-expect-error
-    await plugin.transform?.call(
+    await runTransformHook(
+      plugin,
       {},
       richMetadataFixture?.code,
       richMetadataFixture?.id,
@@ -440,7 +444,8 @@ it("uses the exported identifier for default exports", async () => {
   await plugin.configResolved?.();
   const result =
     // @ts-expect-error
-    await plugin.transform?.call(
+    await runTransformHook(
+      plugin,
       {},
       defaultExportFixture?.code,
       defaultExportFixture?.id,
@@ -466,7 +471,8 @@ it("preserves custom displayName metadata while targeting the exported identifie
   await plugin.configResolved?.();
   const result =
     // @ts-expect-error
-    await plugin.transform?.call(
+    await runTransformHook(
+      plugin,
       {},
       defaultExportWithDisplayNameFixture?.code,
       defaultExportWithDisplayNameFixture?.id,
@@ -492,7 +498,8 @@ it("uses the local identifier for forwardRef default exports", async () => {
   await plugin.configResolved?.();
   const result =
     // @ts-expect-error
-    await plugin.transform?.call(
+    await runTransformHook(
+      plugin,
       {},
       forwardRefDefaultExportFixture?.code,
       forwardRefDefaultExportFixture?.id,
@@ -522,7 +529,8 @@ it("stores cached transforms in the default file-system cache directory", async 
   await plugin.configResolved?.({ root: project.root });
   const result =
     // @ts-expect-error
-    await plugin.transform?.call(
+    await runTransformHook(
+      plugin,
       {},
       simpleFixture?.code,
       project.componentPath,
@@ -554,7 +562,8 @@ it("does not write a file-system cache when disabled", async () => {
   await plugin.configResolved?.({ root: project.root });
   const result =
     // @ts-expect-error
-    await plugin.transform?.call(
+    await runTransformHook(
+      plugin,
       {},
       simpleFixture?.code,
       project.componentPath,
@@ -588,7 +597,8 @@ it("reuses the file-system cache across plugin instances", async () => {
 
   const initialTransformResult =
     // @ts-expect-error
-    await plugin.transform?.call(
+    await runTransformHook(
+      plugin,
       {},
       simpleFixture?.code,
       project.componentPath,
@@ -602,21 +612,104 @@ it("reuses the file-system cache across plugin instances", async () => {
   );
   expect(existsSync(project.cacheDirectory)).toBe(true);
 
-  rmSync(project.componentPath);
-
   const pluginWithWarmCache = createPlugin(pluginConfig);
 
   // @ts-expect-error
-  await pluginWithWarmCache.configResolved?.({ root: project.root });
+  await pluginWithWarmCache.configResolved?.({
+    command: "build",
+    root: project.root,
+  });
+
+  rmSync(project.componentPath);
 
   expect(
     // @ts-expect-error
-    await pluginWithWarmCache.transform?.call(
+    await runTransformHook(
+      pluginWithWarmCache,
       {},
       simpleFixture?.code,
       project.componentPath,
     ),
   ).toEqual(initialTransformResult);
+});
+
+describe.each([
+  ["default", {}],
+  ["project-service", { docgenMode: "project-service" as const }],
+])("file-system cache dependency validation in %s mode", (_mode, modeOptions) => {
+  it("re-analyzes unchanged component source when an imported type changes between plugin instances", async () => {
+    const project = createTemporaryImportedTypeDocgenProject();
+    const pluginConfig = {
+      ...modeOptions,
+      fileSystemCache: {
+        directory: project.cacheDirectory,
+        enabled: true,
+      },
+      tsconfigPath: project.tsconfigPath,
+    };
+    const initialPlugin = createPlugin(pluginConfig);
+
+    // @ts-expect-error Focused harness supplies only the resolved fields used.
+    await initialPlugin.configResolved?.({
+      command: "serve",
+      root: project.root,
+    });
+    const initialResult =
+      // @ts-expect-error Focused harness supplies only the plugin context used.
+      await runTransformHook(
+        initialPlugin,
+        { warn: vi.fn() },
+        project.componentCode,
+        project.componentPath,
+      );
+
+    expect(initialResult).toEqual(
+      expect.objectContaining({
+        code: expect.stringContaining(
+          '"description":"Imported variant description."',
+        ),
+        map: null,
+      }),
+    );
+    expect((initialResult as { code: string }).code).toContain("modern");
+    await closePlugin(initialPlugin);
+
+    writeFileSync(
+      project.typeDependencyPath,
+      `export interface ImportedTypeDocgenProps {
+  /** Updated imported variant description. */
+  variant?: "square" | "classic";
+}
+`,
+    );
+
+    const freshPlugin = createPlugin(pluginConfig);
+
+    // @ts-expect-error Focused harness supplies only the resolved fields used.
+    await freshPlugin.configResolved?.({
+      command: "serve",
+      root: project.root,
+    });
+    const freshResult =
+      // @ts-expect-error Focused harness supplies only the plugin context used.
+      await runTransformHook(
+        freshPlugin,
+        { warn: vi.fn() },
+        project.componentCode,
+        project.componentPath,
+      );
+
+    expect(freshResult).toEqual(
+      expect.objectContaining({
+        code: expect.stringContaining(
+          '"description":"Updated imported variant description."',
+        ),
+        map: null,
+      }),
+    );
+    expect((freshResult as { code: string }).code).toContain("classic");
+    expect((freshResult as { code: string }).code).not.toContain("modern");
+  });
 });
 
 it("clears the persistent cache when a non-root TypeScript dependency changes", async () => {
@@ -633,7 +726,8 @@ it("clears the persistent cache when a non-root TypeScript dependency changes", 
   await plugin.configResolved?.({ root: project.root });
   const result =
     // @ts-expect-error
-    await plugin.transform?.call(
+    await runTransformHook(
+      plugin,
       {},
       project.componentCode,
       project.componentPath,
@@ -682,7 +776,8 @@ it("invalidates only transformed modules that depend on the changed TypeScript f
   await plugin.configResolved?.({ root: project.root });
   expect(
     // @ts-expect-error
-    await plugin.transform?.call(
+    await runTransformHook(
+      plugin,
       { warn: vi.fn() },
       project.componentCode,
       project.componentPath,
@@ -695,7 +790,8 @@ it("invalidates only transformed modules that depend on the changed TypeScript f
   );
   expect(
     // @ts-expect-error
-    await plugin.transform?.call(
+    await runTransformHook(
+      plugin,
       { warn: vi.fn() },
       project.independentComponentCode,
       project.independentComponentPath,
@@ -717,7 +813,7 @@ it("invalidates only transformed modules that depend on the changed TypeScript f
   );
 
   // @ts-expect-error
-  await plugin.handleHotUpdate?.({
+  const hotModules = await plugin.handleHotUpdate?.({
     file: project.typeDependencyPath,
     modules: [],
     server: {
@@ -733,13 +829,9 @@ it("invalidates only transformed modules that depend on the changed TypeScript f
     },
   });
 
-  expect(invalidateModule).toHaveBeenCalledTimes(1);
-  expect(invalidateModule).toHaveBeenCalledWith(
-    transformedDependentModule,
-    undefined,
-    expect.any(Number),
-    true,
-  );
+  expect(hotModules).toEqual([transformedDependentModule]);
+  expect(hotModules).not.toContain(transformedIndependentModule);
+  expect(invalidateModule).not.toHaveBeenCalled();
 });
 
 it("re-resolves the TypeScript project after tsconfig changes", async () => {
@@ -760,7 +852,8 @@ it("re-resolves the TypeScript project after tsconfig changes", async () => {
   await plugin.configResolved?.({ root: project.root });
   const skippedResult =
     // @ts-expect-error
-    await plugin.transform?.call(
+    await runTransformHook(
+      plugin,
       pluginContext,
       project.componentCode,
       project.componentPath,
@@ -804,7 +897,8 @@ it("re-resolves the TypeScript project after tsconfig changes", async () => {
 
   const updatedResult =
     // @ts-expect-error
-    await plugin.transform?.call(
+    await runTransformHook(
+      plugin,
       pluginContext,
       project.componentCode,
       project.componentPath,
@@ -831,7 +925,7 @@ describe("EXPERIMENTAL_useWatchProgram", () => {
         expect(
           normalizeTransformResultForSnapshot(
             // @ts-expect-error
-            await plugin.transform?.call({}, fixture.code, fixture.id),
+            await runTransformHook(plugin, {}, fixture.code, fixture.id),
           ),
         ).toMatchSnapshot();
       }, 15_000);
@@ -849,7 +943,8 @@ describe("EXPERIMENTAL_useWatchProgram", () => {
     expect(
       normalizeTransformResultForSnapshot(
         // @ts-expect-error
-        await plugin.transform?.call(
+        await runTransformHook(
+          plugin,
           {},
           defaultPropValueFixture?.code,
           defaultPropValueFixture?.id,
@@ -882,7 +977,8 @@ describe("EXPERIMENTAL_useWatchProgram", () => {
     await plugin.configResolved?.({ root: project.root });
     const initialResult =
       // @ts-expect-error
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         pluginContext,
         initialSource,
         project.componentPath,
@@ -899,7 +995,7 @@ describe("EXPERIMENTAL_useWatchProgram", () => {
     writeFileSync(project.componentPath, updatedSource);
 
     // @ts-expect-error
-    await plugin.handleHotUpdate?.({
+    const hotModules = await plugin.handleHotUpdate?.({
       file: project.componentPath,
       modules: [],
       server: {
@@ -915,13 +1011,15 @@ describe("EXPERIMENTAL_useWatchProgram", () => {
 
     const updatedResult =
       // @ts-expect-error
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         pluginContext,
         updatedSource,
         project.componentPath,
       );
 
-    expect(invalidateModule).toHaveBeenCalledTimes(1);
+    expect(hotModules).toEqual([transformedModule]);
+    expect(invalidateModule).not.toHaveBeenCalled();
     expect(updatedResult).toEqual(
       expect.objectContaining({
         code: expect.stringContaining(
@@ -932,7 +1030,8 @@ describe("EXPERIMENTAL_useWatchProgram", () => {
     );
     expect(
       // @ts-expect-error
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         pluginContext,
         updatedSource,
         project.componentPath,
@@ -954,7 +1053,7 @@ describe("EXPERIMENTAL_useProjectService", () => {
         expect(
           normalizeTransformResultForSnapshot(
             // @ts-expect-error
-            await plugin.transform?.call({}, fixture.code, fixture.id),
+            await runTransformHook(plugin, {}, fixture.code, fixture.id),
           ),
         ).toMatchSnapshot();
       }, 15_000);
@@ -972,7 +1071,8 @@ describe("EXPERIMENTAL_useProjectService", () => {
     expect(
       normalizeTransformResultForSnapshot(
         // @ts-expect-error
-        await plugin.transform?.call(
+        await runTransformHook(
+          plugin,
           {},
           defaultPropValueFixture?.code,
           defaultPropValueFixture?.id,
@@ -1018,7 +1118,8 @@ describe("EXPERIMENTAL_useProjectService", () => {
     await plugin.configResolved?.({ root: project.root });
     const initialResult =
       // @ts-expect-error
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         pluginContext,
         simpleFixture?.code,
         project.componentPath,
@@ -1042,7 +1143,7 @@ describe("EXPERIMENTAL_useProjectService", () => {
     );
 
     // @ts-expect-error
-    await plugin.handleHotUpdate?.({
+    const hotModules = await plugin.handleHotUpdate?.({
       file: project.componentPath,
       modules: [],
       server: {
@@ -1056,11 +1157,13 @@ describe("EXPERIMENTAL_useProjectService", () => {
       },
     });
 
-    expect(invalidateModule).toHaveBeenCalledTimes(1);
+    expect(hotModules).toEqual([transformedModule]);
+    expect(invalidateModule).not.toHaveBeenCalled();
 
     const updatedResult =
       // @ts-expect-error
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         pluginContext,
         updatedSource,
         project.componentPath,
@@ -1096,7 +1199,8 @@ describe("EXPERIMENTAL_useProjectService", () => {
     await plugin.configResolved?.({ root: project.root });
     const initialResult =
       // @ts-expect-error
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         pluginContext,
         project.componentCode,
         project.componentPath,
@@ -1122,7 +1226,7 @@ describe("EXPERIMENTAL_useProjectService", () => {
     );
 
     // @ts-expect-error
-    await plugin.handleHotUpdate?.({
+    const hotModules = await plugin.handleHotUpdate?.({
       file: project.typeDependencyPath,
       modules: [],
       server: {
@@ -1136,11 +1240,13 @@ describe("EXPERIMENTAL_useProjectService", () => {
       },
     });
 
-    expect(invalidateModule).toHaveBeenCalledTimes(1);
+    expect(hotModules).toEqual([transformedModule]);
+    expect(invalidateModule).not.toHaveBeenCalled();
 
     const updatedResult =
       // @ts-expect-error
-      await plugin.transform?.call(
+      await runTransformHook(
+        plugin,
         pluginContext,
         project.componentCode,
         project.componentPath,

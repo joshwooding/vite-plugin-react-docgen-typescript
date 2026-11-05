@@ -1,0 +1,147 @@
+import type { DocgenComponent } from "./types";
+
+export interface BackendDescriptor {
+  readonly cacheFingerprint: string;
+  readonly id: string;
+}
+
+/** Path arrays contain canonical physical paths, sorted and deduplicated. */
+export interface BackendProjectState {
+  readonly configFiles: readonly string[];
+  readonly docgenFiles: readonly string[];
+  readonly generation: number;
+  readonly trackedFiles: readonly string[];
+}
+
+export interface BackendErrorRecord {
+  readonly message: string;
+  readonly name: string;
+  readonly stack?: string;
+}
+
+export interface BackendFileSelection {
+  readonly exclude: readonly string[];
+  readonly hasIncludes: boolean;
+  readonly include: readonly string[];
+  matchesDocgenFile(fileName: string): boolean;
+}
+
+/** Dependency arrays contain canonical physical paths, including missing candidates. */
+interface AnalyzeResultBase {
+  readonly dependencies: readonly string[];
+  readonly project: BackendProjectState;
+  readonly revision: number;
+  readonly unresolvedDependencies?: readonly string[];
+}
+
+export type AnalyzeResult =
+  | (AnalyzeResultBase & {
+      readonly components: readonly DocgenComponent[];
+      readonly status: "ok";
+    })
+  | (AnalyzeResultBase & {
+      readonly error: BackendErrorRecord;
+      readonly status: "error";
+    });
+
+export interface AnalyzeInput {
+  readonly fileName: string;
+  readonly revision: number;
+  readonly source: string;
+}
+
+export type UpdateCompletion =
+  | {
+      readonly project: BackendProjectState;
+      readonly revision: number;
+      readonly status: "ready";
+    }
+  | {
+      readonly revision: number;
+      readonly status: "superseded";
+      readonly supersededBy: number;
+    }
+  | { readonly revision: number; readonly status: "disposed" };
+
+export type ResetCompletion =
+  | { readonly revision: number; readonly status: "reset" }
+  | {
+      readonly revision: number;
+      readonly status: "superseded";
+      readonly supersededBy: number;
+    }
+  | { readonly revision: number; readonly status: "disposed" };
+
+export type FileUpdateResult =
+  | { readonly revision: number; readonly status: "ignored" }
+  | { readonly revision: number; readonly status: "project-reset" }
+  | {
+      readonly project: BackendProjectState;
+      readonly revision: number;
+      readonly status: "ready";
+    }
+  | {
+      readonly ready: Promise<UpdateCompletion>;
+      readonly revision: number;
+      readonly status: "pending";
+    };
+
+export type BackendSourceChange =
+  | {
+      readonly fileName: string;
+      readonly kind: "change" | "create";
+      readonly revision: number;
+      readonly source: string;
+    }
+  | {
+      readonly fileName: string;
+      readonly kind: "delete";
+      readonly revision: number;
+    };
+
+export interface DocgenBackend {
+  analyze(input: AnalyzeInput): Promise<AnalyzeResult>;
+  analyzeMany?(
+    inputs: readonly AnalyzeInput[],
+  ): Promise<readonly AnalyzeResult[]>;
+  dispose(): Promise<void>;
+  initialize(): Promise<BackendProjectState>;
+  /** Return canonical dependency paths and complete membership without extracting docgen. */
+  prepareCacheValidation?(input: {
+    fileName: string;
+    revision: number;
+    source: string;
+  }): Promise<
+    | { dependencies: readonly string[]; project: BackendProjectState }
+    | undefined
+  >;
+  recordCacheHit(input: {
+    cache: "memory" | "persistent";
+    fileName: string;
+  }): void;
+  reset(input: { revision: number }): Promise<ResetCompletion>;
+  update(input: {
+    affectedComponentFiles: readonly string[];
+    change: BackendSourceChange;
+  }): Promise<FileUpdateResult>;
+}
+
+export interface DocgenBackendFactory {
+  create(context: {
+    rootDir: string;
+    selection: BackendFileSelection;
+  }): Promise<DocgenBackend>;
+  describe(context: { rootDir: string }): BackendDescriptor;
+}
+
+export const toBackendErrorRecord = (error: unknown): BackendErrorRecord => {
+  if (error instanceof Error) {
+    return {
+      message: error.message,
+      name: error.name,
+      ...(error.stack ? { stack: error.stack } : {}),
+    };
+  }
+
+  return { message: String(error), name: "Error" };
+};
