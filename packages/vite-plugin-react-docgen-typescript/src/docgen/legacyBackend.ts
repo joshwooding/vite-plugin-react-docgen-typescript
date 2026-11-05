@@ -139,14 +139,14 @@ const discoverDocgenFilesFromGlobs = async (
     return [];
   }
 
-  const { globSync } = await import("glob");
+  const { globSync } = await import("tinyglobby");
   const files = new Set<string>();
 
   for (const filePattern of fileSelection.include) {
     for (const fileName of globSync(filePattern, {
       absolute: true,
       cwd: rootDir,
-      nodir: true,
+      onlyFiles: true,
     })) {
       const normalizedFileName = path.resolve(fileName);
 

@@ -304,14 +304,14 @@ const discoverDocgenFiles = async (
   selection: BackendFileSelection,
 ) => {
   if (!selection.hasIncludes) return [];
-  const { globSync } = await import("glob");
+  const { globSync } = await import("tinyglobby");
   const files = new Set<string>();
 
   for (const pattern of selection.include) {
     for (const fileName of globSync(pattern, {
       absolute: true,
       cwd: rootDir,
-      nodir: true,
+      onlyFiles: true,
     })) {
       const normalizedFileName = normalizeBoundaryPath(fileName);
       if (selection.matchesDocgenFile(normalizedFileName)) {
